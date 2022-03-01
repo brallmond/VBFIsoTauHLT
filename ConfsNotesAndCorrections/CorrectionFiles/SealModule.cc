@@ -29,7 +29,8 @@
 
 // added by hand
 #include "RecoTauTag/HLTProducers/interface/L1TPFJetsSimpleMatching.h"
-#include "RecoTauTag/HLTProducers/interface/PFJetsTauCorrelationCondition.h"
+//#include "RecoTauTag/HLTProducers/interface/PFJetsTauCorrelationCondition.h"
+#include "RecoTauTag/HLTProducers/interface/PFDiJetCorrCheckerWithDiTau.h"
 
 
 typedef L1TJetsMatching<reco::PFJet> L1TPFJetsMatching;
@@ -67,4 +68,5 @@ DEFINE_FWK_MODULE(PFJetsMaxInvMassModule);
 DEFINE_FWK_MODULE(PFTauL1TJetsMatching);
 // added by hand
 DEFINE_FWK_MODULE(L1TPFJetsSimpleMatching);
-DEFINE_FWK_MODULE(PFJetsTauCorrelationCondition);
+//DEFINE_FWK_MODULE(PFJetsTauCorrelationCondition);
+DEFINE_FWK_MODULE(PFDiJetCorrCheckerWithDiTau);
