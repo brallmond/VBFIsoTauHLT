@@ -67,7 +67,8 @@ int passVBFPlusTwoDeepTauHLT;
 int passVBF2DTHLT;
 int passVBF2DTTempLooseHLT;
 int passVBF2DTNoL2NNHLT;
-int passVBF2DTTempLooseNoL2NNHLT;
+int passVBF2DTLooseNoL2NNHLT;
+int passVBF2DTOldL1;
 
 float 	pt_;
 float 	eta_;
@@ -316,7 +317,8 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("passVBF2DTHLT", &passVBF2DTHLT);
     tree->Branch("passVBF2DTTempLooseHLT", &passVBF2DTTempLooseHLT);
     tree->Branch("passVBF2DTNoL2NNHLT", &passVBF2DTNoL2NNHLT);
-    tree->Branch("passVBF2DTTempLooseNoL2NNHLT", &passVBF2DTTempLooseNoL2NNHLT);
+    tree->Branch("passVBF2DTLooseNoL2NNHLT", &passVBF2DTLooseNoL2NNHLT);
+    tree->Branch("passVBF2DTOldL1", &passVBF2DTOldL1);
 
     tree->Branch("passVBFPlusOneTauHLT", &passVBFPlusOneTauHLT);
 
@@ -549,7 +551,8 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passVBF2DTHLT = 0;
     passVBF2DTTempLooseHLT = 0;
     passVBF2DTNoL2NNHLT = 0;
-    passVBF2DTTempLooseNoL2NNHLT = 0;
+    passVBF2DTLooseNoL2NNHLT = 0;
+    passVBF2DTOldL1 = 0;
     passVBFPlusOneTauHLT = 0;
 
     // DiTau 32 L1 branches (there's a big OR with multiple DiTaus, but 32 is the lowest)
@@ -784,35 +787,18 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     std::string pathNameInclusiveVBF = "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1";
     passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameInclusiveVBF));
 
-    // VBF Plus Two Tau HLT
-    std::string pathNameVBFPlusTwoTau = "HLT_VBF_TightChargedIsoPFTauHPS45_PFTauHPS20_Trk1_eta2p1_v1";
-    //passVBFPlusTwoTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBFPlusTwoTau));
-
-    // VBF Plus Two Deep Tau HLT
-    //std::string pathNameVBFPlusTwoDeepTau = "HLT_VBF_DeepTau_ModifiedTightChargedIsoPFTauHPS45_PFTauHPS20_Trk1_eta2p1_v1";
-    std::string pathNameVBFPlusTwoDeepTau = "HLT_VBF_DeepTau_ModifiedTightChargedIsoPFTauHPS45_PFTauHPS20_Trk1_eta2p1_v1";
-    passVBFPlusTwoDeepTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBFPlusTwoDeepTau));
-    
-
-    // VBF Plus One Tau HLT
-    std::string pathNameVBFPlusOneTau = "HLT_VBF_TightChargedIsoPFTauHPS45_Trk1_eta2p1_v1";
-    //passVBFPlusOneTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBFPlusOneTau));
-
-    // VBF Plus Two Deep Tau HLT Updated Name (VBF2DT = VBF Plus Two Deep Tau)
-    std::string pathUpdatedNameVBF2DT = "HLT_DoublePFJets40_Mass500_MediumDeepTau45_MediumDeepTau20_eta2p1_v1";
+    // VBF + 2 Deep Tau HLT (VBF2DT = VBF +2 Deep Tau)
+    std::string pathUpdatedNameVBF2DT = "HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1";
     passVBF2DTHLT = triggerResults->accept(triggerNames_.triggerIndex(pathUpdatedNameVBF2DT));
 
-    std::string pathNameVBF2DTTempLoose = "HLT_DoublePFJets40_Mass500_TempLooseDeepTau45_TempLooseDeepTau20_eta2p1_v1";
-    passVBF2DTTempLooseHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DTTempLoose));
+    // VBF + 2 Deep Tau Loose WP and No L2NN (likely V2 path)
+    std::string pathNameVBF2DTLooseNoL2NN = "HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1";
+    passVBF2DTLooseNoL2NNHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DTLooseNoL2NN));
 
-    std::string pathNameVBF2DTNoL2NN = "HLT_DoublePFJets40_Mass500_MediumDeepTau45_MediumDeepTau20_eta2p1_NoL2NN_v1";
-    passVBF2DTNoL2NNHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DTNoL2NN));
+    // VBF + 2 Deep Tau using L1_DoubleJet35_Mass_Min450_IsoTau45_RmOvlp
+    std::string pathNameVBF2DTOldL1 = "HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1";
+    passVBF2DTOldL1 = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DTOldL1));
 
-    std::string pathNameVBF2DTTempLooseNoL2NN = "HLT_DoublePFJets40_Mass500_TempLooseDeepTau45_TempLooseDeepTau20_eta2p1_NoL2NN_v1";
-    passVBF2DTTempLooseNoL2NNHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DTTempLooseNoL2NN));
-
-    // add to path, path has to have every trigger in the NtupleMaker
-    // HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1,HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,HLT_VBF_TightChargedIsoPFTauHPS45_PFTauHPS20_Trk1_eta2p1_v1,HLT_VBF_DeepTau_ModifiedTightChargedIsoPFTauHPS45_PFTauHPS20_Trk1_eta2p1_v1,HLT_VBF_TightChargedIsoPFTauHPS45_Trk1_eta2p1_v1
 
     // filling branches with triggerObjs information, hltL1VBFDiJetIsoTau object info filled separately since it's a weird L1
 

@@ -6,4 +6,3 @@ process = customizeHLTforPatatrackTriplets(process)
 process.HLTL2TauTagNNSequence._tasks.add(process.HLTDoLocalPixelTask)
 process.HLTL2TauTagNNSequence._tasks.add(process.HLTRecoPixelTracksTask)
 process.HLTL2TauTagNNSequence._tasks.add(process.HLTRecopixelvertexingTask)" >> $FILE;
-

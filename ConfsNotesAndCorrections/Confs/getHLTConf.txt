@@ -160,21 +160,43 @@ HLTAnalyzerEndpath,\
 --l1Xml L1Menu_Collisions2022_v0_1_1_modified_noVBF_Dec16.xml \
 > hlt.py
 
-#Mine copying Jaime's
-hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV40/V4 \
---setup /dev/CMSSW_12_3_0/GRun \
+################################################3
+
+
+hltGetConfiguration /users/ballmond/VBFDeepTau/SeparateUpdate0301/V2 \
 --mc --globaltag auto:phase1_2021_realistic \
 --path HLTriggerFirstPath,\
 HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,\
+HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1,\
+HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,\
+HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,\
+HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,\
+HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1,\
+HLTriggerFinalPath,\
+HLTAnalyzerEndpath \
+--eras Run3 --unprescale --output none \
+--process MYOTHERHLT --full --offline --max-events 2000 \
+--l1-emulator --l1Xml L1Menu_Collisions2022_v0_1_5.xml \
+--input root://cms-xrd-global.cern.ch///store/mc/Run3Winter21DRMiniAOD/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/270000/005b56c1-0107-46b3-9740-1c6efc559295.root \
+> hltPre5Eff.py
+
+
+hltGetConfiguration /users/ballmond/VBFDeepTau/SeparateUpdate0301/V2 \
+--setup /dev/CMSSW_12_3_0/GRun \
+--globaltag auto:run3_hlt_GRun --data \
+--path HLTriggerFirstPath,\
+HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,\
+HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1,\
+HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,\
+HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,\
+HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,\
+HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --full --offline --no-output \
---process MYOTHERHLT \
---type GRun --prescale 2.0e34+ZB+HLTPhysics \
---max-events -1 \
---l1-emulator \
---l1Xml L1Menu_Collisions2022_v0_1_5.xml \
---input root://cms-xrd-global.cern.ch///store/mc/Run3Winter21DRMiniAOD/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/270000/005b56c1-0107-46b3-9740-1c6efc559295.root \
-> hltRetrySteam.py
+--process MYOTHERHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics \
+--l1-emulator --l1Xml L1Menu_Collisions2022_v0_1_5.xml \
+--input root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/D5D2CF9C-2557-4243-B42E-4345100839DA.root \
+> hltPre5SteamRate_.py
 
 ###############################################

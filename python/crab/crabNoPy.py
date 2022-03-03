@@ -6,7 +6,7 @@ config = config()
 config.General.workArea = 'test'
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'hltFixedCorrCondAndModuleNames.py'
+config.JobType.psetName = 'hltRetrySteam.py'
 
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
@@ -18,7 +18,7 @@ config.Site.whitelist = ['T2_CH_CSCS','T1_US_FNAL', 'T2_FR_GRIF_LLR', 'T2_HU_Bud
 #config.Site.whitelist = ['T3_US_FNALLPC'] #use if submit user-data
 config.JobType.maxJobRuntimeMin = 2000
 config.JobType.maxMemoryMB = 4000
-config.JobType.inputFiles = ['L1Menu_Collisions2022_v0_1_1_modified_updated_Nov30.xml']
+config.JobType.inputFiles = ['L1Menu_Collisions2022_v0_1_5.xml']
 
 #config.Data.runRange = '325022'
 #config.Data.runRange = '324747'
@@ -28,7 +28,7 @@ config.JobType.inputFiles = ['L1Menu_Collisions2022_v0_1_1_modified_updated_Nov3
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
-config.General.requestName = 'VBF_FixedModuleNamesAndCorrCond_VariedVBF2DTPaths'
+config.General.requestName = 'VBF_SteamConfTestRetry'
 
 #config.Data.inputDataset = '/EphemeralZeroBias2/Run2018D-v1/RAW'
 
