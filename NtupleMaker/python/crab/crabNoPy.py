@@ -6,7 +6,7 @@ config = config()
 config.General.workArea = 'test'
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'hltRetrySteam.py'
+config.JobType.psetName = 'hltPre5SteamRate.py'
 
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
@@ -14,7 +14,7 @@ config.Data.unitsPerJob = 1
 config.Data.outLFNDirBase = '/store/user/ballmond'
 
 config.Data.ignoreLocality = True
-config.Site.whitelist = ['T2_CH_CSCS','T1_US_FNAL', 'T2_FR_GRIF_LLR', 'T2_HU_Budapest', 'T3_US_FNALLPC']
+config.Site.whitelist = ['T2_CH_CSCS','T1_US_FNAL', 'T2_FR_GRIF_LLR', 'T2_HU_Budapest', 'T3_US_FNALLPC', 'T2_CH_CERN']
 #config.Site.whitelist = ['T3_US_FNALLPC'] #use if submit user-data
 config.JobType.maxJobRuntimeMin = 2000
 config.JobType.maxMemoryMB = 4000
@@ -28,7 +28,9 @@ config.JobType.inputFiles = ['L1Menu_Collisions2022_v0_1_5.xml']
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
-config.General.requestName = 'VBF_SteamConfTestRetry'
+config.General.requestName = 'VBF_Pre5SteamRate_EphHLT8'
+
+config.Data.inputDataset = '/EphemeralHLTPhysics8/Run2018D-v1/RAW'
 
 #config.Data.inputDataset = '/EphemeralZeroBias2/Run2018D-v1/RAW'
 
@@ -39,5 +41,5 @@ config.General.requestName = 'VBF_SteamConfTestRetry'
 #config.Data.inputDataset = '/GluGluHToTauTau_M-125_TuneCP5_14TeV-powheg-pythia8/Run3Winter21DRMiniAOD-FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/MINIAODSIM'
 #config.Data.secondaryInputDataset = '/GluGluHToTauTau_M-125_TuneCP5_14TeV-powheg-pythia8/Run3Winter21DRMiniAOD-FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/GEN-SIM-DIGI-RAW'
     # newest VBF
-config.Data.inputDataset = '/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/Run3Winter21DRMiniAOD-FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/MINIAODSIM'
-config.Data.secondaryInputDataset = '/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/Run3Winter21DRMiniAOD-FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/GEN-SIM-DIGI-RAW'
+#config.Data.inputDataset = '/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/Run3Winter21DRMiniAOD-FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/MINIAODSIM'
+#config.Data.secondaryInputDataset = '/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/Run3Winter21DRMiniAOD-FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/GEN-SIM-DIGI-RAW'

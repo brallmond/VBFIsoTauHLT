@@ -177,7 +177,7 @@ int main(int argc, char** argv)	{
     int passVBFPlusTwoDeepTauHLT, passVBFPlusTwoDeepTauBoth;
     int passVBF2DTTempLooseHLT, passVBF2DTTempLooseBoth;
     int passVBF2DTNoL2NNHLT, passVBF2DTNoL2NNBoth;
-    int passVBF2DTTempLooseNoL2NNHLT, passVBF2DTTempLooseNoL2NNBoth;
+    int passVBF2DTLooseNoL2NNHLT, passVBF2DTTempLooseNoL2NNBoth;
 
     outTree->Branch("passInclusiveVBFHLT", &passInclusiveVBFHLT);
     outTree->Branch("passInclusiveVBFOff", &passInclusiveVBFOff);
@@ -196,7 +196,7 @@ int main(int argc, char** argv)	{
     outTree->Branch("passVBF2DTNoL2NNHLT", &passVBF2DTNoL2NNHLT);
     outTree->Branch("passVBF2DTNoL2NNBoth", &passVBF2DTNoL2NNBoth);
 
-    outTree->Branch("passVBF2DTTempLooseNoL2NNHLT", &passVBF2DTTempLooseNoL2NNHLT);
+    outTree->Branch("passVBF2DTLooseNoL2NNHLT", &passVBF2DTLooseNoL2NNHLT);
     outTree->Branch("passVBF2DTTempLooseNoL2NNBoth", &passVBF2DTTempLooseNoL2NNBoth);
 
     //
@@ -365,7 +365,7 @@ int main(int argc, char** argv)	{
         if (passhltRealDijetFilter_VBF2DTTempLooseNoL2NN) passhltVBFLooseIDPFDummyFilter_VBF2DTTempLooseNoL2NN = inTree->passhltVBFLooseIDPFDummyFilter;
         if (passhltVBFLooseIDPFDummyFilter_VBF2DTTempLooseNoL2NN) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_VBF2DTTempLooseNoL2NN = inTree->passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN;
 
-        passVBF2DTTempLooseNoL2NNHLT = inTree->passVBF2DTTempLooseNoL2NNHLT;
+        passVBF2DTLooseNoL2NNHLT = inTree->passVBF2DTLooseNoL2NNHLT;
 
 
         passDiTau32L1 = passDiTau34L1 = passDiTau35L1 = 0;
@@ -707,7 +707,7 @@ int main(int argc, char** argv)	{
         matchedHLTTaus_TempLoose = matchedHLTJets_TempLoose = 1;
         passVBF2DTTempLooseBoth = (matchedHLTTaus_TempLoose && matchedHLTJets_TempLoose && passVBF2DTTempLooseHLT && passVBFPlusTwoTauOff);
         passVBF2DTNoL2NNBoth = (matchedHLTTaus && matchedHLTJets && passVBF2DTNoL2NNHLT && passVBFPlusTwoTauOff);
-        passVBF2DTTempLooseNoL2NNBoth = (matchedHLTTaus_TempLoose && matchedHLTJets_TempLoose && passVBF2DTTempLooseNoL2NNHLT && passVBFPlusTwoTauOff);
+        passVBF2DTTempLooseNoL2NNBoth = (matchedHLTTaus_TempLoose && matchedHLTJets_TempLoose && passVBF2DTLooseNoL2NNHLT && passVBFPlusTwoTauOff);
 
         if (viableTaus && viableJets) {
           // AOD Branches

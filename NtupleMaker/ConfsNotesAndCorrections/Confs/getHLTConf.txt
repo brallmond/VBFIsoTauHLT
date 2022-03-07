@@ -197,6 +197,6 @@ HLTAnalyzerEndpath \
 --process MYOTHERHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics \
 --l1-emulator --l1Xml L1Menu_Collisions2022_v0_1_5.xml \
 --input root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/D5D2CF9C-2557-4243-B42E-4345100839DA.root \
-> hltPre5SteamRate_.py
+> hltPre5SteamRate.py
 
 ###############################################

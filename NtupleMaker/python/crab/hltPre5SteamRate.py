@@ -1,4 +1,4 @@
-# hltGetConfiguration /users/ballmond/VBFDeepTau/SeparateUpdate0301/V2 --setup /dev/CMSSW_12_3_0/GRun --globaltag auto:run3_hlt_GRun --data --path HLTriggerFirstPath,HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1,HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,HLTriggerFinalPath,HLTAnalyzerEndpath --full --offline --no-output --process MYOTHERHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics --l1-emulator --l1Xml L1Menu_Collisions2022_v0_1_5.xml --input root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/D5D2CF9C-2557-4243-B42E-4345100839DA.root
+# hltGetConfiguration /users/ballmond/VBFDeepTau/SeparateUpdate0301/V2 --setup /dev/CMSSW_12_3_0/GRun --globaltag auto:run3_hlt_GRun --data --path HLTriggerFirstPath,HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1,HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1,HLTriggerFinalPath,HLTAnalyzerEndpath --full --offline --no-output --process MYOTHERHLT --type GRun --prescale 2.0e34+ZB+HLTPhysics --l1-emulator --l1Xml L1Menu_Collisions2022_v0_1_5.xml --input root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/D5D2CF9C-2557-4243-B42E-4345100839DA.root
 
 # /users/ballmond/VBFDeepTau/SeparateUpdate0301/V2 (CMSSW_12_3_0_pre5)
 
@@ -6079,6 +6079,9 @@ process.PrescaleService = cms.Service( "PrescaleService",
       ),
       cms.PSet(  pathName = cms.string( "HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1" ),
         prescales = cms.vuint32( 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 )
+      ),
+      cms.PSet(  pathName = cms.string( "HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1" ),
+        prescales = cms.vuint32( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 )
       ),
 ) ),
     lvl1DefaultLabel = cms.string( "2.0e34+ZB+HLTPhysics" ),
@@ -12815,6 +12818,258 @@ process.hltHpsDoublePFTau35MediumDitauWPDeepTauDz02 = cms.EDFilter( "HLTPFTauPai
     JetMaxDZ = cms.double( 0.2 ),
     TriggerType = cms.int32( 84 )
 )
+process.hltPreDoubleTightChargedIsoPFTauHPS35Trk1eta2p1 = cms.EDFilter( "HLTPrescaler",
+    offset = cms.uint32( 0 ),
+    L1GtReadoutRecordTag = cms.InputTag( "hltGtStage2Digis" )
+)
+process.hltCaloTowerL1sTauVeryBigORSeededRegional = cms.EDProducer( "CaloTowerFromL1TSeededCreatorForTauHLT",
+    TauTrigger = cms.InputTag( "hltL1sTauVeryBigOR" ),
+    towers = cms.InputTag( "hltTowerMakerForAll" ),
+    UseTowersInCone = cms.double( 0.8 ),
+    minimumE = cms.double( 0.8 ),
+    minimumEt = cms.double( 0.5 ),
+    verbose = cms.untracked.int32( 0 )
+)
+process.hltAkIsoTauL1sTauVeryBigORSeededRegional = cms.EDProducer( "FastjetJetProducer",
+    useMassDropTagger = cms.bool( False ),
+    useFiltering = cms.bool( False ),
+    useDynamicFiltering = cms.bool( False ),
+    useTrimming = cms.bool( False ),
+    usePruning = cms.bool( False ),
+    useCMSBoostedTauSeedingAlgorithm = cms.bool( False ),
+    useKtPruning = cms.bool( False ),
+    useConstituentSubtraction = cms.bool( False ),
+    useSoftDrop = cms.bool( False ),
+    correctShape = cms.bool( False ),
+    UseOnlyVertexTracks = cms.bool( False ),
+    UseOnlyOnePV = cms.bool( False ),
+    muCut = cms.double( -1.0 ),
+    yCut = cms.double( -1.0 ),
+    rFilt = cms.double( -1.0 ),
+    rFiltFactor = cms.double( -1.0 ),
+    trimPtFracMin = cms.double( -1.0 ),
+    zcut = cms.double( -1.0 ),
+    rcut_factor = cms.double( -1.0 ),
+    csRho_EtaMax = cms.double( -1.0 ),
+    csRParam = cms.double( -1.0 ),
+    beta = cms.double( -1.0 ),
+    R0 = cms.double( -1.0 ),
+    gridMaxRapidity = cms.double( -1.0 ),
+    gridSpacing = cms.double( -1.0 ),
+    DzTrVtxMax = cms.double( 0.0 ),
+    DxyTrVtxMax = cms.double( 0.0 ),
+    MaxVtxZ = cms.double( 15.0 ),
+    subjetPtMin = cms.double( -1.0 ),
+    muMin = cms.double( -1.0 ),
+    muMax = cms.double( -1.0 ),
+    yMin = cms.double( -1.0 ),
+    yMax = cms.double( -1.0 ),
+    dRMin = cms.double( -1.0 ),
+    dRMax = cms.double( -1.0 ),
+    maxDepth = cms.int32( -1 ),
+    nFilt = cms.int32( -1 ),
+    MinVtxNdof = cms.int32( 5 ),
+    src = cms.InputTag( "hltCaloTowerL1sTauVeryBigORSeededRegional" ),
+    srcPVs = cms.InputTag( "NotUsed" ),
+    jetType = cms.string( "CaloJet" ),
+    jetAlgorithm = cms.string( "AntiKt" ),
+    rParam = cms.double( 0.2 ),
+    inputEtMin = cms.double( 0.3 ),
+    inputEMin = cms.double( 0.0 ),
+    jetPtMin = cms.double( 1.0 ),
+    doPVCorrection = cms.bool( False ),
+    doAreaFastjet = cms.bool( False ),
+    doRhoFastjet = cms.bool( False ),
+    doPUOffsetCorr = cms.bool( False ),
+    puPtMin = cms.double( 10.0 ),
+    nSigmaPU = cms.double( 1.0 ),
+    radiusPU = cms.double( 0.4 ),
+    subtractorName = cms.string( "" ),
+    useExplicitGhosts = cms.bool( False ),
+    doAreaDiskApprox = cms.bool( False ),
+    voronoiRfact = cms.double( -9.0 ),
+    Rho_EtaMax = cms.double( 4.4 ),
+    Ghost_EtaMax = cms.double( 6.0 ),
+    Active_Area_Repeats = cms.int32( 5 ),
+    GhostArea = cms.double( 0.01 ),
+    restrictInputs = cms.bool( False ),
+    maxInputs = cms.uint32( 1 ),
+    writeCompound = cms.bool( False ),
+    writeJetsWithConst = cms.bool( False ),
+    doFastJetNonUniform = cms.bool( False ),
+    useDeterministicSeed = cms.bool( True ),
+    minSeed = cms.uint32( 0 ),
+    verbosity = cms.int32( 0 ),
+    puWidth = cms.double( 0.0 ),
+    nExclude = cms.uint32( 0 ),
+    maxBadEcalCells = cms.uint32( 9999999 ),
+    maxBadHcalCells = cms.uint32( 9999999 ),
+    maxProblematicEcalCells = cms.uint32( 9999999 ),
+    maxProblematicHcalCells = cms.uint32( 9999999 ),
+    maxRecoveredEcalCells = cms.uint32( 9999999 ),
+    maxRecoveredHcalCells = cms.uint32( 9999999 ),
+    puCenters = cms.vdouble(  ),
+    applyWeight = cms.bool( False ),
+    srcWeights = cms.InputTag( "" ),
+    minimumTowersFraction = cms.double( 0.0 ),
+    jetCollInstanceName = cms.string( "" ),
+    sumRecHits = cms.bool( False )
+)
+process.hltL2TauJetsL1TauSeeded = cms.EDProducer( "L2TauJetsMerger",
+    JetSrc = cms.VInputTag( 'hltAkIsoTauL1sTauVeryBigORSeededRegional' ),
+    EtMin = cms.double( 20.0 )
+)
+process.hltDoubleL2Tau26eta2p2 = cms.EDFilter( "HLT1CaloJet",
+    saveTags = cms.bool( True ),
+    inputTag = cms.InputTag( "hltL2TauJetsL1TauSeeded" ),
+    triggerType = cms.int32( 84 ),
+    MinE = cms.double( -1.0 ),
+    MinPt = cms.double( 26.0 ),
+    MinMass = cms.double( -1.0 ),
+    MaxMass = cms.double( -1.0 ),
+    MinEta = cms.double( -1.0 ),
+    MaxEta = cms.double( 2.2 ),
+    MinN = cms.int32( 2 )
+)
+process.hltL2TausForPixelIsolationL1TauSeeded = cms.EDFilter( "CaloJetSelector",
+    src = cms.InputTag( "hltL2TauJetsL1TauSeeded" ),
+    filter = cms.bool( False ),
+    cut = cms.string( "pt > 20 & abs(eta) < 2.5" )
+)
+process.hltL2TauPixelIsoTagProducerL1TauSeededGlob = cms.EDProducer( "L2TauPixelIsoTagProducer",
+    JetSrc = cms.InputTag( "hltL2TausForPixelIsolationL1TauSeeded" ),
+    BeamSpotSrc = cms.InputTag( "hltOnlineBeamSpot" ),
+    VertexSrc = cms.InputTag( "hltTrimmedPixelVertices" ),
+    MaxNumberPV = cms.int32( 1 ),
+    IsoConeMax = cms.double( 0.4 ),
+    IsoConeMin = cms.double( 0.15 ),
+    TrackMinPt = cms.double( 0.9 ),
+    TrackMinNHits = cms.int32( 3 ),
+    TrackMaxNChi2 = cms.double( 1000.0 ),
+    TrackPVMaxDZ = cms.double( 0.1 ),
+    TrackMaxDxy = cms.double( 0.2 ),
+    TrackSrc = cms.InputTag( "" )
+)
+process.hltL2TauIsoFilterL1TauSeededGlob = cms.EDFilter( "HLTCaloJetTag",
+    saveTags = cms.bool( True ),
+    Jets = cms.InputTag( "hltL2TausForPixelIsolationL1TauSeeded" ),
+    JetTags = cms.InputTag( "hltL2TauPixelIsoTagProducerL1TauSeededGlob" ),
+    MinTag = cms.double( 0.0 ),
+    MaxTag = cms.double( 4.0 ),
+    MinJets = cms.int32( 1 ),
+    TriggerType = cms.int32( 84 )
+)
+process.hltL2TauJetsIsoL1TauSeededGlob = cms.EDProducer( "HLTCaloJetCollectionProducer",
+    HLTObject = cms.InputTag( "hltL2TauIsoFilterL1TauSeededGlob" ),
+    TriggerTypes = cms.vint32( 84 )
+)
+process.hltDoubleL2GlobIsoTau26eta2p2 = cms.EDFilter( "HLT1CaloJet",
+    saveTags = cms.bool( True ),
+    inputTag = cms.InputTag( "hltL2TauJetsIsoL1TauSeededGlob" ),
+    triggerType = cms.int32( 84 ),
+    MinE = cms.double( -1.0 ),
+    MinPt = cms.double( 35.0 ),
+    MinMass = cms.double( -1.0 ),
+    MaxMass = cms.double( -1.0 ),
+    MinEta = cms.double( -1.0 ),
+    MaxEta = cms.double( 2.2 ),
+    MinN = cms.int32( 2 )
+)
+process.hltHpsDoublePFTau35 = cms.EDFilter( "HLT1PFTau",
+    saveTags = cms.bool( True ),
+    inputTag = cms.InputTag( "hltHpsPFTauProducer" ),
+    triggerType = cms.int32( 84 ),
+    MinE = cms.double( -1.0 ),
+    MinPt = cms.double( 35.0 ),
+    MinMass = cms.double( -1.0 ),
+    MaxMass = cms.double( -1.0 ),
+    MinEta = cms.double( -1.0 ),
+    MaxEta = cms.double( 2.1 ),
+    MinN = cms.int32( 2 )
+)
+process.hltHpsPFTauTrackPt1Discriminator = cms.EDProducer( "PFRecoTauDiscriminationByLeadingObjectPtCut",
+    MinPtLeadingObject = cms.double( 1.0 ),
+    Prediscriminants = cms.PSet(  BooleanOperator = cms.string( "and" ) ),
+    UseOnlyChargedHadrons = cms.bool( True ),
+    PFTauProducer = cms.InputTag( "hltHpsPFTauProducer" )
+)
+process.hltHpsSelectedPFTausTrackPt1 = cms.EDFilter( "PFTauSelector",
+    src = cms.InputTag( "hltHpsPFTauProducer" ),
+    cut = cms.string( "pt > 0" ),
+    discriminators = cms.VPSet( 
+      cms.PSet(  discriminator = cms.InputTag( "hltHpsPFTauTrackPt1Discriminator" ),
+        selectionCut = cms.double( 0.5 )
+      )
+    ),
+    discriminatorContainers = cms.VPSet( 
+    )
+)
+process.hltHpsDoublePFTau35TrackPt1 = cms.EDFilter( "HLT1PFTau",
+    saveTags = cms.bool( True ),
+    inputTag = cms.InputTag( "hltHpsSelectedPFTausTrackPt1" ),
+    triggerType = cms.int32( 84 ),
+    MinE = cms.double( -1.0 ),
+    MinPt = cms.double( 35.0 ),
+    MinMass = cms.double( -1.0 ),
+    MaxMass = cms.double( -1.0 ),
+    MinEta = cms.double( -1.0 ),
+    MaxEta = cms.double( 2.1 ),
+    MinN = cms.int32( 2 )
+)
+process.hltHpsSelectedPFTausTrackPt1TightChargedIsolation = cms.EDFilter( "PFTauSelector",
+    src = cms.InputTag( "hltHpsPFTauProducer" ),
+    cut = cms.string( "pt > 0" ),
+    discriminators = cms.VPSet( 
+      cms.PSet(  discriminator = cms.InputTag( "hltHpsPFTauTrackPt1Discriminator" ),
+        selectionCut = cms.double( 0.5 )
+      ),
+      cms.PSet(  discriminator = cms.InputTag( "hltHpsPFTauTightAbsOrRelChargedIsolationDiscriminator" ),
+        selectionCut = cms.double( 0.5 )
+      )
+    ),
+    discriminatorContainers = cms.VPSet( 
+    )
+)
+process.hltHpsDoublePFTau35TrackPt1TightChargedIsolation = cms.EDFilter( "HLT1PFTau",
+    saveTags = cms.bool( True ),
+    inputTag = cms.InputTag( "hltHpsSelectedPFTausTrackPt1TightChargedIsolation" ),
+    triggerType = cms.int32( 84 ),
+    MinE = cms.double( -1.0 ),
+    MinPt = cms.double( 35.0 ),
+    MinMass = cms.double( -1.0 ),
+    MaxMass = cms.double( -1.0 ),
+    MinEta = cms.double( -1.0 ),
+    MaxEta = cms.double( 2.1 ),
+    MinN = cms.int32( 2 )
+)
+process.hltHpsL1JetsHLTDoublePFTauTrackPt1TightChargedIsolationMatch = cms.EDProducer( "L1THLTTauMatching",
+    L1TauTrigger = cms.InputTag( "hltL1sDoubleTauBigOR" ),
+    JetSrc = cms.InputTag( "hltHpsSelectedPFTausTrackPt1TightChargedIsolation" ),
+    EtMin = cms.double( 0.0 ),
+    ReduceTauContent = cms.bool( True ),
+    KeepOriginalVertex = cms.bool( False )
+)
+process.hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatched = cms.EDFilter( "HLT1PFTau",
+    saveTags = cms.bool( True ),
+    inputTag = cms.InputTag( "hltHpsL1JetsHLTDoublePFTauTrackPt1TightChargedIsolationMatch" ),
+    triggerType = cms.int32( 84 ),
+    MinE = cms.double( -1.0 ),
+    MinPt = cms.double( 35.0 ),
+    MinMass = cms.double( -1.0 ),
+    MaxMass = cms.double( -1.0 ),
+    MinEta = cms.double( -1.0 ),
+    MaxEta = cms.double( 2.1 ),
+    MinN = cms.int32( 2 )
+)
+process.hltHpsDoublePFTau35TrackPt1TightChargedIsolationDz02 = cms.EDFilter( "HLTPFTauPairDzMatchFilter",
+    saveTags = cms.bool( True ),
+    JetSrc = cms.InputTag( "hltHpsL1JetsHLTDoublePFTauTrackPt1TightChargedIsolationMatch" ),
+    JetMinPt = cms.double( 35.0 ),
+    JetMaxEta = cms.double( 2.1 ),
+    JetMinDR = cms.double( 0.5 ),
+    JetMaxDZ = cms.double( 0.2 ),
+    TriggerType = cms.int32( 84 )
+)
 process.hltFEDSelector = cms.EDProducer( "EvFFEDSelector",
     inputTag = cms.InputTag( "rawDataCollector" ),
     fedList = cms.vuint32( 1023, 1024 )
@@ -13345,10 +13600,12 @@ process.hltVBFLooseIDPFDummyFilter = cms.EDFilter( "HLT1PFJet",
     MaxEta = cms.double( -1.0 ),
     MinN = cms.int32( 2 )
 )
-process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemoval = cms.EDProducer( "PFJetsTauOverlapRemoval",
+process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemoval = cms.EDProducer( "PFDiJetCorrCheckerWithDiTau",
     PFJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),
     TauSrc = cms.InputTag( "hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch" ),
-    Min_dR = cms.double( 0.5 )
+    extraTauPtCut = cms.double( 45 ),
+    mjjMin = cms.double( 500 ),
+    dRmin = cms.double( 0.5 )
 )
 process.hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 = cms.EDFilter( "HLT1PFJet",
     saveTags = cms.bool( True ),
@@ -13410,10 +13667,12 @@ process.hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN = cms.EDFil
     MaxEta = cms.double( 2.1 ),
     MinN = cms.int32( 1 )
 )
-process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsTempLooseDeepTauIsoPF25TauOverlapRemovalNoL2NN = cms.EDProducer( "PFJetsTauOverlapRemoval",
+process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsTempLooseDeepTauIsoPF25TauOverlapRemovalNoL2NN = cms.EDProducer( "PFDiJetCorrCheckerWithDiTau",
     PFJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),
     TauSrc = cms.InputTag( "hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN" ),
-    Min_dR = cms.double( 0.5 )
+    extraTauPtCut = cms.double( 45 ),
+    mjjMin = cms.double( 500 ),
+    dRmin = cms.double( 0.5 )
 )
 process.hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN = cms.EDFilter( "HLT1PFJet",
     saveTags = cms.bool( True ),
@@ -13933,12 +14192,18 @@ process.HLTAK4PFJetsSequence = cms.Sequence( process.HLTPreAK4PFJetsRecoSequence
 process.HLTEndSequence = cms.Sequence( process.hltBoolEnd )
 process.HLTL2TauTagNNSequence = cms.Sequence( process.HLTDoLocalPixelSequence + process.HLTRecoPixelTracksSequence + process.HLTRecopixelvertexingSequence + process.HLTDoCaloSequence + cms.ignore(process.hltL1sBigOrMuXXerIsoTauYYer) + cms.ignore(process.hltL1sDoubleTauBigOR) + cms.ignore(process.hltL1sMu22erIsoTau40er) + cms.ignore(process.hltL1sSingleTau) + cms.ignore(process.hltL1VBFDiJetIsoTau) + process.hltL2TauTagNNProducer )
 process.HLTHPSDeepTauIsoPFTauSequence = cms.Sequence( cms.ignore(process.hltL1sTauVeryBigOR) + process.hltHpsL1JetsHLTForDeepTauInput + process.hltHpsPFTauDiscriminationByDecayModeFindingNewDMsL1matched + process.hltHpsPFTauPrimaryVertexProducerForDeepTau + process.hltHpsPFTauSecondaryVertexProducerForDeepTau + process.hltHpsPFTauTransverseImpactParametersForDeepTau + process.hltFixedGridRhoProducerFastjetAllTau + process.hltHpsPFTauBasicDiscriminatorsForDeepTau + process.hltHpsPFTauBasicDiscriminatorsdR03ForDeepTau + process.hltHpsPFTauDeepTauProducer )
+process.HLTCaloTausCreatorL1TauSeededRegionalSequence = cms.Sequence( process.HLTDoCaloSequence + cms.ignore(process.hltL1sTauVeryBigOR) + process.hltCaloTowerL1sTauVeryBigORSeededRegional + process.hltAkIsoTauL1sTauVeryBigORSeededRegional )
+process.HLTL2TauJetsL1TauSeededSequence = cms.Sequence( process.HLTCaloTausCreatorL1TauSeededRegionalSequence + process.hltL2TauJetsL1TauSeeded )
+process.HLTL2TauPixelIsolationSequenceL1TauGlobalSeeded = cms.Sequence( process.hltL2TausForPixelIsolationL1TauSeeded + process.HLTDoLocalPixelSequence + process.HLTRecopixelvertexingSequence + process.hltL2TauPixelIsoTagProducerL1TauSeededGlob )
+process.HLTL2p5IsoTauL1TauSeededGlobalSequence = cms.Sequence( process.HLTL2TauPixelIsolationSequenceL1TauGlobalSeeded + process.hltL2TauIsoFilterL1TauSeededGlob + process.hltL2TauJetsIsoL1TauSeededGlob )
+process.HLTHPSDoublePFTauPt35Eta2p1Trk1 = cms.Sequence( process.hltHpsDoublePFTau35 + process.hltHpsPFTauTrackPt1Discriminator + process.hltHpsSelectedPFTausTrackPt1 + process.hltHpsDoublePFTau35TrackPt1 )
 process.HLTHPSDeepTauIsoPFTauSequenceForVBFIsoTau = cms.Sequence( process.hltHpsPFTauDiscriminationByDecayModeFindingNewDMsForVBFIsoTau + process.hltHpsPFTauPrimaryVertexProducerForDeepTauForVBFIsoTau + process.hltHpsPFTauSecondaryVertexProducerForDeepTauForVBFIsoTau + process.hltHpsPFTauTransverseImpactParametersForDeepTauForVBFIsoTau + process.hltFixedGridRhoProducerFastjetAllTau + process.hltHpsPFTauBasicDiscriminatorsForDeepTauForVBFIsoTau + process.hltHpsPFTauBasicDiscriminatorsdR03ForDeepTauForVBFIsoTau + process.hltHpsPFTauDeepTauProducerForVBFIsoTau )
 process.HLTL2TauTagNNSequenceNoer = cms.Sequence( process.HLTDoLocalPixelSequence + process.HLTRecoPixelTracksSequence + process.HLTRecopixelvertexingSequence + process.HLTDoCaloSequence + cms.ignore(process.hltL1sBigOrMuXXerIsoTauYYer) + cms.ignore(process.hltL1sDoubleTauBigOR) + cms.ignore(process.hltL1sMu22erIsoTau40er) + cms.ignore(process.hltL1sSingleTau) + cms.ignore(process.hltL1VBFDiJetIsoTauNoer) + process.hltL2TauTagNNProducerNoer )
 
 process.HLTriggerFirstPath = cms.Path( process.hltGetConditions + process.hltGetRaw + process.hltPSetMap + process.hltBoolFalse )
 process.HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1 = cms.Path( process.HLTBeginSequence + process.hltL1VBFDiJetOR + process.hltPreVBFDoubleTightChargedIsoPFTauHPS20Trk1eta2p1 + process.HLTL2TauJetsSequence + process.hltDoubleL2Tau20eta2p2 + process.HLTL2p5IsoTauSequence + process.hltDoubleL2IsoTau20eta2p2 + process.HLTGlobalPFTauHPSSequence + process.HLTHPSDoubleTightChargedIsoAntiMuonPFTau20Sequence + process.HLTAK4PFJetsSequence + process.hltVBFL1TLooseIDPFJetsMatching + process.hltMatchedVBFTwoPFJetsDoubleTightChargedIsoPFTauHPS20OverlapRemoval + process.hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20 + process.hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20 + process.HLTEndSequence )
 process.HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1 = cms.Path( process.HLTBeginSequence + process.hltL1sDoubleTauBigOR + process.hltPreDoubleMediumDeepTauIsoPFTauHPS35L2NNeta2p1 + process.HLTL2TauTagNNSequence + process.hltL2DoubleTauTagNNFilter + process.HLTGlobalPFTauHPSSequence + process.HLTHPSDeepTauIsoPFTauSequence + process.hltHpsSelectedPFTausMediumDitauWPDeepTau + process.hltHpsL1JetsHLTDoublePFTauMediumDitauWPDeepTauMatch + process.hltHpsDoublePFTau35MediumDitauWPDeepTauL1HLTMatched + process.hltHpsDoublePFTau35MediumDitauWPDeepTauDz02 + process.HLTEndSequence )
+process.HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1 = cms.Path( process.HLTBeginSequence + process.hltL1sDoubleTauBigOR + process.hltPreDoubleTightChargedIsoPFTauHPS35Trk1eta2p1 + process.HLTL2TauJetsL1TauSeededSequence + process.hltDoubleL2Tau26eta2p2 + process.HLTL2p5IsoTauL1TauSeededGlobalSequence + process.hltDoubleL2GlobIsoTau26eta2p2 + process.HLTGlobalPFTauHPSSequence + process.HLTHPSDoublePFTauPt35Eta2p1Trk1 + process.HLTHPSTightChargedIsoPFTauSequence + process.hltHpsSelectedPFTausTrackPt1TightChargedIsolation + process.hltHpsDoublePFTau35TrackPt1TightChargedIsolation + process.hltHpsL1JetsHLTDoublePFTauTrackPt1TightChargedIsolationMatch + process.hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatched + process.hltHpsDoublePFTau35TrackPt1TightChargedIsolationDz02 + process.HLTEndSequence )
 process.HLTriggerFinalPath = cms.Path( process.hltGtStage2Digis + process.hltScalersRawToDigi + process.hltFEDSelector + process.hltTriggerSummaryAOD + process.hltTriggerSummaryRAW + process.hltBoolFalse )
 process.HLTAnalyzerEndpath = cms.EndPath( process.hltGtStage2Digis + process.hltPreHLTAnalyzerEndpath + process.hltL1TGlobalSummary + process.hltTrigReport )
 process.HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1 = cms.Path( process.HLTBeginSequence + process.hltL1VBFDiJetIsoTau + process.hltPreDoublePFJets40Mass500MediumDeepTau45L2NNMediumDeepTau20eta2p1 + process.HLTL2TauTagNNSequence + process.hltL2VBFIsoTauNNFilter + process.HLTGlobalPFTauHPSSequence + process.HLTHPSDeepTauIsoPFTauSequenceForVBFIsoTau + process.hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau + process.hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch + process.hltHpsL1VBFJetsAndIsoTauHLTDoublePFTauMediumDitauWPDeepTauMatch + process.hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched + process.HLTAK4PFJetsSequence + process.hltRealDijetFilter + process.hltVBFIsoTauL1TLooseIDPFJetsMatching + process.hltVBFLooseIDPFDummyFilter + process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemoval + process.hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 + process.HLTEndSequence )
@@ -13946,7 +14211,7 @@ process.HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1 = cms
 process.HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1 = cms.Path( process.HLTBeginSequence + process.hltL1VBFDiJetIsoTauNoer + process.hltPrePreviousL1VersionDoublePFJets40Mass500MediumDeepTau45L2NNMediumDeepTau20eta2p1 + process.HLTL2TauTagNNSequenceNoer + process.hltL2VBFIsoTauNNFilterNoer + process.HLTGlobalPFTauHPSSequence + process.HLTHPSDeepTauIsoPFTauSequenceForVBFIsoTau + process.hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau + process.hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch + process.hltHpsL1NoerVBFJetsAndIsoTauHLTDoublePFTauMediumDitauWPDeepTauMatch + process.hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoer + process.HLTAK4PFJetsSequence + process.hltRealDijetFilter + process.hltVBFIsoTauL1TLooseIDPFJetsMatchingNoer + process.hltVBFLooseIDPFDummyFilterNoer + process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemovalNoer + process.hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20Noer + process.HLTEndSequence )
 
 
-process.schedule = cms.Schedule( *(process.HLTriggerFirstPath, process.HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1, process.HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1, process.HLTriggerFinalPath, process.HLTAnalyzerEndpath, process.HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1, process.HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1, process.HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1, ))
+process.schedule = cms.Schedule( *(process.HLTriggerFirstPath, process.HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1, process.HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1, process.HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1, process.HLTriggerFinalPath, process.HLTAnalyzerEndpath, process.HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1, process.HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1, process.HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1, ))
 
 
 # source module (EDM inputs)
@@ -13983,12 +14248,6 @@ process.maxEvents = cms.untracked.PSet(
     input = cms.untracked.int32( 100 )
 )
 
-# enable TrigReport, TimeReport and MultiThreading
-process.options = cms.untracked.PSet(
-    wantSummary = cms.untracked.bool( True ),
-    numberOfThreads = cms.untracked.uint32( 4 ),
-    numberOfStreams = cms.untracked.uint32( 0 ),
-)
 
 # override the GlobalTag, connection string and pfnPrefix
 if 'GlobalTag' in process.__dict__:
@@ -14004,34 +14263,23 @@ if 'MessageLogger' in process.__dict__:
     process.MessageLogger.FastReport = cms.untracked.PSet()
     process.MessageLogger.ThroughputService = cms.untracked.PSet()
 
-# load the DQMStore and DQMRootOutputModule
-process.load( "DQMServices.Core.DQMStore_cfi" )
-
-process.dqmOutput = cms.OutputModule("DQMRootOutputModule",
-    fileName = cms.untracked.string("DQMIO.root")
-)
-
-process.DQMOutput = cms.FinalPath( process.dqmOutput )
-process.schedule.append( process.DQMOutput )
 
 # add specific customizations
-#_customInfo = {}
-#_customInfo['menuType'  ]= "GRun"
-#_customInfo['globalTags']= {}
-#_customInfo['globalTags'][True ] = "auto:run3_hlt_GRun"
-#_customInfo['globalTags'][False] = "auto:run3_mc_GRun"
-#_customInfo['inputFiles']={}
-#_customInfo['inputFiles'][True]  = "file:RelVal_Raw_GRun_DATA.root"
-#_customInfo['inputFiles'][False] = "file:RelVal_Raw_GRun_MC.root"
-#_customInfo['maxEvents' ]=  100
-#_customInfo['globalTag' ]= "auto:run3_hlt_GRun"
-#_customInfo['inputFile' ]=  ['root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/D5D2CF9C-2557-4243-B42E-4345100839DA.root']
-#_customInfo['realData'  ]=  True
-#
-#from HLTrigger.Configuration.customizeHLTforALL import customizeHLTforAll
-#process = customizeHLTforAll(process,"GRun",_customInfo)
+_customInfo = {}
+_customInfo['menuType'  ]= "GRun"
+_customInfo['globalTags']= {}
+_customInfo['globalTags'][True ] = "auto:run3_hlt_GRun"
+_customInfo['globalTags'][False] = "auto:run3_mc_GRun"
+_customInfo['inputFiles']={}
+_customInfo['inputFiles'][True]  = "file:RelVal_Raw_GRun_DATA.root"
+_customInfo['inputFiles'][False] = "file:RelVal_Raw_GRun_MC.root"
+_customInfo['maxEvents' ]=  100
+_customInfo['globalTag' ]= "auto:run3_hlt_GRun"
+_customInfo['inputFile' ]=  ['root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/D5D2CF9C-2557-4243-B42E-4345100839DA.root']
+_customInfo['realData'  ]=  True
 
-
+from HLTrigger.Configuration.customizeHLTforALL import customizeHLTforAll
+process = customizeHLTforAll(process,"GRun",_customInfo)
 
 from HLTrigger.Configuration.customizeHLTforCMSSW import customizeHLTforCMSSW
 process = customizeHLTforCMSSW(process,"GRun")
@@ -14040,6 +14288,52 @@ process = customizeHLTforCMSSW(process,"GRun")
 from HLTrigger.Configuration.Eras import modifyHLTforEras
 modifyHLTforEras(process)
 
-# adapt the configuration to run over 2018 data
-from HLTrigger.Configuration.customizeHLTforCMSSW import customiseFor2018Input
-customiseFor2018Input(process)
+
+updatedTauName = "slimmedTausNewID" #name of pat::Tau collection with new tau-Ids
+import RecoTauTag.RecoTau.tools.runTauIdMVA as tauIdConfig
+tauIdEmbedder = tauIdConfig.TauIDEmbedder(process, cms, #debug = False,
+                    updatedTauName = updatedTauName,
+                    toKeep = ["deepTau2017v2p1", #deepTau TauIDs
+                               ])
+tauIdEmbedder.runTauID()
+# Path and EndPath definitions
+
+process.demo = cms.EDAnalyzer('NtupleMaker'
+     #, tracks = cms.untracked.InputTag('ctfWithMaterialTracks')
+     , triggerResults = cms.untracked.InputTag("TriggerResults","","MYOTHERHLT") #change to HLT instead of MYOTHERHLT if not rerun 
+     , triggerEvent = cms.untracked.InputTag("hltTriggerSummaryAOD","","MYOTHERHLT")
+     , triggerEventWithRefs = cms.untracked.InputTag("hltTriggerSummaryRAW","","MYOTHERHLT")
+     #, PFTauCollection = cms.untracked.InputTag("hltHpsPFTauProducer","","MYOTHERHLT")
+     #, hltHpsTracks = cms.untracked.InputTag("hltHpsPFTauTrack","","MYOTHERHLT")
+
+     , SkipEvent = cms.untracked.vstring('ProductNotFound')
+
+     , fillingTriggers = cms.untracked.bool(True) # can run on data/GEN-SIM-DIGI-RAW
+     , fillingEventInfo = cms.untracked.bool(True) # can run on data/GEN-SIM-DIGI-RAW/MINIAODSIM
+     , fillingL1 = cms.untracked.bool(False)        # can run on MINIAODSIM
+     , fillingTaus = cms.untracked.bool(False)      # can run on MINIAODSIM
+     , fillingJets = cms.untracked.bool(False)      # can run on MINIAODSIM
+     , development = cms.untracked.bool(False)     # left in to play nice with NtupleMaker
+     , doGenParticles = cms.untracked.bool(False)  # left in to play nice with NtupleMaker
+
+     , jetTriggerPrimitives = cms.untracked.InputTag("caloStage2Digis", "Jet", "RECO")
+     , tauTriggerPrimitives = cms.untracked.InputTag("caloStage2Digis", "Tau", "RECO")
+
+     , genParticleSrc = cms.untracked.InputTag("prunedGenParticles")
+     , VtxLabel = cms.untracked.InputTag("offlineSlimmedPrimaryVertices")
+     , rhoLabel = cms.untracked.InputTag("fixedGridRhoFastjetAll")
+     , tauSrc = cms.untracked.InputTag("slimmedTausNewID")
+     , ak4JetSrc = cms.untracked.InputTag("slimmedJets")
+)
+
+process.TFileService = cms.Service("TFileService",
+    fileName = cms.string("histo.root"),
+    closeFileFast = cms.untracked.bool(True)
+)
+
+process.demoPath = cms.EndPath(
+#        process.rerunMvaIsolationSequence * # comment out if not running on MINIAODSIM
+#        getattr(process,updatedTauName) *   # comment out if not running on MINIAODSIM
+        process.demo
+)
+process.schedule_().append(process.demoPath)
