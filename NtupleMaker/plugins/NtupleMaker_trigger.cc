@@ -112,6 +112,12 @@ vector<float>	hltL1VBFDiJetIsoTau_tauEta;
 vector<float>	hltL1VBFDiJetIsoTau_tauPhi;
 vector<float>	hltL1VBFDiJetIsoTau_tauEnergy;
 
+int passhltL1VBFDiJetIsoTauNoer;
+vector<int> hltL1VBFDiJetIsoTauNoer_nJets;
+vector<float> hltL1VBFDiJetIsoTauNoer_jetPt;
+vector<int> hltL1VBFDiJetIsoTauNoer_nTaus;
+vector<float> hltL1VBFDiJetIsoTauNoer_tauPt;
+
 //hltHpsDoublePFTau20
 int	passhltHpsDoublePFTau20;
 vector<float> 	hltHpsDoublePFTau20_pt;
@@ -353,6 +359,12 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("hltL1VBFDiJetIsoTau_tauPhi", &hltL1VBFDiJetIsoTau_tauPhi);
     tree->Branch("hltL1VBFDiJetIsoTau_tauEnergy", &hltL1VBFDiJetIsoTau_tauEnergy);
 
+    tree->Branch("passhltL1VBFDiJetIsoTauNoer", &passhltL1VBFDiJetIsoTauNoer);
+    tree->Branch("hltL1VBFDiJetIsoTauNoer_nJets", &hltL1VBFDiJetIsoTauNoer_nJets);
+    tree->Branch("hltL1VBFDiJetIsoTauNoer_jetPt", &hltL1VBFDiJetIsoTauNoer_jetPt);
+    tree->Branch("hltL1VBFDiJetIsoTauNoer_nTaus", &hltL1VBFDiJetIsoTauNoer_nTaus);
+    tree->Branch("hltL1VBFDiJetIsoTauNoer_tauPt", &hltL1VBFDiJetIsoTauNoer_tauPt);
+
     tree->Branch("passhltHpsDoublePFTau20", &passhltHpsDoublePFTau20);
     tree->Branch("hltHpsDoublePFTau20_pt", &hltHpsDoublePFTau20_pt);
     tree->Branch("hltHpsDoublePFTau20_eta", &hltHpsDoublePFTau20_eta);
@@ -585,6 +597,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     hltL1VBFDiJetIsoTau_tauEta.clear();
     hltL1VBFDiJetIsoTau_tauPhi.clear();
     hltL1VBFDiJetIsoTau_tauEnergy.clear();
+
+    passhltL1VBFDiJetIsoTauNoer = 0;
+    hltL1VBFDiJetIsoTauNoer_nJets.clear();
+    hltL1VBFDiJetIsoTauNoer_jetPt.clear();
+    hltL1VBFDiJetIsoTauNoer_nTaus.clear();
+    hltL1VBFDiJetIsoTauNoer_tauPt.clear();
 
     passhltHpsDoublePFTau20 = 0;
     hltHpsDoublePFTau20_pt.clear();
@@ -837,11 +855,39 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 	}
     }
 
+    // make temp L1 reader for other L1VBFIsoTauNoer
+    const unsigned int otherFilterIndex(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFDiJetIsoTauNoer", "", "MYOTHERHLT")));
+
+    l1t::JetVectorRef otherJetCandRefVec;
+    trigger::Vids otherJvids;
+    triggerEventWithRefsHandle_->getObjects(otherFilterIndex, otherJvids, otherJetCandRefVec);
+
+    const unsigned int othernJets(otherJvids.size());
+    if (othernJets > 0) {
+      hltL1VBFDiJetIsoTauNoer_nJets.push_back(othernJets);
+      for (unsigned int i = 0; i != othernJets; ++i) {
+        hltL1VBFDiJetIsoTauNoer_jetPt.push_back(otherJetCandRefVec[i]->pt());
+      }
+    }
+
+    l1t::TauVectorRef otherTauCandRefVec;
+    trigger::Vids otherTvids;
+    triggerEventWithRefsHandle_->getObjects(otherFilterIndex, otherTvids, otherTauCandRefVec);
+
+    const unsigned int othernTaus(otherTvids.size());
+    if (othernTaus > 0) {
+      hltL1VBFDiJetIsoTauNoer_nTaus.push_back(othernTaus);
+      for (unsigned int i = 0; i != othernTaus; ++i) {
+        hltL1VBFDiJetIsoTauNoer_tauPt.push_back(otherTauCandRefVec[i]->pt());
+      }
+    }
+
     // make strings to identify filter names
     const trigger::size_type nFilters(triggerEvent->sizeFilters());
     std::string hltL1sDoubleTauBigOR_Tag = "hltL1sDoubleTauBigOR::MYOTHERHLT"; // ditau L1
     std::string hltL1VBFDiJetOR_Tag = "hltL1VBFDiJetOR::MYOTHERHLT";		  // inclusive L1
-    std::string hltL1VBFDiJetIsoTau_Tag = "hltL1VBFDiJetIsoTau::MYOTHERHLT";	  // proposed L1
+    std::string hltL1VBFDiJetIsoTau_Tag = "hltL1VBFDiJetIsoTau::MYOTHERHLT";	  
+    std::string hltL1VBFDiJetIsoTauNoer_Tag = "hltL1VBFDiJetIsoTauNoer::MYOTHERHLT";	  // no eta restriction
 
     std::string hltHpsDoublePFTau20_Tag = "hltHpsDoublePFTau20::MYOTHERHLT";
     std::string hltHpsDoublePFTau20TrackTightChargedIso_Tag = "hltHpsDoublePFTau20TrackTightChargedIso::MYOTHERHLT";
@@ -898,6 +944,8 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 	if (filterTag == hltL1VBFDiJetOR_Tag && nObjKeys >= 2) passhltL1VBFDiJetOR = 1;
 	if (filterTag == hltL1VBFDiJetIsoTau_Tag && hltL1VBFDiJetIsoTau_tauPt.size() >= 1
 						 && hltL1VBFDiJetIsoTau_jetPt.size() >= 2) passhltL1VBFDiJetIsoTau = 1;
+        if (filterTag == hltL1VBFDiJetIsoTauNoer_Tag && hltL1VBFDiJetIsoTauNoer_tauPt.size() >= 1
+                                                     && hltL1VBFDiJetIsoTauNoer_jetPt.size() >= 2) passhltL1VBFDiJetIsoTauNoer = 1;
 
         // Inclusive/VBFPlusTwoTau Modules
         /*
