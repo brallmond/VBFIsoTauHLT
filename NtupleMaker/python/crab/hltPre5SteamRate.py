@@ -6081,7 +6081,8 @@ process.PrescaleService = cms.Service( "PrescaleService",
         prescales = cms.vuint32( 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 )
       ),
       cms.PSet(  pathName = cms.string( "HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1" ),
-        prescales = cms.vuint32( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 )
+        #prescales = cms.vuint32( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 )
+        prescales = cms.vuint32( 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0 )
       ),
 ) ),
     lvl1DefaultLabel = cms.string( "2.0e34+ZB+HLTPhysics" ),

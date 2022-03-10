@@ -60,6 +60,8 @@ public :
     std::vector<float>* hltL1VBFDiJetIsoTau_tauPhi = nullptr; 
     std::vector<float>* hltL1VBFDiJetIsoTau_tauEnergy = nullptr; 
 
+    int passhltL1VBFDiJetIsoTauNoer;
+
     int passhltHpsDoublePFTau20;
     std::vector<float>* hltHpsDoublePFTau20_pt = nullptr;
     std::vector<float>* hltHpsDoublePFTau20_eta = nullptr;
@@ -308,6 +310,8 @@ void trigger_tree::Init(TTree *tree)
     fChain->SetBranchAddress("hltL1VBFDiJetIsoTau_tauEta", &hltL1VBFDiJetIsoTau_tauEta);
     fChain->SetBranchAddress("hltL1VBFDiJetIsoTau_tauPhi", &hltL1VBFDiJetIsoTau_tauPhi);
     fChain->SetBranchAddress("hltL1VBFDiJetIsoTau_tauEnergy", &hltL1VBFDiJetIsoTau_tauEnergy);
+
+    fChain->SetBranchAddress("passhltL1VBFDiJetIsoTauNoer", &passhltL1VBFDiJetIsoTauNoer);
 
     fChain->SetBranchAddress("passhltHpsDoublePFTau20", &passhltHpsDoublePFTau20);
     fChain->SetBranchAddress("hltHpsDoublePFTau20_pt", &hltHpsDoublePFTau20_pt);

@@ -3,6 +3,7 @@
 #include <sstream>
 #include <stdio.h>
 #include <vector>
+#include <set>
 #include <string>
 #include <iomanip>
 #include <tuple>
@@ -32,10 +33,11 @@ int main(int argc, char** argv)	{
     outTree->SetDirectory(0);
 
     // run variables and branches
-    int nEvents, runNumber, lumiBlock, eventNumberID;
+    int nEvents, runNumber, lumiBlock, eventNumberID, lumisSize;
     outTree->Branch("nEvents", &nEvents);
     outTree->Branch("runNumber", &runNumber);
     outTree->Branch("lumiBlock", &lumiBlock);
+    outTree->Branch("lumisSize", &lumisSize);
     outTree->Branch("eventNumberID", &eventNumberID);
 
     // AOD variables and branches
@@ -67,8 +69,10 @@ int main(int argc, char** argv)	{
     // L1s
     int passhltL1VBFDiJetOR;
     int passhltL1VBFDiJetIsoTau;
+    int passhltL1VBFDiJetIsoTauNoer;
     outTree->Branch("passhltL1VBFDiJetOR", &passhltL1VBFDiJetOR);
     outTree->Branch("passhltL1VBFDiJetIsoTau", &passhltL1VBFDiJetIsoTau);
+    outTree->Branch("passhltL1VBFDiJetIsoTauNoer", &passhltL1VBFDiJetIsoTauNoer);
 
     int passDiTau32L1, passDiTau34L1, passDiTau35L1;
     outTree->Branch("passDiTau32L1", &passDiTau32L1);
@@ -148,6 +152,7 @@ int main(int argc, char** argv)	{
     float AODTau2Pt_ = 0;
     float mj1j2_ = 0;
 
+    std::set<int> lumis;
     // Event Loop
     // for-loop of fewer events is useful to test code without heavy I/O to terminal from cout statements
     //for (int iEntry = 0; iEntry < 100001; ++iEntry) {
@@ -160,11 +165,20 @@ int main(int argc, char** argv)	{
 	lumiBlock = inTree->lumiBlock;
 	eventNumberID = inTree->eventNumberID;
 
+        bool rateStudy = true;
+        if (rateStudy and runNumber != 323755) continue;
+        if (rateStudy) lumis.insert(lumiBlock);
+        lumisSize = lumis.size();
+        
+
         // Inclusive VBF L1 and HLT
         passhltL1VBFDiJetOR = 0;
         passhltL1VBFDiJetOR = inTree->passhltL1VBFDiJetOR;
         passInclusiveVBFHLT = inTree->passInclusiveVBFHLT;
 
+        // VBF2DT Old L1
+        passhltL1VBFDiJetIsoTauNoer = 0;
+        if (rateStudy) passhltL1VBFDiJetIsoTauNoer = inTree->passhltL1VBFDiJetIsoTauNoer;
 
         // VBF2DT L1
         passhltL1VBFDiJetIsoTau = 0;
@@ -225,6 +239,10 @@ int main(int argc, char** argv)	{
         passDiTau35HLT = inTree->passDiTau35HLT;
 
 
+        if (rateStudy) {
+          outTree->Fill();
+          continue;
+        }
         // above is all that needs to run for rate
 	//---------------------apply AOD selection and fill AOD objects------------------------------//
 
@@ -539,11 +557,14 @@ int main(int argc, char** argv)	{
     } // end event loop
 
 
+    std::cout << lumis.size() << std::endl;
+
     std::string outputFileName = outName;
     TFile *fOut = TFile::Open(outputFileName.c_str(),"RECREATE");
     fOut->cd();
 
     outTree->Write();
+
     fOut->Close();
     return 0;
 }
