@@ -153,21 +153,27 @@ int main(int argc, char** argv)	{
     float mj1j2_ = 0;
 
     std::set<int> lumis;
+    std::cout << "If this is a rate study, did you check your boolean variables before running?" << std::endl;
     // Event Loop
     // for-loop of fewer events is useful to test code without heavy I/O to terminal from cout statements
     //for (int iEntry = 0; iEntry < 100001; ++iEntry) {
     for (int iEntry = 0; iEntry < inTree->GetEntries(); ++iEntry) {
 	inTree->GetEntry(iEntry);
-	if (iEntry % 100000 == 0) std::cout << std::to_string(iEntry) << std::endl;
+
+        bool rateStudyHLT = true;
+        bool rateStudyEZB = false;
+
+	if ((iEntry % 100000 == 0 and (!rateStudyHLT and !rateStudyEZB)) or iEntry % 1000000 == 0) std::cout << std::to_string(iEntry) << std::endl;
 
 	nEvents = inTree->nEvents;
 	runNumber = inTree->runNumber;
 	lumiBlock = inTree->lumiBlock;
 	eventNumberID = inTree->eventNumberID;
 
-        bool rateStudy = true;
-        if (rateStudy and runNumber != 323755) continue;
-        if (rateStudy) lumis.insert(lumiBlock);
+        bool okayLumi = ((lumiBlock >=38 and lumiBlock <= 81) or (lumiBlock >= 84 and lumiBlock <= 171));
+        //std::cout << lumiBlock << '\t' << okayLumi << std::endl;
+        if (rateStudyHLT and (runNumber != 323755 or !okayLumi)) continue;
+        if (rateStudyHLT or rateStudyEZB) lumis.insert(lumiBlock);
         lumisSize = lumis.size();
         
 
@@ -178,7 +184,7 @@ int main(int argc, char** argv)	{
 
         // VBF2DT Old L1
         passhltL1VBFDiJetIsoTauNoer = 0;
-        if (rateStudy) passhltL1VBFDiJetIsoTauNoer = inTree->passhltL1VBFDiJetIsoTauNoer;
+        if (rateStudyHLT or rateStudyEZB) passhltL1VBFDiJetIsoTauNoer = inTree->passhltL1VBFDiJetIsoTauNoer;
 
         // VBF2DT L1
         passhltL1VBFDiJetIsoTau = 0;
@@ -239,10 +245,9 @@ int main(int argc, char** argv)	{
         passDiTau35HLT = inTree->passDiTau35HLT;
 
 
-        if (rateStudy) {
-          outTree->Fill();
-          continue;
-        }
+        bool passhltL1 = passDiTau32L1 or passhltL1VBFDiJetOR or passhltL1VBFDiJetIsoTau or passhltL1VBFDiJetIsoTauNoer;
+        if ((rateStudyHLT or rateStudyEZB) and passhltL1) outTree->Fill();
+        if (rateStudyHLT or rateStudyEZB) continue;
         // above is all that needs to run for rate
 	//---------------------apply AOD selection and fill AOD objects------------------------------//
 

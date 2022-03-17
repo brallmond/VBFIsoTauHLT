@@ -9,4 +9,4 @@ while read line
     else
       echo -n ",$line"
     fi
-done < EZB3Jaime.txt
+done < halfEZB1_0000files.txt
