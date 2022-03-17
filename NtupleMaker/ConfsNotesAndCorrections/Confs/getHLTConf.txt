@@ -199,4 +199,65 @@ HLTAnalyzerEndpath \
 --input root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/D5D2CF9C-2557-4243-B42E-4345100839DA.root \
 > hltPre5SteamRate.py
 
+hltGetConfiguration /users/ballmond/VBFDeepTau/SeparateUpdate0301/V2 \
+--globaltag auto:run3_hlt_GRun --data \
+--path HLTriggerFirstPath,\
+HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,\
+HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1,\
+HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,\
+HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,\
+HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,\
+HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1,\
+HLTriggerFinalPath,\
+HLTAnalyzerEndpath \
+--full --output none \
+--customise HLTrigger/Configuration/customizeHLTforCMSSW.customiseFor2018Input \
+--unprescale \
+--process MYOTHERHLT \
+--l1-emulator --l1Xml L1Menu_Collisions2022_v0_1_5.xml \
+--input root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/D5D2CF9C-2557-4243-B42E-4345100839DA.root \
+> hltPre5OldRate.py
+
+#Timing from
+https://twiki.cern.ch/twiki/bin/viewauth/CMS/TriggerStudiesTiming
+
+hltGetConfiguration /users/ballmond/VBFDeepTau/SeparateUpdate0301/V2 \
+--globaltag auto:run3_hlt_GRun --data --timing \
+--process MYOTHERHLT \
+--full --offline \
+--max-events 10000 \
+--output minimal \
+--era Run2_2018 \
+--l1-emulator --l1Xml L1Menu_Collisions2022_v0_1_5.xml \
+--input 'file:/eos/user/b/ballmond/repackData/EZB1to8MergedRun325022UpsL1s.root' \
+> hltTimingPre5FullMenu.py
+
+ /users/ballmond/VBFDeepTau/DevGRunV42/V2
+
+hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV42/V2 \
+--globaltag auto:run3_hlt_GRun --data --timing \
+--process MYOTHERHLT \
+--full --offline \
+--max-events 10000 \
+--output minimal \
+--era Run2_2018 \
+--l1-emulator --l1Xml /data/user/ballmond/L1Menu_Collisions2022_v0_1_5.xml \
+--input 'file:/data/user/ballmond/EZB1to8MergedRun325022UpsL1s.root' \
+> hltTimingPre5FullMenuJIRA.py
+
+hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV42/V2 \
+--globaltag auto:run3_hlt_GRun --data --timing \
+--path HLTriggerFirstPath,\
+HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,\
+HLTriggerFinalPath,\
+HLTAnalyzerEndpath \
+--process MYOTHERHLT \
+--full --offline \
+--max-events 10000 \
+--output minimal \
+--era Run2_2018 \
+--l1-emulator --l1Xml /data/user/ballmond/L1Menu_Collisions2022_v0_1_5.xml \
+--input 'file:/data/user/ballmond/EZB1to8MergedRun325022UpsL1s.root' \
+> hltTimingPre5SinglePathJIRA.py
+
 ###############################################
