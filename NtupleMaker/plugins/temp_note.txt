@@ -1,0 +1,50 @@
+// Braden Allmond Nov 22nd 2021
+// NtupleMaker
+// Takes a dataset and makes a tree of branches filled with data
+// In this case, our NtupleMaker is for an HLT study,
+// so we have branches for multiple HLT filters. 
+// Here's a diagram of "triggers" and "filters"
+//   Trigger (HLT means High Level Trigger)
+// ---------------------------------------------------------------------------
+// |L1 Decision| Middle Filter 1| Middle Filter 2| Final Filter| HLT Decision|
+// ---------------------------------------------------------------------------
+// Some filters/modules are shared between HLT paths,
+// meaning sometimes those filters are only triggered
+// by one path and sometimes they're triggered by both.
+// From one filter's information alone, it's not possible to 
+// tell which path the filter was triggered by. If you want to 
+// know which filter is triggered by which path, you have to
+// daisy-chain the filter decisions for a path explcitly, 
+// meaning you check each filter decision in a path before
+// the one you care about. If filter in the path before the
+// one you care about is passed, then the filter you're looking at
+// was triggered in the path you're studying in. That would look
+// like this.
+//    SomeHLTPath
+// -----------------
+// |1|1|1|1|0|0|
+// -----------------
+// Above, we can see that the fourth filter was triggered by
+// this path, because each filter before that was triggered
+// by this path as well. If we somehow find something like 
+// the following in our analysis
+//   SomeOtherHLTPath
+// -----------------
+// |0|0|0|1|0|1|0|0|
+// -----------------
+// We can safely those filters were not triggered by the path
+// we're looking at, and were instead triggered by a different
+// path with shared modules. 
+//
+// Note: I changed all branch names to use exact module names from HLT.
+// This seemed more straightforward than coming up with good variable names.
+// I'll make a table/sheet of the module names and what they do.
+// I'll also update all macros/trigger_trees/and analyzers that are
+// affected by this branch name rewriting.
+//
+// InclusiveVBF = Old VBF = L1_DoubleJet_110_35_DoubleJet35_Mass_Min620
+//   it's called inclusive VBF bc a two jet L1 seed includes VBF events with any final lepton state
+// VBFPlusTwoTau = New VBF/Proposed VBF = L1_DoubleJet35_Mass_Min420_IsoTau45er2p1_RmvOl
+//   includes VBF events with two hadronic taus in final lepton state
+// VBFPlusOneTau = same L1 as above
+//   includes VBF events with two hadronic taus, one hadronic tau one muon, or one hadronic tau one electron in final state

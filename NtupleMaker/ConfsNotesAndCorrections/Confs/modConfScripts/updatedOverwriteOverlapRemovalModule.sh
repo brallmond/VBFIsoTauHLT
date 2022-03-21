@@ -9,36 +9,36 @@ FILE=$1
 # . updatedOverwriteOverlapRemovalModule.sh hlt.py
 
 sed -i "/process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemoval = cms./,/^)/c\
-process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemoval = cms.EDProducer( \"PFDiJetCorrCheckerWithDiTau\",\
-\n    PFJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),\
-\n    TauSrc = cms.InputTag( \"hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch\" ),\
+process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemoval = cms.EDProducer( \"HLTPFDiJetCorrCheckerWithDiTau\",\
+\n    pfJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),\
+\n    tauSrc = cms.InputTag( \"hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch\" ),\
 \n    extraTauPtCut = cms.double( 45 ),\
 \n    mjjMin = cms.double( 500 ),\
 \n    dRmin = cms.double( 0.5 )\
 \n)" $FILE;
 
 sed -i "/process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemovalNoL2NN = cms./,/^)/c\
-process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemovalNoL2NN = cms.EDProducer( \"PFDiJetCorrCheckerWithDiTau\",\
-\n    PFJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),\
-\n    TauSrc = cms.InputTag( \"hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN\" ),\
+process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsDeepTauIsoPF25TauOverlapRemovalNoL2NN = cms.EDProducer( \"HLTPFDiJetCorrCheckerWithDiTau\",\
+\n    pfJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),\
+\n    tauSrc = cms.InputTag( \"hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN\" ),\
 \n    extraTauPtCut = cms.double( 45 ),\
 \n    mjjMin = cms.double( 500 ),\
 \n    dRmin = cms.double( 0.5 )\
 \n)" $FILE;
 
 sed -i "/process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsTempLooseDeepTauIsoPF25TauOverlapRemoval = cms./,/^)/c\
-process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsTempLooseDeepTauIsoPF25TauOverlapRemoval = cms.EDProducer( \"PFDiJetCorrCheckerWithDiTau\",\
-\n    PFJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),\
-\n    TauSrc = cms.InputTag( \"hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch\" ),\
+process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsTempLooseDeepTauIsoPF25TauOverlapRemoval = cms.EDProducer( \"HLTPFDiJetCorrCheckerWithDiTau\",\
+\n    pfJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),\
+\n    tauSrc = cms.InputTag( \"hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch\" ),\
 \n    extraTauPtCut = cms.double( 45 ),\
 \n    mjjMin = cms.double( 500 ),\
 \n    dRmin = cms.double( 0.5 )\
 \n)" $FILE;
 
 sed -i "/process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsTempLooseDeepTauIsoPF25TauOverlapRemovalNoL2NN = cms./,/^)/c\
-process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsTempLooseDeepTauIsoPF25TauOverlapRemovalNoL2NN = cms.EDProducer( \"PFDiJetCorrCheckerWithDiTau\",\
-\n    PFJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),\
-\n    TauSrc = cms.InputTag( \"hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN\" ),\
+process.hltMatchedVBFIsoTauTwoPFJetsDoubleHpsTempLooseDeepTauIsoPF25TauOverlapRemovalNoL2NN = cms.EDProducer( \"HLTPFDiJetCorrCheckerWithDiTau\",\
+\n    pfJetSrc = cms.InputTag( 'hltVBFIsoTauL1TLooseIDPFJetsMatching','TwoJets' ),\
+\n    tauSrc = cms.InputTag( \"hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN\" ),\
 \n    extraTauPtCut = cms.double( 45 ),\
 \n    mjjMin = cms.double( 500 ),\
 \n    dRmin = cms.double( 0.5 )\

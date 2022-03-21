@@ -1,53 +1,4 @@
 // Braden Allmond Nov 22nd 2021
-// NtupleMaker
-// Takes a dataset and makes a tree of branches filled with data
-// In this case, our NtupleMaker is for an HLT study,
-// so we have branches for multiple HLT filters. 
-// Here's a diagram of "triggers" and "filters"
-//   Trigger (HLT means High Level Trigger)
-// ---------------------------------------------------------------------------
-// |L1 Decision| Middle Filter 1| Middle Filter 2| Final Filter| HLT Decision|
-// ---------------------------------------------------------------------------
-// Some filters/modules are shared between HLT paths,
-// meaning sometimes those filters are only triggered
-// by one path and sometimes they're triggered by both.
-// From one filter's information alone, it's not possible to 
-// tell which path the filter was triggered by. If you want to 
-// know which filter is triggered by which path, you have to
-// daisy-chain the filter decisions for a path explcitly, 
-// meaning you check each filter decision in a path before
-// the one you care about. If filter in the path before the
-// one you care about is passed, then the filter you're looking at
-// was triggered in the path you're studying in. That would look
-// like this.
-//    SomeHLTPath
-// -----------------
-// |1|1|1|1|0|0|
-// -----------------
-// Above, we can see that the fourth filter was triggered by
-// this path, because each filter before that was triggered
-// by this path as well. If we somehow find something like 
-// the following in our analysis
-//   SomeOtherHLTPath
-// -----------------
-// |0|0|0|1|0|1|0|0|
-// -----------------
-// We can safely those filters were not triggered by the path
-// we're looking at, and were instead triggered by a different
-// path with shared modules. 
-//
-// Note: I changed all branch names to use exact module names from HLT.
-// This seemed more straightforward than coming up with good variable names.
-// I'll make a table/sheet of the module names and what they do.
-// I'll also update all macros/trigger_trees/and analyzers that are
-// affected by this branch name rewriting.
-//
-// InclusiveVBF = Old VBF = L1_DoubleJet_110_35_DoubleJet35_Mass_Min620
-//   it's called inclusive VBF bc a two jet L1 seed includes VBF events with any final lepton state
-// VBFPlusTwoTau = New VBF/Proposed VBF = L1_DoubleJet35_Mass_Min420_IsoTau45er2p1_RmvOl
-//   includes VBF events with two hadronic taus in final lepton state
-// VBFPlusOneTau = same L1 as above
-//   includes VBF events with two hadronic taus, one hadronic tau one muon, or one hadronic tau one electron in final state
 
 #include "VBFIsoTauHLT/NtupleMaker/plugins/NtupleMaker.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
@@ -307,6 +258,11 @@ vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDee
 vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_phi;
 vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_energy;
 
+int passhltHpsDoublePFTau20BeforeDeepTau;
+vector<float> hltHpsDoublePFTau20BeforeDeepTau_pt;
+vector<float> hltHpsDoublePFTau20BeforeDeepTau_eta;
+vector<float> hltHpsDoublePFTau20BeforeDeepTau_phi;
+vector<float> hltHpsDoublePFTau20BeforeDeepTau_energy;
 
 void NtupleMaker::branchesTriggers(TTree* tree){
 
@@ -546,6 +502,11 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_energy", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_energy);
 
 
+    tree->Branch("passhltHpsDoublePFTau20BeforeDeepTau", &passhltHpsDoublePFTau20BeforeDeepTau);
+    tree->Branch("hltHpsDoublePFTau20BeforeDeepTau_pt", &hltHpsDoublePFTau20BeforeDeepTau_pt);
+    tree->Branch("hltHpsDoublePFTau20BeforeDeepTau_eta", &hltHpsDoublePFTau20BeforeDeepTau_eta);
+    tree->Branch("hltHpsDoublePFTau20BeforeDeepTau_phi", &hltHpsDoublePFTau20BeforeDeepTau_phi);
+    tree->Branch("hltHpsDoublePFTau20BeforeDeepTau_energy", &hltHpsDoublePFTau20BeforeDeepTau_energy);
 }
 
 void NtupleMaker::fillTriggers(const edm::Event& iEvent){
@@ -784,6 +745,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_phi.clear();
     hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_energy.clear();
 
+    passhltHpsDoublePFTau20BeforeDeepTau = 0;
+    hltHpsDoublePFTau20BeforeDeepTau_pt.clear();
+    hltHpsDoublePFTau20BeforeDeepTau_eta.clear();
+    hltHpsDoublePFTau20BeforeDeepTau_phi.clear();
+    hltHpsDoublePFTau20BeforeDeepTau_energy.clear();
+
     // getting trigger results, following this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
     edm::Handle<edm::TriggerResults> triggerResults;
@@ -795,7 +762,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     // saving trigger results to respective branches
     // DiTau35 HLT
     std::string pathNameDiTauTrig = "HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1";
-    passDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDiTauTrig));
+    //passDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDiTauTrig));
 
     // DeepDiTau35 HLT
     std::string pathNameDeepDiTauTrig = "HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1";
@@ -803,7 +770,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
     // Inclusive VBF HLT
     std::string pathNameInclusiveVBF = "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1";
-    passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameInclusiveVBF));
+    //passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameInclusiveVBF));
 
     // VBF + 2 Deep Tau HLT (VBF2DT = VBF +2 Deep Tau)
     std::string pathUpdatedNameVBF2DT = "HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1";
@@ -815,7 +782,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
     // VBF + 2 Deep Tau using L1_DoubleJet35_Mass_Min450_IsoTau45_RmOvlp
     std::string pathNameVBF2DTOldL1 = "HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1";
-    passVBF2DTOldL1 = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DTOldL1));
+    //passVBF2DTOldL1 = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DTOldL1));
 
 
     // filling branches with triggerObjs information, hltL1VBFDiJetIsoTau object info filled separately since it's a weird L1
@@ -855,6 +822,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 	}
     }
 
+/*
     // make temp L1 reader for other L1VBFIsoTauNoer
     const unsigned int otherFilterIndex(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFDiJetIsoTauNoer", "", "MYOTHERHLT")));
 
@@ -881,7 +849,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         hltL1VBFDiJetIsoTauNoer_tauPt.push_back(otherTauCandRefVec[i]->pt());
       }
     }
-
+*/
     // make strings to identify filter names
     const trigger::size_type nFilters(triggerEvent->sizeFilters());
     std::string hltL1sDoubleTauBigOR_Tag = "hltL1sDoubleTauBigOR::MYOTHERHLT"; // ditau L1
@@ -929,6 +897,8 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     std::string hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_Tag = "hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20::MYOTHERHLT";
     std::string hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_Tag = "hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN::MYOTHERHLT";
 
+    std::string hltHpsDoublePFTau20BeforeDeepTau_Tag = "hltHpsDoublePFTau20BeforeDeepTau::MYOTHERHLT";
+
     // accepted filters per event
     for(trigger::size_type iFilter=0; iFilter!=nFilters; ++iFilter) {
 	std::string filterTag = triggerEvent->filterTag(iFilter).encode();
@@ -960,6 +930,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
         // VBFPlusTwoDeepTau Modules
         if (filterTag == hltL2VBFIsoTauNNFilter_Tag && nObjKeys >= 1) passhltL2VBFIsoTauNNFilter = 1;
+        if (filterTag == hltHpsDoublePFTau20BeforeDeepTau_Tag && nObjKeys >= 2) passhltHpsDoublePFTau20BeforeDeepTau = 1;
         //
         if (filterTag == hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_Tag && nObjKeys >= 1) passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau = 1;
         if (filterTag == hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_Tag && nObjKeys >= 1) passhltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau = 1;
@@ -988,6 +959,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         if (filterTag == hltHpsSinglePFTau20TrackTightChargedIso_Tag && nObjKeys >= 1) passhltHpsSinglePFTau20TrackTightChargedIso = 1;
         if (filterTag == hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_Tag && nObjKeys >= 1) passhltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon = 1;
         if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_Tag && nObjKeys >= 2) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20 = 1;
+
 
 
         // DiTau35HLT Final Filter
@@ -1120,6 +1092,13 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                hltL2VBFIsoTauNNFilter_eta.push_back(eta_);
                hltL2VBFIsoTauNNFilter_phi.push_back(phi_);
                hltL2VBFIsoTauNNFilter_energy.push_back(energy_);
+            }
+            if (filterTag == hltHpsDoublePFTau20BeforeDeepTau_Tag
+                 && passhltHpsDoublePFTau20BeforeDeepTau && pt_>0) {
+               hltHpsDoublePFTau20BeforeDeepTau_pt.push_back(pt_);
+               hltHpsDoublePFTau20BeforeDeepTau_eta.push_back(eta_);
+               hltHpsDoublePFTau20BeforeDeepTau_phi.push_back(phi_);
+               hltHpsDoublePFTau20BeforeDeepTau_energy.push_back(energy_);
             }
         //
         // fill hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau if match
