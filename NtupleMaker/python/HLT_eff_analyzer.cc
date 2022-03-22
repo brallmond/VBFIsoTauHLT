@@ -111,11 +111,13 @@ int main(int argc, char** argv)	{
 
 
     // modules for VBF2DTLoose Cutflow (NoL2NN, module names in trigger tree can't be updated until ConfDB is)
+    int passhltHpsDoublePFTau20BeforeDeepTau;
     int passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose;
     int passhltHpsSinglePFTau45LooseDitauWPDeepTauL1HLTMatched_VBF2DTLoose;
     int passhltRealDijetFilter_VBF2DTLoose;
     int passhltVBFLooseIDPFDummyFilter_VBF2DTLoose;
     int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsLooseDeepTauIsoPFTauHPS20_VBF2DTLoose;
+    outTree->Branch("passhltHpsDoublePFTau20BeforeDeepTau", &passhltHpsDoublePFTau20BeforeDeepTau);
     outTree->Branch("passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose", &passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose);
     outTree->Branch("passhltHpsSinglePFTau45LooseDitauWPDeepTauL1HLTMatched_VBF2DTLoose", &passhltHpsSinglePFTau45LooseDitauWPDeepTauL1HLTMatched_VBF2DTLoose);
     outTree->Branch("passhltRealDijetFilter_VBF2DTLoose", &passhltRealDijetFilter_VBF2DTLoose);
@@ -160,7 +162,7 @@ int main(int argc, char** argv)	{
     for (int iEntry = 0; iEntry < inTree->GetEntries(); ++iEntry) {
 	inTree->GetEntry(iEntry);
 
-        bool rateStudyHLT = true;
+        bool rateStudyHLT = false;
         bool rateStudyEZB = false;
 
 	if ((iEntry % 100000 == 0 and (!rateStudyHLT and !rateStudyEZB)) or iEntry % 1000000 == 0) std::cout << std::to_string(iEntry) << std::endl;
@@ -209,13 +211,16 @@ int main(int argc, char** argv)	{
         passVBF2DTOldL1 = inTree->passVBF2DTOldL1;
 
         // fill VBF2DT Loose HLT Modules for cutflow
+        passhltHpsDoublePFTau20BeforeDeepTau = 0;
         passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose = 0;
         passhltHpsSinglePFTau45LooseDitauWPDeepTauL1HLTMatched_VBF2DTLoose = 0;
         passhltRealDijetFilter_VBF2DTLoose = 0;
         passhltVBFLooseIDPFDummyFilter_VBF2DTLoose = 0;
         passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsLooseDeepTauIsoPFTauHPS20_VBF2DTLoose = 0;
 
-        if (passhltL1VBFDiJetIsoTau) passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose = inTree->passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN;
+        if (passhltL1VBFDiJetIsoTau) passhltHpsDoublePFTau20BeforeDeepTau = inTree->passhltHpsDoublePFTau20BeforeDeepTau;
+        if (passhltHpsDoublePFTau20BeforeDeepTau) passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose = inTree->passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN;
+        //if (passhltL1VBFDiJetIsoTau) passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose = inTree->passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN;
         if (passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose) passhltHpsSinglePFTau45LooseDitauWPDeepTauL1HLTMatched_VBF2DTLoose = inTree->passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN;
         if (passhltHpsSinglePFTau45LooseDitauWPDeepTauL1HLTMatched_VBF2DTLoose) passhltRealDijetFilter_VBF2DTLoose = inTree->passhltRealDijetFilter;
         if (passhltRealDijetFilter_VBF2DTLoose) passhltVBFLooseIDPFDummyFilter_VBF2DTLoose = inTree->passhltVBFLooseIDPFDummyFilter;
