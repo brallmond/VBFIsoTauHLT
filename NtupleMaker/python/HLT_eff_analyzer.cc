@@ -146,6 +146,12 @@ int main(int argc, char** argv)	{
     outTree->Branch("matchedHLTJets_Loose", &matchedHLTJets_Loose);
     outTree->Branch("matchedHLTTaus_Loose", &matchedHLTTaus_Loose);
 
+    // temp branch
+    float filter_t1eta;
+    float filter_t2eta;
+    outTree->Branch("filter_t1eta", &filter_t1eta);
+    outTree->Branch("filter_t2eta", &filter_t2eta);
+
     // variables without branches
 
     float AODJet1Pt_ = 0;
@@ -227,6 +233,13 @@ int main(int argc, char** argv)	{
         if (passhltVBFLooseIDPFDummyFilter_VBF2DTLoose) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsLooseDeepTauIsoPFTauHPS20_VBF2DTLoose = inTree->passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN;
 
         passVBF2DTLooseHLT = inTree->passVBF2DTLooseNoL2NNHLT;
+
+        filter_t1eta = -999;
+        filter_t2eta = -999;
+        if (passhltHpsDoublePFTau20BeforeDeepTau) {
+          filter_t1eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(0);
+          filter_t2eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(1);
+        }
 
 
         // fill DiTau L1 flags and DeepDiTau35HLT

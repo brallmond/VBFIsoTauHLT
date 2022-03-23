@@ -17,14 +17,14 @@ void CutflowVBF2DTLooseHLT(char* filename) {
   //double passSelectionToo = tree->Draw("nEvents", "passVBF2DTLooseBoth>0", "goff");
   double passSelectionToo = hltVBFTwoDeepTauDecision; //this should be matching AOD and HLT objects
 
-  double variableHolder[] = {hltL1Filter, doubleHPS20TausFilter, doubleDeep20TausFilter, singleDeep45TauL1HLTMatchingFilter, jetKinemFilter, jetIDFilter, twoMatchedJetsFilter, hltVBFTwoDeepTauDecision, passSelectionToo}; //i've gotta learn pyRoot
+  double variableHolder[] = {hltL1Filter, doubleHPS20TausFilter, doubleDeep20TausFilter, singleDeep45TauL1HLTMatchingFilter, jetKinemFilter, jetIDFilter, twoMatchedJetsFilter, hltVBFTwoDeepTauDecision};//, passSelectionToo}; //i've gotta learn pyRoot
 
-  const char *names[9] = {"L1", "2HPS20Taus","PassDeepTauID", "1Deep45Tau", "jetKinem.", "jetID", "jetCC", "passHLT", "passMatching"};
+  const char *names[8] = {"L1", "2HPS20Taus","PassDeepTauID", "1Deep45Tau", "jetKinem.", "jetID", "jetCC", "passHLT"};//, "passMatching"};
 
   TH1F* cutflowDeepTau = new TH1F("cutflowDeepTau", "", 8, 0.0, 8.0);
 
   std::cout << passSelectionOnly << '\t' << "pass selection only" << std::endl;
-  double fraction[9];
+  double fraction[8];
   size_t n = sizeof(fraction) / sizeof(double);
   std::cout << std::left << std::setw(10) << "Count" \
             << std::setw(10) << "Abs. Eff." \

@@ -21,6 +21,10 @@ int passVBF2DTNoL2NNHLT;
 int passVBF2DTLooseNoL2NNHLT;
 int passVBF2DTOldL1;
 
+int passUpperControl;
+int passLowerControl;
+int pass2Jet1Tau;
+
 float 	pt_;
 float 	eta_;
 float 	phi_;
@@ -284,6 +288,10 @@ void NtupleMaker::branchesTriggers(TTree* tree){
 
     tree->Branch("passVBFPlusOneTauHLT", &passVBFPlusOneTauHLT);
 
+    tree->Branch("passUpperControl", &passUpperControl);
+    tree->Branch("passLowerControl", &passLowerControl);
+    tree->Branch("pass2Jet1Tau", &pass2Jet1Tau);
+
     tree->Branch("passhltL1sDoubleTauBigOR", &passhltL1sDoubleTauBigOR);
     tree->Branch("hltL1sDoubleTauBigOR_pt", &hltL1sDoubleTauBigOR_pt);
     tree->Branch("hltL1sDoubleTauBigOR_eta", &hltL1sDoubleTauBigOR_eta);
@@ -521,12 +529,18 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passInclusiveVBFHLT = 0; 
     passVBFPlusTwoTauHLT = 0;
     passVBFPlusTwoDeepTauHLT = 0;
+
     passVBF2DTHLT = 0;
     passVBF2DTTempLooseHLT = 0;
     passVBF2DTNoL2NNHLT = 0;
     passVBF2DTLooseNoL2NNHLT = 0;
     passVBF2DTOldL1 = 0;
+
     passVBFPlusOneTauHLT = 0;
+
+    passUpperControl = 0;
+    passLowerControl = 0;
+    pass2Jet1Tau = 0;
 
     // DiTau 32 L1 branches (there's a big OR with multiple DiTaus, but 32 is the lowest)
     passhltL1sDoubleTauBigOR = 0;
@@ -783,6 +797,13 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     // VBF + 2 Deep Tau using L1_DoubleJet35_Mass_Min450_IsoTau45_RmOvlp
     std::string pathNameVBF2DTOldL1 = "HLT_PreviousL1Version_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1";
     //passVBF2DTOldL1 = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DTOldL1));
+    std::string pathNameUpperControl = "HLT_IsoMu24_eta2p1_LooseDeepTauPFTauHPS45_eta2p1_CrossL1_v1";
+    passUpperControl = triggerResults->accept(triggerNames_.triggerIndex(pathNameUpperControl));
+    std::string pathNameLowerControl = "HLT_IsoMu27_LooseDeepTauPFTauHPS20_eta2p1_SingleL1_v1";
+    passLowerControl = triggerResults->accept(triggerNames_.triggerIndex(pathNameLowerControl));
+    std::string pathName2Jet1Tau = "HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet60_v1";
+    pass2Jet1Tau = triggerResults->accept(triggerNames_.triggerIndex(pathName2Jet1Tau));
+    //
 
 
     // filling branches with triggerObjs information, hltL1VBFDiJetIsoTau object info filled separately since it's a weird L1
