@@ -197,6 +197,12 @@ public :
     std::vector<float>* hltHpsDoublePFTau20BeforeDeepTau_phi = nullptr;
     std::vector<float>* hltHpsDoublePFTau20BeforeDeepTau_energy = nullptr;
 
+    int passhltHpsDoublePFTau20withL2NNBeforeDeepTau;
+    std::vector<float>* hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt = nullptr;
+    std::vector<float>* hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta = nullptr;
+    std::vector<float>* hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi = nullptr;
+    std::vector<float>* hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy = nullptr;
+
     // end HLT branches
 
     // from AOD
@@ -454,6 +460,12 @@ void trigger_tree::Init(TTree *tree)
     fChain->SetBranchAddress("hltHpsDoublePFTau20BeforeDeepTau_eta", &hltHpsDoublePFTau20BeforeDeepTau_eta);
     fChain->SetBranchAddress("hltHpsDoublePFTau20BeforeDeepTau_phi", &hltHpsDoublePFTau20BeforeDeepTau_phi);
     fChain->SetBranchAddress("hltHpsDoublePFTau20BeforeDeepTau_energy", &hltHpsDoublePFTau20BeforeDeepTau_energy);
+
+    fChain->SetBranchAddress("passhltHpsDoublePFTau20withL2NNBeforeDeepTau", &passhltHpsDoublePFTau20withL2NNBeforeDeepTau);
+    fChain->SetBranchAddress("hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt);
+    fChain->SetBranchAddress("hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta);
+    fChain->SetBranchAddress("hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi);
+    fChain->SetBranchAddress("hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy);
 
 
     // from AOD
