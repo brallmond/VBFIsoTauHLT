@@ -97,12 +97,14 @@ int main(int argc, char** argv)	{
 
     // modules for VBF2DTMediumL2NN Cutflow
     int passhltL2VBFIsoTauNNFilter;
+    int passhltHpsDoublePFTau20withL2NNBeforeDeepTau;
     int passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch;
     int passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched;
     int passhltRealDijetFilter;
     int passhltVBFLooseIDPFDummyFilter;
     int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20;
     outTree->Branch("passhltL2VBFIsoTauNNFilter", &passhltL2VBFIsoTauNNFilter);
+    outTree->Branch("passhltHpsDoublePFTau20withL2NNBeforeDeepTau", &passhltHpsDoublePFTau20withL2NNBeforeDeepTau);
     outTree->Branch("passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch", &passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch);
     outTree->Branch("passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched", &passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched);
     outTree->Branch("passhltRealDijetFilter", &passhltRealDijetFilter);
@@ -200,6 +202,7 @@ int main(int argc, char** argv)	{
 
         // fill VBF2DT HLT Modules for Cutflow
         passhltL2VBFIsoTauNNFilter = 0;
+        passhltHpsDoublePFTau20withL2NNBeforeDeepTau = 0;
         passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch = 0;
         passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched = 0;
         passhltRealDijetFilter = 0;
@@ -207,7 +210,8 @@ int main(int argc, char** argv)	{
         passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 = 0;
 
         if (passhltL1VBFDiJetIsoTau) passhltL2VBFIsoTauNNFilter = inTree->passhltL2VBFIsoTauNNFilter;
-        if (passhltL2VBFIsoTauNNFilter) passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch = inTree->passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch;
+        if (passhltL2VBFIsoTauNNFilter) passhltHpsDoublePFTau20withL2NNBeforeDeepTau = inTree->passhltHpsDoublePFTau20withL2NNBeforeDeepTau;
+        if (passhltHpsDoublePFTau20withL2NNBeforeDeepTau) passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch = inTree->passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch;
         if (passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch) passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched = inTree->passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched;
         if (passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched) passhltRealDijetFilter = inTree->passhltRealDijetFilter;
         if (passhltRealDijetFilter) passhltVBFLooseIDPFDummyFilter = inTree->passhltVBFLooseIDPFDummyFilter;
