@@ -28,7 +28,7 @@ config.JobType.inputFiles = ['L1Menu_Collisions2022_v0_1_6.xml','forceNewJEC.py'
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
-config.General.requestName = 'ggH_Pre6Eff_withJECupdates'
+config.General.requestName = 'ggH_Pre6Eff_withJECupdates_retry3'
 
 #config.Data.inputDataset = '/EphemeralHLTPhysics8/Run2018D-v1/RAW'
 
@@ -42,11 +42,11 @@ config.General.requestName = 'ggH_Pre6Eff_withJECupdates'
     #VBF
 #the AOD with the premix is the MiniAOD's parent dataset, so this should be fine
 #config.Data.inputDataset = '/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/Run3Summer21MiniAOD-120X_mcRun3_2021_realistic_v5-v2/MINIAODSIM'
-#config.Data.secondaryDataset = '/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/Run3Summer21DRPremix-120X_mcRun3_2021_realistic_v6-v2/GEN-SIM-DIGI-RAW'   
+#config.Data.secondaryInputDataset = '/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/Run3Summer21DRPremix-120X_mcRun3_2021_realistic_v6-v2/GEN-SIM-DIGI-RAW'   
 
     #ggH
 config.Data.inputDataset = '/GluGluHToTauTau_M-125_TuneCP5_14TeV-powheg-pythia8/Run3Summer21MiniAOD-120X_mcRun3_2021_realistic_v5-v2/MINIAODSIM'
-config.Data.secondaryDataset = '/GluGluHToTauTau_M-125_TuneCP5_14TeV-powheg-pythia8/Run3Summer21DRPremix-120X_mcRun3_2021_realistic_v6-v2/GEN-SIM-DIGI-RAW'
+config.Data.secondaryInputDataset = '/GluGluHToTauTau_M-125_TuneCP5_14TeV-powheg-pythia8/Run3Summer21DRPremix-120X_mcRun3_2021_realistic_v6-v2/GEN-SIM-DIGI-RAW'
     # newest ggH
 #config.Data.inputDataset = '/GluGluHToTauTau_M-125_TuneCP5_14TeV-powheg-pythia8/Run3Winter21DRMiniAOD-FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/MINIAODSIM'
 #config.Data.secondaryInputDataset = '/GluGluHToTauTau_M-125_TuneCP5_14TeV-powheg-pythia8/Run3Winter21DRMiniAOD-FlatPU30to80FEVT_112X_mcRun3_2021_realistic_v16-v1/GEN-SIM-DIGI-RAW'
