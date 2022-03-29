@@ -236,9 +236,12 @@ int main(int argc, char** argv)	{
 
         filter_t1eta = -999;
         filter_t2eta = -999;
-        if (passhltHpsDoublePFTau20BeforeDeepTau) {
-          filter_t1eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(0);
-          filter_t2eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(1);
+        //if (passhltHpsDoublePFTau20BeforeDeepTau) {
+        if (passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose) {
+          //filter_t1eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(0);
+          //filter_t2eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(1);
+          filter_t1eta = inTree->hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta->at(0);
+          filter_t2eta = inTree->hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta->at(1);
         }
 
 
