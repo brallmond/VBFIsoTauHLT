@@ -348,6 +348,7 @@ std::vector<TLorentzVector> hltFillWithCands(trigger_tree* inTree, std::string f
 	branchEnergy = inTree->hltL1VBFDiJetIsoTau_tauEnergy;
 	found = true;
     }
+/*
     if (!found && filterName == "hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon") {
         branchPt = inTree->hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_pt;
         branchEta = inTree->hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_eta;
@@ -362,6 +363,7 @@ std::vector<TLorentzVector> hltFillWithCands(trigger_tree* inTree, std::string f
         branchEnergy = inTree->hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_energy;
         found = true;
     }
+*/
     if (!found && filterName == "hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch") {
         branchPt = inTree->hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_pt;
         branchEta = inTree->hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_eta;
@@ -413,6 +415,7 @@ std::vector<TLorentzVector> hltFillWithCands(trigger_tree* inTree, std::string f
         branchEnergy = inTree->hltVBFLooseIDPFDummyFilter_energy;
         found = true;
     }
+/*
     if (!found && filterName == "hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20") {
 	branchPt = inTree->hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt;
 	branchEta = inTree->hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta;
@@ -434,6 +437,7 @@ std::vector<TLorentzVector> hltFillWithCands(trigger_tree* inTree, std::string f
 	branchEnergy = inTree->hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy;
 	found = true;
     }
+*/
     if (!found && filterName == "hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched") {
         branchPt = inTree->hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_pt;
         branchEta = inTree->hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_eta;

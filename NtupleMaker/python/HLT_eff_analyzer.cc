@@ -177,8 +177,8 @@ int main(int argc, char** argv)	{
     std::cout << "If this is a rate study, did you check your boolean variables before running?" << std::endl;
     // Event Loop
     // for-loop of fewer events is useful to test code without heavy I/O to terminal from cout statements
-    //for (int iEntry = 0; iEntry < 100001; ++iEntry) {
-    for (int iEntry = 0; iEntry < inTree->GetEntries(); ++iEntry) {
+    for (int iEntry = 0; iEntry < 272000; ++iEntry) {
+    //for (int iEntry = 0; iEntry < inTree->GetEntries(); ++iEntry) {
 	inTree->GetEntry(iEntry);
 
         bool rateStudyHLT = false;
@@ -278,7 +278,7 @@ int main(int argc, char** argv)	{
         }
 
         passDeepDiTau35HLT = inTree->passDeepDiTau35HLT;
-        passDiTau35HLT = inTree->passDiTau35HLT;
+        //passDiTau35HLT = inTree->passDiTau35HLT;
 
         // fill Controls and Spain HLT
         passUpperControlMedHLT = inTree->passUpperControlMedHLT;

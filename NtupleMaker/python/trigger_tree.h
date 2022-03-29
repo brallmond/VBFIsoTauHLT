@@ -18,7 +18,6 @@ public :
 
     int nEvents;
 
-    int passDiTau35HLT;
     int passDeepDiTau35HLT;
     int passInclusiveVBFHLT;
     int passVBFPlusOneTauHLT;
@@ -70,73 +69,6 @@ public :
 
     int passhltL1VBFDiJetIsoTauNoer;
 
-    int passhltHpsDoublePFTau20;
-    std::vector<float>* hltHpsDoublePFTau20_pt = nullptr;
-    std::vector<float>* hltHpsDoublePFTau20_eta = nullptr;
-    std::vector<float>* hltHpsDoublePFTau20_phi = nullptr;
-    std::vector<float>* hltHpsDoublePFTau20_energy = nullptr;
-
-    int passhltHpsDoublePFTau20TrackTightChargedIso;
-    std::vector<float>* hltHpsDoublePFTau20TrackTightChargedIso_pt = nullptr;
-    std::vector<float>* hltHpsDoublePFTau20TrackTightChargedIso_eta = nullptr;
-    std::vector<float>* hltHpsDoublePFTau20TrackTightChargedIso_phi = nullptr;
-    std::vector<float>* hltHpsDoublePFTau20TrackTightChargedIso_energy = nullptr;
-
-    int passhltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon;
-    std::vector<float>* hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_pt = nullptr;
-    std::vector<float>* hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_eta = nullptr;
-    std::vector<float>* hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_phi = nullptr;
-    std::vector<float>* hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_energy = nullptr;
-
-    int passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20;
-    std::vector<float>* hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt = nullptr;
-    std::vector<float>* hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta = nullptr;
-    std::vector<float>* hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_phi = nullptr;
-    std::vector<float>* hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy = nullptr;
-
-    int passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20;
-    std::vector<float>* hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt = nullptr;
-    std::vector<float>* hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta = nullptr;
-    std::vector<float>* hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_phi = nullptr;
-    std::vector<float>* hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy = nullptr;
-
-    int passhltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched;
-    std::vector<float>* hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_pt = nullptr;
-    std::vector<float>* hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_eta = nullptr; 
-    std::vector<float>* hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_phi = nullptr; 
-    std::vector<float>* hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_energy = nullptr;
-
-    int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20;
-    std::vector<float>* hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt = nullptr;
-    std::vector<float>* hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta = nullptr;
-    std::vector<float>* hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_phi = nullptr;
-    std::vector<float>* hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy = nullptr;
-
-    // VBF Plus One Tau Branches
-    int passhltHpsSinglePFTau20;
-    std::vector<float>* hltHpsSinglePFTau20_pt = nullptr;
-    std::vector<float>* hltHpsSinglePFTau20_eta = nullptr;
-    std::vector<float>* hltHpsSinglePFTau20_phi = nullptr;
-    std::vector<float>* hltHpsSinglePFTau20_energy = nullptr;
-
-    int passhltHpsSinglePFTau20TrackTightChargedIso;
-    std::vector<float>* hltHpsSinglePFTau20TrackTightChargedIso_pt = nullptr;
-    std::vector<float>* hltHpsSinglePFTau20TrackTightChargedIso_eta = nullptr;
-    std::vector<float>* hltHpsSinglePFTau20TrackTightChargedIso_phi = nullptr;
-    std::vector<float>* hltHpsSinglePFTau20TrackTightChargedIso_energy = nullptr;
-
-    int passhltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon;
-    std::vector<float>* hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_pt = nullptr;
-    std::vector<float>* hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_eta = nullptr;
-    std::vector<float>* hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_phi = nullptr;
-    std::vector<float>* hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_energy = nullptr;
-
-    int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20;
-    std::vector<float>* hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_pt = nullptr;
-    std::vector<float>* hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_eta = nullptr;
-    std::vector<float>* hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_phi = nullptr;
-    std::vector<float>* hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_energy = nullptr;
-    //
     
     // VBF Plus Two Deep Tau Branches
     int passhltL2VBFIsoTauNNFilter;
@@ -290,7 +222,6 @@ void trigger_tree::Init(TTree *tree)
     fChain->SetBranchAddress("eventNumberID", &eventNumberID);
     fChain->SetBranchAddress("nEvents", &nEvents);
 
-    fChain->SetBranchAddress("passDiTau35HLT", &passDiTau35HLT);
     fChain->SetBranchAddress("passDeepDiTau35HLT", &passDeepDiTau35HLT);
     fChain->SetBranchAddress("passInclusiveVBFHLT", &passInclusiveVBFHLT);
     fChain->SetBranchAddress("passVBFPlusOneTauHLT", &passVBFPlusOneTauHLT);
@@ -314,11 +245,6 @@ void trigger_tree::Init(TTree *tree)
     fChain->SetBranchAddress("hltL1sDoubleTauBigOR_phi", &hltL1sDoubleTauBigOR_phi);
     fChain->SetBranchAddress("hltL1sDoubleTauBigOR_energy", &hltL1sDoubleTauBigOR_energy);
 
-    fChain->SetBranchAddress("passhltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg", &passhltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg);
-    fChain->SetBranchAddress("hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg_pt", &hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg_pt);
-    fChain->SetBranchAddress("hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg_eta", &hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg_eta);
-    fChain->SetBranchAddress("hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg_phi", &hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg_phi);
-    fChain->SetBranchAddress("hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg_energy", &hltHpsDoublePFTau35TrackPt1TightChargedIsolationL1HLTMatchedReg_energy);
 
     // Inclusive VBF and VBF Plus Two Tau Branches
     fChain->SetBranchAddress("passhltL1VBFDiJetOR", &passhltL1VBFDiJetOR);
@@ -340,73 +266,6 @@ void trigger_tree::Init(TTree *tree)
     fChain->SetBranchAddress("hltL1VBFDiJetIsoTau_tauEnergy", &hltL1VBFDiJetIsoTau_tauEnergy);
 
     fChain->SetBranchAddress("passhltL1VBFDiJetIsoTauNoer", &passhltL1VBFDiJetIsoTauNoer);
-
-    fChain->SetBranchAddress("passhltHpsDoublePFTau20", &passhltHpsDoublePFTau20);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20_pt", &hltHpsDoublePFTau20_pt);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20_eta", &hltHpsDoublePFTau20_eta);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20_phi", &hltHpsDoublePFTau20_phi);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20_energy", &hltHpsDoublePFTau20_energy);
-
-    fChain->SetBranchAddress("passhltHpsDoublePFTau20TrackTightChargedIso", &passhltHpsDoublePFTau20TrackTightChargedIso);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20TrackTightChargedIso_pt", &hltHpsDoublePFTau20TrackTightChargedIso_pt);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20TrackTightChargedIso_eta", &hltHpsDoublePFTau20TrackTightChargedIso_eta);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20TrackTightChargedIso_phi", &hltHpsDoublePFTau20TrackTightChargedIso_phi);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20TrackTightChargedIso_energy", &hltHpsDoublePFTau20TrackTightChargedIso_energy);
-
-    fChain->SetBranchAddress("passhltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon", &passhltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_pt", &hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_pt);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_eta", &hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_eta);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_phi", &hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_phi);
-    fChain->SetBranchAddress("hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_energy", &hltHpsDoublePFTau20TrackTightChargedIsoAgainstMuon_energy);
-
-    fChain->SetBranchAddress("passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20", &passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20);
-    fChain->SetBranchAddress("hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt", &hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt);
-    fChain->SetBranchAddress("hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta", &hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta);
-    fChain->SetBranchAddress("hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_phi", &hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_phi);
-    fChain->SetBranchAddress("hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy", &hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy);
-
-    fChain->SetBranchAddress("passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20", &passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20);
-    fChain->SetBranchAddress("hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt", &hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt);
-    fChain->SetBranchAddress("hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta", &hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta);
-    fChain->SetBranchAddress("hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_phi", &hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_phi);
-    fChain->SetBranchAddress("hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy", &hltMatchedVBFOnePFJet2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy);
-
-    fChain->SetBranchAddress("passhltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched", &passhltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched);
-    fChain->SetBranchAddress("hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_pt", &hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_pt);
-    fChain->SetBranchAddress("hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_eta", &hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_eta);
-    fChain->SetBranchAddress("hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_phi", &hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_phi);
-    fChain->SetBranchAddress("hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_energy", &hltHpsPFTau45TrackPt1TightChargedIsolationL1HLTMatched_energy);
-
-    fChain->SetBranchAddress("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20);
-    fChain->SetBranchAddress("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_pt);
-    fChain->SetBranchAddress("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_eta);
-    fChain->SetBranchAddress("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_phi", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_phi);
-    fChain->SetBranchAddress("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleTightChargedIsoPFTauHPS20_energy);
-
-    // VBF Plus One Tau Branches
-    fChain->SetBranchAddress("passhltHpsSinglePFTau20", &passhltHpsSinglePFTau20);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20_pt", &hltHpsSinglePFTau20_pt);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20_eta", &hltHpsSinglePFTau20_eta);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20_phi", &hltHpsSinglePFTau20_phi);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20_energy", &hltHpsSinglePFTau20_energy);
-
-    fChain->SetBranchAddress("passhltHpsSinglePFTau20TrackTightChargedIso", &passhltHpsSinglePFTau20TrackTightChargedIso);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20TrackTightChargedIso_pt", &hltHpsSinglePFTau20TrackTightChargedIso_pt);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20TrackTightChargedIso_eta", &hltHpsSinglePFTau20TrackTightChargedIso_eta);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20TrackTightChargedIso_phi", &hltHpsSinglePFTau20TrackTightChargedIso_phi);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20TrackTightChargedIso_energy", &hltHpsSinglePFTau20TrackTightChargedIso_energy);
-
-    fChain->SetBranchAddress("passhltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon", &passhltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_pt", &hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_pt);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_eta", &hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_eta);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_phi", &hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_phi);
-    fChain->SetBranchAddress("hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_energy", &hltHpsSinglePFTau20TrackTightChargedIsoAgainstMuon_energy);
-
-    fChain->SetBranchAddress("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20);
-    fChain->SetBranchAddress("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_pt", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_pt);
-    fChain->SetBranchAddress("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_eta", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_eta);
-    fChain->SetBranchAddress("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_phi", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_phi);
-    fChain->SetBranchAddress("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_energy", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromSingleTightChargedIsoPFTauHPS20_energy);
 
     // VBF Plus Two Deep Tau Branches
     fChain->SetBranchAddress("passhltL2VBFIsoTauNNFilter", &passhltL2VBFIsoTauNNFilter);
