@@ -89,6 +89,17 @@ int main(int argc, char** argv)	{
     outTree->Branch("passDiTau35HLT", &passDiTau35HLT);
     outTree->Branch("passDeepDiTau35HLT", &passDeepDiTau35HLT);
 
+    // controls and Spain HLT
+    int passUpperControlMedHLT, passLowerControlMedHLT;
+    int passUpperControlHLT, passLowerControlHLT;
+    int passDiTauControlHLT, pass2Tau1JetHLT;
+    outTree->Branch("passUpperControlMedHLT", &passUpperControlMedHLT);
+    outTree->Branch("passLowerControlMedHLT", &passLowerControlMedHLT);
+    outTree->Branch("passUpperControlHLT", &passUpperControlHLT);
+    outTree->Branch("passLowerControlHLT", &passLowerControlHLT);
+    outTree->Branch("passDiTauControlHLT", &passDiTauControlHLT);
+    outTree->Branch("pass2Tau1JetHLT", &pass2Tau1JetHLT);
+
     // Offlines
     int passInclusiveVBFOff, passVBF2DTOff, passDiTau35Off;  
     outTree->Branch("passInclusiveVBFOff", &passInclusiveVBFOff);
@@ -240,9 +251,12 @@ int main(int argc, char** argv)	{
 
         filter_t1eta = -999;
         filter_t2eta = -999;
-        if (passhltHpsDoublePFTau20BeforeDeepTau) {
-          filter_t1eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(0);
-          filter_t2eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(1);
+        //if (passhltHpsDoublePFTau20BeforeDeepTau) {
+        if (passhltHpsDoublePFTau20LooseDitauWPDeepTauNoMatch_VBF2DTLoose) {
+          //filter_t1eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(0);
+          //filter_t2eta = inTree->hltHpsDoublePFTau20BeforeDeepTau_eta->at(1);
+          filter_t1eta = inTree->hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta->at(0);
+          filter_t2eta = inTree->hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta->at(1);
         }
 
 
@@ -265,6 +279,15 @@ int main(int argc, char** argv)	{
 
         passDeepDiTau35HLT = inTree->passDeepDiTau35HLT;
         passDiTau35HLT = inTree->passDiTau35HLT;
+
+        // fill Controls and Spain HLT
+        passUpperControlMedHLT = inTree->passUpperControlMedHLT;
+        passLowerControlMedHLT = inTree->passLowerControlMedHLT;
+        passUpperControlHLT = inTree->passUpperControlHLT;
+        passLowerControlHLT = inTree->passLowerControlHLT;
+        passDiTauControlHLT = inTree->passDiTauControl;
+
+        pass2Tau1JetHLT = inTree->pass2Tau1JetHLT;
 
 
         bool passhltL1 = passDiTau32L1 or passhltL1VBFDiJetOR or passhltL1VBFDiJetIsoTau or passhltL1VBFDiJetIsoTauNoer;
