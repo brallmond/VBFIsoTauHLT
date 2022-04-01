@@ -61,6 +61,25 @@ vector<float>	hltL1VBFDiJetIsoTau_tauEta;
 vector<float>	hltL1VBFDiJetIsoTau_tauPhi;
 vector<float>	hltL1VBFDiJetIsoTau_tauEnergy;
 
+//lower control L1
+int passhltL1sSingleMu22or25;
+vector<float> hltL1sSingleMu22or25_pt;
+vector<float> hltL1sSingleMu22or25_eta;
+vector<float> hltL1sSingleMu22or25_phi;
+vector<float> hltL1sSingleMu22or25_energy;
+
+//upper control L1
+int passhltL1sMu22er2p1IsoTau28er2p1;
+vector<float> hltL1sMu22er2p1IsoTau28er2p1_muPt;
+vector<float> hltL1sMu22er2p1IsoTau28er2p1_muEta;
+vector<float> hltL1sMu22er2p1IsoTau28er2p1_muPhi;
+vector<float> hltL1sMu22er2p1IsoTau28er2p1_muEnergy;
+vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauPt;
+vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEta;
+vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauPhi;
+vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEnergy;
+
+// VBFDiJetIsoTau L1 without eta restriction (er)
 int passhltL1VBFDiJetIsoTauNoer;
 vector<int> hltL1VBFDiJetIsoTauNoer_nJets;
 vector<float> hltL1VBFDiJetIsoTauNoer_jetPt;
@@ -239,6 +258,22 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("hltL1VBFDiJetIsoTau_tauEta", &hltL1VBFDiJetIsoTau_tauEta);
     tree->Branch("hltL1VBFDiJetIsoTau_tauPhi", &hltL1VBFDiJetIsoTau_tauPhi);
     tree->Branch("hltL1VBFDiJetIsoTau_tauEnergy", &hltL1VBFDiJetIsoTau_tauEnergy);
+
+    tree->Branch("passhltL1sSingleMu22or25", &passhltL1sSingleMu22or25);
+    tree->Branch("hltL1sSingleMu22or25_pt", &hltL1sSingleMu22or25_pt);
+    tree->Branch("hltL1sSingleMu22or25_eta", &hltL1sSingleMu22or25_eta);
+    tree->Branch("hltL1sSingleMu22or25_phi", &hltL1sSingleMu22or25_phi);
+    tree->Branch("hltL1sSingleMu22or25_energy", &hltL1sSingleMu22or25_energy);
+
+    tree->Branch("passhltL1sMu22er2p1IsoTau28er2p1", &passhltL1sMu22er2p1IsoTau28er2p1);
+    tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_muPt", &hltL1sMu22er2p1IsoTau28er2p1_muPt);
+    tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_muEta", &hltL1sMu22er2p1IsoTau28er2p1_muEta);
+    tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_muPhi", &hltL1sMu22er2p1IsoTau28er2p1_muPhi);
+    tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_muEnergy", &hltL1sMu22er2p1IsoTau28er2p1_muEnergy);
+    tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauPt", &hltL1sMu22er2p1IsoTau28er2p1_tauPt);
+    tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauEta", &hltL1sMu22er2p1IsoTau28er2p1_tauEta);
+    tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauPhi", &hltL1sMu22er2p1IsoTau28er2p1_tauPhi);
+    tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauEnergy", &hltL1sMu22er2p1IsoTau28er2p1_tauEnergy);
 
     tree->Branch("passhltL1VBFDiJetIsoTauNoer", &passhltL1VBFDiJetIsoTauNoer);
     tree->Branch("hltL1VBFDiJetIsoTauNoer_nJets", &hltL1VBFDiJetIsoTauNoer_nJets);
@@ -425,6 +460,22 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     hltL1VBFDiJetIsoTau_tauEta.clear();
     hltL1VBFDiJetIsoTau_tauPhi.clear();
     hltL1VBFDiJetIsoTau_tauEnergy.clear();
+
+    passhltL1sSingleMu22or25 = 0;
+    hltL1sSingleMu22or25_pt.clear();
+    hltL1sSingleMu22or25_eta.clear();
+    hltL1sSingleMu22or25_phi.clear();
+    hltL1sSingleMu22or25_energy.clear();
+
+    passhltL1sMu22er2p1IsoTau28er2p1 = 0;
+    hltL1sMu22er2p1IsoTau28er2p1_muPt.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_muEta.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_muPhi.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_muEnergy.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_tauPt.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_tauEta.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_tauPhi.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_tauEnergy.clear();
 
     passhltL1VBFDiJetIsoTauNoer = 0;
     hltL1VBFDiJetIsoTauNoer_nJets.clear();
@@ -647,6 +698,38 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 	}
     }
 
+    // same for UpperControl L1
+
+    const unsigned int muTauUpperControlL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1sMu22er2p1IsoTau28er2p1", "", "MYOTHERHLT")));
+
+    l1t::MuonVectorRef muonCandRefVec;
+    trigger::Vids mVids;
+    triggerEventWithRefsHandle_->getObjects(muTauUpperControlL1Filter, mVids, muonCandRefVec);
+
+    const unsigned int nMuons(mVids.size());
+    if (nMuons > 0) {
+      for (unsigned int i = 0; i != nMuons; ++i) {
+        hltL1sMu22er2p1IsoTau28er2p1_muPt.push_back(muonCandRefVec[i]->pt());
+        hltL1sMu22er2p1IsoTau28er2p1_muEta.push_back(muonCandRefVec[i]->eta());
+        hltL1sMu22er2p1IsoTau28er2p1_muPhi.push_back(muonCandRefVec[i]->phi());
+        hltL1sMu22er2p1IsoTau28er2p1_muEnergy.push_back(muonCandRefVec[i]->energy());
+      }
+    }
+
+    l1t::TauVectorRef tauUpperControlCandRefVec;
+    trigger::Vids tUpperVids;
+    triggerEventWithRefsHandle_->getObjects(muTauUpperControlL1Filter, tUpperVids, tauUpperControlCandRefVec);
+
+    const unsigned int tUpperVidsSize(tUpperVids.size());
+    if (tUpperVidsSize > 0) {
+      for (unsigned int i = 0; i != tUpperVidsSize; ++i) {
+        hltL1sMu22er2p1IsoTau28er2p1_tauPt.push_back(tauUpperControlCandRefVec[i]->pt());
+        hltL1sMu22er2p1IsoTau28er2p1_tauEta.push_back(tauUpperControlCandRefVec[i]->eta());
+        hltL1sMu22er2p1IsoTau28er2p1_tauPhi.push_back(tauUpperControlCandRefVec[i]->phi());
+        hltL1sMu22er2p1IsoTau28er2p1_tauEnergy.push_back(tauUpperControlCandRefVec[i]->energy());
+      }
+    }
+
 /*
     // make temp L1 reader for other L1VBFIsoTauNoer
     const unsigned int otherFilterIndex(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFDiJetIsoTauNoer", "", "MYOTHERHLT")));
@@ -681,6 +764,8 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     std::string hltL1VBFDiJetOR_Tag = "hltL1VBFDiJetOR::MYOTHERHLT";		  // inclusive L1
     std::string hltL1VBFDiJetIsoTau_Tag = "hltL1VBFDiJetIsoTau::MYOTHERHLT";	  
     std::string hltL1VBFDiJetIsoTauNoer_Tag = "hltL1VBFDiJetIsoTauNoer::MYOTHERHLT";	  // no eta restriction
+    std::string hltL1sSingleMu22or25_Tag = "hltL1sSingleMu22or25::MYOTHERHLT";
+    std::string hltL1sMu22er2p1IsoTau28er2p1_Tag = "hltL1sMu22er2p1IsoTau28er2p1::MYOTHERHLT";
 
     // Start VBF Double Deep Tau
     std::string hltL2VBFIsoTauNNFilter_Tag = "hltL2VBFIsoTauNNFilter::MYOTHERHLT";
@@ -727,6 +812,10 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 						 && hltL1VBFDiJetIsoTau_jetPt.size() >= 2) passhltL1VBFDiJetIsoTau = 1;
         if (filterTag == hltL1VBFDiJetIsoTauNoer_Tag && hltL1VBFDiJetIsoTauNoer_tauPt.size() >= 1
                                                      && hltL1VBFDiJetIsoTauNoer_jetPt.size() >= 2) passhltL1VBFDiJetIsoTauNoer = 1;
+        if (filterTag == hltL1sSingleMu22or25_Tag && nObjKeys >= 1) passhltL1sSingleMu22or25 = 1;
+        if (filterTag == hltL1sMu22er2p1IsoTau28er2p1_Tag && hltL1sMu22er2p1IsoTau28er2p1_muPt.size() >= 1
+                                                          && hltL1sMu22er2p1IsoTau28er2p1_tauPt.size() >= 1) passhltL1sMu22er2p1IsoTau28er2p1 = 1;
+
 
         // VBFPlusTwoDeepTau Modules
         if (filterTag == hltL2VBFIsoTauNNFilter_Tag && nObjKeys >= 1) passhltL2VBFIsoTauNNFilter = 1;
@@ -779,6 +868,13 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 		hltL1VBFDiJetOR_phi.push_back(phi_);
 		hltL1VBFDiJetOR_energy.push_back(energy_);
 	    }
+            if (filterTag == hltL1sSingleMu22or25_Tag
+                  && passhltL1sSingleMu22or25 && pt_>0) {
+                hltL1sSingleMu22or25_pt.push_back(pt_);
+                hltL1sSingleMu22or25_eta.push_back(eta_);
+                hltL1sSingleMu22or25_phi.push_back(phi_);
+                hltL1sSingleMu22or25_energy.push_back(energy_);
+            }
 
         // Start VBF Double Deep Tau
         // fill hltL2VBFIsoTauNNFilter if match
