@@ -25,3 +25,17 @@ ant clean
 kill the server on lxplus when you're finished with it
 
 vncserver -kill :2;
+
+troubleshooting on local
+
+helpful stack overflow
+https://askubuntu.com/questions/447820/ssh-l-error-bind-address-already-in-use
+
+list all processes running on port 5903 (3 appended to 5900 as you do for vnc)
+netstat -tulpn | grep 5903
+
+another way to list just the process number
+lsof -ti:5903
+
+kill the process number, thus allowing you to ssh -fN... to that port from scratch
+lsof -ti:5903 | xargs kill
