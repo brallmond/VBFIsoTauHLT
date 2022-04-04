@@ -102,9 +102,11 @@ int main(int argc, char** argv)	{
 
     // Offlines
     int passInclusiveVBFOff, passVBF2DTOff, passDiTau35Off;  
+    int pass2Tau1JetOff;
     outTree->Branch("passInclusiveVBFOff", &passInclusiveVBFOff);
     outTree->Branch("passVBF2DTOff", &passVBF2DTOff);
     outTree->Branch("passDiTau35Off", &passDiTau35Off);
+    outTree->Branch("pass2Tau1JetOff", &pass2Tau1JetOff);
 
     // modules for VBF2DTMediumL2NN Cutflow
     int passhltL2VBFIsoTauNNFilter;
@@ -541,7 +543,7 @@ int main(int argc, char** argv)	{
 
 	// Check AOD Objects Pass Offline Selection
         //passDiTau32Off = passDiTau34Off = 0;
-        passDiTau35Off = passInclusiveVBFOff = passVBF2DTOff = 0;
+        passDiTau35Off = passInclusiveVBFOff = passVBF2DTOff = pass2Tau1JetOff = 0;
         if (viableTaus && viableJets) {
 
           //int dEtajj = abs(AODJet1.Eta() - AODJet2.Eta());
@@ -557,15 +559,19 @@ int main(int argc, char** argv)	{
             if (AODTau1Pt_ >= (35+offTau1Inc) && AODTau2Pt_ >= (35+offTau2Inc) ) passDiTau35Off = 1;
           }
 
-          // L1 DoubleJet_110_35_DoubleJet35_Mass_Min620
+          // L1_DoubleJet_110_35_DoubleJet35_Mass_Min620
 	  if (AODJet1Pt_ >= (110+offJetInc) && AODJet2Pt_ >= (35+offJetInc) && \
               AODTau1Pt_ >= 25 && AODTau2Pt_ >= 25 && mj1j2_ >= 700) passInclusiveVBFOff = 1;
         
-          // L1 DoubleJet35_Mass_Min_450_IsoTau45er2p1_RmvOl
+          // L1_DoubleJet35_Mass_Min_450_IsoTau45er2p1_RmvOl
           if (AODJet1Pt_ >= (35+offJetInc) && AODJet2Pt_ >= (35+offJetInc) && \
               AODTau1Pt_ >= (45+offTau1Inc) && AODTau2Pt_ >= (20+offTau2Inc) && mj1j2_ >= 600) passVBF2DTOff = 1;
           //if (AODJet1Pt_ >= 60 && AODJet2Pt_ >= 60 && AODTau1Pt_ >= 60 && AODTau2Pt_ >= 35 && mj1j2_ >= 700) passVBF2DTOff = 1;    
           //if (AODJet1Pt_ >= 100 && AODJet2Pt_ >= 100 && AODTau1Pt_ >= 60 && AODTau2Pt_ >= 35 && mj1j2_ >= 600) passVBF2DTOff = 1;    
+          
+          // L1_DoubleIsoTau26er2p1_Jet55_OvRm_dR0p5
+          if (AODJet1Pt_ >= (55+offJetInc) && AODJet2Pt_ >= (20+offJetInc) && \
+              AODTau1Pt_ >= (26+18) && AODTau2Pt_ >= (26+8) && mj1j2_>=600) pass2Tau1JetOff = 1;
 
         } // end viable if statement
 
