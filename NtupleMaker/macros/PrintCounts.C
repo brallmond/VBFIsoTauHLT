@@ -40,6 +40,7 @@ void PrintCounts(char* filename) {
   double passLowerControlHLT = tree->Draw("nEvents", "passLowerControlHLT>0", "goff");
 
   double pass2Tau1JetHLT = tree->Draw("nEvents", "pass2Tau1JetHLT>0", "goff");
+  double pass2Tau1JetBoth = tree->Draw("nEvents", "pass2Tau1JetHLT>0 && pass2Tau1JetOff>0", "goff");
 
   // ORs (only look at Boths)
   double passVBF2DTOldL1IncDeepDiTau = tree->Draw("nEvents", "(passVBF2DTOldL1>0 && passVBF2DTOff>0) || (passInclusiveVBFHLT>0 && passInclusiveVBFOff) || (passDeepDiTau35HLT>0 && passDiTau35Off)", "goff");
@@ -50,6 +51,8 @@ void PrintCounts(char* filename) {
   double passVBF2DTOldL1DeepDiTau = tree->Draw("nEvents", "(passVBF2DTOldL1>0 && passVBF2DTOff>0) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
   double passVBF2DTDeepDiTau = tree->Draw("nEvents", "(passVBF2DTHLT>0 && passVBF2DTOff>0) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
   double passVBF2DTLooseDeepDiTau = tree->Draw("nEvents", "(passVBF2DTLooseHLT>0 && passVBF2DTOff) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
+
+  double passAllFour = tree->Draw("nEvents", "(passVBF2DTLooseHLT>0 && passVBF2DTOff>0) || (passInclusiveVBFHLT>0 && passInclusiveVBFOff) || (passDeepDiTau35HLT>0 && passDiTau35Off) || (pass2Tau1JetHLT>0 && pass2Tau1JetOff>0)", "goff");
 
   std::cout << "HLT Counts" << '\n' 
             << passInclusiveVBFHLT << '\t' << "Inclusive VBF" << '\n'
@@ -71,9 +74,10 @@ void PrintCounts(char* filename) {
             << passInclusiveVBFBoth << '\t' << "Inclusive VBF" << '\n'
             //<< passVBF2DTOldL1Both << '\t' << "VBF Medium L2NN Old L1" << '\n'
             << passVBF2DTBoth << '\t' << "VBF Medium L2NN" << '\n'
-            << passVBF2DTLooseBoth << '\t' << "VBF Loose L2NN" << '\n'
+            << passVBF2DTLooseBoth << '\t' << "VBF Loose No L2NN" << '\n'
             //<< passDiTau35Both << '\t' << "Old DiTau 35" << '\n'
             << passDeepDiTau35Both << '\t' << "Deep DiTau 35" << '\n'
+            << pass2Tau1JetBoth << '\t' << "2Tau + 1Jet" << '\n'
             << "Doubles" << '\n'
             << passIncOldDiTau << '\t' << "Inclusive VBF OR Old DiTau 35" << '\n'
             << passIncDeepDiTau << '\t' << "Inclusive VBF OR Deep DiTau 35" << '\n'
@@ -84,6 +88,8 @@ void PrintCounts(char* filename) {
             //<< passVBF2DTOldL1IncDeepDiTau << '\t' << "VBF Medium L2NN Old L1 OR Inclusive VBF OR Deep DiTau 35" << '\n'
             << passVBFMediumIncDeepDiTau << '\t' << "VBF Medium L2NN OR Inclusive VBF OR Deep DiTau 35" << '\n'
             << passVBFLooseIncDeepDiTau << '\t' << "VBF Loose OR Inclusive VBF OR Deep DiTau 35" << '\n'
+            << "All Four" << '\n'
+            << passAllFour << '\t' << "DiTau, VBF+2Tau, Inclusive VBF, and 2Tau+1Jet" << '\n'
             << std::endl;
 
 }
