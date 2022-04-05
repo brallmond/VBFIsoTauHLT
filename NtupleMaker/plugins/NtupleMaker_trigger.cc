@@ -11,6 +11,7 @@ using namespace std; // I think best practice is to include <vector> explicitly 
 int passDeepDiTau35HLT;
 int passDiTauControl;
 int passInclusiveVBFHLT;
+int passDeepInclusiveVBFHLT;
 int passVBFPlusTwoDeepTauHLT;
 
 int passVBF2DTHLT;
@@ -218,6 +219,7 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("passDeepDiTau35HLT", &passDeepDiTau35HLT);
 
     tree->Branch("passInclusiveVBFHLT", &passInclusiveVBFHLT);    
+    tree->Branch("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);    
     
 
     tree->Branch("passVBF2DTHLT", &passVBF2DTHLT);
@@ -420,6 +422,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passDeepDiTau35HLT = 0;
     passDiTauControl = 0;
     passInclusiveVBFHLT = 0; 
+    passDeepInclusiveVBFHLT = 0; 
 
     passVBF2DTHLT = 0;
     passVBF2DTTempLooseHLT = 0;
@@ -634,6 +637,9 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     std::string pathNameInclusiveVBF = "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1";
     passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameInclusiveVBF));
 
+    std::string pathNameDeepInclusiveVBF = "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1";
+    passDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDeepInclusiveVBF));
+
     // VBF + 2 Deep Tau HLT Medium w L2NN and Loose with No L2NN
     std::string pathUpdatedNameVBF2DT = "HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1";
     passVBF2DTHLT = triggerResults->accept(triggerNames_.triggerIndex(pathUpdatedNameVBF2DT));
@@ -658,7 +664,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
     // Spain Group Trigger
     std::string pathName2Tau1Jet = "HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet60_v1";
-    pass2Tau1JetHLT = triggerResults->accept(triggerNames_.triggerIndex(pathName2Tau1Jet));
+    //pass2Tau1JetHLT = triggerResults->accept(triggerNames_.triggerIndex(pathName2Tau1Jet));
 
 
     // filling branches with triggerObjs information, hltL1VBFDiJetIsoTau object info filled separately since it's a weird L1
