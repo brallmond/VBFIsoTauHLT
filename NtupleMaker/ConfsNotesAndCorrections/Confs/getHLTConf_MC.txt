@@ -1,5 +1,4 @@
-
-hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV62/V3 \
+hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV66/V2 \
 --mc --globaltag auto:phase1_2021_realistic \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,\
@@ -20,6 +19,6 @@ HLTAnalyzerEndpath \
 --l1-emulator FullMC --l1Xml L1Menu_Collisions2022_v1_0_0.xml \
 --customise forceNewJEC.forceNewJEC \
 --input root://cms-xrd-global.cern.ch//store/mc/Run3Summer21DRPremix/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/120X_mcRun3_2021_realistic_v6-v2/30000/00dbda61-e142-4d8a-aa8e-886c3c79fdc4.root \
-> hltGRun62.py
+> hltGRun66.py
 
 
