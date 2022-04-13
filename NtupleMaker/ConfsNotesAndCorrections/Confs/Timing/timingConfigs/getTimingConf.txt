@@ -59,6 +59,7 @@ hltGetConfiguration /users/ballmond/VBFDeepTau/DeepTauV23_copy/V2 \
 --input 'file:/eos/user/b/ballmond/repackData/EZB1to8MergedRun325022UpsL1s.root' \
 hltGetConfiguration /users/kandroso/Run3TauFull/V23 \
 hltGetConfiguration /dev/CMSSW_12_3_0/GRun/V16 \
+
 hltGetConfiguration /dev/CMSSW_12_2_0/GRun/V6 \
 --globaltag auto:run3_hlt \
 --data \
@@ -72,3 +73,22 @@ hltGetConfiguration /dev/CMSSW_12_2_0/GRun/V6 \
 --input 'file:/data/user/ballmond/EZB1to8MergedRun325022UpsL1s.root' \
 --timing \
 > hltGRun_12_2_0_pre2_CustomL1.py
+
+
+hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV61/V2 \
+--data --globaltag auto:run3_hlt_GRun \
+--eras Run2_2018 --unprescale --output minimal \
+--process MYOTHERHLT \
+--customise HLTrigger/Configuration/customizeHLTforCMSSW.customiseFor2018Input \
+--max-events 100 \
+--offline --full --timing \
+> hltTimingFullMenu.py
+
+--path HLTriggerFirstPath,\
+HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1,\
+HLT_DoublePFJets40_Mass500_LooseDeepTauPFTauHPS45_LooseDeepTauPFTauHPS20_eta2p1_v1,\
+HLTriggerFinalPath,\
+HLTAnalyzerEndpath \
+
+HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,\
+HLT_DoublePFJets40_Mass500_LooseDeepTau45_LooseDeepTau20_eta2p1_v1,\
