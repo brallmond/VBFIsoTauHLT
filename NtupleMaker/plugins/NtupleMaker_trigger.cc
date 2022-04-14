@@ -62,11 +62,11 @@ vector<float>	hltL1VBFDiJetIsoTau_tauPhi;
 vector<float>	hltL1VBFDiJetIsoTau_tauEnergy;
 
 //lower control L1
-int passhltL1sSingleMu22or25;
-vector<float> hltL1sSingleMu22or25_pt;
-vector<float> hltL1sSingleMu22or25_eta;
-vector<float> hltL1sSingleMu22or25_phi;
-vector<float> hltL1sSingleMu22or25_energy;
+int passhltL1sSingleMu22;
+vector<float> hltL1sSingleMu22_pt;
+vector<float> hltL1sSingleMu22_eta;
+vector<float> hltL1sSingleMu22_phi;
+vector<float> hltL1sSingleMu22_energy;
 
 //upper control L1
 int passhltL1sMu22er2p1IsoTau28er2p1;
@@ -258,11 +258,11 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("hltL1VBFDiJetIsoTau_tauPhi", &hltL1VBFDiJetIsoTau_tauPhi);
     tree->Branch("hltL1VBFDiJetIsoTau_tauEnergy", &hltL1VBFDiJetIsoTau_tauEnergy);
 
-    tree->Branch("passhltL1sSingleMu22or25", &passhltL1sSingleMu22or25);
-    tree->Branch("hltL1sSingleMu22or25_pt", &hltL1sSingleMu22or25_pt);
-    tree->Branch("hltL1sSingleMu22or25_eta", &hltL1sSingleMu22or25_eta);
-    tree->Branch("hltL1sSingleMu22or25_phi", &hltL1sSingleMu22or25_phi);
-    tree->Branch("hltL1sSingleMu22or25_energy", &hltL1sSingleMu22or25_energy);
+    tree->Branch("passhltL1sSingleMu22", &passhltL1sSingleMu22);
+    tree->Branch("hltL1sSingleMu22_pt", &hltL1sSingleMu22_pt);
+    tree->Branch("hltL1sSingleMu22_eta", &hltL1sSingleMu22_eta);
+    tree->Branch("hltL1sSingleMu22_phi", &hltL1sSingleMu22_phi);
+    tree->Branch("hltL1sSingleMu22_energy", &hltL1sSingleMu22_energy);
 
     tree->Branch("passhltL1sMu22er2p1IsoTau28er2p1", &passhltL1sMu22er2p1IsoTau28er2p1);
     tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_muPt", &hltL1sMu22er2p1IsoTau28er2p1_muPt);
@@ -459,11 +459,11 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     hltL1VBFDiJetIsoTau_tauPhi.clear();
     hltL1VBFDiJetIsoTau_tauEnergy.clear();
 
-    passhltL1sSingleMu22or25 = 0;
-    hltL1sSingleMu22or25_pt.clear();
-    hltL1sSingleMu22or25_eta.clear();
-    hltL1sSingleMu22or25_phi.clear();
-    hltL1sSingleMu22or25_energy.clear();
+    passhltL1sSingleMu22 = 0;
+    hltL1sSingleMu22_pt.clear();
+    hltL1sSingleMu22_eta.clear();
+    hltL1sSingleMu22_phi.clear();
+    hltL1sSingleMu22_energy.clear();
 
     passhltL1sMu22er2p1IsoTau28er2p1 = 0;
     hltL1sMu22er2p1IsoTau28er2p1_muPt.clear();
@@ -765,7 +765,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     std::string hltL1VBFDiJetOR_Tag = "hltL1VBFDiJetOR::MYOTHERHLT";		  // inclusive L1
     std::string hltL1VBFDiJetIsoTau_Tag = "hltL1VBFDiJetIsoTau::MYOTHERHLT";	  
     std::string hltL1VBFDiJetIsoTauNoer_Tag = "hltL1VBFDiJetIsoTauNoer::MYOTHERHLT";	  // no eta restriction
-    std::string hltL1sSingleMu22or25_Tag = "hltL1sSingleMu22or25::MYOTHERHLT";
+    std::string hltL1sSingleMu22_Tag = "hltL1sSingleMu22::MYOTHERHLT";
     std::string hltL1sMu22er2p1IsoTau28er2p1_Tag = "hltL1sMu22er2p1IsoTau28er2p1::MYOTHERHLT";
 
     // Start VBF Double Deep Tau
@@ -813,7 +813,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 						 && hltL1VBFDiJetIsoTau_jetPt.size() >= 2) passhltL1VBFDiJetIsoTau = 1;
         if (filterTag == hltL1VBFDiJetIsoTauNoer_Tag && hltL1VBFDiJetIsoTauNoer_tauPt.size() >= 1
                                                      && hltL1VBFDiJetIsoTauNoer_jetPt.size() >= 2) passhltL1VBFDiJetIsoTauNoer = 1;
-        if (filterTag == hltL1sSingleMu22or25_Tag && nObjKeys >= 1) passhltL1sSingleMu22or25 = 1;
+        if (filterTag == hltL1sSingleMu22_Tag && nObjKeys >= 1) passhltL1sSingleMu22 = 1;
         if (filterTag == hltL1sMu22er2p1IsoTau28er2p1_Tag && hltL1sMu22er2p1IsoTau28er2p1_muPt.size() >= 1
                                                           && hltL1sMu22er2p1IsoTau28er2p1_tauPt.size() >= 1) passhltL1sMu22er2p1IsoTau28er2p1 = 1;
 
@@ -869,12 +869,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 		hltL1VBFDiJetOR_phi.push_back(phi_);
 		hltL1VBFDiJetOR_energy.push_back(energy_);
 	    }
-            if (filterTag == hltL1sSingleMu22or25_Tag
-                  && passhltL1sSingleMu22or25 && pt_>0) {
-                hltL1sSingleMu22or25_pt.push_back(pt_);
-                hltL1sSingleMu22or25_eta.push_back(eta_);
-                hltL1sSingleMu22or25_phi.push_back(phi_);
-                hltL1sSingleMu22or25_energy.push_back(energy_);
+            if (filterTag == hltL1sSingleMu22_Tag
+                  && passhltL1sSingleMu22 && pt_>0) {
+                hltL1sSingleMu22_pt.push_back(pt_);
+                hltL1sSingleMu22_eta.push_back(eta_);
+                hltL1sSingleMu22_phi.push_back(phi_);
+                hltL1sSingleMu22_energy.push_back(energy_);
             }
 
         // Start VBF Double Deep Tau
