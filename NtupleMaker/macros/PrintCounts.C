@@ -11,6 +11,9 @@ void PrintCounts(char* filename) {
   double passInclusiveVBFOff = tree->Draw("nEvents", "passInclusiveVBFOff>0", "goff");
   double passInclusiveVBFBoth = tree->Draw("nEvents", "passInclusiveVBFHLT>0 && passInclusiveVBFOff>0", "goff");
 
+  double passDeepInclusiveVBFHLT = tree->Draw("nEvents", "passDeepInclusiveVBFHLT>0", "goff");
+  double passDeepInclusiveVBFBoth = tree->Draw("nEvents", "passDeepInclusiveVBFHLT>0 && passInclusiveVBFOff>0", "goff");
+
   // VBF2DT
   double passVBF2DTHLT = tree->Draw("nEvents", "passVBF2DTHLT>0", "goff");
   double passVBF2DTOff = tree->Draw("nEvents", "passVBF2DTOff>0", "goff");
@@ -72,6 +75,7 @@ void PrintCounts(char* filename) {
             << "------------------------------------------------------------" << '\n'
             << "Singles" << '\n'
             << passInclusiveVBFBoth << '\t' << "Inclusive VBF" << '\n'
+            << passDeepInclusiveVBFBoth << '\t' << "Deep Inclusive VBF" << '\n'
             //<< passVBF2DTOldL1Both << '\t' << "VBF Medium L2NN Old L1" << '\n'
             << passVBF2DTBoth << '\t' << "VBF Medium L2NN" << '\n'
             << passVBF2DTLooseBoth << '\t' << "VBF Loose No L2NN" << '\n'

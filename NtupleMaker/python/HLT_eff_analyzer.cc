@@ -80,9 +80,11 @@ int main(int argc, char** argv)	{
     outTree->Branch("passDiTau35L1", &passDiTau35L1);
 
     // HLTs
-    int passInclusiveVBFHLT, passVBF2DTHLT, passVBF2DTLooseHLT, passVBF2DTOldL1;
+    int passInclusiveVBFHLT, passDeepInclusiveVBFHLT;
+    int passVBF2DTHLT, passVBF2DTLooseHLT, passVBF2DTOldL1;
     int passDiTau35HLT, passDeepDiTau35HLT;
     outTree->Branch("passInclusiveVBFHLT", &passInclusiveVBFHLT);
+    outTree->Branch("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);
     outTree->Branch("passVBF2DTHLT", &passVBF2DTHLT);
     outTree->Branch("passVBF2DTLooseHLT", &passVBF2DTLooseHLT);
     outTree->Branch("passVBF2DTOldL1", &passVBF2DTOldL1);
@@ -179,8 +181,8 @@ int main(int argc, char** argv)	{
     std::cout << "If this is a rate study, did you check your boolean variables before running?" << std::endl;
     // Event Loop
     // for-loop of fewer events is useful to test code without heavy I/O to terminal from cout statements
-    for (int iEntry = 0; iEntry < 272000; ++iEntry) {
-    //for (int iEntry = 0; iEntry < inTree->GetEntries(); ++iEntry) {
+    //for (int iEntry = 0; iEntry < 272000; ++iEntry) {
+    for (int iEntry = 0; iEntry < inTree->GetEntries(); ++iEntry) {
 	inTree->GetEntry(iEntry);
 
         bool rateStudyHLT = false;
@@ -204,6 +206,7 @@ int main(int argc, char** argv)	{
         passhltL1VBFDiJetOR = 0;
         passhltL1VBFDiJetOR = inTree->passhltL1VBFDiJetOR;
         passInclusiveVBFHLT = inTree->passInclusiveVBFHLT;
+        passDeepInclusiveVBFHLT = inTree->passDeepInclusiveVBFHLT;
 
         // VBF2DT Old L1
         passhltL1VBFDiJetIsoTauNoer = 0;
@@ -249,7 +252,7 @@ int main(int argc, char** argv)	{
         if (passhltRealDijetFilter_VBF2DTLoose) passhltVBFLooseIDPFDummyFilter_VBF2DTLoose = inTree->passhltVBFLooseIDPFDummyFilter;
         if (passhltVBFLooseIDPFDummyFilter_VBF2DTLoose) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsLooseDeepTauIsoPFTauHPS20_VBF2DTLoose = inTree->passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN;
 
-        passVBF2DTLooseHLT = inTree->passVBF2DTLooseNoL2NNHLT;
+        passVBF2DTLooseHLT = inTree->passVBF2DTLooseHLT;
 
         filter_t1eta = -999;
         filter_t2eta = -999;
