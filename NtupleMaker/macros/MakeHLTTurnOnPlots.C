@@ -36,18 +36,22 @@ void MakeHLTTurnOnPlots(char* filename, int key) {
     // 50, 25, --, --, 600 // key = 5
 
     TCut viable = "viableTaus>0 && viableJets>0";
-    TCut passHLT = "passVBFPlusTwoDeepTauHLT>0";
-    TCut matchHLT = "passVBFPlusTwoDeepTauHLT>0 && matchedL1Jets>0 && matchedL1Tau>0"; 
+    TCut passHLT = "passVBF2DTHLT>0";
+    TCut matchHLT = "passVBF2DTHLT>0 && matchedHLTJets>0 && matchedHLTTaus>0"; 
     TCut fullOffline = "t1_ptAOD>=50 && t2_ptAOD>=25 && j1_ptAOD>=45 && j2_ptAOD>=45 && mjjAOD>=600";
 
-    TCut misst1pt = "t1_ptAOD>= 0 && t2_ptAOD>=25 && j1_ptAOD>=45 && j2_ptAOD>=45 && mjjAOD>=600";
+    //TCut misst1pt = "t1_ptAOD>= 0 && t2_ptAOD>=25 && j1_ptAOD>=45 && j2_ptAOD>=45 && mjjAOD>=600";
+    TCut misst1pt = "t1_ptAOD>= 0 && t2_ptAOD>=50 && j1_ptAOD>=45 && j2_ptAOD>=45 && mjjAOD>=800";
     TCut misst2pt = "t1_ptAOD>=50 && t2_ptAOD>= 0 && j1_ptAOD>=45 && j2_ptAOD>=45 && mjjAOD>=600";
     TCut missj1pt = "t1_ptAOD>=50 && t2_ptAOD>=25 && j1_ptAOD>= 0 && j2_ptAOD>=45 && mjjAOD>=600";
     TCut missj2pt = "t1_ptAOD>=50 && t2_ptAOD>=25 && j1_ptAOD>=45 && j2_ptAOD>= 0 && mjjAOD>=600";
     TCut missMjj  = "t1_ptAOD>=50 && t2_ptAOD>=25 && j1_ptAOD>=45 && j2_ptAOD>=45 && mjjAOD>=  0";
     
     TCut missjets = "t1_ptAOD>=50 && t2_ptAOD>=25 && j1_ptAOD>= 0 && j2_ptAOD>= 0 && mjjAOD>=600"; // lets us get a better look at j1_pt
-   
+  
+    double numCount;
+    double demCount;
+ 
     if (key == 0) {
       const Int_t NBINS = 10;
       Double_t edges[NBINS + 1] = {0.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 200.0};
@@ -57,6 +61,10 @@ void MakeHLTTurnOnPlots(char* filename, int key) {
 
       tree->Draw("t1_ptAOD >> h_t1TOnum", viable && misst1pt && matchHLT, "goff");
       tree->Draw("t1_ptAOD >> h_t1TOdem", viable && misst1pt, "goff");
+      numCount = tree->Draw("t1_ptAOD >> h_t1TOnum", viable && misst1pt && matchHLT, "goff");
+      demCount = tree->Draw("t1_ptAOD >> h_t1TOdem", viable && misst1pt, "goff");
+      std::cout << numCount << '\t' << "numerator Events" << std::endl;
+      std::cout << demCount << '\t' << "denominator Events" << std::endl;
 
       h_t1TOratio = (TH1F*)h_t1TOnum->Clone();
       h_t1TOratio->Divide(h_t1TOdem);

@@ -20,10 +20,11 @@ public :
 
     int passDeepDiTau35HLT;
     int passInclusiveVBFHLT;
+    int passDeepInclusiveVBFHLT;
     int passVBFPlusOneTauHLT;
 
     int passVBF2DTHLT;
-    int passVBF2DTLooseNoL2NNHLT;
+    int passVBF2DTLooseHLT;
     int passVBF2DTOldL1;
 
     int passUpperControlMedHLT;
@@ -224,10 +225,11 @@ void trigger_tree::Init(TTree *tree)
 
     fChain->SetBranchAddress("passDeepDiTau35HLT", &passDeepDiTau35HLT);
     fChain->SetBranchAddress("passInclusiveVBFHLT", &passInclusiveVBFHLT);
+    fChain->SetBranchAddress("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);
     fChain->SetBranchAddress("passVBFPlusOneTauHLT", &passVBFPlusOneTauHLT);
 
     fChain->SetBranchAddress("passVBF2DTHLT", &passVBF2DTHLT);
-    fChain->SetBranchAddress("passVBF2DTLooseNoL2NNHLT", &passVBF2DTLooseNoL2NNHLT);
+    fChain->SetBranchAddress("passVBF2DTLooseHLT", &passVBF2DTLooseHLT);
     fChain->SetBranchAddress("passVBF2DTOldL1", &passVBF2DTOldL1);
 
     fChain->SetBranchAddress("passUpperControlMedHLT", &passUpperControlMedHLT);
