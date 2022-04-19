@@ -9,7 +9,7 @@
 using namespace std; // I think best practice is to include <vector> explicitly at the top of the file
 
 int passDeepDiTau35HLT;
-int passDiTauControl;
+int passDiTauControlHLT;
 int passInclusiveVBFHLT;
 int passDeepInclusiveVBFHLT;
 int passVBFPlusTwoDeepTauHLT;
@@ -231,7 +231,7 @@ void NtupleMaker::branchesTriggers(TTree* tree){
 
     tree->Branch("passUpperControlMedHLT", &passUpperControlMedHLT);
     tree->Branch("passLowerControlMedHLT", &passLowerControlMedHLT);
-    tree->Branch("passDiTauControl", &passDiTauControl);
+    tree->Branch("passDiTauControlHLT", &passDiTauControlHLT);
 
     tree->Branch("passhltL1sDoubleTauBigOR", &passhltL1sDoubleTauBigOR);
     tree->Branch("hltL1sDoubleTauBigOR_pt", &hltL1sDoubleTauBigOR_pt);
@@ -417,7 +417,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     nEvents = 0;
 
     passDeepDiTau35HLT = 0;
-    passDiTauControl = 0;
+    passDiTauControlHLT = 0;
     passInclusiveVBFHLT = 0; 
     passDeepInclusiveVBFHLT = 0; 
 
@@ -626,7 +626,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     std::string pathNameDeepDiTauTrig = "HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1";
     passDeepDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDeepDiTauTrig));
     std::string pathNameDiTauControl = "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1";
-    passDiTauControl = triggerResults->accept(triggerNames_.triggerIndex(pathNameDiTauControl));
+    passDiTauControlHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDiTauControl));
 
     // Inclusive VBF HLT
     std::string pathNameInclusiveVBF = "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1";

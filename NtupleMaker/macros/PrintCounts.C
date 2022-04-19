@@ -59,6 +59,7 @@ void PrintCounts(char* filename) {
 
   std::cout << "HLT Counts" << '\n' 
             << passInclusiveVBFHLT << '\t' << "Inclusive VBF" << '\n'
+            << passDeepInclusiveVBFHLT << '\t' << "Deep Inclusive VBF" << '\n'
             << passVBF2DTHLT << '\t' << "VBF Medium L2NN" << '\n'
             << passVBF2DTLooseHLT << '\t' << "VBF Loose" << '\n'
             << passDeepDiTau35HLT << '\t' << "Deep DiTau 35" << '\n'
