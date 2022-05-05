@@ -1,4 +1,7 @@
 hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV66/V2 \
+hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV76/V3 \
+
+hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRun76_FromUserV3Unlocked/V3 \
 --mc --globaltag auto:phase1_2021_realistic \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,\
@@ -12,6 +15,7 @@ HLT_IsoMu24_eta2p1_LooseDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
 HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_CrossL1_v1,\
 HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
 HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet60_v1,\
+HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_v1,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output minimal \
@@ -19,6 +23,6 @@ HLTAnalyzerEndpath \
 --l1-emulator FullMC --l1Xml L1Menu_Collisions2022_v1_0_0.xml \
 --customise forceNewJEC.forceNewJEC \
 --input root://cms-xrd-global.cern.ch//store/mc/Run3Summer21DRPremix/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/120X_mcRun3_2021_realistic_v6-v2/30000/00dbda61-e142-4d8a-aa8e-886c3c79fdc4.root \
-> hltGRun66.py
+> hltTestingVBFPlusOneTau.py
 
 
