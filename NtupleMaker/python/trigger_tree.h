@@ -144,6 +144,22 @@ public :
     std::vector<float>* hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi = nullptr;
     std::vector<float>* hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy = nullptr;
 
+    int passhltL1sSingleMu22;
+    std::vector<float>* hltL1sSingleMu22_pt = nullptr;
+    std::vector<float>* hltL1sSingleMu22_eta = nullptr;
+    std::vector<float>* hltL1sSingleMu22_phi = nullptr;
+    std::vector<float>* hltL1sSingleMu22_energy = nullptr;
+
+    int passhltL1sMu22er2p1IsoTau28er2p1;
+    std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_muPt = nullptr;
+    std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_muEta = nullptr;
+    std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_muPhi = nullptr;
+    std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_muEnergy = nullptr;
+    std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_tauPt = nullptr;
+    std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_tauEta = nullptr;
+    std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_tauPhi = nullptr;
+    std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_tauEnergy = nullptr;
+
     // end HLT branches
 
     // from AOD
@@ -268,6 +284,22 @@ void trigger_tree::Init(TTree *tree)
     fChain->SetBranchAddress("hltL1VBFDiJetIsoTau_tauEnergy", &hltL1VBFDiJetIsoTau_tauEnergy);
 
     fChain->SetBranchAddress("passhltL1VBFDiJetIsoTauNoer", &passhltL1VBFDiJetIsoTauNoer);
+
+    fChain->SetBranchAddress("passhltL1sSingleMu22", &passhltL1sSingleMu22);
+    fChain->SetBranchAddress("hltL1sSingleMu22_pt", &hltL1sSingleMu22_pt);
+    fChain->SetBranchAddress("hltL1sSingleMu22_eta", &hltL1sSingleMu22_eta);
+    fChain->SetBranchAddress("hltL1sSingleMu22_phi", &hltL1sSingleMu22_phi);
+    fChain->SetBranchAddress("hltL1sSingleMu22_energy", &hltL1sSingleMu22_energy);
+
+    fChain->SetBranchAddress("passhltL1sMu22er2p1IsoTau28er2p1", &passhltL1sMu22er2p1IsoTau28er2p1);
+    fChain->SetBranchAddress("hltL1sMu22er2p1IsoTau28er2p1_muPt", &hltL1sMu22er2p1IsoTau28er2p1_muPt);
+    fChain->SetBranchAddress("hltL1sMu22er2p1IsoTau28er2p1_muEta", &hltL1sMu22er2p1IsoTau28er2p1_muEta);
+    fChain->SetBranchAddress("hltL1sMu22er2p1IsoTau28er2p1_muPhi", &hltL1sMu22er2p1IsoTau28er2p1_muPhi);
+    fChain->SetBranchAddress("hltL1sMu22er2p1IsoTau28er2p1_muEnergy", &hltL1sMu22er2p1IsoTau28er2p1_muEnergy);
+    fChain->SetBranchAddress("hltL1sMu22er2p1IsoTau28er2p1_tauPt", &hltL1sMu22er2p1IsoTau28er2p1_tauPt);
+    fChain->SetBranchAddress("hltL1sMu22er2p1IsoTau28er2p1_tauEta", &hltL1sMu22er2p1IsoTau28er2p1_tauEta);
+    fChain->SetBranchAddress("hltL1sMu22er2p1IsoTau28er2p1_tauPhi", &hltL1sMu22er2p1IsoTau28er2p1_tauPhi);
+    fChain->SetBranchAddress("hltL1sMu22er2p1IsoTau28er2p1_tauEnergy", &hltL1sMu22er2p1IsoTau28er2p1_tauEnergy);
 
     // VBF Plus Two Deep Tau Branches
     fChain->SetBranchAddress("passhltL2VBFIsoTauNNFilter", &passhltL2VBFIsoTauNNFilter);

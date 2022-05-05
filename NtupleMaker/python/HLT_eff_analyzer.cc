@@ -74,6 +74,11 @@ int main(int argc, char** argv)	{
     outTree->Branch("passhltL1VBFDiJetIsoTau", &passhltL1VBFDiJetIsoTau);
     outTree->Branch("passhltL1VBFDiJetIsoTauNoer", &passhltL1VBFDiJetIsoTauNoer);
 
+    int passhltL1sSingleMu22;
+    int passhltL1sMu22er2p1IsoTau28er2p1;
+    outTree->Branch("passhltL1sSingleMu22", &passhltL1sSingleMu22);
+    outTree->Branch("passhltL1sMu22er2p1IsoTau28er2p1", &passhltL1sMu22er2p1IsoTau28er2p1);
+
     int passDiTau32L1, passDiTau34L1, passDiTau35L1;
     outTree->Branch("passDiTau32L1", &passDiTau32L1);
     outTree->Branch("passDiTau34L1", &passDiTau34L1);
@@ -186,7 +191,7 @@ int main(int argc, char** argv)	{
 	inTree->GetEntry(iEntry);
 
         bool rateStudyHLT = false;
-        bool rateStudyEZB = false;
+        bool rateStudyEZB = true;
 
 	if ((iEntry % 100000 == 0 and (!rateStudyHLT and !rateStudyEZB)) or iEntry % 1000000 == 0) std::cout << std::to_string(iEntry) << std::endl;
 
@@ -286,6 +291,10 @@ int main(int argc, char** argv)	{
         //passDiTau35HLT = inTree->passDiTau35HLT;
 
         // fill Controls and Spain HLT
+        passhltL1sSingleMu22 = passhltL1sMu22er2p1IsoTau28er2p1 = 0;
+        passhltL1sSingleMu22 = inTree->passhltL1sSingleMu22;
+        passhltL1sMu22er2p1IsoTau28er2p1 = inTree->passhltL1sMu22er2p1IsoTau28er2p1;
+
         passUpperControlMedHLT = inTree->passUpperControlMedHLT;
         passLowerControlMedHLT = inTree->passLowerControlMedHLT;
         passUpperControlHLT = inTree->passUpperControlHLT;
@@ -294,8 +303,8 @@ int main(int argc, char** argv)	{
 
         pass2Tau1JetHLT = inTree->pass2Tau1JetHLT;
 
-
-        bool passhltL1 = passDiTau32L1 or passhltL1VBFDiJetOR or passhltL1VBFDiJetIsoTau or passhltL1VBFDiJetIsoTauNoer;
+        bool passControlL1s = passhltL1sSingleMu22 or passhltL1sMu22er2p1IsoTau28er2p1;
+        bool passhltL1 = passDiTau32L1 or passhltL1VBFDiJetOR or passhltL1VBFDiJetIsoTau or passControlL1s;
         if ((rateStudyHLT or rateStudyEZB) and passhltL1) outTree->Fill();
         if (rateStudyHLT or rateStudyEZB) continue;
         // above is all that needs to run for rate
@@ -616,7 +625,7 @@ int main(int argc, char** argv)	{
     } // end event loop
 
 
-    std::cout << lumis.size() << std::endl;
+    //std::cout << lumis.size() << std::endl;
 
     std::string outputFileName = outName;
     TFile *fOut = TFile::Open(outputFileName.c_str(),"RECREATE");

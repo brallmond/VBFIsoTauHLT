@@ -12,9 +12,11 @@ with commands like this
 eosls /store/user/ballmond/EphemeralZeroBias1/crab_Pre6Rate_EZB1_retry/
 or
 for i in {1..8}; do num=$i; eosls /store/user/ballmond/EphemeralZeroBias${num}/crab_Pre6Rate_EZB${num}/; done
+or
+for i in {1..8}; do num=$i; echo -n "/store/user/ballmond/EphemeralZeroBias${num}/crab_RateGRun66_EZB${num}/"; eosls /store/user/ballmond/EphemeralZeroBias${num}/crab_RateGRun66_EZB${num}/; done
 
-Next, append "0000" to the end of each line with this command in vi (or do it by hand)
-:%s/$/0000
+Next, append "/0000" to the end of each line with this command in vi (or do it by hand)
+:%s/$/\/0000
 we'll do this step again with "0001" for the second set of directories.
 
 Once you have this file, you're ready to hadd. simply do this
