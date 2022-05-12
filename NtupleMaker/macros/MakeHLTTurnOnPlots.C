@@ -37,7 +37,8 @@ void MakeHLTTurnOnPlots(char* filename, int key) {
 
     TCut viable = "viableTaus>0 && viableJets>0";
     TCut passHLT = "passVBF2DTHLT>0";
-    TCut matchHLT = "passVBF2DTHLT>0 && matchedHLTJets>0 && matchedHLTTaus>0"; 
+    //TCut matchHLT = "passVBF2DTHLT>0 && matchedHLTJets>0 && matchedHLTTaus>0"; 
+    TCut matchHLT = "passVBF2DTHLT>0";
     TCut fullOffline = "t1_ptAOD>=50 && t2_ptAOD>=25 && j1_ptAOD>=45 && j2_ptAOD>=45 && mjjAOD>=600";
 
     //TCut misst1pt = "t1_ptAOD>= 0 && t2_ptAOD>=25 && j1_ptAOD>=45 && j2_ptAOD>=45 && mjjAOD>=600";

@@ -10,7 +10,7 @@
 // .x MakeCutflowFromOuttree("filename.root")
 //
 
-void MakeDeepIncEffPlot(char* filename, int key) {
+void MakeIncEffPlot(char* filename, int key) {
 
     TFile *_file0 = TFile::Open(filename);
 
@@ -36,8 +36,8 @@ void MakeDeepIncEffPlot(char* filename, int key) {
     // 25, 25, ---, --, 700 // key = 5
 
     TCut viable = "viableTaus>0 && viableJets>0";
-    TCut passHLT = "passDeepInclusiveVBFHLT>0";
-    TCut matchHLT = "passDeepInclusiveVBFHLT>0 && matchedHLTJets>0 && matchedHLTTaus>0"; 
+    TCut passHLT = "passInclusiveVBFHLT>0";
+    TCut matchHLT = "passInclusiveVBFHLT>0 && matchedHLTJets>0 && matchedHLTTaus>0"; 
     TCut fullOffline = "t1_ptAOD>=25 && t2_ptAOD>=25 && j1_ptAOD>=120 && j2_ptAOD>=45 && mjjAOD>=700";
 
 //    TCut misst1pt = "t1_ptAOD>= 0 && t2_ptAOD>=25 && j1_ptAOD>=120 && j2_ptAOD>=45 && mjjAOD>=700";
