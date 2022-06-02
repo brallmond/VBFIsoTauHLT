@@ -88,6 +88,7 @@ int main(int argc, char** argv)	{
     int passInclusiveVBFHLT, passDeepInclusiveVBFHLT;
     int passVBF2DTHLT, passVBF2DTLooseHLT, passVBF2DTOldL1;
     int passDiTau35HLT, passDeepDiTau35HLT;
+    passDiTau35HLT = 0;
     outTree->Branch("passInclusiveVBFHLT", &passInclusiveVBFHLT);
     outTree->Branch("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);
     outTree->Branch("passVBF2DTHLT", &passVBF2DTHLT);
