@@ -11,7 +11,7 @@ you have to set the DST_Run3 prescales all to zero (disabling the path)
 
 
 
-hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV66/V2 \
+hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRun78/V1 \
 --data --globaltag auto:run3_hlt \
 --eras Run2_2018 --output minimal \
 --process MYOTHERHLT \
@@ -19,4 +19,4 @@ hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV66/V2 \
 --offline --full --timing \
 --customise HLTrigger/Configuration/customizeHLTforCMSSW.customiseFor2018Input \
 --l1 L1Menu_Collisions2022_v1_0_0_xml \
-> hltTimingFullMenu.py
+> hltGRun78Base.py

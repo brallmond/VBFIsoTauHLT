@@ -1,23 +1,24 @@
-hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV66/V2 \
+hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRun78/V5 \
 --data --globaltag auto:run3_hlt_GRun \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,\
 HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1,\
 HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,\
-HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1,\
+HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet60_v1,\
 HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_MediumDeepTauIsoPFTauHPS20_eta2p1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_CrossL1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
 HLT_DoublePFJets40_Mass500_LooseDeepTauIsoPFTauHPS45_LooseDeepTauIsoPFTauHPS20_eta2p1_v1,\
 HLT_IsoMu24_eta2p1_LooseDeepTauIsoPFTauHPS45_eta2p1_CrossL1_v1,\
 HLT_IsoMu24_eta2p1_LooseDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
-HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_CrossL1_v1,\
-HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
-HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet60_v1,\
+HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_v1,\
+HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
---eras Run2_2018 --unprescale --output minimal \
+--eras Run2_2018 --unprescale --output none \
 --process MYOTHERHLT --max-events 50 \
 --customise HLTrigger/Configuration/customizeHLTforCMSSW.customiseFor2018Input \
 --l1-emulator Full --l1Xml L1Menu_Collisions2022_v1_0_0.xml \
 --input root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/2E066536-5CF2-B340-A73B-209640F29FF6.root \
-> hltRateGRun66.py
+> hltRateGRun78.py
 
