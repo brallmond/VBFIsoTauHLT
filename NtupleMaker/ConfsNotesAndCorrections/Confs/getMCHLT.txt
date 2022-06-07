@@ -1,30 +1,33 @@
-hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV66/V2 \
-hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRunV76/V3 \
-hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRun76_FromUserV3Unlocked/V3 \
-
-hltGetConfiguration /users/ballmond/VBFDeepTau/DevGRun78/V9 \
+hltGetConfiguration /dev/CMSSW_14_4_0/HLT/V45 \
+hltGetConfiguration /users/ballmond/12_4_0_X/DevGRun40/V3 \
 --mc --globaltag auto:phase1_2021_realistic \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,\
 HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1,\
 HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,\
+HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1,\
+HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_AltRmOvlp_v1,\
 HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet60_v1,\
+HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet75_v1,\
 HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_MediumDeepTauIsoPFTauHPS20_eta2p1_v1,\
 HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_CrossL1_v1,\
 HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
-HLT_DoublePFJets40_Mass500_LooseDeepTauIsoPFTauHPS45_LooseDeepTauIsoPFTauHPS20_eta2p1_v1,\
-HLT_IsoMu24_eta2p1_LooseDeepTauIsoPFTauHPS45_eta2p1_CrossL1_v1,\
-HLT_IsoMu24_eta2p1_LooseDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
-HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_v1,\
-HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output none \
 --process MYOTHERHLT --max-events 50 \
---l1-emulator FullMC --l1Xml L1Menu_Collisions2022_v1_0_0.xml \
---customise forceNewJEC.forceNewJEC \
+--l1-emulator FullMC --l1 L1Menu_Collisions2022_v1_0_1_xml \
 --input root://cms-xrd-global.cern.ch//store/mc/Run3Summer21DRPremix/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/120X_mcRun3_2021_realistic_v6-v2/30000/00dbda61-e142-4d8a-aa8e-886c3c79fdc4.root \
-> hltGRun78.py
+> hltModVBF.py
 
 very old path name
 HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1,\
+loose paths, not integrated
+HLT_DoublePFJets40_Mass500_LooseDeepTauIsoPFTauHPS45_LooseDeepTauIsoPFTauHPS20_eta2p1_v1,\
+HLT_IsoMu24_eta2p1_LooseDeepTauIsoPFTauHPS45_eta2p1_CrossL1_v1,\
+HLT_IsoMu24_eta2p1_LooseDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
+VBFPlusOneTau Rate of ~30 Hz
+HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_v1,\
+No longer need forceNewJEC?
+--customise forceNewJEC.forceNewJEC \
+--l1-emulator FullMC --l1Xml L1Menu_Collisions2022_v1_0_1_xml \
