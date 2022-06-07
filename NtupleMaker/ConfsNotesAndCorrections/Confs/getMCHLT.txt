@@ -1,5 +1,4 @@
-hltGetConfiguration /dev/CMSSW_14_4_0/HLT/V45 \
-hltGetConfiguration /users/ballmond/12_4_0_X/DevGRun40/V3 \
+hltGetConfiguration /users/ballmond/12_4_0_X/DevGRun40/V4 \
 --mc --globaltag auto:phase1_2021_realistic \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,\
@@ -16,7 +15,7 @@ HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output none \
 --process MYOTHERHLT --max-events 50 \
---l1-emulator FullMC --l1 L1Menu_Collisions2022_v1_0_1_xml \
+--l1-emulator FullMC --l1 L1Menu_Collisions2022_v1_1_0_xml \
 --input root://cms-xrd-global.cern.ch//store/mc/Run3Summer21DRPremix/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/120X_mcRun3_2021_realistic_v6-v2/30000/00dbda61-e142-4d8a-aa8e-886c3c79fdc4.root \
 > hltModVBF.py
 
