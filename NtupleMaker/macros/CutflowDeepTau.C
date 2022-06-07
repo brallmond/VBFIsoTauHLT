@@ -10,7 +10,8 @@ void CutflowDeepTau(char* filename) {
   double singleDeep45TauL1HLTMatchingFilter = tree->Draw("nEvents", "passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched>0 && passVBFPlusTwoTauOff>0", "goff");
   double jetKinemFilter = tree->Draw("nEvents", "passhltRealDijetFilter>0 && passVBFPlusTwoTauOff>0", "goff");
   double jetIDFilter = tree->Draw("nEvents", "passhltVBFLooseIDPFDummyFilter>0 && passVBFPlusTwoTauOff>0", "goff");
-  double twoMatchedJetsFilter = tree->Draw("nEvents", "passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20>0 && passVBFPlusTwoTauOff>0", "goff");
+  //double twoMatchedJetsFilter = tree->Draw("nEvents", "passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20>0 && passVBFPlusTwoTauOff>0", "goff");
+  double twoMatchedJetsFilter = tree->Draw("nEvents", "passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau>0 && passVBFPlusTwoTauOff>0", "goff");
 
   double hltVBFTwoDeepTauDecision = tree->Draw("nEvents", "passVBFPlusTwoDeepTauHLT>0 && passVBFPlusTwoTauOff>0","goff");
   double passSelectionOnly = tree->Draw("nEvents", "passVBFPlusTwoTauOff>0", "goff");

@@ -13,6 +13,8 @@ void PrintCounts(char* filename) {
 
   double passDeepInclusiveVBFHLT = tree->Draw("nEvents", "passDeepInclusiveVBFHLT>0", "goff");
   double passDeepInclusiveVBFBoth = tree->Draw("nEvents", "passDeepInclusiveVBFHLT>0 && passInclusiveVBFOff>0", "goff");
+  double passAltDeepInclusiveVBFHLT = tree->Draw("nEvents", "passAltDeepInclusiveVBFHLT>0", "goff");
+  double passAltDeepInclusiveVBFBoth = tree->Draw("nEvents", "passAltDeepInclusiveVBFHLT>0 && passInclusiveVBFOff>0", "goff");
 
   // VBF2DT
   double passVBF2DTHLT = tree->Draw("nEvents", "passVBF2DTHLT>0", "goff");
@@ -46,9 +48,13 @@ void PrintCounts(char* filename) {
   double pass2Tau1JetBoth = tree->Draw("nEvents", "pass2Tau1JetHLT>0 && pass2Tau1JetOff>0", "goff");
 
   // ORs (only look at Boths)
-  double passVBF2DTOldL1IncDeepDiTau = tree->Draw("nEvents", "(passVBF2DTOldL1>0 && passVBF2DTOff>0) || (passInclusiveVBFHLT>0 && passInclusiveVBFOff) || (passDeepDiTau35HLT>0 && passDiTau35Off)", "goff");
-  double passVBFMediumIncDeepDiTau = tree->Draw("nEvents", "(passVBF2DTHLT>0 && passVBF2DTOff>0) || (passInclusiveVBFHLT>0 && passInclusiveVBFOff) || (passDeepDiTau35HLT>0 && passDiTau35Off)", "goff");
-  double passVBFLooseIncDeepDiTau = tree->Draw("nEvents", "(passVBF2DTLooseHLT>0 && passVBF2DTOff>0) || (passInclusiveVBFHLT>0 && passInclusiveVBFOff) || (passDeepDiTau35HLT>0 && passDiTau35Off)", "goff");
+  double passVBF2DTOldL1IncDeepDiTau = tree->Draw("nEvents", "(passVBF2DTOldL1>0 && passVBF2DTOff>0) || (passInclusiveVBFHLT>0 && passInclusiveVBFOff>0) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
+  double passVBFMediumIncDeepDiTau = tree->Draw("nEvents", "(passVBF2DTHLT>0 && passVBF2DTOff>0) || (passInclusiveVBFHLT>0 && passInclusiveVBFOff>0) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
+  double passVBFLooseIncDeepDiTau = tree->Draw("nEvents", "(passVBF2DTLooseHLT>0 && passVBF2DTOff>0) || (passInclusiveVBFHLT>0 && passInclusiveVBFOff) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
+  double passVBFMediumDeepIncDeepDiTau = tree->Draw("nEvents", "(passVBF2DTHLT>0 && passVBF2DTOff>0) || (passDeepInclusiveVBFHLT>0 && passInclusiveVBFOff>0) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
+  double passVBFMediumAltDeepIncDeepDiTau = tree->Draw("nEvents", "(passVBF2DTHLT>0 && passVBF2DTOff>0) || (passAltDeepInclusiveVBFHLT>0 && passInclusiveVBFOff>0) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
+
+
   double passIncOldDiTau = tree->Draw("nEvents", "(passInclusiveVBFHLT>0 && passInclusiveVBFOff>0) || (passDiTau35HLT>0 && passDiTau35Off>0)", "goff");
   double passIncDeepDiTau = tree->Draw("nEvents", "(passInclusiveVBFHLT>0 && passInclusiveVBFOff>0) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
   double passVBF2DTOldL1DeepDiTau = tree->Draw("nEvents", "(passVBF2DTOldL1>0 && passVBF2DTOff>0) || (passDeepDiTau35HLT>0 && passDiTau35Off>0)", "goff");
@@ -60,6 +66,7 @@ void PrintCounts(char* filename) {
   std::cout << "HLT Counts" << '\n' 
             << passInclusiveVBFHLT << '\t' << "Inclusive VBF" << '\n'
             << passDeepInclusiveVBFHLT << '\t' << "Deep Inclusive VBF" << '\n'
+            << passAltDeepInclusiveVBFHLT << '\t' << "Alt Deep Inclusive VBF" << '\n'
             << passVBF2DTHLT << '\t' << "VBF Medium L2NN" << '\n'
             << passVBF2DTLooseHLT << '\t' << "VBF Loose" << '\n'
             << passDeepDiTau35HLT << '\t' << "Deep DiTau 35" << '\n'
@@ -77,6 +84,7 @@ void PrintCounts(char* filename) {
             << "Singles" << '\n'
             << passInclusiveVBFBoth << '\t' << "Inclusive VBF" << '\n'
             << passDeepInclusiveVBFBoth << '\t' << "Deep Inclusive VBF" << '\n'
+            << passAltDeepInclusiveVBFBoth << '\t' << "Alt Deep Inclusive VBF" << '\n'
             //<< passVBF2DTOldL1Both << '\t' << "VBF Medium L2NN Old L1" << '\n'
             << passVBF2DTBoth << '\t' << "VBF Medium L2NN" << '\n'
             << passVBF2DTLooseBoth << '\t' << "VBF Loose No L2NN" << '\n'
@@ -92,6 +100,8 @@ void PrintCounts(char* filename) {
             << "Triples" << '\n'
             //<< passVBF2DTOldL1IncDeepDiTau << '\t' << "VBF Medium L2NN Old L1 OR Inclusive VBF OR Deep DiTau 35" << '\n'
             << passVBFMediumIncDeepDiTau << '\t' << "VBF Medium L2NN OR Inclusive VBF OR Deep DiTau 35" << '\n'
+            << passVBFMediumDeepIncDeepDiTau << '\t' << "VBF Medium L2NN OR Deep Inclusive VBF OR Deep DiTau 35" << '\n'
+            << passVBFMediumAltDeepIncDeepDiTau << '\t' << "VBF Medium L2NN OR Alt Deep Inc VBF OR Deep DiTau 35" << '\n'
             << passVBFLooseIncDeepDiTau << '\t' << "VBF Loose OR Inclusive VBF OR Deep DiTau 35" << '\n'
             << "All Four" << '\n'
             << passAllFour << '\t' << "DiTau, VBF+2Tau, Inclusive VBF, and 2Tau+1Jet" << '\n'

@@ -21,6 +21,7 @@ public :
     int passDeepDiTau35HLT;
     int passInclusiveVBFHLT;
     int passDeepInclusiveVBFHLT;
+    int passAltDeepInclusiveVBFHLT;
     int passVBFPlusOneTauHLT;
 
     int passVBF2DTHLT;
@@ -33,7 +34,8 @@ public :
     int passLowerControlHLT;
 
     int pass2Tau1JetHLT;
-    int passDiTauControl; 
+    int pass2Tau1JetHigherHLT;
+    int passDiTauControlHLT; 
 
 
     // DiTau HLT initial and final branches
@@ -160,6 +162,23 @@ public :
     std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_tauPhi = nullptr;
     std::vector<float>* hltL1sMu22er2p1IsoTau28er2p1_tauEnergy = nullptr;
 
+    int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau;
+    std::vector<float>* hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_pt = nullptr;
+
+    int passhltDoubleL2Tau20eta2p2;
+    int passhltDoubleL2GlobIsoTau20eta2p2;
+    std::vector<float>* hltDoubleL2GlobIsoTau20eta2p2_pt = nullptr;
+    int passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20;
+    std::vector<float>* hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt = nullptr;
+    int passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20;
+    std::vector<float>* hltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt = nullptr;
+    
+    int passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20;
+    std::vector<float>* hltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20_pt = nullptr;
+    int passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20;
+    std::vector<float>* hltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20_pt = nullptr;
+
+
     // end HLT branches
 
     // from AOD
@@ -242,6 +261,7 @@ void trigger_tree::Init(TTree *tree)
     fChain->SetBranchAddress("passDeepDiTau35HLT", &passDeepDiTau35HLT);
     fChain->SetBranchAddress("passInclusiveVBFHLT", &passInclusiveVBFHLT);
     fChain->SetBranchAddress("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);
+    fChain->SetBranchAddress("passAltDeepInclusiveVBFHLT", &passAltDeepInclusiveVBFHLT);
     fChain->SetBranchAddress("passVBFPlusOneTauHLT", &passVBFPlusOneTauHLT);
 
     fChain->SetBranchAddress("passVBF2DTHLT", &passVBF2DTHLT);
@@ -254,7 +274,8 @@ void trigger_tree::Init(TTree *tree)
     fChain->SetBranchAddress("passLowerControlHLT", &passLowerControlHLT);
     
     fChain->SetBranchAddress("pass2Tau1JetHLT", &pass2Tau1JetHLT);
-    fChain->SetBranchAddress("passDiTauControl", &passDiTauControl);
+    fChain->SetBranchAddress("pass2Tau1JetHigherHLT", &pass2Tau1JetHigherHLT);
+    fChain->SetBranchAddress("passDiTauControlHLT", &passDiTauControlHLT);
 
     // DiTau HLT initial and final branches
     fChain->SetBranchAddress("passhltL1sDoubleTauBigOR", &passhltL1sDoubleTauBigOR);
@@ -375,6 +396,19 @@ void trigger_tree::Init(TTree *tree)
     fChain->SetBranchAddress("hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta);
     fChain->SetBranchAddress("hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi);
     fChain->SetBranchAddress("hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy);
+
+    fChain->SetBranchAddress("passhltDoubleL2Tau20eta2p2", &passhltDoubleL2Tau20eta2p2);
+    fChain->SetBranchAddress("passhltDoubleL2GlobIsoTau20eta2p2", &passhltDoubleL2GlobIsoTau20eta2p2);
+    fChain->SetBranchAddress("hltDoubleL2GlobIsoTau20eta2p2_pt", &hltDoubleL2GlobIsoTau20eta2p2_pt);
+    fChain->SetBranchAddress("passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20", &passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20);
+    fChain->SetBranchAddress("hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt", &hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt);
+    fChain->SetBranchAddress("passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20", &passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20);
+    fChain->SetBranchAddress("hltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt", &hltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt);
+
+    fChain->SetBranchAddress("passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20", &passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20);
+    fChain->SetBranchAddress("hltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20_pt", &hltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20_pt);
+    fChain->SetBranchAddress("passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20", &passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20);
+    fChain->SetBranchAddress("hltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20_pt", &hltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20_pt);
 
 
     // from AOD

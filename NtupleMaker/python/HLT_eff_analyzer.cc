@@ -85,12 +85,13 @@ int main(int argc, char** argv)	{
     outTree->Branch("passDiTau35L1", &passDiTau35L1);
 
     // HLTs
-    int passInclusiveVBFHLT, passDeepInclusiveVBFHLT;
+    int passInclusiveVBFHLT, passDeepInclusiveVBFHLT, passAltDeepInclusiveVBFHLT;
     int passVBF2DTHLT, passVBF2DTLooseHLT, passVBF2DTOldL1;
     int passDiTau35HLT, passDeepDiTau35HLT;
     passDiTau35HLT = 0;
     outTree->Branch("passInclusiveVBFHLT", &passInclusiveVBFHLT);
     outTree->Branch("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);
+    outTree->Branch("passAltDeepInclusiveVBFHLT", &passAltDeepInclusiveVBFHLT);
     outTree->Branch("passVBF2DTHLT", &passVBF2DTHLT);
     outTree->Branch("passVBF2DTLooseHLT", &passVBF2DTLooseHLT);
     outTree->Branch("passVBF2DTOldL1", &passVBF2DTOldL1);
@@ -100,13 +101,14 @@ int main(int argc, char** argv)	{
     // controls and Spain HLT
     int passUpperControlMedHLT, passLowerControlMedHLT;
     int passUpperControlHLT, passLowerControlHLT;
-    int passDiTauControlHLT, pass2Tau1JetHLT;
+    int passDiTauControlHLT, pass2Tau1JetHLT, pass2Tau1JetHigherHLT;
     outTree->Branch("passUpperControlMedHLT", &passUpperControlMedHLT);
     outTree->Branch("passLowerControlMedHLT", &passLowerControlMedHLT);
     outTree->Branch("passUpperControlHLT", &passUpperControlHLT);
     outTree->Branch("passLowerControlHLT", &passLowerControlHLT);
     outTree->Branch("passDiTauControlHLT", &passDiTauControlHLT);
     outTree->Branch("pass2Tau1JetHLT", &pass2Tau1JetHLT);
+    outTree->Branch("pass2Tau1JetHigherHLT", &pass2Tau1JetHigherHLT);
 
     // Offlines
     int passInclusiveVBFOff, passVBF2DTOff, passDiTau35Off;  
@@ -124,6 +126,7 @@ int main(int argc, char** argv)	{
     int passhltRealDijetFilter;
     int passhltVBFLooseIDPFDummyFilter;
     int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20;
+    int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau;
     outTree->Branch("passhltL2VBFIsoTauNNFilter", &passhltL2VBFIsoTauNNFilter);
     outTree->Branch("passhltHpsDoublePFTau20withL2NNBeforeDeepTau", &passhltHpsDoublePFTau20withL2NNBeforeDeepTau);
     outTree->Branch("passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch", &passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch);
@@ -131,6 +134,7 @@ int main(int argc, char** argv)	{
     outTree->Branch("passhltRealDijetFilter", &passhltRealDijetFilter);
     outTree->Branch("passhltVBFLooseIDPFDummyFilter", &passhltVBFLooseIDPFDummyFilter);
     outTree->Branch("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20);
+    outTree->Branch("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau);
 
 
     // modules for VBF2DTLoose Cutflow (NoL2NN, module names in trigger tree can't be updated until ConfDB is)
@@ -147,6 +151,19 @@ int main(int argc, char** argv)	{
     outTree->Branch("passhltVBFLooseIDPFDummyFilter_VBF2DTLoose", &passhltVBFLooseIDPFDummyFilter_VBF2DTLoose);
     outTree->Branch("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsLooseDeepTauIsoPFTauHPS20_VBF2DTLoose", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsLooseDeepTauIsoPFTauHPS20_VBF2DTLoose);
 
+    // modules for DeepInclusiveVBF
+    int passhltDoubleL2Tau20eta2p2;
+    int passhltDoubleL2GlobIsoTau20eta2p2;
+    int passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20;
+    int passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20;
+    int passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20;
+    int passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20;
+    outTree->Branch("passhltDoubleL2Tau20eta2p2", &passhltDoubleL2Tau20eta2p2);
+    outTree->Branch("passhltDoubleL2GlobIsoTau20eta2p2", &passhltDoubleL2GlobIsoTau20eta2p2);
+    outTree->Branch("passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20", &passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20);
+    outTree->Branch("passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20", &passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20);
+    outTree->Branch("passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20", &passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20);
+    outTree->Branch("passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20", &passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20);
 
     // flags for viable event and matching objects
 
@@ -185,15 +202,18 @@ int main(int argc, char** argv)	{
 
     std::set<int> lumis;
     std::cout << "If this is a rate study, did you check your boolean variables before running?" << std::endl;
+    bool rateStudyHLT = false;
+    bool rateStudyEZB = false;
+    std::cout << "HLT rate study? " << rateStudyHLT << std::endl;
+    std::cout << "EZB rate study? " << rateStudyEZB << std::endl;
+
     // Event Loop
     // for-loop of fewer events is useful to test code without heavy I/O to terminal from cout statements
     //for (int iEntry = 0; iEntry < 272000; ++iEntry) {
     for (int iEntry = 0; iEntry < inTree->GetEntries(); ++iEntry) {
 	inTree->GetEntry(iEntry);
 
-        bool rateStudyHLT = false;
-        bool rateStudyEZB = true;
-
+        
 	if ((iEntry % 100000 == 0 and (!rateStudyHLT and !rateStudyEZB)) or iEntry % 1000000 == 0) std::cout << std::to_string(iEntry) << std::endl;
 
 	nEvents = inTree->nEvents;
@@ -207,12 +227,6 @@ int main(int argc, char** argv)	{
         if (rateStudyHLT or rateStudyEZB) lumis.insert(lumiBlock);
         lumisSize = lumis.size();
         
-
-        // Inclusive VBF L1 and HLT
-        passhltL1VBFDiJetOR = 0;
-        passhltL1VBFDiJetOR = inTree->passhltL1VBFDiJetOR;
-        passInclusiveVBFHLT = inTree->passInclusiveVBFHLT;
-        passDeepInclusiveVBFHLT = inTree->passDeepInclusiveVBFHLT;
 
         // VBF2DT Old L1
         passhltL1VBFDiJetIsoTauNoer = 0;
@@ -230,6 +244,7 @@ int main(int argc, char** argv)	{
         passhltRealDijetFilter = 0;
         passhltVBFLooseIDPFDummyFilter = 0;
         passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 = 0;
+        passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau = 0;
 
         if (passhltL1VBFDiJetIsoTau) passhltL2VBFIsoTauNNFilter = inTree->passhltL2VBFIsoTauNNFilter;
         if (passhltL2VBFIsoTauNNFilter) passhltHpsDoublePFTau20withL2NNBeforeDeepTau = inTree->passhltHpsDoublePFTau20withL2NNBeforeDeepTau;
@@ -238,6 +253,7 @@ int main(int argc, char** argv)	{
         if (passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched) passhltRealDijetFilter = inTree->passhltRealDijetFilter;
         if (passhltRealDijetFilter) passhltVBFLooseIDPFDummyFilter = inTree->passhltVBFLooseIDPFDummyFilter;
         if (passhltVBFLooseIDPFDummyFilter) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 = inTree->passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20;
+        if (passhltVBFLooseIDPFDummyFilter) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau = inTree->passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau;
 
         passVBF2DTHLT = inTree->passVBF2DTHLT;
         passVBF2DTOldL1 = inTree->passVBF2DTOldL1;
@@ -270,6 +286,28 @@ int main(int argc, char** argv)	{
           filter_t2eta = inTree->hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta->at(1);
         }
 
+        // Inclusive VBF L1 and HLT
+        passhltL1VBFDiJetOR = 0;
+        passhltL1VBFDiJetOR = inTree->passhltL1VBFDiJetOR;
+        passInclusiveVBFHLT = inTree->passInclusiveVBFHLT;
+        passDeepInclusiveVBFHLT = inTree->passDeepInclusiveVBFHLT;
+        passAltDeepInclusiveVBFHLT = inTree->passAltDeepInclusiveVBFHLT;
+        
+        passhltDoubleL2Tau20eta2p2 = 0; 
+        passhltDoubleL2GlobIsoTau20eta2p2 = 0; 
+        passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20 = 0; 
+        passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20 = 0; 
+        passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20 = 0; 
+        passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20 = 0; 
+        if (passhltL1VBFDiJetOR) passhltDoubleL2Tau20eta2p2 = inTree->passhltDoubleL2Tau20eta2p2;
+        if (passhltDoubleL2Tau20eta2p2) passhltDoubleL2GlobIsoTau20eta2p2 = inTree->passhltDoubleL2GlobIsoTau20eta2p2;
+        // standard route through Liam's path using old HLT RmOvlp
+        if (passhltDoubleL2GlobIsoTau20eta2p2) passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20 = inTree->passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20;
+        if (passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20) passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20 = inTree->passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20;
+        // alt route through my adaptation of Liam's path using DiJetCorrChecker
+        if (passhltDoubleL2GlobIsoTau20eta2p2) passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20 = inTree->passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20;
+        if (passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20) passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20 = inTree->passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20;
+
 
         // fill DiTau L1 flags and DeepDiTau35HLT
      
@@ -291,6 +329,8 @@ int main(int argc, char** argv)	{
         passDeepDiTau35HLT = inTree->passDeepDiTau35HLT;
         //passDiTau35HLT = inTree->passDiTau35HLT;
 
+        
+
         // fill Controls and Spain HLT
         passhltL1sSingleMu22 = passhltL1sMu22er2p1IsoTau28er2p1 = 0;
         passhltL1sSingleMu22 = inTree->passhltL1sSingleMu22;
@@ -300,9 +340,10 @@ int main(int argc, char** argv)	{
         passLowerControlMedHLT = inTree->passLowerControlMedHLT;
         passUpperControlHLT = inTree->passUpperControlHLT;
         passLowerControlHLT = inTree->passLowerControlHLT;
-        passDiTauControlHLT = inTree->passDiTauControl;
+        passDiTauControlHLT = inTree->passDiTauControlHLT;
 
         pass2Tau1JetHLT = inTree->pass2Tau1JetHLT;
+        pass2Tau1JetHigherHLT = inTree->pass2Tau1JetHigherHLT;
 
         bool passControlL1s = passhltL1sSingleMu22 or passhltL1sMu22er2p1IsoTau28er2p1;
         bool passhltL1 = passDiTau32L1 or passhltL1VBFDiJetOR or passhltL1VBFDiJetIsoTau or passControlL1s;
