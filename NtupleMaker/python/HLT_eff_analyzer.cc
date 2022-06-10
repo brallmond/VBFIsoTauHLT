@@ -252,8 +252,15 @@ int main(int argc, char** argv)	{
         if (passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch) passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched = inTree->passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched;
         if (passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched) passhltRealDijetFilter = inTree->passhltRealDijetFilter;
         if (passhltRealDijetFilter) passhltVBFLooseIDPFDummyFilter = inTree->passhltVBFLooseIDPFDummyFilter;
-        if (passhltVBFLooseIDPFDummyFilter) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 = inTree->passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20;
+
+        if (passhltVBFLooseIDPFDummyFilter) {
+        std::cout << passhltVBFLooseIDPFDummyFilter << " LooseIDPFDummyFilter" << std::endl;
+        //if (passhltVBFLooseIDPFDummyFilter) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 = inTree->passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20;
+        std::cout << passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau << " filter of interest before" << std::endl;
         if (passhltVBFLooseIDPFDummyFilter) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau = inTree->passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau;
+
+        std::cout << passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau << "filter of interest after" << std::endl;
+        }
 
         passVBF2DTHLT = inTree->passVBF2DTHLT;
         passVBF2DTOldL1 = inTree->passVBF2DTOldL1;
