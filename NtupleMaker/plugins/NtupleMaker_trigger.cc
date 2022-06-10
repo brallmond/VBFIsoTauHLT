@@ -220,14 +220,10 @@ int passhltDoubleL2GlobIsoTau20eta2p2;
 vector<float> hltDoubleL2GlobIsoTau20eta2p2_pt;
 int passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20;
 
-int passhltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau;
 int passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau;
-int passhltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon;
 int passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon;
 
-vector<float> hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau_pt;
 vector<float> hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau_pt;
-vector<float> hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon_pt;
 vector<float> hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon_pt;
 
 vector<float> hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt;
@@ -445,14 +441,10 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("passhltDoubleL2GlobIsoTau20eta2p2", &passhltDoubleL2GlobIsoTau20eta2p2);
     tree->Branch("hltDoubleL2GlobIsoTau20eta2p2_pt", &hltDoubleL2GlobIsoTau20eta2p2_pt);
 
-    tree->Branch("passhltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau", &passhltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau);
     tree->Branch("passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau", &passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau);
-    tree->Branch("passhltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon", &passhltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon);
     tree->Branch("passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon", &passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon);
 
-    tree->Branch("hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau_pt", &hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau_pt);
     tree->Branch("hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau_pt", &hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau_pt);
-    tree->Branch("hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon_pt", &hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon_pt);
     tree->Branch("hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon_pt", &hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon_pt);
 
     tree->Branch("passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20", &passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20);
@@ -675,14 +667,10 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passhltDoubleL2GlobIsoTau20eta2p2 = 0;
     hltDoubleL2GlobIsoTau20eta2p2_pt.clear();
 
-    passhltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau = 0;
     passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau = 0;
-    passhltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon = 0;
     passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon = 0;
 
-    hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau_pt.clear();
     hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau_pt.clear();
-    hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon_pt.clear();
     hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon_pt.clear();
 
     passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20 = 0;
@@ -918,9 +906,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     std::string hltDoubleL2Tau20eta2p2_Tag = "hltDoubleL2Tau20eta2p2::MYOTHERHLT";
     std::string hltDoubleL2GlobIsoTau20eta2p2_Tag = "hltDoubleL2GlobIsoTau20eta2p2::MYOTHERHLT";
 
-    std::string hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau_Tag = "hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau::MYOTHERHLT";
     std::string hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau_Tag = "hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau::MYOTHERHLT";
-    std::string hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon_Tag = "hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon::MYOTHERHLT";
     std::string hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon_Tag = "hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon::MYOTHERHLT";
 
     std::string hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_Tag = "hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20::MYOTHERHLT";
@@ -983,9 +969,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         if (filterTag == hltDoubleL2Tau20eta2p2_Tag && nObjKeys >= 2) passhltDoubleL2Tau20eta2p2 = 1;
         if (filterTag == hltDoubleL2GlobIsoTau20eta2p2_Tag && nObjKeys >= 2) passhltDoubleL2GlobIsoTau20eta2p2 = 1;
 
-        if (filterTag == hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau_Tag && nObjKeys >= 2) passhltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau = 1;
         if (filterTag == hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau_Tag && nObjKeys >= 2) passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau = 1;
-        if (filterTag == hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon_Tag && nObjKeys >= 2) passhltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon = 1;
         if (filterTag == hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon_Tag && nObjKeys >= 2) passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon = 1;
 
         if (filterTag == hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_Tag && nObjKeys >= 2) passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20 = 1;
@@ -1196,20 +1180,10 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                  && passhltDoubleL2GlobIsoTau20eta2p2 && pt_>0) {
                hltDoubleL2GlobIsoTau20eta2p2_pt.push_back(pt_);
             }
-        // fill hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau pt if match
-            if (filterTag == hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau_Tag
-                 && passhltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau && pt_>0) {
-               hltHpsSelectedPFTausMediumDeepTauDitauWPForVBFIsoTau_pt.push_back(pt_);
-            }
         // fill hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau pt if match
             if (filterTag == hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau_Tag
                  && passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau && pt_>0) {
                hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau_pt.push_back(pt_);
-            }
-        // fill hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon pt if match
-            if (filterTag == hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon_Tag
-                 && passhltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon && pt_>0) {
-               hltHpsSelectedPFTausMediumDeepTauDitauWPAgainstMuon_pt.push_back(pt_);
             }
         // fill hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon pt if match
             if (filterTag == hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon_Tag
