@@ -13,6 +13,7 @@ int passDiTauControlHLT;
 int passInclusiveVBFHLT;
 int passDeepInclusiveVBFHLT;
 int passAltDeepInclusiveVBFHLT;
+int passAltDeepInclusiveVBFNoMuonHLT;
 int passVBFPlusTwoDeepTauHLT;
 
 int passVBF2DTHLT;
@@ -28,6 +29,13 @@ int passLowerControlMedHLT;
 
 int pass2Tau1JetHLT;
 int pass2Tau1JetHigherHLT;
+
+// Liam Monitoring
+int passIsoMu27LooseChargedTauHLT;
+int passIsoMu27LooseChargedHPSTauHLT;
+int passIsoMu27MediumChargedTauHLT;
+int passIsoMu27TightChargedTauHLT;
+int passIsoMu27DeepTauHLT;
 
 float 	pt_;
 float 	eta_;
@@ -250,6 +258,7 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("passInclusiveVBFHLT", &passInclusiveVBFHLT);    
     tree->Branch("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);    
     tree->Branch("passAltDeepInclusiveVBFHLT", &passAltDeepInclusiveVBFHLT);    
+    tree->Branch("passAltDeepInclusiveVBFNoMuonHLT", &passAltDeepInclusiveVBFNoMuonHLT);    
     
 
     tree->Branch("passVBF2DTHLT", &passVBF2DTHLT);
@@ -265,6 +274,12 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("passUpperControlMedHLT", &passUpperControlMedHLT);
     tree->Branch("passLowerControlMedHLT", &passLowerControlMedHLT);
     tree->Branch("passDiTauControlHLT", &passDiTauControlHLT);
+
+    tree->Branch("passIsoMu27LooseChargedTauHLT", &passIsoMu27LooseChargedTauHLT);
+    tree->Branch("passIsoMu27LooseChargedHPSTauHLT", &passIsoMu27LooseChargedHPSTauHLT);
+    tree->Branch("passIsoMu27MediumChargedTauHLT", &passIsoMu27MediumChargedTauHLT);
+    tree->Branch("passIsoMu27TightChargedTauHLT", &passIsoMu27TightChargedTauHLT);
+    tree->Branch("passIsoMu27DeepTauHLT", &passIsoMu27DeepTauHLT);
 
     tree->Branch("passhltL1sDoubleTauBigOR", &passhltL1sDoubleTauBigOR);
     tree->Branch("hltL1sDoubleTauBigOR_pt", &hltL1sDoubleTauBigOR_pt);
@@ -479,6 +494,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passInclusiveVBFHLT = 0; 
     passDeepInclusiveVBFHLT = 0; 
     passAltDeepInclusiveVBFHLT = 0; 
+    passAltDeepInclusiveVBFNoMuonHLT = 0; 
 
     passVBF2DTHLT = 0;
     passVBF1DTHLT = 0;
@@ -493,6 +509,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
     pass2Tau1JetHLT = 0;
     pass2Tau1JetHigherHLT = 0;
+
+    passIsoMu27LooseChargedTauHLT = 0;
+    passIsoMu27LooseChargedHPSTauHLT = 0;
+    passIsoMu27MediumChargedTauHLT = 0;
+    passIsoMu27TightChargedTauHLT = 0;
+    passIsoMu27DeepTauHLT = 0;
 
     // DiTau 32 L1 branches (there's a big OR with multiple DiTaus, but 32 is the lowest)
     passhltL1sDoubleTauBigOR = 0;
@@ -715,6 +737,16 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 //    HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1
 //    HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet60_v1
 //    HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet75_v1
+    // new list of paths to run
+    //HLT_IsoMu27_LooseChargedIsoPFTau20_Trk1_eta2p1_SingleL1_v5  // from conf
+    //HLT_IsoMu27_LooseChargedPFTau20_Trk1_eta2p1_SingleL1_v5
+
+    //HLT_IsoMu27_LooseChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1
+    //HLT_IsoMu27_MediumChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1 
+    //HLT_IsoMu27_TightChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1
+    //HLT_IsoMu27_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1
+
+//process.HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1, process.HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1, process.HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1, process.HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1, process.HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v1, process.HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v1, process.HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1, process.HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1, process.HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1
 
     // saving trigger results to respective branches
     //
@@ -723,7 +755,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     //passDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDiTauTrig));
 
     // DeepDiTau35 HLT and Control trigger
-    std::string pathNameDeepDiTauTrig = "HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1";
+    std::string pathNameDeepDiTauTrig = "HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1";
     passDeepDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDeepDiTauTrig));
     std::string pathNameDiTauControl = "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1";
     passDiTauControlHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDiTauControl));
@@ -736,10 +768,13 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDeepInclusiveVBF));
 
     std::string pathNameAltDeepInclusiveVBF = "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_AltRmOvlp_v1";
-    passAltDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameAltDeepInclusiveVBF));
+    //passAltDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameAltDeepInclusiveVBF));
+
+    std::string pathNameAltDeepInclusiveVBFNoMuon = "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_AltRmOvlp_NoAntiMuon_v1";
+    //passAltDeepInclusiveVBFNoMuonHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameAltDeepInclusiveVBFNoMuon);
 
     // VBF + 2 Deep Tau HLT Medium w L2NN and Loose with No L2NN
-    std::string pathUpdatedNameVBF2DT = "HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_MediumDeepTauIsoPFTauHPS20_eta2p1_v1"; 
+    std::string pathUpdatedNameVBF2DT = "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1"; 
     //"HLT_DoublePFJets40_Mass500_MediumDeepTau45_L2NN_MediumDeepTau20_eta2p1_v1";
     passVBF2DTHLT = triggerResults->accept(triggerNames_.triggerIndex(pathUpdatedNameVBF2DT));
 
@@ -759,23 +794,35 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     //"HLT_IsoMu27_LooseDeepTauPFTauHPS20_eta2p1_SingleL1_v1";
     //passLowerControlHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameLowerControl));
 
-    std::string pathNameUpperControlMed = "HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_CrossL1_v1";
+    std::string pathNameUpperControlMed = "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1";
     //"HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1";
     passUpperControlMedHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameUpperControlMed));
-    std::string pathNameLowerControlMed = "HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1";
+    std::string pathNameLowerControlMed = "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1";
     //"HLT_IsoMu27_MediumDeepTauPFTauHPS20_L2NN_eta2p1_SingleL1_v1";
     passLowerControlMedHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameLowerControlMed));
 
     // Spain Group Trigger
-    std::string pathName2Tau1Jet = "HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet60_v1";
+    std::string pathName2Tau1Jet = "HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v1";
     pass2Tau1JetHLT = triggerResults->accept(triggerNames_.triggerIndex(pathName2Tau1Jet));
-    std::string pathName2Tau1JetHigher = "HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet75_v1";
+    std::string pathName2Tau1JetHigher = "HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v1";
     pass2Tau1JetHigherHLT = triggerResults->accept(triggerNames_.triggerIndex(pathName2Tau1JetHigher));
 
     // VBF + 1 Deep Tau
     std::string pathNameVBF1DT = "HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_v1";
     //passVBF1DTHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF1DT));
+    
+    //Liam Monitoring
+    std::string pathNameIsoMu27LooseChargedTauHLT = "HLT_IsoMu27_LooseChargedIsoPFTau20_Trk1_eta2p1_SingleL1_v5";
+    std::string pathNameIsoMu27LooseChargedHPSTauHLT = "HLT_IsoMu27_LooseChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1";
+    std::string pathNameIsoMu27MediumChargedTauHLT = "HLT_IsoMu27_MediumChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1";
+    std::string pathNameIsoMu27TightChargedTauHLT = "HLT_IsoMu27_TightChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1";
+    std::string pathNameIsoMu27DeepTauHLT = "HLT_IsoMu27_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1";
 
+    passIsoMu27LooseChargedTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27LooseChargedTauHLT));
+    passIsoMu27LooseChargedHPSTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27LooseChargedHPSTauHLT));
+    passIsoMu27MediumChargedTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27MediumChargedTauHLT));
+    passIsoMu27TightChargedTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27TightChargedTauHLT));
+    passIsoMu27DeepTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27DeepTauHLT));
 
     // filling branches with triggerObjs information, hltL1VBFDiJetIsoTau object info filled separately since it's a weird L1
 
