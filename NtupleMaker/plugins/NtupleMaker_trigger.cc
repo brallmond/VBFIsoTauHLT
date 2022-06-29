@@ -746,8 +746,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     //HLT_IsoMu27_TightChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1
     //HLT_IsoMu27_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1
 
-//process.HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1, process.HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1, process.HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1, process.HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1, process.HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v1, process.HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v1, process.HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1, process.HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1, process.HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1
-
     // saving trigger results to respective branches
     //
     // DiTau35 HLT
@@ -818,11 +816,11 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     std::string pathNameIsoMu27TightChargedTauHLT = "HLT_IsoMu27_TightChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1";
     std::string pathNameIsoMu27DeepTauHLT = "HLT_IsoMu27_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1";
 
-    passIsoMu27LooseChargedTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27LooseChargedTauHLT));
-    passIsoMu27LooseChargedHPSTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27LooseChargedHPSTauHLT));
-    passIsoMu27MediumChargedTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27MediumChargedTauHLT));
-    passIsoMu27TightChargedTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27TightChargedTauHLT));
-    passIsoMu27DeepTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27DeepTauHLT));
+    //passIsoMu27LooseChargedTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27LooseChargedTauHLT));
+    //passIsoMu27LooseChargedHPSTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27LooseChargedHPSTauHLT));
+    //passIsoMu27MediumChargedTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27MediumChargedTauHLT));
+    //passIsoMu27TightChargedTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27TightChargedTauHLT));
+    //passIsoMu27DeepTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameIsoMu27DeepTauHLT));
 
     // filling branches with triggerObjs information, hltL1VBFDiJetIsoTau object info filled separately since it's a weird L1
 
