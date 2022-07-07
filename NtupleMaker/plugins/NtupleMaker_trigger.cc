@@ -871,6 +871,8 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
 
     // filling branches with triggerObjs information, hltL1VBFDiJetIsoTau object info filled separately since it's a weird L1
+    // vids and available RefVec classes defined here
+    // https://github.com/cms-sw/cmssw/blob/8b101cb0f00c4a961bc4a6d49512ef0335486f40/DataFormats/HLTReco/interface/TriggerRefsCollections.h
 
     // getting trigger refs for hltL1VBFDiJetIsoTau filter's tau/jet splitting
     edm::Handle<trigger::TriggerEventWithRefs> triggerEventWithRefsHandle_;
