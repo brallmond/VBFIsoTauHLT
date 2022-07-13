@@ -2,7 +2,7 @@ hltGetConfiguration /dev/CMSSW_12_4_0/GRun/V40 \
 hltGetConfiguration /users/ballmond/12_4_0_X/DevGRun40/V5 \
 hltGetConfiguration /users/lwezenbe/12_4_X/HIG/Monitoring/V6 \
 
-hltGetConfiguration /users/ballmond/12_4_0_X/DevGRunV61/V2 \
+hltGetConfiguration /users/ballmond/12_4_0_X/DevGRunV67/V2 \
 --mc --globaltag auto:phase1_2022_realistic \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1,\
@@ -16,13 +16,49 @@ HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1,\
 HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1,\
 HLT_DummyL1_v1,\
 HLT_DummyL1Loose_v1,\
+HLT_DummyEGORL1_v1,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output none \
 --process MYOTHERHLT --max-events 50 \
 --l1-emulator FullMC --l1Xml L1Menu_Collisions2022_v1_2_0_edited.xml \
 --input root://cms-xrd-global.cern.ch//store/mc/Run3Summer21DRPremix/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/120X_mcRun3_2021_realistic_v6-v2/30000/00dbda61-e142-4d8a-aa8e-886c3c79fdc4.root \
-> hltDummyL1.py
+> hltTestElectronsAgain.py
+
+# paths from NtupleMaker?
+
+HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1,\
+HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,\
+HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1,\
+HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1,\
+HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v1,\
+HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v1,\
+HLT_DummyL1_v1,\
+HLT_DummyL1Loose_v1,\
+HLT_DummyEGORL1_v1,\
+
+# previous path listing?
+HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1,\
+HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,\
+HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1,\
+HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v1,\
+HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v1,\
+HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1,\
+HLT_DummyL1_v1,\
+HLT_DummyL1Loose_v1,\
+HLT_DummyEGORL1_v1,\
+HLTriggerFinalPath,\
+
+
+# GEN SIM DIGI RAW sample
+# MINI AOD sample
+--input root://cms-xrd-global.cern.ch//store/mc/Run3Summer21MiniAOD/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/MINIAODSIM/120X_mcRun3_2021_realistic_v5-v2/30000/02ef66b7-b3aa-4d61-85bd-d84c73500c13.root \
 
 HIG Monitoring Paths
 HLT_IsoMu27_LooseChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1,\
