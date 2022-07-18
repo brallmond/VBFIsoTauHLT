@@ -24,11 +24,29 @@ vector<int> 	tauL1PrimitivesIso_;
 
 //Tau Id & Isolation
 
+vector<bool>    tauByVVVLooseDeepTau2017v2p1VSjet_;
+vector<bool>    tauByVVLooseDeepTau2017v2p1VSjet_;
+vector<bool>    tauByVLooseDeepTau2017v2p1VSjet_;
+vector<bool>    tauByLooseDeepTau2017v2p1VSjet_;
 vector<bool>    tauByMediumDeepTau2017v2p1VSjet_;
+vector<bool>    tauByTightDeepTau2017v2p1VSjet_;
+vector<bool>    tauByVTightDeepTau2017v2p1VSjet_;
+vector<bool>    tauByVVTightDeepTau2017v2p1VSjet_;
 
 vector<bool>    tauByVVVLooseDeepTau2017v2p1VSe_;
+vector<bool>    tauByVVLooseDeepTau2017v2p1VSe_;
+vector<bool>    tauByVLooseDeepTau2017v2p1VSe_;
+vector<bool>    tauByLooseDeepTau2017v2p1VSe_;
+vector<bool>    tauByMediumDeepTau2017v2p1VSe_;
+vector<bool>    tauByTightDeepTau2017v2p1VSe_;
+vector<bool>    tauByVTightDeepTau2017v2p1VSe_;
+vector<bool>    tauByVVTightDeepTau2017v2p1VSe_;
 
 vector<bool>    tauByVLooseDeepTau2017v2p1VSmu_;
+vector<bool>    tauByLooseDeepTau2017v2p1VSmu_;
+vector<bool>    tauByMediumDeepTau2017v2p1VSmu_;
+vector<bool>    tauByTightDeepTau2017v2p1VSmu_;
+
 
 vector<int> tauPDGID_;
 
@@ -63,11 +81,29 @@ void NtupleMaker::branchesTaus(TTree* tree)
     
     //Tau Id & Isolation
 
+
+    tree->Branch("tauByVVVLooseDeepTau2017v2p1VSjet", &tauByVVVLooseDeepTau2017v2p1VSjet_);
+    tree->Branch("tauByVVLooseDeepTau2017v2p1VSjet", &tauByVVLooseDeepTau2017v2p1VSjet_);
+    tree->Branch("tauByVLooseDeepTau2017v2p1VSjet", &tauByVLooseDeepTau2017v2p1VSjet_);
+    tree->Branch("tauByLooseDeepTau2017v2p1VSjet", &tauByLooseDeepTau2017v2p1VSjet_);
     tree->Branch("tauByMediumDeepTau2017v2p1VSjet", &tauByMediumDeepTau2017v2p1VSjet_);
+    tree->Branch("tauByTightDeepTau2017v2p1VSjet", &tauByTightDeepTau2017v2p1VSjet_);
+    tree->Branch("tauByVTightDeepTau2017v2p1VSjet", &tauByVTightDeepTau2017v2p1VSjet_);
+    tree->Branch("tauByVVTightDeepTau2017v2p1VSjet", &tauByVVTightDeepTau2017v2p1VSjet_);
 
     tree->Branch("tauByVVVLooseDeepTau2017v2p1VSe", &tauByVVVLooseDeepTau2017v2p1VSe_);
+    tree->Branch("tauByVVLooseDeepTau2017v2p1VSe", &tauByVVLooseDeepTau2017v2p1VSe_);
+    tree->Branch("tauByVLooseDeepTau2017v2p1VSe", &tauByVLooseDeepTau2017v2p1VSe_);
+    tree->Branch("tauByLooseDeepTau2017v2p1VSe", &tauByLooseDeepTau2017v2p1VSe_);
+    tree->Branch("tauByMediumDeepTau2017v2p1VSe", &tauByMediumDeepTau2017v2p1VSe_);
+    tree->Branch("tauByTightDeepTau2017v2p1VSe", &tauByTightDeepTau2017v2p1VSe_);
+    tree->Branch("tauByVTightDeepTau2017v2p1VSe", &tauByVTightDeepTau2017v2p1VSe_);
+    tree->Branch("tauByVVTightDeepTau2017v2p1VSe", &tauByVVTightDeepTau2017v2p1VSe_);
 
     tree->Branch("tauByVLooseDeepTau2017v2p1VSmu", &tauByVLooseDeepTau2017v2p1VSmu_);
+    tree->Branch("tauByLooseDeepTau2017v2p1VSmu", &tauByLooseDeepTau2017v2p1VSmu_);
+    tree->Branch("tauByMediumDeepTau2017v2p1VSmu", &tauByMediumDeepTau2017v2p1VSmu_);
+    tree->Branch("tauByTightDeepTau2017v2p1VSmu", &tauByTightDeepTau2017v2p1VSmu_);
 
     tree->Branch("tauPDGID", &tauPDGID_);
  
@@ -113,13 +149,29 @@ void NtupleMaker::fillL1Taus(const edm::Event& iEvent)
 void NtupleMaker::fillTaus(const edm::Event& e)
 {
     // Tau Id & Isolation
-    
 
+    tauByVVVLooseDeepTau2017v2p1VSjet_.clear();
+    tauByVVLooseDeepTau2017v2p1VSjet_.clear();
+    tauByVLooseDeepTau2017v2p1VSjet_.clear();
+    tauByLooseDeepTau2017v2p1VSjet_.clear();
     tauByMediumDeepTau2017v2p1VSjet_.clear();
+    tauByTightDeepTau2017v2p1VSjet_.clear();
+    tauByVTightDeepTau2017v2p1VSjet_.clear();
+    tauByVVTightDeepTau2017v2p1VSjet_.clear();
 
     tauByVVVLooseDeepTau2017v2p1VSe_.clear();
+    tauByVVLooseDeepTau2017v2p1VSe_.clear();
+    tauByVLooseDeepTau2017v2p1VSe_.clear();
+    tauByLooseDeepTau2017v2p1VSe_.clear();
+    tauByMediumDeepTau2017v2p1VSe_.clear();
+    tauByTightDeepTau2017v2p1VSe_.clear();
+    tauByVTightDeepTau2017v2p1VSe_.clear();
+    tauByVVTightDeepTau2017v2p1VSe_.clear();
 
     tauByVLooseDeepTau2017v2p1VSmu_.clear();
+    tauByLooseDeepTau2017v2p1VSmu_.clear();
+    tauByMediumDeepTau2017v2p1VSmu_.clear();
+    tauByTightDeepTau2017v2p1VSmu_.clear();    
 
     tauPDGID_.clear();
 
@@ -146,11 +198,28 @@ void NtupleMaker::fillTaus(const edm::Event& e)
     for(vector<pat::Tau>::const_iterator itau = tauHandle->begin(); itau != tauHandle->end(); ++itau) {
         
         // Tau Id & Isolation
+        tauByVVVLooseDeepTau2017v2p1VSjet_.push_back(itau->tauID("byVVVLooseDeepTau2017v2p1VSjet"));
+        tauByVVLooseDeepTau2017v2p1VSjet_.push_back(itau->tauID("byVVLooseDeepTau2017v2p1VSjet"));
+        tauByVLooseDeepTau2017v2p1VSjet_.push_back(itau->tauID("byVLooseDeepTau2017v2p1VSjet"));
+        tauByLooseDeepTau2017v2p1VSjet_.push_back(itau->tauID("byLooseDeepTau2017v2p1VSjet"));
         tauByMediumDeepTau2017v2p1VSjet_.push_back(itau->tauID("byMediumDeepTau2017v2p1VSjet"));
+        tauByTightDeepTau2017v2p1VSjet_.push_back(itau->tauID("byTightDeepTau2017v2p1VSjet"));
+        tauByVTightDeepTau2017v2p1VSjet_.push_back(itau->tauID("byVTightDeepTau2017v2p1VSjet"));
+        tauByVVTightDeepTau2017v2p1VSjet_.push_back(itau->tauID("byVVTightDeepTau2017v2p1VSjet"));
 
         tauByVVVLooseDeepTau2017v2p1VSe_.push_back(itau->tauID("byVVVLooseDeepTau2017v2p1VSe"));
+        tauByVVLooseDeepTau2017v2p1VSe_.push_back(itau->tauID("byVVLooseDeepTau2017v2p1VSe"));
+        tauByVLooseDeepTau2017v2p1VSe_.push_back(itau->tauID("byVLooseDeepTau2017v2p1VSe"));
+        tauByLooseDeepTau2017v2p1VSe_.push_back(itau->tauID("byLooseDeepTau2017v2p1VSe"));
+        tauByMediumDeepTau2017v2p1VSe_.push_back(itau->tauID("byMediumDeepTau2017v2p1VSe"));
+        tauByTightDeepTau2017v2p1VSe_.push_back(itau->tauID("byTightDeepTau2017v2p1VSe"));
+        tauByVTightDeepTau2017v2p1VSe_.push_back(itau->tauID("byVTightDeepTau2017v2p1VSe"));
+        tauByVVTightDeepTau2017v2p1VSe_.push_back(itau->tauID("byVVTightDeepTau2017v2p1VSe"));
 
         tauByVLooseDeepTau2017v2p1VSmu_.push_back(itau->tauID("byVLooseDeepTau2017v2p1VSmu"));
+        tauByLooseDeepTau2017v2p1VSmu_.push_back(itau->tauID("byLooseDeepTau2017v2p1VSmu"));
+        tauByMediumDeepTau2017v2p1VSmu_.push_back(itau->tauID("byMediumDeepTau2017v2p1VSmu"));
+        tauByTightDeepTau2017v2p1VSmu_.push_back(itau->tauID("byTightDeepTau2017v2p1VSmu"));
    
         tauPDGID_.push_back(itau->pdgId());
     

@@ -1,0 +1,151 @@
+Adding DeepTau IDs
+Embedding new TauIDs into "slimmedTausNewID"
+13-Jul-2022 19:16:47 CEST  Initiating request to open file root://cms-xrd-global.cern.ch//store/mc/Run3Summer21MiniAOD/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/MINIAODSIM/120X_mcRun3_2021_realistic_v5-v2/30000/02ef66b7-b3aa-4d61-85bd-d84c73500c13.root
+%MSG-w XrdAdaptor:  file_open 13-Jul-2022 19:16:49 CEST pre-events
+Data is served from iihe.ac.be instead of original site CERN-CMSGLOBAL-02
+%MSG
+13-Jul-2022 19:16:56 CEST  Successfully opened file root://cms-xrd-global.cern.ch//store/mc/Run3Summer21MiniAOD/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/MINIAODSIM/120X_mcRun3_2021_realistic_v5-v2/30000/02ef66b7-b3aa-4d61-85bd-d84c73500c13.root
+2022-07-13 19:16:58.744099: I tensorflow/core/platform/cpu_feature_guard.cc:142] This TensorFlow binary is optimized with oneAPI Deep Neural Network Library (oneDNN) to use the following CPU instructions in performance-critical operations:  SSE4.1 SSE4.2 AVX AVX2 FMA
+To enable them in other operations, rebuild TensorFlow with the appropriate compiler flags.
+%MSG-w XrdAdaptor:  (NoModuleName) 13-Jul-2022 19:16:59 CEST pre-events
+Data is now served from iihe.ac.be, T2_US_Wisconsin instead of previous iihe.ac.be
+%MSG
+%MSG-w XrdAdaptor:  source 13-Jul-2022 19:17:01 CEST PreSource
+Data is now served from iihe.ac.be instead of previous iihe.ac.be, T2_US_Wisconsin
+%MSG
+Begin processing the 1st record. Run 1, Event 147697, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:01.408 CEST
+Begin processing the 2nd record. Run 1, Event 147700, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:01.909 CEST
+Begin processing the 3rd record. Run 1, Event 147698, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.243 CEST
+Begin processing the 4th record. Run 1, Event 147699, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.245 CEST
+Begin processing the 5th record. Run 1, Event 147701, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.247 CEST
+Begin processing the 6th record. Run 1, Event 147702, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.254 CEST
+Begin processing the 7th record. Run 1, Event 147704, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.267 CEST
+Begin processing the 8th record. Run 1, Event 147703, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.270 CEST
+Begin processing the 9th record. Run 1, Event 147708, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.285 CEST
+Begin processing the 10th record. Run 1, Event 147705, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.294 CEST
+Begin processing the 11th record. Run 1, Event 147706, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.297 CEST
+Begin processing the 12th record. Run 1, Event 147707, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.305 CEST
+Begin processing the 13th record. Run 1, Event 147710, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.325 CEST
+Begin processing the 14th record. Run 1, Event 147712, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.344 CEST
+Begin processing the 15th record. Run 1, Event 147709, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.354 CEST
+Begin processing the 16th record. Run 1, Event 147713, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.373 CEST
+Begin processing the 17th record. Run 1, Event 147711, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.404 CEST
+Begin processing the 18th record. Run 1, Event 147715, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.418 CEST
+Begin processing the 19th record. Run 1, Event 147716, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.425 CEST
+Begin processing the 20th record. Run 1, Event 147717, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.439 CEST
+Begin processing the 21st record. Run 1, Event 147721, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:02.454 CEST
+%MSG-w XrdAdaptor:  (NoModuleName) 13-Jul-2022 19:17:03 CEST pre-events
+Data is now served from iihe.ac.be, T2_US_Wisconsin instead of previous iihe.ac.be
+%MSG
+%MSG-w XrdAdaptor:  PreProcPath demoPath 13-Jul-2022 19:17:05 CEST  Run: 1 Event: 147721
+Data is now served from iihe.ac.be instead of previous iihe.ac.be, T2_US_Wisconsin
+%MSG
+Begin processing the 22nd record. Run 1, Event 147714, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.642 CEST
+Begin processing the 23rd record. Run 1, Event 147719, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.657 CEST
+Begin processing the 24th record. Run 1, Event 147722, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.680 CEST
+Begin processing the 25th record. Run 1, Event 147718, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.683 CEST
+Begin processing the 26th record. Run 1, Event 147724, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.705 CEST
+Begin processing the 27th record. Run 1, Event 147726, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.714 CEST
+Begin processing the 28th record. Run 1, Event 147720, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.732 CEST
+Begin processing the 29th record. Run 1, Event 147725, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.747 CEST
+Begin processing the 30th record. Run 1, Event 147723, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.756 CEST
+Begin processing the 31st record. Run 1, Event 147730, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.766 CEST
+Begin processing the 32nd record. Run 1, Event 147729, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.779 CEST
+Begin processing the 33rd record. Run 1, Event 147728, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.792 CEST
+Begin processing the 34th record. Run 1, Event 147727, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.813 CEST
+Begin processing the 35th record. Run 1, Event 147733, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.827 CEST
+Begin processing the 36th record. Run 1, Event 147731, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.840 CEST
+Begin processing the 37th record. Run 1, Event 147734, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.858 CEST
+Begin processing the 38th record. Run 1, Event 147732, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.868 CEST
+Begin processing the 39th record. Run 1, Event 147736, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.887 CEST
+Begin processing the 40th record. Run 1, Event 147738, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.890 CEST
+Begin processing the 41st record. Run 1, Event 147735, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.904 CEST
+Begin processing the 42nd record. Run 1, Event 147740, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.921 CEST
+Begin processing the 43rd record. Run 1, Event 147739, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.930 CEST
+Begin processing the 44th record. Run 1, Event 147741, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.943 CEST
+Begin processing the 45th record. Run 1, Event 147745, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.958 CEST
+Begin processing the 46th record. Run 1, Event 147737, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.974 CEST
+Begin processing the 47th record. Run 1, Event 147743, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:05.988 CEST
+Begin processing the 48th record. Run 1, Event 147747, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.008 CEST
+Begin processing the 49th record. Run 1, Event 147744, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.021 CEST
+Begin processing the 50th record. Run 1, Event 147746, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.030 CEST
+Begin processing the 51st record. Run 1, Event 147750, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.042 CEST
+Begin processing the 52nd record. Run 1, Event 147748, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.065 CEST
+Begin processing the 53rd record. Run 1, Event 147742, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.083 CEST
+Begin processing the 54th record. Run 1, Event 147753, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.099 CEST
+Begin processing the 55th record. Run 1, Event 147749, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.109 CEST
+Begin processing the 56th record. Run 1, Event 147757, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.129 CEST
+Begin processing the 57th record. Run 1, Event 147752, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.142 CEST
+Begin processing the 58th record. Run 1, Event 147755, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.150 CEST
+Begin processing the 59th record. Run 1, Event 147751, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.170 CEST
+Begin processing the 60th record. Run 1, Event 147754, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.195 CEST
+Begin processing the 61st record. Run 1, Event 147758, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.211 CEST
+Begin processing the 62nd record. Run 1, Event 147762, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.231 CEST
+Begin processing the 63rd record. Run 1, Event 147756, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.244 CEST
+Begin processing the 64th record. Run 1, Event 147761, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.257 CEST
+Begin processing the 65th record. Run 1, Event 147760, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.267 CEST
+Begin processing the 66th record. Run 1, Event 147759, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.285 CEST
+Begin processing the 67th record. Run 1, Event 147763, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.297 CEST
+Begin processing the 68th record. Run 1, Event 147765, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.309 CEST
+Begin processing the 69th record. Run 1, Event 147766, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.317 CEST
+Begin processing the 70th record. Run 1, Event 147767, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.339 CEST
+Begin processing the 71st record. Run 1, Event 147764, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.357 CEST
+Begin processing the 72nd record. Run 1, Event 147768, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.366 CEST
+Begin processing the 73rd record. Run 1, Event 147771, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.374 CEST
+Begin processing the 74th record. Run 1, Event 147770, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.387 CEST
+Begin processing the 75th record. Run 1, Event 147773, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.401 CEST
+Begin processing the 76th record. Run 1, Event 147772, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.416 CEST
+Begin processing the 77th record. Run 1, Event 147775, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.429 CEST
+Begin processing the 78th record. Run 1, Event 147774, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.440 CEST
+Begin processing the 79th record. Run 1, Event 147777, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.459 CEST
+Begin processing the 80th record. Run 1, Event 147769, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.468 CEST
+Begin processing the 81st record. Run 1, Event 147778, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.483 CEST
+Begin processing the 82nd record. Run 1, Event 147776, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.498 CEST
+Begin processing the 83rd record. Run 1, Event 147780, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.516 CEST
+Begin processing the 84th record. Run 1, Event 147781, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.534 CEST
+Begin processing the 85th record. Run 1, Event 147779, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.555 CEST
+Begin processing the 86th record. Run 1, Event 147785, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.564 CEST
+Begin processing the 87th record. Run 1, Event 147787, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.582 CEST
+Begin processing the 88th record. Run 1, Event 147784, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.596 CEST
+Begin processing the 89th record. Run 1, Event 147788, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.610 CEST
+Begin processing the 90th record. Run 1, Event 147786, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.613 CEST
+Begin processing the 91st record. Run 1, Event 147782, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.621 CEST
+Begin processing the 92nd record. Run 1, Event 147792, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.635 CEST
+Begin processing the 93rd record. Run 1, Event 147790, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.661 CEST
+Begin processing the 94th record. Run 1, Event 147783, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.674 CEST
+Begin processing the 95th record. Run 1, Event 147789, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.702 CEST
+Begin processing the 96th record. Run 1, Event 147791, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.725 CEST
+Begin processing the 97th record. Run 1, Event 147795, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.740 CEST
+Begin processing the 98th record. Run 1, Event 147794, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.749 CEST
+Begin processing the 99th record. Run 1, Event 147796, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.751 CEST
+Begin processing the 100th record. Run 1, Event 147798, LumiSection 205 on stream 0 at 13-Jul-2022 19:17:06.754 CEST
+13-Jul-2022 19:17:06 CEST  Closed file root://cms-xrd-global.cern.ch//store/mc/Run3Summer21MiniAOD/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/MINIAODSIM/120X_mcRun3_2021_realistic_v5-v2/30000/02ef66b7-b3aa-4d61-85bd-d84c73500c13.root
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 XrdAdaptor           -w (NoModuleName)                         2        2
+    2 XrdAdaptor           -w PreProcPath demo                       1        1
+    3 XrdAdaptor           -w file_open                              1        1
+    4 XrdAdaptor           -w source                                 1        1
+    5 fileAction           -s file_close                             1        1
+    6 fileAction           -s file_open                              2        2
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 XrdAdaptor           pre-events       pre-events       
+    2 XrdAdaptor           1/147721                          
+    3 XrdAdaptor           pre-events                        
+    4 XrdAdaptor           PreSource                         
+    5 fileAction           PostGlobalEndRun                  
+    6 fileAction           pre-events       pre-events       
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                 5                   5
+System                  3                   3
+
+dropped waiting message count 0

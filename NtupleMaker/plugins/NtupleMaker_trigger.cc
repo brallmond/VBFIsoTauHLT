@@ -117,126 +117,66 @@ vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEnergy;
 //branches for VBFPlusTwoDeepTauHLT
 int passhltL2VBFIsoTauNNFilter;
 vector<float> hltL2VBFIsoTauNNFilter_pt;
-vector<float> hltL2VBFIsoTauNNFilter_eta;
-vector<float> hltL2VBFIsoTauNNFilter_phi;
-vector<float> hltL2VBFIsoTauNNFilter_energy;
 
 int passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau;
 vector<float> hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_pt;
-vector<float> hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_eta;
-vector<float> hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_phi;
-vector<float> hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_energy;
 
 int passhltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau;
 vector<float> hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_pt;
-vector<float> hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_eta;
-vector<float> hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_phi;
-vector<float> hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_energy;
 
 int passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch;
 vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_pt;
-vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_eta;
-vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_phi;
-vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_energy;
 
 int passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN;
 vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_pt;
-vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_eta;
-vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_phi;
-vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_energy;
 
 int passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch;
 vector<float> hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_pt;
-vector<float> hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_eta;
-vector<float> hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_phi;
-vector<float> hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_energy;
 
 int passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN;
 vector<float> hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_pt;
-vector<float> hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta;
-vector<float> hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_phi;
-vector<float> hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_energy;
 
 // match L1 Tau
 int passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched;
 vector<float> hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_pt;
-vector<float> hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_eta;
-vector<float> hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_phi;
-vector<float> hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_energy;
 
 int passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN;
 vector<float> hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_pt;
-vector<float> hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_eta;
-vector<float> hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_phi;
-vector<float> hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_energy;
 
 int passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched; 
 vector<float> hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_pt;
-vector<float> hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_eta;
-vector<float> hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_phi;
-vector<float> hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_energy;
 
 int passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN;
 vector<float> hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_pt;
-vector<float> hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_eta;
-vector<float> hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_phi;
-vector<float> hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_energy;
 
 // added for inefficiency study in DeepTau HLT
 int passhltRealDijetFilter;
 vector<float> hltRealDijetFilter_pt;
-vector<float> hltRealDijetFilter_eta;
-vector<float> hltRealDijetFilter_phi;
-vector<float> hltRealDijetFilter_energy;
 
 int passhltVBFLooseIDPFDummyFilter;
 vector<float> hltVBFLooseIDPFDummyFilter_pt;
-vector<float> hltVBFLooseIDPFDummyFilter_eta;
-vector<float> hltVBFLooseIDPFDummyFilter_phi;
-vector<float> hltVBFLooseIDPFDummyFilter_energy;
 
 int passhltVBFIsoTauL1TLooseIDPFJetsMatching;
 vector<float> hltVBFIsoTauL1TLooseIDPFJetsMatching_pt;
-vector<float> hltVBFIsoTauL1TLooseIDPFJetsMatching_eta;
-vector<float> hltVBFIsoTauL1TLooseIDPFJetsMatching_phi;
-vector<float> hltVBFIsoTauL1TLooseIDPFJetsMatching_energy;
 
 // match jets filter
 int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20; 
 vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_pt;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_eta;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_phi;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_energy;
 
 int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN; 
 vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_pt;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_eta;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_phi;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_energy;
 
 int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20;
 vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_pt;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_eta;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_phi;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_energy;
 
 int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN;
 vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_pt;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_eta;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_phi;
-vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_energy;
 
 int passhltHpsDoublePFTau20BeforeDeepTau;
 vector<float> hltHpsDoublePFTau20BeforeDeepTau_pt;
-vector<float> hltHpsDoublePFTau20BeforeDeepTau_eta;
-vector<float> hltHpsDoublePFTau20BeforeDeepTau_phi;
-vector<float> hltHpsDoublePFTau20BeforeDeepTau_energy;
 
 int passhltHpsDoublePFTau20withL2NNBeforeDeepTau;
 vector<float> hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt;
-vector<float> hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta;
-vector<float> hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi;
-vector<float> hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy;
 
 // branches for DeepVBF eff study
 int passhltDoubleL2Tau20eta2p2;
@@ -365,127 +305,67 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     // VBFPlusTwoDeepTau HLT Modules
     tree->Branch("passhltL2VBFIsoTauNNFilter", &passhltL2VBFIsoTauNNFilter);
     tree->Branch("hltL2VBFIsoTauNNFilter_pt", &hltL2VBFIsoTauNNFilter_pt);
-    tree->Branch("hltL2VBFIsoTauNNFilter_eta", &hltL2VBFIsoTauNNFilter_eta);
-    tree->Branch("hltL2VBFIsoTauNNFilter_phi", &hltL2VBFIsoTauNNFilter_phi);
-    tree->Branch("hltL2VBFIsoTauNNFilter_energy", &hltL2VBFIsoTauNNFilter_energy);
 
     // issue where these filters aren't being activated/stored in tree. Would be good info to have
     tree->Branch("passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau", &passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau);
     tree->Branch("hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_pt", &hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_pt);
-    tree->Branch("hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_eta", &hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_eta);
-    tree->Branch("hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_phi", &hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_phi);
-    tree->Branch("hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_energy", &hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_energy);
 
     tree->Branch("passhltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau", &passhltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau);
     tree->Branch("hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_pt", &hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_pt);
-    tree->Branch("hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_eta", &hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_eta);
-    tree->Branch("hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_phi", &hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_phi);
-    tree->Branch("hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_energy", &hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_energy);
     
     //
     tree->Branch("passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch", &passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch);
     tree->Branch("hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_pt", &hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_pt);
-    tree->Branch("hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_eta", &hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_eta);
-    tree->Branch("hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_phi", &hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_phi);
-    tree->Branch("hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_energy", &hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_energy);
 
     tree->Branch("passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN", &passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN);
     tree->Branch("hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_pt", &hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_pt);
-    tree->Branch("hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_eta", &hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_eta);
-    tree->Branch("hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_phi", &hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_phi);
-    tree->Branch("hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_energy", &hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_energy);
 
     tree->Branch("passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch", &passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch);
     tree->Branch("hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_pt", &hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_pt);
-    tree->Branch("hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_eta", &hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_eta);
-    tree->Branch("hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_phi", &hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_phi);
-    tree->Branch("hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_energy", &hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_energy);
 
     tree->Branch("passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN", &passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN);
     tree->Branch("hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_pt", &hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_pt);
-    tree->Branch("hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta", &hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta);
-    tree->Branch("hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_phi", &hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_phi);
-    tree->Branch("hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_energy", &hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_energy);
 
     //
     tree->Branch("passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched", &passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched);
     tree->Branch("hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_pt", &hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_pt);
-    tree->Branch("hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_eta", &hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_eta);
-    tree->Branch("hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_phi", &hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_phi);
-    tree->Branch("hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_energy", &hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_energy);
 
     tree->Branch("passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN", &passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN);
     tree->Branch("hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_pt", &hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_pt);
-    tree->Branch("hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_eta", &hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_eta);
-    tree->Branch("hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_phi", &hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_phi);
-    tree->Branch("hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_energy", &hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_energy);
 
     tree->Branch("passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched", &passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched);
     tree->Branch("hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_pt", &hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_pt);
-    tree->Branch("hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_eta", &hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_eta);
-    tree->Branch("hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_phi", &hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_phi);
-    tree->Branch("hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_energy", &hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_energy);
 
     tree->Branch("passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN", &passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN);
     tree->Branch("hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_pt", &hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_pt);
-    tree->Branch("hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_eta", &hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_eta);
-    tree->Branch("hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_phi", &hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_phi);
-    tree->Branch("hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_energy", &hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_energy);
     //
     tree->Branch("passhltRealDijetFilter", &passhltRealDijetFilter);
     tree->Branch("hltRealDijetFilter_pt", &hltRealDijetFilter_pt);
-    tree->Branch("hltRealDijetFilter_eta", &hltRealDijetFilter_eta);
-    tree->Branch("hltRealDijetFilter_phi", &hltRealDijetFilter_phi);
-    tree->Branch("hltRealDijetFilter_energy", &hltRealDijetFilter_energy);
 
     tree->Branch("passhltVBFLooseIDPFDummyFilter", &passhltVBFLooseIDPFDummyFilter);
     tree->Branch("hltVBFLooseIDPFDummyFilter_pt", &hltVBFLooseIDPFDummyFilter_pt);
-    tree->Branch("hltVBFLooseIDPFDummyFilter_eta", &hltVBFLooseIDPFDummyFilter_eta);
-    tree->Branch("hltVBFLooseIDPFDummyFilter_phi", &hltVBFLooseIDPFDummyFilter_phi);
-    tree->Branch("hltVBFLooseIDPFDummyFilter_energy", &hltVBFLooseIDPFDummyFilter_energy);
 
     tree->Branch("passhltVBFIsoTauL1TLooseIDPFJetsMatching", &passhltVBFIsoTauL1TLooseIDPFJetsMatching);
     tree->Branch("hltVBFIsoTauL1TLooseIDPFJetsMatching_pt", &hltVBFIsoTauL1TLooseIDPFJetsMatching_pt);
-    tree->Branch("hltVBFIsoTauL1TLooseIDPFJetsMatching_eta", &hltVBFIsoTauL1TLooseIDPFJetsMatching_eta);
-    tree->Branch("hltVBFIsoTauL1TLooseIDPFJetsMatching_phi", &hltVBFIsoTauL1TLooseIDPFJetsMatching_phi);
-    tree->Branch("hltVBFIsoTauL1TLooseIDPFJetsMatching_energy", &hltVBFIsoTauL1TLooseIDPFJetsMatching_energy);
 
     tree->Branch("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20);
     tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_pt", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_pt);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_eta", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_eta);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_phi", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_phi);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_energy", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_energy);
 
     tree->Branch("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN);
     tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_pt", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_pt);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_eta", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_eta);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_phi", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_phi);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_energy", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_energy);
 
     tree->Branch("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20);
     tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_pt", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_pt);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_eta", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_eta);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_phi", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_phi);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_energy", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_energy);
 
     tree->Branch("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN);
     tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_pt", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_pt);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_eta", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_eta);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_phi", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_phi);
-    tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_energy", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_energy);
 
 
     tree->Branch("passhltHpsDoublePFTau20BeforeDeepTau", &passhltHpsDoublePFTau20BeforeDeepTau);
     tree->Branch("hltHpsDoublePFTau20BeforeDeepTau_pt", &hltHpsDoublePFTau20BeforeDeepTau_pt);
-    tree->Branch("hltHpsDoublePFTau20BeforeDeepTau_eta", &hltHpsDoublePFTau20BeforeDeepTau_eta);
-    tree->Branch("hltHpsDoublePFTau20BeforeDeepTau_phi", &hltHpsDoublePFTau20BeforeDeepTau_phi);
-    tree->Branch("hltHpsDoublePFTau20BeforeDeepTau_energy", &hltHpsDoublePFTau20BeforeDeepTau_energy);
 
     tree->Branch("passhltHpsDoublePFTau20withL2NNBeforeDeepTau", &passhltHpsDoublePFTau20withL2NNBeforeDeepTau);
     tree->Branch("hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt);
-    tree->Branch("hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta);
-    tree->Branch("hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi);
-    tree->Branch("hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy", &hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy);
 
     tree->Branch("passhltDoubleL2Tau20eta2p2", &passhltDoubleL2Tau20eta2p2);
     tree->Branch("passhltDoubleL2GlobIsoTau20eta2p2", &passhltDoubleL2GlobIsoTau20eta2p2);
@@ -618,128 +498,68 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     // Start VBF Double Deep Tau
     passhltL2VBFIsoTauNNFilter = 0;
     hltL2VBFIsoTauNNFilter_pt.clear();
-    hltL2VBFIsoTauNNFilter_eta.clear();
-    hltL2VBFIsoTauNNFilter_phi.clear();
-    hltL2VBFIsoTauNNFilter_energy.clear();
 
     //
     passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau = 0;
     hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_pt.clear();
-    hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_eta.clear();
-    hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_phi.clear();
-    hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_energy.clear();
 
     passhltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau = 0;
     hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_pt.clear();
-    hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_eta.clear();
-    hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_phi.clear();
-    hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_energy.clear();
 
     //
     passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch = 0;
     hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_pt.clear();
-    hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_eta.clear();
-    hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_phi.clear();
-    hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_energy.clear();
 
     passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN = 0;
     hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_pt.clear();
-    hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_eta.clear();
-    hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_phi.clear();
-    hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_energy.clear();
 
     passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch = 0;
     hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_pt.clear();
-    hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_eta.clear();
-    hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_phi.clear();
-    hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_energy.clear();
 
     passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN = 0;
     hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_pt.clear();
-    hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta.clear();
-    hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_phi.clear();
-    hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_energy.clear();
     
     //
     passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched = 0;
     hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_pt.clear();
-    hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_eta.clear();
-    hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_phi.clear();
-    hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_energy.clear();
 
     passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN = 0;
     hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_pt.clear();
-    hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_eta.clear();
-    hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_phi.clear();
-    hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_energy.clear();
 
     passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched = 0;
     hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_pt.clear();
-    hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_eta.clear();
-    hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_phi.clear();
-    hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_energy.clear();
 
     passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN = 0;
     hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_pt.clear();
-    hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_eta.clear();
-    hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_phi.clear();
-    hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_energy.clear();
 
     //
     passhltRealDijetFilter = 0;
     hltRealDijetFilter_pt.clear();
-    hltRealDijetFilter_eta.clear();
-    hltRealDijetFilter_phi.clear();
-    hltRealDijetFilter_energy.clear();
 
     passhltVBFLooseIDPFDummyFilter = 0;
     hltVBFLooseIDPFDummyFilter_pt.clear();
-    hltVBFLooseIDPFDummyFilter_eta.clear();
-    hltVBFLooseIDPFDummyFilter_phi.clear();
-    hltVBFLooseIDPFDummyFilter_energy.clear();
 
     passhltVBFIsoTauL1TLooseIDPFJetsMatching = 0;
     hltVBFIsoTauL1TLooseIDPFJetsMatching_pt.clear();
-    hltVBFIsoTauL1TLooseIDPFJetsMatching_eta.clear();
-    hltVBFIsoTauL1TLooseIDPFJetsMatching_phi.clear();
-    hltVBFIsoTauL1TLooseIDPFJetsMatching_energy.clear();
 
     //
     passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 = 0;
     hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_pt.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_eta.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_phi.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_energy.clear();
 
     passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN = 0;
     hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_pt.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_eta.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_phi.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_energy.clear();
 
     passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20 = 0;
     hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_pt.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_eta.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_phi.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_energy.clear();
 
     passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN = 0;
     hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_pt.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_eta.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_phi.clear();
-    hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_energy.clear();
 
     passhltHpsDoublePFTau20BeforeDeepTau = 0;
     hltHpsDoublePFTau20BeforeDeepTau_pt.clear();
-    hltHpsDoublePFTau20BeforeDeepTau_eta.clear();
-    hltHpsDoublePFTau20BeforeDeepTau_phi.clear();
-    hltHpsDoublePFTau20BeforeDeepTau_energy.clear();
 
     passhltHpsDoublePFTau20withL2NNBeforeDeepTau = 0;
     hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt.clear();
-    hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta.clear();
-    hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi.clear();
-    hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy.clear();
 
     passhltDoubleL2Tau20eta2p2 = 0;
     passhltDoubleL2GlobIsoTau20eta2p2 = 0;
@@ -777,7 +597,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     const edm::TriggerNames triggerNames_ = iEvent.triggerNames(*triggerResults);
 
     // saving trigger results to respective branches
-    std::cout << "Can I print this?" << std::endl;
+    //std::cout << "Can I print this?" << std::endl;
     
     // DiTau35 HLT
     std::string pathNameDiTauTrig = "HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1";
@@ -786,20 +606,20 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     // DeepDiTau35 HLT and Control trigger
     std::string pathNameDeepDiTauTrig = "HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1";
     passDeepDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDeepDiTauTrig));
-    std::cout << "pass " << pathNameDeepDiTauTrig << std::endl;
+    //std::cout << "pass " << pathNameDeepDiTauTrig << std::endl;
 
     std::string pathNameDiTauControl = "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1";
     passDiTauControlHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDiTauControl));
-    std::cout << "pass " << pathNameDiTauControl << std::endl;
+    //std::cout << "pass " << pathNameDiTauControl << std::endl;
 
     // Inclusive VBF HLT
     std::string pathNameInclusiveVBF = "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1";
     passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameInclusiveVBF));
-    std::cout << "pass " << pathNameInclusiveVBF << std::endl;
+    //std::cout << "pass " << pathNameInclusiveVBF << std::endl;
 
     std::string pathNameDeepInclusiveVBF = "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1";
     passDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDeepInclusiveVBF));
-    std::cout << "pass " << pathNameDeepInclusiveVBF << std::endl;
+    //std::cout << "pass " << pathNameDeepInclusiveVBF << std::endl;
 
     std::string pathNameAltDeepInclusiveVBF = "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_AltRmOvlp_v1";
     //passAltDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameAltDeepInclusiveVBF));
@@ -810,7 +630,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     // VBF + 2 Deep Tau HLT Medium w L2NN and Loose with No L2NN
     std::string pathNameVBF2DT = "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1"; 
     passVBF2DTHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DT));
-    std::cout << "pass " << pathNameVBF2DT << std::endl;
+    //std::cout << "pass " << pathNameVBF2DT << std::endl;
 
     std::string pathNameVBF2DTLooseNoL2NN = "HLT_DoublePFJets40_Mass500_LooseDeepTauIsoPFTauHPS45_LooseDeepTauIsoPFTauHPS20_eta2p1_v1"; 
     //passVBF2DTLooseHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameVBF2DTLooseNoL2NN));
@@ -818,12 +638,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     // My Control Paths
     std::string pathNameUpperControlMed = "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1";
     passUpperControlMedHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameUpperControlMed));
-    std::cout << "pass " << pathNameUpperControlMed << std::endl;
+    //std::cout << "pass " << pathNameUpperControlMed << std::endl;
 
 
     std::string pathNameLowerControlMed = "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1";
     passLowerControlMedHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameLowerControlMed));
-    std::cout << "pass " << pathNameLowerControlMed << std::endl;
+    //std::cout << "pass " << pathNameLowerControlMed << std::endl;
 
     std::string pathNameUpperControl = "HLT_IsoMu24_eta2p1_LooseDeepTauIsoPFTauHPS45_eta2p1_CrossL1_v1";
     //passUpperControlHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameUpperControl));
@@ -833,11 +653,11 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     // Spain Group Triggers
     std::string pathName2Tau1Jet = "HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v1";
     pass2Tau1JetHLT = triggerResults->accept(triggerNames_.triggerIndex(pathName2Tau1Jet));
-    std::cout << "pass " << pathName2Tau1Jet << std::endl;
+    //std::cout << "pass " << pathName2Tau1Jet << std::endl;
 
     std::string pathName2Tau1JetHigher = "HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v1";
     pass2Tau1JetHigherHLT = triggerResults->accept(triggerNames_.triggerIndex(pathName2Tau1JetHigher));
-    std::cout << "pass " << pathName2Tau1JetHigher << std::endl;
+    //std::cout << "pass " << pathName2Tau1JetHigher << std::endl;
 
     // VBF + 1 Deep Tau
     std::string pathNameVBF1DT = "HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_v1";
@@ -861,13 +681,13 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     std::string pathNameHLTDummyEGORL1 = "HLT_DummyEGORL1_v1";
 
     passHLTDummyL1 = triggerResults->accept(triggerNames_.triggerIndex(pathNameHLTDummyL1));
-    std::cout << "pass " << pathNameHLTDummyL1 << std::endl;
+    //std::cout << "pass " << pathNameHLTDummyL1 << std::endl;
 
     passHLTDummyL1Loose = triggerResults->accept(triggerNames_.triggerIndex(pathNameHLTDummyL1Loose));
-    std::cout << "pass " << pathNameHLTDummyL1Loose << std::endl;
+    //std::cout << "pass " << pathNameHLTDummyL1Loose << std::endl;
 
     passHLTDummyEGORL1 = triggerResults->accept(triggerNames_.triggerIndex(pathNameHLTDummyEGORL1));
-    std::cout << "pass " << pathNameHLTDummyEGORL1 << std::endl;
+    //std::cout << "pass " << pathNameHLTDummyEGORL1 << std::endl;
 
 
 
@@ -1162,23 +982,14 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
             if (filterTag == hltL2VBFIsoTauNNFilter_Tag
                  && passhltL2VBFIsoTauNNFilter && pt_>0) {
                hltL2VBFIsoTauNNFilter_pt.push_back(pt_);
-               hltL2VBFIsoTauNNFilter_eta.push_back(eta_);
-               hltL2VBFIsoTauNNFilter_phi.push_back(phi_);
-               hltL2VBFIsoTauNNFilter_energy.push_back(energy_);
             }
             if (filterTag == hltHpsDoublePFTau20BeforeDeepTau_Tag
                  && passhltHpsDoublePFTau20BeforeDeepTau && pt_>0) {
                hltHpsDoublePFTau20BeforeDeepTau_pt.push_back(pt_);
-               hltHpsDoublePFTau20BeforeDeepTau_eta.push_back(eta_);
-               hltHpsDoublePFTau20BeforeDeepTau_phi.push_back(phi_);
-               hltHpsDoublePFTau20BeforeDeepTau_energy.push_back(energy_);
             }
             if (filterTag == hltHpsDoublePFTau20withL2NNBeforeDeepTau_Tag
                  && passhltHpsDoublePFTau20withL2NNBeforeDeepTau && pt_>0) {
                hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt.push_back(pt_);
-               hltHpsDoublePFTau20withL2NNBeforeDeepTau_eta.push_back(eta_);
-               hltHpsDoublePFTau20withL2NNBeforeDeepTau_phi.push_back(phi_);
-               hltHpsDoublePFTau20withL2NNBeforeDeepTau_energy.push_back(energy_);
             }
 
         //
@@ -1186,141 +997,90 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
             if (filterTag == hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_Tag
                  && passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau && pt_>0) {
                hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_pt.push_back(pt_);
-               hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_eta.push_back(eta_);
-               hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_phi.push_back(phi_);
-               hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_energy.push_back(energy_);
             }
         // fill hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau if match
             if (filterTag == hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_Tag
                  && passhltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau && pt_>0) {
                hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_pt.push_back(pt_);
-               hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_eta.push_back(eta_);
-               hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_phi.push_back(phi_);
-               hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_energy.push_back(energy_);
             }
         //
         // fill hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch if match
             if (filterTag == hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_Tag
                  && passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch && pt_>0) {
                hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_pt.push_back(pt_);
-               hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_eta.push_back(eta_);
-               hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_phi.push_back(phi_);
-               hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_energy.push_back(energy_);
             }
         // fill hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN if match
             if (filterTag == hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_Tag
                  && passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN && pt_>0) {
                hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_pt.push_back(pt_);
-               hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_eta.push_back(eta_);
-               hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_phi.push_back(phi_);
-               hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_energy.push_back(energy_);
             }
         // fill hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch if match
             if (filterTag == hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_Tag
                  && passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch && pt_>0) {
                hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_pt.push_back(pt_);
-               hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_eta.push_back(eta_);
-               hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_phi.push_back(phi_);
-               hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_energy.push_back(energy_);
             }
         // fill hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN if match
             if (filterTag == hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_Tag
                  && passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN && pt_>0) {
                hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_pt.push_back(pt_);
-               hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_eta.push_back(eta_);
-               hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_phi.push_back(phi_);
-               hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_energy.push_back(energy_);
             }
         //
         // fill hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched if match
             if (filterTag == hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_Tag
                  && passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched && pt_>0) {
                hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_pt.push_back(pt_);
-               hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_eta.push_back(eta_);
-               hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_phi.push_back(phi_);
-               hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_energy.push_back(energy_);
             }
         // fill hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN if match
             if (filterTag == hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_Tag
                  && passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN && pt_>0) {
                hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_pt.push_back(pt_);
-               hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_eta.push_back(eta_);
-               hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_phi.push_back(phi_);
-               hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_energy.push_back(energy_);
             }
         // fill hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched if match
             if (filterTag == hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_Tag
                  && passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched && pt_>0) {
                hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_pt.push_back(pt_);
-               hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_eta.push_back(eta_);
-               hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_phi.push_back(phi_);
-               hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_energy.push_back(energy_);
             }
         // fill hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN if match
             if (filterTag == hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_Tag
                  && passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN && pt_>0) {
                hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_pt.push_back(pt_);
-               hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_eta.push_back(eta_);
-               hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_phi.push_back(phi_);
-               hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_energy.push_back(energy_);
             }
         //
         // fill hltRealDijetFilter if match
             if (filterTag == hltRealDijetFilter_Tag
                  && passhltRealDijetFilter && pt_>0) {
                hltRealDijetFilter_pt.push_back(pt_);
-               hltRealDijetFilter_eta.push_back(eta_);
-               hltRealDijetFilter_phi.push_back(phi_);
-               hltRealDijetFilter_energy.push_back(energy_);
             }
         // fill hltVBFLooseIDPFDummyFilter if match
             if (filterTag == hltVBFLooseIDPFDummyFilter_Tag
                  && passhltVBFLooseIDPFDummyFilter && pt_>0) {
                hltVBFLooseIDPFDummyFilter_pt.push_back(pt_);
-               hltVBFLooseIDPFDummyFilter_eta.push_back(eta_);
-               hltVBFLooseIDPFDummyFilter_phi.push_back(phi_);
-               hltVBFLooseIDPFDummyFilter_energy.push_back(energy_);
             }
         // fill hltVBFIsoTauL1TLooseIDPFJetsMatching if match
             if (filterTag == hltVBFIsoTauL1TLooseIDPFJetsMatching_Tag
                  && passhltVBFIsoTauL1TLooseIDPFJetsMatching && pt_>0) {
                hltVBFIsoTauL1TLooseIDPFJetsMatching_pt.push_back(pt_);
-               hltVBFIsoTauL1TLooseIDPFJetsMatching_eta.push_back(eta_);
-               hltVBFIsoTauL1TLooseIDPFJetsMatching_phi.push_back(phi_);
-               hltVBFIsoTauL1TLooseIDPFJetsMatching_energy.push_back(energy_);
             }
         //
         // fill hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 if match
             if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_Tag
                  && passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 && pt_>0) {
                hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_pt.push_back(pt_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_eta.push_back(eta_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_phi.push_back(phi_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_energy.push_back(energy_);
             }
         // fill hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN if match
             if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_Tag
                  && passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN && pt_>0) {
                hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_pt.push_back(pt_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_eta.push_back(eta_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_phi.push_back(phi_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_energy.push_back(energy_);
             }
         // fill hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20 if match
             if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_Tag
                  && passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20 && pt_>0) {
                hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_pt.push_back(pt_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_eta.push_back(eta_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_phi.push_back(phi_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_energy.push_back(energy_);
             }
         // fill hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN if match
             if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_Tag
                  && passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN && pt_>0) {
                hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_pt.push_back(pt_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_eta.push_back(eta_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_phi.push_back(phi_);
-               hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20NoL2NN_energy.push_back(energy_);
             }
         // fill hltDoubleL2GlobIsoTau20eta2p2 pt if match
             if (filterTag == hltDoubleL2GlobIsoTau20eta2p2_Tag
