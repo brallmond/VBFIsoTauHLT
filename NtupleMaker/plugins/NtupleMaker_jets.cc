@@ -25,7 +25,7 @@ vector<float>  jetL1PrimitivesEnergy_;
 vector<float>  jetPt_;
 vector<float>  jetEta_;
 vector<float>  jetPhi_;
-vector<float>  jetEn_;
+vector<float>  jetEnergy_;
 
 vector<bool>   jetPFLooseId_;
 vector<int>    jetID_; 
@@ -49,7 +49,7 @@ void NtupleMaker::branchesJets(TTree* tree) {
   tree->Branch("jetPt",               &jetPt_);
   tree->Branch("jetEta",              &jetEta_);
   tree->Branch("jetPhi",              &jetPhi_);
-  tree->Branch("jetEn",               &jetEn_);
+  tree->Branch("jetEnergy",               &jetEnergy_);
 
   tree->Branch("jetPFLooseId", &jetPFLooseId_);
   tree->Branch("jetID",        &jetID_);
@@ -82,7 +82,7 @@ void NtupleMaker::fillJets(const edm::Event& e, const edm::EventSetup& es) {
   jetPt_                                  .clear();
   jetEta_                                 .clear();
   jetPhi_                                 .clear();
-  jetEn_                                  .clear();
+  jetEnergy_                                  .clear();
 
   jetPFLooseId_                           .clear();
   jetID_                                  .clear();
@@ -107,7 +107,7 @@ void NtupleMaker::fillJets(const edm::Event& e, const edm::EventSetup& es) {
     jetPt_.push_back(    iJet->pt());
     jetEta_.push_back(   iJet->eta());
     jetPhi_.push_back(   iJet->phi());
-    jetEn_.push_back(    iJet->energy());
+    jetEnergy_.push_back(    iJet->energy());
 
   
 

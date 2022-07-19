@@ -31,9 +31,10 @@ vector<float>  eleL1PrimitivesEnergy_;
 	
 
 vector<float>  elePt_;
-vector<float>  eleEn_;
+vector<float>  eleEnergy_;
 vector<float>  eleEta_;
 vector<float>  elePhi_;
+vector<float>  eleCharge_;
 
 vector<int> elePDGID_;
 
@@ -60,10 +61,12 @@ void NtupleMaker::branchesL1Electrons(TTree* tree) {
 void NtupleMaker::branchesElectrons(TTree* tree) {
   
   tree->Branch("nEle", &nEle_);
-  tree->Branch("elePt",               &elePt_);
-  tree->Branch("eleEn",               &eleEn_);
-  tree->Branch("eleEta",              &eleEta_);
-  tree->Branch("elePhi",              &elePhi_);
+  tree->Branch("elePt", &elePt_);
+  tree->Branch("eleEta", &eleEta_);
+  tree->Branch("elePhi", &elePhi_);
+  tree->Branch("eleEnergy", &eleEnergy_);
+  tree->Branch("eleCharge", &eleCharge_);
+
   tree->Branch("elePDGID", &elePDGID_);
   tree->Branch("eleIDMVAIso", &eleIDMVAIso_);
   tree->Branch("eleIDMVANoIso", &eleIDMVANoIso_);
@@ -97,9 +100,10 @@ void NtupleMaker::fillElectrons(const edm::Event& e) { //, const edm::EventSetup
 
   nEle_ = 0;
   elePt_.clear();
-  eleEn_.clear();
   eleEta_.clear();
   elePhi_.clear();
+  eleEnergy_.clear();
+  eleCharge_.clear();
 
   elePDGID_.clear();
 
@@ -123,9 +127,10 @@ void NtupleMaker::fillElectrons(const edm::Event& e) { //, const edm::EventSetup
   for (vector<pat::Electron>::const_iterator iEle = electronHandle->begin(); iEle != electronHandle->end(); ++iEle) {
 
     elePt_.push_back(iEle->pt());
-    eleEn_.push_back(iEle->energy());
     eleEta_.push_back(iEle->eta());
     elePhi_.push_back(iEle->phi());
+    eleEnergy_.push_back(iEle->energy());
+    eleCharge_.push_back(iEle->charge());
 
     //elePDGID_.push_back(iEle->genParticle());
     elePDGID_.push_back(iEle->pdgId());

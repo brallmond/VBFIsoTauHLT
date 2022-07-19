@@ -185,3 +185,24 @@ make sure to recompile
 next rerun the harvesting step (this produces the graphs, and the file we just modified has instructions for which graphs to produce and save)
 
 You can view the graphs the same as before using a TBrowser (incredibly slow, but it does work)
+
+Condor note
+To kill/remove a job, first find its ID, then condor_rm ID
+
+[ballmond@lxplus732 Jobs]$ condor_q -nobatch
+
+
+-- Schedd: bigbird14.cern.ch : <137.138.44.75:9618?... @ 07/19/22 10:56:02
+ ID         OWNER            SUBMITTED     RUN_TIME ST PRI SIZE  CMD
+9432553.26  ballmond        7/19 09:28   0+01:22:47 R  0   220.0 sub_32.sh /afs/cern.ch/user/b/ballmond/public/CMSSW_12_4_0/src/x509up_u13442
+9432553.30  ballmond        7/19 09:28   0+01:22:46 R  0   220.0 sub_36.sh /afs/cern.ch/user/b/ballmond/public/CMSSW_12_4_0/src/x509up_u13442
+9432553.42  ballmond        7/19 09:28   0+01:22:42 R  0   733.0 sub_47.sh /afs/cern.ch/user/b/ballmond/public/CMSSW_12_4_0/src/x509up_u13442
+9435374.26  ballmond        7/19 10:24   0+00:26:50 R  0   220.0 sub_32.sh /afs/cern.ch/user/b/ballmond/public/CMSSW_12_4_0/src/x509up_u13442
+
+Total for query: 4 jobs; 0 completed, 0 removed, 0 idle, 4 running, 0 held, 0 suspended 
+Total for ballmond: 4 jobs; 0 completed, 0 removed, 0 idle, 4 running, 0 held, 0 suspended 
+Total for all users: 53091 jobs; 0 completed, 15 removed, 45460 idle, 4648 running, 2968 held, 0 suspended
+
+[ballmond@lxplus732 Jobs]$ condor_rm 9432553.26
+Job 9432553.26 marked for removal
+

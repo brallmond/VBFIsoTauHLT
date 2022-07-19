@@ -56,6 +56,7 @@ vector<float> tauPt_;
 vector<float> tauEta_;
 vector<float> tauPhi_;
 vector<float> tauEnergy_;
+vector<float> tauCharge_;
 
 
 void NtupleMaker::branchesEventInfo(TTree* tree)
@@ -109,10 +110,11 @@ void NtupleMaker::branchesTaus(TTree* tree)
  
  
     //Tau Kinematics
-    tree->Branch("tauPt"  ,&tauPt_);
-    tree->Branch("tauEta"  ,&tauEta_);
-    tree->Branch("tauPhi"  ,&tauPhi_);
-    tree->Branch("tauEnergy"  ,&tauEnergy_);
+    tree->Branch("tauPt", &tauPt_);
+    tree->Branch("tauEta", &tauEta_);
+    tree->Branch("tauPhi", &tauPhi_);
+    tree->Branch("tauEnergy", &tauEnergy_);
+    tree->Branch("tauCharge", &tauCharge_);
     
     
     
@@ -180,6 +182,7 @@ void NtupleMaker::fillTaus(const edm::Event& e)
     tauEta_.clear();
     tauPhi_.clear();
     tauEnergy_.clear();
+    tauCharge_.clear();
     
     
     nTau_ = 0;
@@ -229,7 +232,8 @@ void NtupleMaker::fillTaus(const edm::Event& e)
         tauPt_.push_back(itau->pt());
         tauEta_.push_back(itau->eta());
         tauPhi_.push_back(itau->phi());
-        tauEnergy_.push_back(itau->energy() );
+        tauEnergy_.push_back(itau->energy());
+        tauCharge_.push_back(itau->charge());
 
         
         
