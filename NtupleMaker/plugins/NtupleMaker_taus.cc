@@ -42,6 +42,7 @@ vector<bool>    tauByTightDeepTau2017v2p1VSe_;
 vector<bool>    tauByVTightDeepTau2017v2p1VSe_;
 vector<bool>    tauByVVTightDeepTau2017v2p1VSe_;
 
+vector<bool>    tauByVVVLooseDeepTau2017v2p1VSmu_;
 vector<bool>    tauByVLooseDeepTau2017v2p1VSmu_;
 vector<bool>    tauByLooseDeepTau2017v2p1VSmu_;
 vector<bool>    tauByMediumDeepTau2017v2p1VSmu_;
@@ -101,6 +102,7 @@ void NtupleMaker::branchesTaus(TTree* tree)
     tree->Branch("tauByVTightDeepTau2017v2p1VSe", &tauByVTightDeepTau2017v2p1VSe_);
     tree->Branch("tauByVVTightDeepTau2017v2p1VSe", &tauByVVTightDeepTau2017v2p1VSe_);
 
+    tree->Branch("tauByVVVLooseDeepTau2017v2p1VSmu", &tauByVVVLooseDeepTau2017v2p1VSmu_);
     tree->Branch("tauByVLooseDeepTau2017v2p1VSmu", &tauByVLooseDeepTau2017v2p1VSmu_);
     tree->Branch("tauByLooseDeepTau2017v2p1VSmu", &tauByLooseDeepTau2017v2p1VSmu_);
     tree->Branch("tauByMediumDeepTau2017v2p1VSmu", &tauByMediumDeepTau2017v2p1VSmu_);
@@ -170,6 +172,7 @@ void NtupleMaker::fillTaus(const edm::Event& e)
     tauByVTightDeepTau2017v2p1VSe_.clear();
     tauByVVTightDeepTau2017v2p1VSe_.clear();
 
+    tauByVVVLooseDeepTau2017v2p1VSmu_.clear();
     tauByVLooseDeepTau2017v2p1VSmu_.clear();
     tauByLooseDeepTau2017v2p1VSmu_.clear();
     tauByMediumDeepTau2017v2p1VSmu_.clear();
@@ -219,6 +222,7 @@ void NtupleMaker::fillTaus(const edm::Event& e)
         tauByVTightDeepTau2017v2p1VSe_.push_back(itau->tauID("byVTightDeepTau2017v2p1VSe"));
         tauByVVTightDeepTau2017v2p1VSe_.push_back(itau->tauID("byVVTightDeepTau2017v2p1VSe"));
 
+        tauByVVVLooseDeepTau2017v2p1VSmu_.push_back(itau->tauID("byVVVLooseDeepTau2017v2p1VSmu"));
         tauByVLooseDeepTau2017v2p1VSmu_.push_back(itau->tauID("byVLooseDeepTau2017v2p1VSmu"));
         tauByLooseDeepTau2017v2p1VSmu_.push_back(itau->tauID("byLooseDeepTau2017v2p1VSmu"));
         tauByMediumDeepTau2017v2p1VSmu_.push_back(itau->tauID("byMediumDeepTau2017v2p1VSmu"));
