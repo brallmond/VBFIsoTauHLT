@@ -149,6 +149,13 @@ if __name__ == "__main__":
   tree.SetBranchAddress("eleEn", OffEleEnergy)
 
   # Offline Ids
+  OffTauIDvsJet = ROOT.std.vector('bool')()
+  tree.SetBranchAddress("tauByMediumDeepTau2017v2p1VSjet", OffTauIDvsJet)
+  OffTauIDvsEle = ROOT.std.vector('bool')()
+  tree.SetBranchAddress("tauByTightDeepTau2017v2p1VSe", OffTauIDvsEle)
+  OffTauIDvsMuon = ROOT.std.vector('bool')()
+  tree.SetBranchAddress("tauByVLooseDeepTau2017v2p1VSmu", OffTauIDvsMuon)
+
   OffJetPFLooseID = ROOT.std.vector('bool')()
   tree.SetBranchAddress("jetPFLooseId", OffJetPFLooseID)
   OffJetID = ROOT.std.vector('int')()
@@ -161,13 +168,15 @@ if __name__ == "__main__":
   OffEleID = ROOT.std.vector('int')()
   tree.SetBranchAddress("eleIDMVANoIsowp90", OffEleID)
 
+  CountViable = 0
   for entry in range(5000):
     #print(entry)
     tree.GetEntry(entry)
 
     # check if event passes L1 and HLT and basic offline object count requirements
-    basicReqs = passL1[0] and (OffnJets[0] >= 2) and (OffnEles[0] >= 1)
+    basicReqs = passL1[0] and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1)
     if basicReqs:
+      CountViable += 1
 
       # make and fill containers with TLorentzVectors
       # we will match the offline to the L1s, so it is redudant to cut on both
@@ -178,7 +187,6 @@ if __name__ == "__main__":
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
 
-      preOffJets = fillWithTVecs(OffJetPt, OffJetEta, OffJetPhi, OffJetEnergy)#, PassJetID)
       JetPtToPass = 45
       PassJetPt =  [i for i in range(len(OffJetPt)) if OffJetPt[i] >= JetPtToPass]
       PassJetID =  [i for i in range(len(OffJetID)) if OffJetID[i] >= 2]
@@ -186,16 +194,28 @@ if __name__ == "__main__":
       # python list intersection https://stackoverflow.com/questions/3697432/how-to-find-list-intersection
       # listed in the order which removes the most members first (assuming & short-circuits)
       OffJetsPassFilter = list(set(PassJetPt) & set(PassJetID) & set(PassJetEta))
-      OffJets = [preOffJets[i] for i in OffJetsPassFilter]
+      OffJets = fillWithTVecs(OffJetPt, OffJetEta, OffJetPhi, OffJetEnergy, OffJetsPassFilter)
       sizeOffJets = len(OffJets)
 
-      preOffEles = fillWithTVecs(OffElePt, OffEleEta, OffElePhi, OffEleEnergy)#, PassEleID)
+      TauPtToPass = 25
+      # Tau ID for Ele-Tau using 2017 DeepTau version 2p1, Med vs Jet, Tight vs Ele, VLoose vs Muon
+      TauEtaToPass = 2.3
+      PassTauPt = [i for i in range(len(OffTauPt)) if OffTauPt[i] >= TauPtToPass]
+      PassTauID = [i for i in range(len(OffTauIDvsJet)) \
+                    if (OffTauIDvsJet[i] == True and OffTauIDvsEle[i] == True and OffTauIDvsMuon[i] == True) ]  
+      PassTauEta = [i for i in range(len(OffTauEta)) if OffTauEta[i] <= TauEtaToPass]
+      OffTauPassFilter = list(set(PassTauPt) & set(PassTauID) & set(PassTauEta))
+      OffTaus = fillWithTVecs(OffTauPt, OffTauEta, OffTauPhi, OffTauEnergy, OffTauPassFilter)
+      sizeOffTaus = len(OffTaus)
+
       ElePtToPass = 12
+      # Ele ID is eleIDMVANoIsowp90
+      EleEtaToPass = 2.1
       PassElePt =  [i for i in range(len(OffElePt)) if OffElePt[i] >= ElePtToPass]
       PassEleID =  [i for i in range(len(OffEleID)) if OffEleID[i] >= 1]      
-      PassEleEta = [i for i in range(len(OffEleEta)) if OffEleEta[i] <= 2.1]
+      PassEleEta = [i for i in range(len(OffEleEta)) if OffEleEta[i] <= EleEtaToPass]
       OffElesPassFilter = list(set(PassEleID) & set(PassElePt) & set(PassEleEta))
-      OffEles = [preOffEles[i] for i in OffElesPassFilter]
+      OffEles = fillWithTVecs(OffElePt, OffEleEta, OffElePhi, OffEleEnergy, OffElesPassFilter)
       sizeOffEles = len(OffEles)
 
       # as written, it would just make more sense to assign things all at once, instead of before and then skimming
@@ -210,6 +230,6 @@ if __name__ == "__main__":
 
         electronPt = L1ElePt[0]
 
-
+  print(CountViable)
   
 
