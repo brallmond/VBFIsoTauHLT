@@ -1,0 +1,9 @@
+get counts for differnt L1s
+
+make new sample with ele-tau HLT available
+
+make offline selection section for that
+
+compare output/overlap (see how much our trigger would add on what is already captured)
+
+consider an additional sample. Is VBF the place where this trigger will have the largest impact? probably

@@ -170,12 +170,18 @@ if __name__ == "__main__":
   tree.SetBranchAddress("eleIDMVANoIsowp90", OffEleID)
 
   CountViable = 0
-  atleastonemismatch = 0
+  CountMismatchL1Jet = 0
   for entry in range(tree.GetEntries()):
     tree.GetEntry(entry)
 
     # check if event passes L1 and HLT and basic offline object count requirements
     basicReqs = passL1[0] and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1)
+    # L1 thresholds to try
+    # jet pt    mjj    ele pt    
+    # 38/40/42  460    12
+    # 32/34/36  440    14
+    # Iso
+    # 30        320    10
     if basicReqs:
       # make and fill containers with TLorentzVectors
       # we will match the offline to the L1s, so it is redudant to cut on both
@@ -235,23 +241,30 @@ if __name__ == "__main__":
 
       OffTauCand = OffTaus[0]
       OffEleCand = OffEles[0]
-      OffJ1Index, OffJ2Index, OffMjj = highestMjjPair(OffJets)
+      OffJet1Index, OffJet2Index, OffMjj = highestMjjPair(OffJets)
       if (OffMjj < 600): continue
-      OffJetCand1 = OffJets[OffJ1Index]
-      OffJetCand2 = OffJets[OffJ2Index]
+      OffJetCand1 = OffJets[OffJet1Index]
+      OffJetCand2 = OffJets[OffJet2Index]
       if (ROOT.TLorentzVector.DeltaR(OffJetCand1, OffJetCand2) < 0.5): continue
 
-      L1Jets = []
+      L1JetPtToPass = 30
+      L1mjjToPass = 300
       L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
+      L1Jets = [L1Jets[i] for i in range(len(L1Jets)) if L1Jets[i].Pt() >= L1JetPtToPass]
       sizeL1Jets = len(L1Jets)
+      if (sizeL1Jets < 2): continue
+      L1Jet1Index, L1Jet2Index, L1mjj = highestMjjPair(L1Jets)
+      if (L1mjj < L1mjjToPass): continue
 
       matchL1OffJet = [i for i in range(sizeL1Jets) if 
                         (ROOT.TLorentzVector.DeltaR(OffJetCand1, L1Jets[i]) < 0.5 or
                          ROOT.TLorentzVector.DeltaR(OffJetCand2, L1Jets[i]) < 0.5 ) ]
 
-      L1Eles = []
+      L1ElePtToPass = 10
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
+      L1Eles = [L1Eles[i] for i in range(len(L1Eles)) if L1Eles[i].Pt() >= L1ElePtToPass]
       sizeL1Eles = len(L1Eles)
+      if (sizeL1Eles < 1): continue
 
       matchL1OffEle = [i for i in range(sizeL1Eles) if ROOT.TLorentzVector.DeltaR(OffEleCand, L1Eles[i]) < 0.5 ] 
 
@@ -260,19 +273,12 @@ if __name__ == "__main__":
       if ( (len(matchL1OffJet) >= 2) and (len(matchL1OffEle) >= 1) ): #only call function if more than 2 objects
         L1LeadingJetIndex, L1SubleadingJetIndex, L1mjj = highestMjjPair(L1Jets)
         
-        if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): atleastonemismatch += 1
+        if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): CountMismatchL1Jet += 1
           #print("iEntry {}".format(entry))
           #print(L1LeadingJetIndex, L1SubleadingJetIndex)
           #print(matchL1OffJet)
 
-      allGood = False
-      if (allGood):
-        L1LeadingJetPt = L1Jets[leadingJetIndex].Pt()
-        L1SubleadingJetPt = L1Jets[subleadingJetIndex].Pt()
-
-        electronPt = L1ElePt[0]
-
   print("CountViable {}".format(CountViable))
-  print("atleastonemismatch {}".format(atleastonemismatch))
+  print("CountMismatchL1Jet {}".format(CountMismatchL1Jet))
   
 
