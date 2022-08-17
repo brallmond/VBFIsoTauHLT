@@ -10,3 +10,8 @@ NtupleMaker/python/__pycache__/L1VBFEleEff.cpython-39.pyc
 NtupleMaker/confs/__pycache__/hltSTEAMIntermediate.cpython-39.pyc
 NtupleMaker/confs/__pycache__/setup_dev_CMSSW_12_3_0_GRun_cff.cpython-39.pyc
 
+NtupleMaker/python/__pycache__/CfiFile_cfi.cpython-39.pyc
+NtupleMaker/python/__pycache__/__init__.cpython-39.pyc
+
+NtupleMaker/confs/histo.root
+
