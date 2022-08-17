@@ -28,7 +28,7 @@ config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_2_0_edited.xml']
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
-config.General.requestName = 'AddEleTauHLT'
+config.General.requestName = 'AddEleTauHLT_RemovedBadTauPATID'
 
 #config.Data.inputDataset = '/EphemeralHLTPhysics8/Run2018D-v1/RAW'
 
