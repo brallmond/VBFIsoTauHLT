@@ -11,27 +11,30 @@ int passHLTDummyL1;
 int passHLTDummyL1Loose;
 int passHLTDummyEGORL1;
 
+int passEleTauHLT; // HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v2
+
 int passDeepDiTau35HLT;
-int passDiTauControlHLT;
+int passDiTauControlHLT; // no longer in the menu
 
 int passInclusiveVBFHLT;
 int passDeepInclusiveVBFHLT;
-int passAltDeepInclusiveVBFHLT;
-int passAltDeepInclusiveVBFNoMuonHLT;
+int passAltDeepInclusiveVBFHLT; // they didn't want it
+int passAltDeepInclusiveVBFNoMuonHLT; // they didn't want it either
 
 int passVBF2DTHLT;
-int passVBF1DTHLT;
-int passVBF2DTLooseHLT;
+int passVBF1DTHLT; // for HL LHC
+int passVBF2DTLooseHLT; // they didn't want it
 
-int passUpperControlHLT;
-int passLowerControlHLT;
+int passUpperControlHLT; // went with medium WPs
+int passLowerControlHLT; // went with medium WPs
 int passUpperControlMedHLT;
 int passLowerControlMedHLT;
 
-int pass2Tau1JetHLT;
-int pass2Tau1JetHigherHLT;
+int pass2Tau1JetHLT; // Jaime's trigger
+int pass2Tau1JetHigherHLT; // Jaime's other trigger (same as above with higher jet cut)
 
 // HIG Monitoring
+// no longer monitoring
 int passIsoMu27LooseChargedTauHLT;
 int passIsoMu27LooseChargedHPSTauHLT;
 int passIsoMu27MediumChargedTauHLT;
@@ -115,8 +118,11 @@ vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEnergy;
 
 
 //branches for VBFPlusTwoDeepTauHLT
-int passhltL2VBFIsoTauNNFilter;
+int passhltL2VBFIsoTauNNFilter; // it would be good to have L2 Taus actually
 vector<float> hltL2VBFIsoTauNNFilter_pt;
+vector<float> hltL2VBFIsoTauNNFilter_eta;
+vector<float> hltL2VBFIsoTauNNFilter_phi;
+vector<float> hltL2VBFIsoTauNNFilter_energy;
 
 int passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau;
 vector<float> hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_pt;
@@ -130,7 +136,7 @@ vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_pt;
 int passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN;
 vector<float> hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_pt;
 
-int passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch;
+int passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch; // no need for TempLoose any longer
 vector<float> hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_pt;
 
 int passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN;
@@ -180,19 +186,19 @@ vector<float> hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt;
 
 // branches for DeepVBF eff study
 int passhltDoubleL2Tau20eta2p2;
-int passhltDoubleL2GlobIsoTau20eta2p2;
+int passhltDoubleL2GlobIsoTau20eta2p2; // could compare L2 Taus
 vector<float> hltDoubleL2GlobIsoTau20eta2p2_pt;
 int passhltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20;
 
 int passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau;
 int passhltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon;
-
 vector<float> hltHpsDoublePFTau20TrackDeepTauIsoDitauWPForVBFIsoTau_pt;
 vector<float> hltHpsDoublePFTau20TrackDeepTauIsoDitauWPAgainstMuon_pt;
-
 vector<float> hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt;
+
 int passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20;
 vector<float> hltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt;
+
 // final two branches with different jet correlation producer
 int passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20;
 vector<float> hltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20_pt;
@@ -212,28 +218,8 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("passHLTDummyL1", &passHLTDummyL1);
     tree->Branch("passHLTDummyL1Loose", &passHLTDummyL1Loose);
     tree->Branch("passHLTDummyEGORL1", &passHLTDummyEGORL1);
-
-    tree->Branch("passhltL1VBFElectron", &passhltL1VBFElectron);
-    tree->Branch("hltL1VBFElectron_ePt", &hltL1VBFElectron_ePt);
-    tree->Branch("hltL1VBFElectron_eEta", &hltL1VBFElectron_eEta);
-    tree->Branch("hltL1VBFElectron_ePhi", &hltL1VBFElectron_ePhi);
-    tree->Branch("hltL1VBFElectron_eEnergy", &hltL1VBFElectron_eEnergy);
-    tree->Branch("hltL1VBFElectron_jPt", &hltL1VBFElectron_jPt);
-    tree->Branch("hltL1VBFElectron_jEta", &hltL1VBFElectron_jEta);
-    tree->Branch("hltL1VBFElectron_jPhi", &hltL1VBFElectron_jPhi);
-    tree->Branch("hltL1VBFElectron_jEnergy", &hltL1VBFElectron_jEnergy);
-
-    tree->Branch("passhltL1VBFElectronLoose", &passhltL1VBFElectronLoose);
-    tree->Branch("hltL1VBFElectronLoose_ePt", &hltL1VBFElectronLoose_ePt);
-    tree->Branch("hltL1VBFElectronLoose_eEta", &hltL1VBFElectronLoose_eEta);
-    tree->Branch("hltL1VBFElectronLoose_ePhi", &hltL1VBFElectronLoose_ePhi);
-    tree->Branch("hltL1VBFElectronLoose_eEnergy", &hltL1VBFElectronLoose_eEnergy);
-    tree->Branch("hltL1VBFElectronLoose_jPt", &hltL1VBFElectronLoose_jPt);
-    tree->Branch("hltL1VBFElectronLoose_jEta", &hltL1VBFElectronLoose_jEta);
-    tree->Branch("hltL1VBFElectronLoose_jPhi", &hltL1VBFElectronLoose_jPhi);
-    tree->Branch("hltL1VBFElectronLoose_jEnergy", &hltL1VBFElectronLoose_jEnergy);
-
-    tree->Branch("passhltL1EGOR", &passhltL1EGOR);
+   
+    tree->Branch("passEleTauHLT", &passEleTauHLT);
 
     tree->Branch("passDeepDiTau35HLT", &passDeepDiTau35HLT);
 
@@ -260,6 +246,29 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("passIsoMu27MediumChargedTauHLT", &passIsoMu27MediumChargedTauHLT);
     tree->Branch("passIsoMu27TightChargedTauHLT", &passIsoMu27TightChargedTauHLT);
     tree->Branch("passIsoMu27DeepTauHLT", &passIsoMu27DeepTauHLT);
+
+    tree->Branch("passhltL1EGOR", &passhltL1EGOR);
+
+    tree->Branch("passhltL1VBFElectron", &passhltL1VBFElectron);
+    tree->Branch("hltL1VBFElectron_ePt", &hltL1VBFElectron_ePt);
+    tree->Branch("hltL1VBFElectron_eEta", &hltL1VBFElectron_eEta);
+    tree->Branch("hltL1VBFElectron_ePhi", &hltL1VBFElectron_ePhi);
+    tree->Branch("hltL1VBFElectron_eEnergy", &hltL1VBFElectron_eEnergy);
+    tree->Branch("hltL1VBFElectron_jPt", &hltL1VBFElectron_jPt);
+    tree->Branch("hltL1VBFElectron_jEta", &hltL1VBFElectron_jEta);
+    tree->Branch("hltL1VBFElectron_jPhi", &hltL1VBFElectron_jPhi);
+    tree->Branch("hltL1VBFElectron_jEnergy", &hltL1VBFElectron_jEnergy);
+
+    tree->Branch("passhltL1VBFElectronLoose", &passhltL1VBFElectronLoose);
+    tree->Branch("hltL1VBFElectronLoose_ePt", &hltL1VBFElectronLoose_ePt);
+    tree->Branch("hltL1VBFElectronLoose_eEta", &hltL1VBFElectronLoose_eEta);
+    tree->Branch("hltL1VBFElectronLoose_ePhi", &hltL1VBFElectronLoose_ePhi);
+    tree->Branch("hltL1VBFElectronLoose_eEnergy", &hltL1VBFElectronLoose_eEnergy);
+    tree->Branch("hltL1VBFElectronLoose_jPt", &hltL1VBFElectronLoose_jPt);
+    tree->Branch("hltL1VBFElectronLoose_jEta", &hltL1VBFElectronLoose_jEta);
+    tree->Branch("hltL1VBFElectronLoose_jPhi", &hltL1VBFElectronLoose_jPhi);
+    tree->Branch("hltL1VBFElectronLoose_jEnergy", &hltL1VBFElectronLoose_jEnergy);
+
 
     tree->Branch("passhltL1sDoubleTauBigOR", &passhltL1sDoubleTauBigOR);
     tree->Branch("hltL1sDoubleTauBigOR_pt", &hltL1sDoubleTauBigOR_pt);
@@ -404,6 +413,8 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passHLTDummyL1 = 0;
     passHLTDummyL1Loose = 0;
     passHLTDummyEGORL1 = 0;
+
+    passEleTauHLT = 0;
 
     passhltL1VBFElectron = 0;
     hltL1VBFElectron_ePt.clear();
@@ -688,6 +699,9 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
     passHLTDummyEGORL1 = triggerResults->accept(triggerNames_.triggerIndex(pathNameHLTDummyEGORL1));
     //std::cout << "pass " << pathNameHLTDummyEGORL1 << std::endl;
+    
+    std::string pathNameEleTauHLT = "HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v1";
+    passEleTauHLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameEleTauHLT));
 
 
 
