@@ -93,8 +93,7 @@ if __name__ == "__main__":
   #eleL1PrimitivesPhi
   #eleL1PrimitivesEnergy
   #etc
-  passL1 = array('i', [0])
-  tree.SetBranchAddress("passhltL1VBFElectronLoose", passL1)
+
   L1JetPt = ROOT.std.vector('float')()
   tree.SetBranchAddress("hltL1VBFElectron_jPt", L1JetPt)
   L1JetEta = ROOT.std.vector('float')()
@@ -136,7 +135,8 @@ if __name__ == "__main__":
   OffJetPhi = ROOT.std.vector('float')()
   tree.SetBranchAddress("jetPhi", OffJetPhi)
   OffJetEnergy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("jetEn", OffJetEnergy)
+  #tree.SetBranchAddress("jetEn", OffJetEnergy) use with older files
+  tree.SetBranchAddress("jetEnergy", OffJetEnergy)
   ##Electrons
   OffnEles = array('i', [0])
   tree.SetBranchAddress("nEle", OffnEles)
@@ -147,7 +147,8 @@ if __name__ == "__main__":
   OffElePhi = ROOT.std.vector('float')()
   tree.SetBranchAddress("elePhi", OffElePhi)
   OffEleEnergy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("eleEn", OffEleEnergy)
+  #tree.SetBranchAddress("eleEn", OffEleEnergy) use with older files
+  tree.SetBranchAddress("eleEnergy", OffEleEnergy)
 
   # Offline Ids
   OffTauIDvsJet = ROOT.std.vector('bool')()
@@ -168,6 +169,13 @@ if __name__ == "__main__":
 
   OffEleID = ROOT.std.vector('int')()
   tree.SetBranchAddress("eleIDMVANoIsowp90", OffEleID)
+
+  # Trigger decisions
+  passL1 = array('i', [0])
+  tree.SetBranchAddress("passhltL1VBFElectronLoose", passL1)
+
+  passEleTauHLT = array('i', [0])
+  tree.SetBranchAddress("passEleTauHLT", passEleTauHLT)
 
   CountViable = 0
   CountMismatchL1Jet = 0
