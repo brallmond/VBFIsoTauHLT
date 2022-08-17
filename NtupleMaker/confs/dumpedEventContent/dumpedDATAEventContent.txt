@@ -1,0 +1,6 @@
+Type                      Module                   Label     Process   
+-----------------------------------------------------------------------
+GlobalObjectMapRecord     "hltGtStage2ObjectMap"   ""        "HLT"     
+edm::TriggerResults       "TriggerResults"         ""        "HLT"     
+trigger::TriggerEvent     "hltTriggerSummaryAOD"   ""        "HLT"     
+FEDRawDataCollection      "rawDataCollector"       ""        "LHC"     

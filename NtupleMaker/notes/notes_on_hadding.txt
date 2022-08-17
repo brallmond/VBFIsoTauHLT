@@ -1,0 +1,34 @@
+First, make a file that looks like this
+
+/store/user/ballmond/EphemeralZeroBias2/crab_Pre6Rate_EZB2/220404_022758/
+/store/user/ballmond/EphemeralZeroBias3/crab_Pre6Rate_EZB3/220404_022846/
+/store/user/ballmond/EphemeralZeroBias4/crab_Pre6Rate_EZB4/220404_022939/
+/store/user/ballmond/EphemeralZeroBias5/crab_Pre6Rate_EZB5/220404_023026/
+/store/user/ballmond/EphemeralZeroBias6/crab_Pre6Rate_EZB6/220404_023113/
+/store/user/ballmond/EphemeralZeroBias7/crab_Pre6Rate_EZB7/220404_023157/
+/store/user/ballmond/EphemeralZeroBias8/crab_Pre6Rate_EZB8/220404_023246/
+
+with commands like this
+eosls /store/user/ballmond/EphemeralZeroBias1/crab_Pre6Rate_EZB1_retry/
+or
+for i in {1..8}; do num=$i; eosls /store/user/ballmond/EphemeralZeroBias${num}/crab_Pre6Rate_EZB${num}/; done
+or
+for i in {1..8}; do num=$i; echo -n "/store/user/ballmond/EphemeralZeroBias${num}/crab_RateGRun66_EZB${num}/"; eosls /store/user/ballmond/EphemeralZeroBias${num}/crab_RateGRun66_EZB${num}/; done
+
+Next, append "/0000" to the end of each line with this command in vi (or do it by hand)
+:%s/$/\/0000
+we'll do this step again with "0001" for the second set of directories.
+
+Once you have this file, you're ready to hadd. simply do this
+
+n=1; for word in $(cat Pre6RateFileLocations.txt); do hadd EZB${n}_Pre6Rate_0000.root `xrdfsls -u $word | grep '\.root'`; echo $((n++)); done
+
+This produces a hadded file of all files in the 0000 directory of your EZB output, and it does it for each directory in the file generated above.
+
+Next, change 0000 to 0001 in your file of directories and run the above command again.
+
+Now you have two hadded files for each directory in each EZB sample. Now we just hadd those two together for one final file.
+
+for i in {1..8}; do num=$1; hadd EZB${num}_Pre6Rate.root EZB${num}_Pre6Rate_0000.root EZB${num}_Pre6Rate_0001.root; done
+
+Have fun with your new rate samples!
