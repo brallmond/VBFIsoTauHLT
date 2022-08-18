@@ -1,8 +1,12 @@
 get counts for differnt L1s
 
-make new sample with ele-tau HLT available
+make new sample with ele-tau HLT available [x]
 
 make offline selection section for that
+
+add filter objects for that HLT
+
+match to those
 
 compare output/overlap (see how much our trigger would add on what is already captured)
 
