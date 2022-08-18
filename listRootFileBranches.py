@@ -1,17 +1,7 @@
-# Braden Allmond, August 11th 2022, KSU
-
 import ROOT
 import sys
 
 ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
-
-files = sys.argv # all input arguments in an array
-files.pop(0) # remove first arg which is always the name of the executed script
-
-inFile = ROOT.TFile.Open(files[0],"READ")
-tree = inFile.Get("demo/vbf")
-
-listBranches = tree.GetListOfBranches()
 
 def makeStringListOfBranches(inputBranches):
   # takes in object of type tree.GetListOfBranches
@@ -20,7 +10,19 @@ def makeStringListOfBranches(inputBranches):
   # tree->Print() in a ROOT terminal
   return [str(inputBranches[i]).split(' ')[1] for i in range(len(inputBranches))]
 
+if __name__ == "__main__": 
 
-for i in makeStringListOfBranches(listBranches):
-  print(i)
+  parser = argparse.ArgumentParser(description='Open a .root file') 
+  parser.add_argument('-i', '--inputRootFile', dest='inFilename', action='store', 
+                    help='the input .root file\'s name') 
+  args = parser.parse_args() 
+
+  inFile = ROOT.TFile.Open(args.inFilename,"READ") 
+  tree = inFile.Get("demo/vbf") 
+
+
+  listBranches = tree.GetListOfBranches()
+
+  for i in makeStringListOfBranches(listBranches):
+    print(i)
 
