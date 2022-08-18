@@ -259,6 +259,7 @@ if __name__ == "__main__":
       OffJet1 = OffJets[OffJet1Index]
       OffJet2 = OffJets[OffJet2Index]
       if (ROOT.TLorentzVector.DeltaR(OffJet1, OffJet2) < 0.5): continue
+ 
 
       #L1JetPtToPass = 30 + 10 #FIX, init values are per L1 tried and there is a flat increase on top of those values for offline
       #L1mjjToPass = 300 + 50
@@ -283,9 +284,11 @@ if __name__ == "__main__":
 
 
       if ( (len(matchL1OffJet) >= 2) and (len(matchL1OffEle) >= 1) ): #only call function if more than 2 objects
-        L1LeadingJetIndex, L1SubleadingJetIndex, L1mjj = highestMjjPair(L1Jets)
+        L1LeadingJetIndex, L1SubleadingJetIndex, L1Mjj = highestMjjPair(L1Jets)
         
-        if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): pass
+        if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): 
+          print("Not L1 highest pT pair")
+          print("L1 Mjj = {}, Offline Mjj = {}".format(L1Mjj, OffMjj))
           #print("iEntry {}".format(entry))
           #print(L1LeadingJetIndex, L1SubleadingJetIndex)
           #print(matchL1OffJet)
