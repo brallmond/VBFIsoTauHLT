@@ -603,13 +603,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
     edm::Handle<edm::TriggerResults> triggerResults;
     iEvent.getByToken(triggerResultToken_, triggerResults);
-    edm::Handle<trigger::TriggerEvent> triggerEvent;
-    iEvent.getByToken(triggerEventToken_, triggerEvent);
+    edm::Handle<trigger::TriggerEvent> triggerEvent; // this code should be with the filters
+    iEvent.getByToken(triggerEventToken_, triggerEvent); // same
+    // trigger events and trigger results are separate !
+    // secondary question, can I get filter info from trigger results?
     const edm::TriggerNames triggerNames_ = iEvent.triggerNames(*triggerResults);
 
-    // saving trigger results to respective branches
-    //std::cout << "Can I print this?" << std::endl;
-    
     // DiTau35 HLT
     std::string pathNameDiTauTrig = "HLT_DoubleTightChargedIsoPFTauHPS35_Trk1_eta2p1_v1";
     //passDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(pathNameDiTauTrig));
