@@ -177,11 +177,23 @@ if __name__ == "__main__":
   passEleTauHLT = array('i', [0])
   tree.SetBranchAddress("passEleTauHLT", passEleTauHLT)
 
-  CountViable = 0
+  CountPassOfflineMatchedL1 = 0
   CountMismatchL1Jet = 0
+  CountPassL1 = 0
+  CountPassEleTauHLT = 0
+
   for entry in range(tree.GetEntries()):
     tree.GetEntry(entry)
 
+    PassOfflineMatchedL1Flag = False
+    PassL1Flag = False
+    PassEleTauHLTFlag = False
+
+    MismatchL1JetFlag = False
+
+    if (passL1[0]): CountPassL1 += 1
+    if (passEleTauHLT[0]): CountPassEleTauHLT += 1
+  
     # check if event passes L1 and HLT and basic offline object count requirements
     basicReqs = passL1[0] and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1)
     # L1 thresholds to try
@@ -255,8 +267,8 @@ if __name__ == "__main__":
       OffJetCand2 = OffJets[OffJet2Index]
       if (ROOT.TLorentzVector.DeltaR(OffJetCand1, OffJetCand2) < 0.5): continue
 
-      L1JetPtToPass = 30
-      L1mjjToPass = 300
+      L1JetPtToPass = 30 + 10 #FIX, init values are per L1 tried and there is a flat increase on top of those values for offline
+      L1mjjToPass = 300 + 50
       L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
       L1Jets = [L1Jets[i] for i in range(len(L1Jets)) if L1Jets[i].Pt() >= L1JetPtToPass]
       sizeL1Jets = len(L1Jets)
@@ -268,7 +280,7 @@ if __name__ == "__main__":
                         (ROOT.TLorentzVector.DeltaR(OffJetCand1, L1Jets[i]) < 0.5 or
                          ROOT.TLorentzVector.DeltaR(OffJetCand2, L1Jets[i]) < 0.5 ) ]
 
-      L1ElePtToPass = 10
+      L1ElePtToPass = 10 + 1
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       L1Eles = [L1Eles[i] for i in range(len(L1Eles)) if L1Eles[i].Pt() >= L1ElePtToPass]
       sizeL1Eles = len(L1Eles)
@@ -276,17 +288,20 @@ if __name__ == "__main__":
 
       matchL1OffEle = [i for i in range(sizeL1Eles) if ROOT.TLorentzVector.DeltaR(OffEleCand, L1Eles[i]) < 0.5 ] 
 
-      CountViable += 1
 
       if ( (len(matchL1OffJet) >= 2) and (len(matchL1OffEle) >= 1) ): #only call function if more than 2 objects
         L1LeadingJetIndex, L1SubleadingJetIndex, L1mjj = highestMjjPair(L1Jets)
         
+        PassOfflineMatchedL1 += 1
+
         if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): CountMismatchL1Jet += 1
           #print("iEntry {}".format(entry))
           #print(L1LeadingJetIndex, L1SubleadingJetIndex)
           #print(matchL1OffJet)
 
-  print("CountViable {}".format(CountViable))
-  print("CountMismatchL1Jet {}".format(CountMismatchL1Jet))
+  print("Count Mismatch L1Jet {}".format(CountMismatchL1Jet))
+  print("Count Pass L1 {}".format(CountPassL1))
+  print("Count Pass Offline Matched L1 {}".format(PassOfflineMatchedL1))
+  print("Count Pass Ele Tau HLT {}".format(CountPassEleTauHLT))
   
 

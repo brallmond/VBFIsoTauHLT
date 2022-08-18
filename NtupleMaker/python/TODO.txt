@@ -1,10 +1,16 @@
 get counts for differnt L1s
+think about how to make flags/counters for passing Old Offline Selection and passing fake L1s+Offline
 
 make new sample with ele-tau HLT available [x]
+include single electron HLT (dangit)
+
+add END filter objects for both HLTs (might decide not to match the electron?)
+  how can I even use the electron one without an HLT matched object?
+
+if an object is in an offline collection, why do we bother matching to HLT?
 
 make offline selection section for that
 
-add filter objects for that HLT
 
 match to those
 
