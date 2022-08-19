@@ -177,45 +177,48 @@ if __name__ == "__main__":
   passEleTauHLT = array('i', [0])
   tree.SetBranchAddress("passEleTauHLT", passEleTauHLT)
 
-  CountViable = 0
-  CountMismatchL1Jet = 0
+
   for entry in range(tree.GetEntries()):
     tree.GetEntry(entry)
 
     # check if event passes L1 and HLT and basic offline object count requirements
-    basicReqs = passL1[0] and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1)
+    basicReqs = ((passL1[0] or passEleTauHLT[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
     # L1 thresholds to try
     # jet pt    mjj    ele pt    
     # 38/40/42  460    12
     # 32/34/36  440    14
     # Iso
     # 30        320    10
+
     if basicReqs:
       # make and fill containers with TLorentzVectors
       # we will match the offline to the L1s, so it is redudant to cut on both
       # subsequently, we make cuts on the tighter (offline) set to begin with
 
-      JetPtToPass = 45
-      PassJetPt =  [i for i in range(len(OffJetPt)) if OffJetPt[i] >= JetPtToPass]
+      #JetPtToPass = 45
+      JetEtaToPass = 4.7
+      #PassJetPt =  [i for i in range(len(OffJetPt)) if OffJetPt[i] >= JetPtToPass]
       PassJetID =  [i for i in range(len(OffJetID)) if OffJetID[i] >= 2]
-      PassJetEta = [i for i in range(len(OffJetEta)) if abs(OffJetEta[i]) <= 4.7]
+      PassJetEta = [i for i in range(len(OffJetEta)) if abs(OffJetEta[i]) <= JetEtaToPass]
       # python list intersection https://stackoverflow.com/questions/3697432/how-to-find-list-intersection
       # listed in the order which removes the most members first (assuming & short-circuits)
-      OffJetsPassFilter = list(set(PassJetPt) & set(PassJetID) & set(PassJetEta))
+      #OffJetsPassFilter = list(set(PassJetPt) & set(PassJetID) & set(PassJetEta))
+      OffJetsPassFilter = list(set(PassJetID) & set(PassJetEta))
       if (len(OffJetsPassFilter) == 0): continue
       OffJets = fillWithTVecs(OffJetPt, OffJetEta, OffJetPhi, OffJetEnergy, OffJetsPassFilter)
       sizeOffJets = len(OffJets)
       if (sizeOffJets < 2): continue
       
 
-      TauPtToPass = 25
+      #TauPtToPass = 25
       # Tau ID for Ele-Tau using 2017 DeepTau version 2p1, Med vs Jet, Tight vs Ele, VLoose vs Muon
       TauEtaToPass = 2.3
-      PassTauPt = [i for i in range(len(OffTauPt)) if OffTauPt[i] >= TauPtToPass]
+      #PassTauPt = [i for i in range(len(OffTauPt)) if OffTauPt[i] >= TauPtToPass]
       PassTauID = [i for i in range(len(OffTauIDvsJet)) \
                     if (OffTauIDvsJet[i] == True and OffTauIDvsEle[i] == True and OffTauIDvsMuon[i] == True) ]  
       PassTauEta = [i for i in range(len(OffTauEta)) if abs(OffTauEta[i]) <= TauEtaToPass]
-      OffTausPassFilter = list(set(PassTauPt) & set(PassTauID) & set(PassTauEta))
+      #OffTausPassFilter = list(set(PassTauPt) & set(PassTauID) & set(PassTauEta))
+      OffTausPassFilter = list(set(PassTauID) & set(PassTauEta))
       if (len(OffTausPassFilter) == 0): continue
       OffTaus = fillWithTVecs(OffTauPt, OffTauEta, OffTauPhi, OffTauEnergy, OffTausPassFilter)
       sizeOffTaus = len(OffTaus)
@@ -226,16 +229,18 @@ if __name__ == "__main__":
       sizeOffJets = len(OffJets)
       if (sizeOffJets < 2): continue
       
-      ElePtToPass = 12
+      #ElePtToPass = 12
       # Ele ID is eleIDMVANoIsowp90
       EleEtaToPass = 2.1
-      PassElePt =  [i for i in range(len(OffElePt)) if OffElePt[i] >= ElePtToPass]
+      #PassElePt =  [i for i in range(len(OffElePt)) if OffElePt[i] >= ElePtToPass]
       PassEleID =  [i for i in range(len(OffEleID)) if OffEleID[i] >= 1]      
       PassEleEta = [i for i in range(len(OffEleEta)) if abs(OffEleEta[i]) <= EleEtaToPass]
-      OffElesPassFilter = list(set(PassEleID) & set(PassElePt) & set(PassEleEta))
+      #OffElesPassFilter = list(set(PassEleID) & set(PassElePt) & set(PassEleEta))
+      OffElesPassFilter = list(set(PassEleID) & set(PassEleEta))
       if (len(OffElesPassFilter) == 0): continue
       OffEles = fillWithTVecs(OffElePt, OffEleEta, OffElePhi, OffEleEnergy, OffElesPassFilter)
       sizeOffEles = len(OffEles)
+      if (sizeOffEles < 1): continue
 
       # remove any jets from container that are overlapped with the leading electron
       OffJets = [OffJets[i] for i in range(sizeOffJets) if ROOT.TLorentzVector.DeltaR(OffEles[0], OffJets[i]) >= 0.5]
@@ -247,46 +252,45 @@ if __name__ == "__main__":
         print("electron and tau overlapped!") 
         continue
 
-      OffTauCand = OffTaus[0]
-      OffEleCand = OffEles[0]
+      OffTau = OffTaus[0]
+      OffEle = OffEles[0]
       OffJet1Index, OffJet2Index, OffMjj = highestMjjPair(OffJets)
-      if (OffMjj < 600): continue
-      OffJetCand1 = OffJets[OffJet1Index]
-      OffJetCand2 = OffJets[OffJet2Index]
-      if (ROOT.TLorentzVector.DeltaR(OffJetCand1, OffJetCand2) < 0.5): continue
+      #if (OffMjj < 600): continue
+      OffJet1 = OffJets[OffJet1Index]
+      OffJet2 = OffJets[OffJet2Index]
+      if (ROOT.TLorentzVector.DeltaR(OffJet1, OffJet2) < 0.5): continue
+ 
 
-      L1JetPtToPass = 30
-      L1mjjToPass = 300
+      #L1JetPtToPass = 30 + 10 #FIX, init values are per L1 tried and there is a flat increase on top of those values for offline
+      #L1mjjToPass = 300 + 50
       L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
-      L1Jets = [L1Jets[i] for i in range(len(L1Jets)) if L1Jets[i].Pt() >= L1JetPtToPass]
+      #L1Jets = [L1Jets[i] for i in range(len(L1Jets)) if L1Jets[i].Pt() >= L1JetPtToPass]
       sizeL1Jets = len(L1Jets)
       if (sizeL1Jets < 2): continue
       L1Jet1Index, L1Jet2Index, L1mjj = highestMjjPair(L1Jets)
-      if (L1mjj < L1mjjToPass): continue
+      #if (L1mjj < L1mjjToPass): continue
 
       matchL1OffJet = [i for i in range(sizeL1Jets) if 
-                        (ROOT.TLorentzVector.DeltaR(OffJetCand1, L1Jets[i]) < 0.5 or
-                         ROOT.TLorentzVector.DeltaR(OffJetCand2, L1Jets[i]) < 0.5 ) ]
+                        (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
+                         ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5 ) ]
 
-      L1ElePtToPass = 10
+      #L1ElePtToPass = 10 + 1
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
-      L1Eles = [L1Eles[i] for i in range(len(L1Eles)) if L1Eles[i].Pt() >= L1ElePtToPass]
+      #L1Eles = [L1Eles[i] for i in range(len(L1Eles)) if L1Eles[i].Pt() >= L1ElePtToPass]
       sizeL1Eles = len(L1Eles)
       if (sizeL1Eles < 1): continue
 
-      matchL1OffEle = [i for i in range(sizeL1Eles) if ROOT.TLorentzVector.DeltaR(OffEleCand, L1Eles[i]) < 0.5 ] 
+      matchL1OffEle = [i for i in range(sizeL1Eles) if ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) < 0.5 ] 
 
-      CountViable += 1
 
       if ( (len(matchL1OffJet) >= 2) and (len(matchL1OffEle) >= 1) ): #only call function if more than 2 objects
-        L1LeadingJetIndex, L1SubleadingJetIndex, L1mjj = highestMjjPair(L1Jets)
+        L1LeadingJetIndex, L1SubleadingJetIndex, L1Mjj = highestMjjPair(L1Jets)
         
-        if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): CountMismatchL1Jet += 1
+        if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): 
+          print("Not L1 highest pT pair")
+          print("L1 Mjj = {}, Offline Mjj = {}, OffMjj - L1Mjj = {}".format(L1Mjj, OffMjj, OffMjj - L1Mjj))
           #print("iEntry {}".format(entry))
           #print(L1LeadingJetIndex, L1SubleadingJetIndex)
           #print(matchL1OffJet)
-
-  print("CountViable {}".format(CountViable))
-  print("CountMismatchL1Jet {}".format(CountMismatchL1Jet))
   
 
