@@ -288,7 +288,7 @@ if __name__ == "__main__":
         
         if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): 
           print("Not L1 highest pT pair")
-          print("L1 Mjj = {}, Offline Mjj = {}".format(L1Mjj, OffMjj))
+          print("L1 Mjj = {}, Offline Mjj = {}, OffMjj - L1Mjj = {}".format(L1Mjj, OffMjj, OffMjj - L1Mjj))
           #print("iEntry {}".format(entry))
           #print(L1LeadingJetIndex, L1SubleadingJetIndex)
           #print(matchL1OffJet)
