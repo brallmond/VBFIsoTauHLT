@@ -4,39 +4,51 @@
 
 using namespace std;
 
+// Signal HLTs
 int passDeepDiTau35HLT;
-int passEleTauHLT; // HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v2
+int passEleTauHLT;
+int passSingleEleHLT;
 int passVBF2DTHLT;
 int passInclusiveVBFHLT;
 int passDeepInclusiveVBFHLT;
 
+// Monitoring/Control HLTs
+int passIsoMu24eta2p1HLT;
 int passUpperControlHLT;
 int passLowerControlHLT;
-int passDiTauControlHLT; // no longer in the menu ?
+int passDiTauControlHLT;
 
+// adhoc HLTs
 int passHLTDummyL1;
 int passHLTDummyL1Loose;
 int passHLTDummyEGORL1;
 
-int pass2Tau1JetHLT; // Jaime's trigger
-int pass2Tau1JetHigherHLT; // Jaime's other trigger (same as above with higher jet cut)
+// Jaime's HLTs
+int pass2Tau1JetHLT;
+int pass2Tau1JetHigherHLT;
 
 void NtupleMaker::branchesHLTFinalDecision(TTree* tree){
 
+    // Signal HLTs
     tree->Branch("passDeepDiTau35HLT", &passDeepDiTau35HLT);
     tree->Branch("passEleTauHLT", &passEleTauHLT);
+    tree->Branch("passSingleEleHLT", &passSingleEleHLT);
     tree->Branch("passVBF2DTHLT", &passVBF2DTHLT);
     tree->Branch("passInclusiveVBFHLT", &passInclusiveVBFHLT);    
     tree->Branch("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);    
 
+    // Monitoring/Control HLTs
+    tree->Branch("passIsoMu24eta2p1HLT", &passIsoMu24eta2p1HLT);
     tree->Branch("passUpperControlHLT", &passUpperControlHLT);
     tree->Branch("passLowerControlHLT", &passLowerControlHLT);
     tree->Branch("passDiTauControlHLT", &passDiTauControlHLT);
 
+    // adhoc HLTs
     tree->Branch("passHLTDummyL1", &passHLTDummyL1);
     tree->Branch("passHLTDummyL1Loose", &passHLTDummyL1Loose);
     tree->Branch("passHLTDummyEGORL1", &passHLTDummyEGORL1);
  
+    // Jaime's HLTs
     tree->Branch("pass2Tau1JetHLT", &pass2Tau1JetHLT);
     tree->Branch("pass2Tau1JetHigherHLT", &pass2Tau1JetHigherHLT);
 }
@@ -51,24 +63,24 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent){
     iEvent.getByToken(triggerResultToken_, triggerResults);
     const edm::TriggerNames triggerNames_ = iEvent.triggerNames(*triggerResults);
 
-    // initialize variable (could remove)
-
+    
     // Signal HLTs
-    passDeepDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex("HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1"));
-
-
+    passDeepDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(
+                       "HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1"));
     passEleTauHLT = triggerResults->accept(triggerNames_.triggerIndex(
                  "HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v1"));
-
+    passSingleEleHLT = triggerResults->accept(triggerNames_.triggerIndex(
+                     "HLT_Ele30_WPTight_Gsf_v1"));
     passVBF2DTHLT = triggerResults->accept(triggerNames_.triggerIndex(
                   "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1"));
-
     passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
                         "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1"));
-
-    passDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex("HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1"));
+    passDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
+                            "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1"));
 
     // Monitoring/Control HLTs
+    passIsoMu24eta2p1HLT = triggerResults->accept(triggerNames_.triggerIndex(
+                         "HLT_IsoMu24_eta2p1_v15"));
     passUpperControlHLT = triggerResults->accept(triggerNames_.triggerIndex(
                         "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1"));
     passLowerControlHLT = triggerResults->accept(triggerNames_.triggerIndex(

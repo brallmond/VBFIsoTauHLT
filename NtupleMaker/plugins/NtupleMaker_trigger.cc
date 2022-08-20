@@ -13,7 +13,6 @@ float 	energy_;
 
 int	nEvents;
 
-// filters and modules and respective objects if necessary
 int passhltL1VBFElectron;
 vector<float> hltL1VBFElectron_ePt;
 vector<float> hltL1VBFElectron_eEta;
@@ -82,6 +81,9 @@ vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauPhi;
 vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEnergy;
 
 
+
+
+// end L1s
 //branches for VBFPlusTwoDeepTauHLT
 int passhltL2VBFIsoTauNNFilter; // it would be good to have L2 Taus actually
 vector<float> hltL2VBFIsoTauNNFilter_pt;
@@ -202,7 +204,6 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("hltL1VBFElectronLoose_jPhi", &hltL1VBFElectronLoose_jPhi);
     tree->Branch("hltL1VBFElectronLoose_jEnergy", &hltL1VBFElectronLoose_jEnergy);
 
-
     tree->Branch("passhltL1sDoubleTauBigOR", &passhltL1sDoubleTauBigOR);
     tree->Branch("hltL1sDoubleTauBigOR_pt", &hltL1sDoubleTauBigOR_pt);
     tree->Branch("hltL1sDoubleTauBigOR_eta", &hltL1sDoubleTauBigOR_eta);
@@ -243,6 +244,7 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauPhi", &hltL1sMu22er2p1IsoTau28er2p1_tauPhi);
     tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauEnergy", &hltL1sMu22er2p1IsoTau28er2p1_tauEnergy);
 
+    // end L1s
 
     // VBFPlusTwoDeepTau HLT Modules
     tree->Branch("passhltL2VBFIsoTauNNFilter", &passhltL2VBFIsoTauNNFilter);
@@ -280,7 +282,6 @@ void NtupleMaker::branchesTriggers(TTree* tree){
 
     tree->Branch("passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN", &passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN);
     tree->Branch("hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_pt", &hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_pt);
-    //
     tree->Branch("passhltRealDijetFilter", &passhltRealDijetFilter);
     tree->Branch("hltRealDijetFilter_pt", &hltRealDijetFilter_pt);
 
@@ -406,19 +407,18 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     hltL1sMu22er2p1IsoTau28er2p1_tauEnergy.clear();
 
 
+    // end L1
 
     // Start VBF Double Deep Tau
     passhltL2VBFIsoTauNNFilter = 0;
     hltL2VBFIsoTauNNFilter_pt.clear();
 
-    //
     passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau = 0;
     hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_pt.clear();
 
     passhltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau = 0;
     hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_pt.clear();
 
-    //
     passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch = 0;
     hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_pt.clear();
 
@@ -431,7 +431,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN = 0;
     hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_pt.clear();
     
-    //
     passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched = 0;
     hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_pt.clear();
 
@@ -444,7 +443,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN = 0;
     hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_pt.clear();
 
-    //
     passhltRealDijetFilter = 0;
     hltRealDijetFilter_pt.clear();
 
@@ -454,7 +452,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passhltVBFIsoTauL1TLooseIDPFJetsMatching = 0;
     hltVBFIsoTauL1TLooseIDPFJetsMatching_pt.clear();
 
-    //
     passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 = 0;
     hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_pt.clear();
 
@@ -487,6 +484,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt.clear();
     passhltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20 = 0;
     hltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20_pt.clear();
+
     // final two branches with different jet correlation producer
     passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20 = 0;
     hltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20_pt.clear();
@@ -500,13 +498,15 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon = 0;
     
 
+    // entirely separate from the split L1s
     // getting trigger event per this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
     edm::Handle<trigger::TriggerEvent> triggerEvent; // this code should be with the filters
     iEvent.getByToken(triggerEventToken_, triggerEvent); // same
 
-    // filling branches with triggerObjs information, hltL1VBFDiJetIsoTau object info filled separately since it's a weird L1
-    // vids and available RefVec classes defined here
+    // triggerEvent and triggerEventWithRefs are separate things!
+
+    // "vids" and available RefVec classes defined here
     // https://github.com/cms-sw/cmssw/blob/8b101cb0f00c4a961bc4a6d49512ef0335486f40/DataFormats/HLTReco/interface/TriggerRefsCollections.h
 
     // getting trigger refs for hltL1VBFDiJetIsoTau filter's tau/jet splitting
@@ -649,20 +649,20 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
     // Start VBF Double Deep Tau
     std::string hltL2VBFIsoTauNNFilter_Tag = "hltL2VBFIsoTauNNFilter::MYOTHERHLT";
-    //
+    
     std::string hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_Tag = "hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau::MYOTHERHLT";
     std::string hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_Tag = "hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau::MYOTHERHLT";
-    //
+    
     std::string hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_Tag = "hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch::MYOTHERHLT";
     std::string hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_Tag = "hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN::MYOTHERHLT";
     std::string hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_Tag = "hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch::MYOTHERHLT";
     std::string hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_Tag = "hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN::MYOTHERHLT";
-    //
+    
     std::string hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_Tag = "hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched::MYOTHERHLT";
     std::string hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_Tag = "hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN::MYOTHERHLT";
     std::string hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_Tag = "hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched::MYOTHERHLT";
     std::string hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_Tag = "hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN::MYOTHERHLT";
-    //
+    
     std::string hltRealDijetFilter_Tag = "hltRealDijetFilter::MYOTHERHLT";
     std::string hltVBFLooseIDPFDummyFilter_Tag = "hltVBFLooseIDPFDummyFilter::MYOTHERHLT";
     std::string hltVBFIsoTauL1TLooseIDPFJetsMatching_Tag = "hltVBFIsoTauL1TLooseIDPFJetsMatching::MYOTHERHLT";
@@ -721,24 +721,24 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         if (filterTag == hltL2VBFIsoTauNNFilter_Tag && nObjKeys >= 1) passhltL2VBFIsoTauNNFilter = 1;
         if (filterTag == hltHpsDoublePFTau20BeforeDeepTau_Tag && nObjKeys >= 2) passhltHpsDoublePFTau20BeforeDeepTau = 1;
         if (filterTag == hltHpsDoublePFTau20withL2NNBeforeDeepTau_Tag && nObjKeys >= 2) passhltHpsDoublePFTau20withL2NNBeforeDeepTau = 1;
-        //
+        
         if (filterTag == hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_Tag && nObjKeys >= 1) passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau = 1;
         if (filterTag == hltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau_Tag && nObjKeys >= 1) passhltHpsSelectedPFTausTempLooseDitauWPDeepTauForVBFIsoTau = 1;
-        //
+        
         if (filterTag == hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch_Tag && nObjKeys >= 2) passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch = 1;
         if (filterTag == hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN_Tag && nObjKeys >= 2) passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatchNoL2NN = 1;
         if (filterTag == hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch_Tag && nObjKeys >= 2) passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatch = 1;
         if (filterTag == hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_Tag && nObjKeys >= 2) passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN = 1;
-        //
+        
         if (filterTag == hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_Tag && nObjKeys >= 1) passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched = 1;
         if (filterTag == hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN_Tag && nObjKeys >= 1) passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedNoL2NN = 1;
         if (filterTag == hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched_Tag && nObjKeys >= 1) passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatched = 1;
         if (filterTag == hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_Tag && nObjKeys >= 1) passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN = 1;
-        //
+        
         if (filterTag == hltRealDijetFilter_Tag && nObjKeys >= 2) passhltRealDijetFilter = 1;
         if (filterTag == hltVBFLooseIDPFDummyFilter_Tag && nObjKeys >= 2) passhltVBFLooseIDPFDummyFilter = 1;
         if (filterTag == hltVBFIsoTauL1TLooseIDPFJetsMatching_Tag && nObjKeys >= 2) passhltVBFIsoTauL1TLooseIDPFJetsMatching = 1;
-        //
+        
         if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_Tag && nObjKeys >= 2) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 = 1;
         if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN_Tag && nObjKeys >= 2) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20NoL2NN = 1;
         if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20_Tag && nObjKeys >= 2) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsTempLooseDeepTauIsoPFTauHPS20 = 1;
@@ -806,7 +806,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                hltHpsDoublePFTau20withL2NNBeforeDeepTau_pt.push_back(pt_);
             }
 
-        //
+        
         // fill hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau if match
             if (filterTag == hltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau_Tag
                  && passhltHpsSelectedPFTausMediumDitauWPDeepTauForVBFIsoTau && pt_>0) {
@@ -838,7 +838,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                  && passhltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN && pt_>0) {
                hltHpsDoublePFTau20TempLooseDitauWPDeepTauNoMatchNoL2NN_pt.push_back(pt_);
             }
-        //
+        
         // fill hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched if match
             if (filterTag == hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_Tag
                  && passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched && pt_>0) {
@@ -859,7 +859,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                  && passhltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN && pt_>0) {
                hltHpsSinglePFTau45TempLooseDitauWPDeepTauL1HLTMatchedNoL2NN_pt.push_back(pt_);
             }
-        //
+        
         // fill hltRealDijetFilter if match
             if (filterTag == hltRealDijetFilter_Tag
                  && passhltRealDijetFilter && pt_>0) {
@@ -875,7 +875,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                  && passhltVBFIsoTauL1TLooseIDPFJetsMatching && pt_>0) {
                hltVBFIsoTauL1TLooseIDPFJetsMatching_pt.push_back(pt_);
             }
-        //
+        
         // fill hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 if match
             if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20_Tag
                  && passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedFromDoubleHpsDeepTauIsoPFTauHPS20 && pt_>0) {
