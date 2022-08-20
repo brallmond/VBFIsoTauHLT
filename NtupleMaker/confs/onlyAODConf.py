@@ -38,6 +38,7 @@ process.demo = cms.EDAnalyzer('NtupleMaker'
      , SkipEvent = cms.untracked.vstring('ProductNotFound')
 
      , fillingTriggers = cms.untracked.bool(False) # can run on data/GEN-SIM-DIGI-RAW
+     , fillingHLTFinalDecision = cms.untracked.bool(False) # can run on data/GEN-SIM-DIGI-RAW
      , fillingEventInfo = cms.untracked.bool(True) # can run on data/GEN-SIM-DIGI-RAW/MINIAODSIM
      , fillingL1 = cms.untracked.bool(True)        # can run on MINIAODSIM
      , fillingTaus = cms.untracked.bool(True)      # can run on MINIAODSIM

@@ -73,6 +73,7 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
 	//virtual void endJob() override;
 	
 	void branchesTriggers(TTree*);
+	void branchesHLTFinalDecision(TTree*);
 	void branchesEventInfo(TTree*);
 	void branchesL1Taus(TTree*);
 	void branchesL1Jets(TTree*);
@@ -82,6 +83,7 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
         void branchesElectrons(TTree*);
 
 	void fillTriggers(const edm::Event&);
+        void fillHLTFinalDecision(const edm::Event&);
 	void fillEventInfo(const edm::Event&);
 	void fillL1Taus(const edm::Event&);
 	void fillL1Jets(const edm::Event&);
@@ -95,6 +97,7 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
 
 
 	bool fillingTriggers;
+	bool fillingHLTFinalDecision;
 	bool fillingL1;
 	bool fillingEventInfo;
 	bool fillingTaus;

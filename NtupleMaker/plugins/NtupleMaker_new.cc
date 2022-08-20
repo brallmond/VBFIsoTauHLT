@@ -4,6 +4,7 @@
 
 NtupleMaker::NtupleMaker(const edm::ParameterSet& iConfig) :
     fillingTriggers(iConfig.getUntrackedParameter<bool>("fillingTriggers")),
+    fillingHLTFinalDecision(iConfig.getUntrackedParameter<bool>("fillingHLTFinalDecision")),
     fillingL1(iConfig.getUntrackedParameter<bool>("fillingL1")),
     fillingEventInfo(iConfig.getUntrackedParameter<bool>("fillingEventInfo")),
     fillingTaus(iConfig.getUntrackedParameter<bool>("fillingTaus")),
@@ -36,6 +37,7 @@ NtupleMaker::NtupleMaker(const edm::ParameterSet& iConfig) :
     tree_ = fs->make<TTree>("vbf", "vbf");
 
     if(fillingTriggers) branchesTriggers(tree_);
+    if(fillingHLTFinalDecision) branchesHLTFinalDecision(tree_);
     if(fillingEventInfo) branchesEventInfo(tree_);
     if(fillingL1) branchesL1Taus(tree_);
     if(fillingL1) branchesL1Jets(tree_);
@@ -52,15 +54,9 @@ NtupleMaker::~NtupleMaker(){
 
 void NtupleMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
-    //using namespace edm;
-    //if(doGenParticles_){
-        //jetResolution_   = JME::JetResolution::get(iSetup, "AK4PFchs_pt");
-        //jetResolutionSF_ = JME::JetResolutionScaleFactor::get(iSetup, "AK4PFchs");
-        //AK8jetResolution_   = JME::JetResolution::get(es, "AK8PFchs_pt");
-        //AK8jetResolutionSF_ = JME::JetResolutionScaleFactor::get(es, "AK8PFchs");
-    //}
 
     if(fillingTriggers) fillTriggers(iEvent);
+    if(fillingHLTFinalDecision) fillHLTFinalDecision(iEvent);
     if(fillingEventInfo) fillEventInfo(iEvent);
     if(fillingL1) fillL1Taus(iEvent);
     if(fillingL1) fillL1Jets(iEvent);
