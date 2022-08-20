@@ -1,0 +1,5 @@
+# MINI AOD sample
+--input root://cms-xrd-global.cern.ch//store/mc/Run3Summer21MiniAOD/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/MINIAODSIM/120X_mcRun3_2021_realistic_v5-v2/30000/02ef66b7-b3aa-4d61-85bd-d84c73500c13.root \
+
+# GEN SIM DIGI RAW sample
+--input root://cms-xrd-global.cern.ch//store/mc/Run3Summer21DRPremix/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/120X_mcRun3_2021_realistic_v6-v2/30000/00dbda61-e142-4d8a-aa8e-886c3c79fdc4.root \

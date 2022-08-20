@@ -1,9 +1,3 @@
-hltGetConfiguration /users/ballmond/12_4_0_X/DevGRun40/V4 \
-
-hltGetConfiguration /users/lwezenbe/12_4_X/HIG/Monitoring/V6 \
-
-hltGetConfiguration /users/ballmond/12_4_0_X/DevGRunV61/V2 \
-
 hltGetConfiguration /users/ballmond/12_4_0_X/DevGRunV67/V2 \
 --data --globaltag auto:run3_hlt_GRun \
 --path HLTriggerFirstPath,\
@@ -29,23 +23,3 @@ HLTAnalyzerEndpath \
 > hltDummyL1EGOR.py
 
 --l1-emulator Full
-
-HIG Monitoring
-HLT_IsoMu27_LooseChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1,\
-HLT_IsoMu27_MediumChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1,\
-HLT_IsoMu27_TightChargedIsoPFTauHPS20_Trk1_eta2p1_SingleL1_v1,\
-HLT_IsoMu27_LooseChargedIsoPFTau20_Trk1_eta2p1_SingleL1_v5,\
-HLT_IsoMu27_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
-
-
-HLT_DoubleMediumDeepTauIsoPFTauHPS35_L2NN_eta2p1_v1,\
-HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1,\
-HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,\
-HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1,\
-HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_AltRmOvlp_v1,\
-HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet60_v1,\
-HLT_DoubleMediumDeepTauIsoPFTauHPS30_L2NN_eta2p1_PFJet75_v1,\
-HLT_DoublePFJets40_Mass500_MediumDeepTauIsoPFTauHPS45_L2NN_MediumDeepTauIsoPFTauHPS20_eta2p1_v1,\
-HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS45_L2NN_eta2p1_CrossL1_v1,\
-HLT_IsoMu24_eta2p1_MediumDeepTauIsoPFTauHPS20_eta2p1_SingleL1_v1,\
-
