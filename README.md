@@ -1,7 +1,3 @@
-#Updated for CMSSW_12_4_0
-
-This is the repo that I work from
-
 `git clone https://github.com/brallmond/VBFIsoTauHLT.git`
 
 
