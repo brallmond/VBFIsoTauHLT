@@ -73,6 +73,7 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
 	//virtual void endJob() override;
 	
 	void branchesTriggers(TTree*);
+        void branchesL1sFromHLT(TTree*);
 	void branchesHLTFinalDecision(TTree*);
 	void branchesEventInfo(TTree*);
 	void branchesL1Taus(TTree*);
@@ -83,6 +84,7 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
         void branchesElectrons(TTree*);
 
 	void fillTriggers(const edm::Event&);
+        void fillL1sFromHLT(const edm::Event&);
         void fillHLTFinalDecision(const edm::Event&);
 	void fillEventInfo(const edm::Event&);
 	void fillL1Taus(const edm::Event&);
@@ -95,10 +97,10 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
 	//-------------member data----------------//
 	TTree* tree_; 
 
-
 	bool fillingTriggers;
+        bool fillingL1sFromHLT;
 	bool fillingHLTFinalDecision;
-	bool fillingL1;
+	bool fillingL1Primitives;
 	bool fillingEventInfo;
 	bool fillingTaus;
 	bool fillingJets;
@@ -113,7 +115,7 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
         // trigger primitives
         edm::EDGetTokenT<BXVector<l1t::Jet> >		jetTriggerPrimitives_;
 	edm::EDGetTokenT<BXVector<l1t::Tau> >		tauTriggerPrimitives_;
-        edm::EDGetTokenT<BXVector<l1t::EGamma> >      eleTriggerPrimitives_;
+        edm::EDGetTokenT<BXVector<l1t::EGamma> >        eleTriggerPrimitives_;
 
 	edm::EDGetTokenT<reco::VertexCollection>        vtxLabel_;
 	edm::EDGetTokenT<double>                        rhoLabel_;

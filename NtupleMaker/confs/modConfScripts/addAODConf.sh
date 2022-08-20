@@ -22,9 +22,10 @@ process.demo = cms.EDAnalyzer('NtupleMaker'
      , SkipEvent = cms.untracked.vstring('ProductNotFound')
 
      , fillingTriggers = cms.untracked.bool(True) # can run on data/GEN-SIM-DIGI-RAW
+     , fillingL1sFromHLT = cms.untracked.bool(True) # can run on data/GEN-SIM-DIGI-RAW
      , fillingHLTFinalDecision = cms.untracked.bool(True) # can run on data/GEN-SIM-DIGI-RAW
      , fillingEventInfo = cms.untracked.bool(True) # can run on data/GEN-SIM-DIGI-RAW/MINIAODSIM
-     , fillingL1 = cms.untracked.bool(False)        # can run on MINIAODSIM
+     , fillingL1Primitives = cms.untracked.bool(False)        # can run on MINIAODSIM
      , fillingTaus = cms.untracked.bool(False)      # can run on MINIAODSIM
      , fillingJets = cms.untracked.bool(False)      # can run on MINIAODSIM
      , fillingElectrons = cms.untracked.bool(False) # can run on MINIAODSIM

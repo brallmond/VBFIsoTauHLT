@@ -4,9 +4,12 @@
 
 NtupleMaker::NtupleMaker(const edm::ParameterSet& iConfig) :
     fillingTriggers(iConfig.getUntrackedParameter<bool>("fillingTriggers")),
+    fillingL1sFromHLT(iConfig.getUntrackedParameter<bool>("fillingL1sFromHLT")),
     fillingHLTFinalDecision(iConfig.getUntrackedParameter<bool>("fillingHLTFinalDecision")),
-    fillingL1(iConfig.getUntrackedParameter<bool>("fillingL1")),
+
+    fillingL1Primitives(iConfig.getUntrackedParameter<bool>("fillingL1Primitives")),
     fillingEventInfo(iConfig.getUntrackedParameter<bool>("fillingEventInfo")),
+
     fillingTaus(iConfig.getUntrackedParameter<bool>("fillingTaus")),
     fillingJets(iConfig.getUntrackedParameter<bool>("fillingJets")),
     fillingElectrons(iConfig.getUntrackedParameter<bool>("fillingElectrons")),
@@ -37,11 +40,12 @@ NtupleMaker::NtupleMaker(const edm::ParameterSet& iConfig) :
     tree_ = fs->make<TTree>("vbf", "vbf");
 
     if(fillingTriggers) branchesTriggers(tree_);
+    if(fillingL1sFromHLT) branchesL1sFromHLT(tree_);
     if(fillingHLTFinalDecision) branchesHLTFinalDecision(tree_);
     if(fillingEventInfo) branchesEventInfo(tree_);
-    if(fillingL1) branchesL1Taus(tree_);
-    if(fillingL1) branchesL1Jets(tree_);
-    if(fillingL1) branchesL1Electrons(tree_);
+    if(fillingL1Primitives) branchesL1Taus(tree_);
+    if(fillingL1Primitives) branchesL1Jets(tree_);
+    if(fillingL1Primitives) branchesL1Electrons(tree_);
     if(fillingTaus) branchesTaus(tree_);
     if(fillingJets) branchesJets(tree_);
     if(fillingElectrons) branchesElectrons(tree_);
@@ -56,11 +60,12 @@ void NtupleMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
 {
 
     if(fillingTriggers) fillTriggers(iEvent);
+    if(fillingL1sFromHLT) fillL1sFromHLT(iEvent);
     if(fillingHLTFinalDecision) fillHLTFinalDecision(iEvent);
     if(fillingEventInfo) fillEventInfo(iEvent);
-    if(fillingL1) fillL1Taus(iEvent);
-    if(fillingL1) fillL1Jets(iEvent);
-    if(fillingL1) fillL1Electrons(iEvent);
+    if(fillingL1Primitives) fillL1Taus(iEvent);
+    if(fillingL1Primitives) fillL1Jets(iEvent);
+    if(fillingL1Primitives) fillL1Electrons(iEvent);
     if(fillingTaus) fillTaus(iEvent);
     if(fillingJets) fillJets(iEvent, iSetup);
     if(fillingElectrons) fillElectrons(iEvent);

@@ -11,6 +11,7 @@ float 	eta_;
 float 	phi_;
 float 	energy_;
 
+/*
 int	nEvents;
 
 int passhltL1VBFElectron;
@@ -82,7 +83,7 @@ vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEnergy;
 
 
 
-
+*/
 // end L1s
 //branches for VBFPlusTwoDeepTauHLT
 int passhltL2VBFIsoTauNNFilter; // it would be good to have L2 Taus actually
@@ -175,11 +176,9 @@ vector<float> hltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTau
 int passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau;
 vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_pt;
 
-int passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon;
-int passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon;
 
 void NtupleMaker::branchesTriggers(TTree* tree){
-
+/*
     tree->Branch("nEvents", &nEvents);
 
     tree->Branch("passhltL1EGOR", &passhltL1EGOR);
@@ -243,7 +242,7 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauEta", &hltL1sMu22er2p1IsoTau28er2p1_tauEta);
     tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauPhi", &hltL1sMu22er2p1IsoTau28er2p1_tauPhi);
     tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauEnergy", &hltL1sMu22er2p1IsoTau28er2p1_tauEnergy);
-
+*/
     // end L1s
 
     // VBFPlusTwoDeepTau HLT Modules
@@ -333,8 +332,6 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau);
     tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_pt", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_pt);
 
-    tree->Branch("passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon", &passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon);
-    tree->Branch("passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon", &passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon);
 }
 
 void NtupleMaker::fillTriggers(const edm::Event& iEvent){
@@ -342,70 +339,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     using namespace edm;
 
     // clearing vectors and initializing flags at the start of every event 
-    nEvents = 0;
-
-    passhltL1VBFElectron = 0;
-    hltL1VBFElectron_ePt.clear();
-    hltL1VBFElectron_eEta.clear();
-    hltL1VBFElectron_ePhi.clear();
-    hltL1VBFElectron_eEnergy.clear();
-    hltL1VBFElectron_jPt.clear();
-    hltL1VBFElectron_jEta.clear();
-    hltL1VBFElectron_jPhi.clear();
-    hltL1VBFElectron_jEnergy.clear();
-
-    passhltL1VBFElectronLoose = 0;
-    hltL1VBFElectronLoose_ePt.clear();
-    hltL1VBFElectronLoose_eEta.clear();
-    hltL1VBFElectronLoose_ePhi.clear();
-    hltL1VBFElectronLoose_eEnergy.clear();
-    hltL1VBFElectronLoose_jPt.clear();
-    hltL1VBFElectronLoose_jEta.clear();
-    hltL1VBFElectronLoose_jPhi.clear();
-    hltL1VBFElectronLoose_jEnergy.clear();
-
-    // DiTau 32 L1 branches (there's a big OR with multiple DiTaus, but 32 is the lowest)
-    passhltL1sDoubleTauBigOR = 0;
-    hltL1sDoubleTauBigOR_pt.clear();
-    hltL1sDoubleTauBigOR_eta.clear();
-    hltL1sDoubleTauBigOR_phi.clear();
-    hltL1sDoubleTauBigOR_energy.clear();
-
-
-    passhltL1VBFDiJetOR = 0;
-    hltL1VBFDiJetOR_pt.clear();
-    hltL1VBFDiJetOR_eta.clear();
-    hltL1VBFDiJetOR_phi.clear();
-    hltL1VBFDiJetOR_energy.clear();
-
-    passhltL1VBFDiJetIsoTau = 0;
-    hltL1VBFDiJetIsoTau_nJets.clear();
-    hltL1VBFDiJetIsoTau_jetPt.clear();
-    hltL1VBFDiJetIsoTau_jetEta.clear();
-    hltL1VBFDiJetIsoTau_jetPhi.clear();
-    hltL1VBFDiJetIsoTau_jetEnergy.clear();
-    hltL1VBFDiJetIsoTau_nTaus.clear();
-    hltL1VBFDiJetIsoTau_tauPt.clear();
-    hltL1VBFDiJetIsoTau_tauEta.clear();
-    hltL1VBFDiJetIsoTau_tauPhi.clear();
-    hltL1VBFDiJetIsoTau_tauEnergy.clear();
-
-    passhltL1sSingleMu22 = 0;
-    hltL1sSingleMu22_pt.clear();
-    hltL1sSingleMu22_eta.clear();
-    hltL1sSingleMu22_phi.clear();
-    hltL1sSingleMu22_energy.clear();
-
-    passhltL1sMu22er2p1IsoTau28er2p1 = 0;
-    hltL1sMu22er2p1IsoTau28er2p1_muPt.clear();
-    hltL1sMu22er2p1IsoTau28er2p1_muEta.clear();
-    hltL1sMu22er2p1IsoTau28er2p1_muPhi.clear();
-    hltL1sMu22er2p1IsoTau28er2p1_muEnergy.clear();
-    hltL1sMu22er2p1IsoTau28er2p1_tauPt.clear();
-    hltL1sMu22er2p1IsoTau28er2p1_tauEta.clear();
-    hltL1sMu22er2p1IsoTau28er2p1_tauPhi.clear();
-    hltL1sMu22er2p1IsoTau28er2p1_tauEnergy.clear();
-
+    //nEvents = 0;
 
     // end L1
 
@@ -494,34 +428,55 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau = 0;
     hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_pt.clear();
 
-    passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon = 0;
-    passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon = 0;
     
+////
+/*
+    passhltL1VBFElectron = 0;
 
-    // entirely separate from the split L1s
-    // getting trigger event per this page
-    // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
-    edm::Handle<trigger::TriggerEvent> triggerEvent; // this code should be with the filters
-    iEvent.getByToken(triggerEventToken_, triggerEvent); // same
+    passhltL1VBFElectronLoose = 0;
+    passhltL1sDoubleTauBigOR = 0;
+    hltL1sDoubleTauBigOR_pt.clear();
+    hltL1sDoubleTauBigOR_eta.clear();
+    hltL1sDoubleTauBigOR_phi.clear();
+    hltL1sDoubleTauBigOR_energy.clear();
 
-    // triggerEvent and triggerEventWithRefs are separate things!
+
+    passhltL1VBFDiJetOR = 0;
+    hltL1VBFDiJetOR_pt.clear();
+    hltL1VBFDiJetOR_eta.clear();
+    hltL1VBFDiJetOR_phi.clear();
+    hltL1VBFDiJetOR_energy.clear();
+
+    passhltL1VBFDiJetIsoTau = 0; // what i do with these? just have filter loops in two separate pieces of code?
+
+
+    passhltL1sSingleMu22 = 0;
+    hltL1sSingleMu22_pt.clear();
+    hltL1sSingleMu22_eta.clear();
+    hltL1sSingleMu22_phi.clear();
+    hltL1sSingleMu22_energy.clear();
+
+    passhltL1sMu22er2p1IsoTau28er2p1 = 0;
 
     // "vids" and available RefVec classes defined here
     // https://github.com/cms-sw/cmssw/blob/8b101cb0f00c4a961bc4a6d49512ef0335486f40/DataFormats/HLTReco/interface/TriggerRefsCollections.h
+
 
     // getting trigger refs for hltL1VBFDiJetIsoTau filter's tau/jet splitting
     edm::Handle<trigger::TriggerEventWithRefs> triggerEventWithRefsHandle_;
     iEvent.getByToken(triggerEventWithRefsToken_, triggerEventWithRefsHandle_);
     const unsigned int filterIndex(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFDiJetIsoTau", "", "MYOTHERHLT")));
-		//making jet object and filling vector
+
+	//making jet object and filling vector
     l1t::JetVectorRef jetCandRefVec;
     trigger::Vids jvids;
     triggerEventWithRefsHandle_->getObjects(filterIndex, jvids, jetCandRefVec);
-		//making tau object and filling vector
-    l1t::TauVectorRef tauCandRefVec;
-    trigger::Vids tvids;
-    triggerEventWithRefsHandle_->getObjects(filterIndex, tvids, tauCandRefVec);
 
+    hltL1VBFDiJetIsoTau_nJets.clear();
+    hltL1VBFDiJetIsoTau_jetPt.clear();
+    hltL1VBFDiJetIsoTau_jetEta.clear();
+    hltL1VBFDiJetIsoTau_jetPhi.clear();
+    hltL1VBFDiJetIsoTau_jetEnergy.clear();
     const unsigned int nJets(jvids.size());
     if (nJets > 0) {
         hltL1VBFDiJetIsoTau_nJets.push_back(nJets);
@@ -533,6 +488,16 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         }
     }
 
+	//making tau object and filling vector
+    l1t::TauVectorRef tauCandRefVec;
+    trigger::Vids tvids;
+    triggerEventWithRefsHandle_->getObjects(filterIndex, tvids, tauCandRefVec);
+
+    hltL1VBFDiJetIsoTau_nTaus.clear();
+    hltL1VBFDiJetIsoTau_tauPt.clear();
+    hltL1VBFDiJetIsoTau_tauEta.clear();
+    hltL1VBFDiJetIsoTau_tauPhi.clear();
+    hltL1VBFDiJetIsoTau_tauEnergy.clear();
     const unsigned int nTaus(tvids.size());
     if (nTaus > 0) {
 	hltL1VBFDiJetIsoTau_nTaus.push_back(nTaus);
@@ -552,6 +517,10 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     trigger::Vids mVids;
     triggerEventWithRefsHandle_->getObjects(muTauUpperControlL1Filter, mVids, muonCandRefVec);
 
+    hltL1sMu22er2p1IsoTau28er2p1_muPt.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_muEta.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_muPhi.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_muEnergy.clear();
     const unsigned int nMuons(mVids.size());
     if (nMuons > 0) {
       for (unsigned int i = 0; i != nMuons; ++i) {
@@ -566,6 +535,10 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     trigger::Vids tUpperVids;
     triggerEventWithRefsHandle_->getObjects(muTauUpperControlL1Filter, tUpperVids, tauUpperControlCandRefVec);
 
+    hltL1sMu22er2p1IsoTau28er2p1_tauPt.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_tauEta.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_tauPhi.clear();
+    hltL1sMu22er2p1IsoTau28er2p1_tauEnergy.clear();
     const unsigned int tUpperVidsSize(tUpperVids.size());
     if (tUpperVidsSize > 0) {
       for (unsigned int i = 0; i != tUpperVidsSize; ++i) {
@@ -583,6 +556,10 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     trigger::Vids eVids;
     triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, eVids, electronCandRefVec);
 
+    hltL1VBFElectron_ePt.clear();
+    hltL1VBFElectron_eEta.clear();
+    hltL1VBFElectron_ePhi.clear();
+    hltL1VBFElectron_eEnergy.clear();
     const unsigned int nElectrons(eVids.size());
     if (nElectrons > 0) {
       for (unsigned int i = 0; i != nElectrons; ++i) {
@@ -596,7 +573,11 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     l1t::JetVectorRef VBFElectronJetRefVec;
     trigger::Vids ejVids;
     triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, ejVids, VBFElectronJetRefVec);
-   
+
+    hltL1VBFElectron_jPt.clear();
+    hltL1VBFElectron_jEta.clear();
+    hltL1VBFElectron_jPhi.clear();
+    hltL1VBFElectron_jEnergy.clear();
     const unsigned int nVBFElectronJets(ejVids.size());
     if (nVBFElectronJets > 0) {
       for (unsigned int i = 0; i != nVBFElectronJets; ++ i) {
@@ -614,6 +595,10 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     trigger::Vids leVids;
     triggerEventWithRefsHandle_->getObjects(VBFElectronL1LooseFilter, leVids, looseElectronCandRefVec);
 
+    hltL1VBFElectronLoose_ePt.clear();
+    hltL1VBFElectronLoose_eEta.clear();
+    hltL1VBFElectronLoose_ePhi.clear();
+    hltL1VBFElectronLoose_eEnergy.clear();
     const unsigned int nLooseElectrons(leVids.size());
     if (nLooseElectrons > 0) {
       for (unsigned int i = 0; i != nLooseElectrons; ++i) {
@@ -627,7 +612,11 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     l1t::JetVectorRef VBFLooseElectronJetRefVec;
     trigger::Vids lejVids;
     triggerEventWithRefsHandle_->getObjects(VBFElectronL1LooseFilter, lejVids, VBFLooseElectronJetRefVec);
-   
+
+    hltL1VBFElectronLoose_jPt.clear();
+    hltL1VBFElectronLoose_jEta.clear();
+    hltL1VBFElectronLoose_jPhi.clear();
+    hltL1VBFElectronLoose_jEnergy.clear();
     const unsigned int nVBFLooseElectronJets(lejVids.size());
     if (nVBFLooseElectronJets > 0) {
       for (unsigned int i = 0; i != nVBFLooseElectronJets; ++ i) {
@@ -638,15 +627,32 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
       }
     }
 
+    // event loop here for the rest of the L1s...
+    // would reduce the size of the code and separate L1s from other modules
+    // I'm a fan of this, assuming it's possible. unsure if the same triggerEvent handle
+    // can be used in two separate places of code
+*/
+    // entirely separate from the split L1s
+    // getting trigger event per this page
+    // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
+    edm::Handle<trigger::TriggerEvent> triggerEvent; // this code should be with the filters
+    iEvent.getByToken(triggerEventToken_, triggerEvent); // same
+    // may be possible to make this twice, allowing me to separate filters and L1s
+    // right now I should adjust all the filters so they're available, and then see about separating the L1s
+    // in general I could be writing this code better. like making declarations near where variables are used
+    // this function call is also way too big, just massive
+
+
 
     // make strings to identify filter names
     const trigger::size_type nFilters(triggerEvent->sizeFilters());
+/*
     std::string hltL1sDoubleTauBigOR_Tag = "hltL1sDoubleTauBigOR::MYOTHERHLT"; // ditau L1
     std::string hltL1VBFDiJetOR_Tag = "hltL1VBFDiJetOR::MYOTHERHLT";		  // inclusive L1
     std::string hltL1VBFDiJetIsoTau_Tag = "hltL1VBFDiJetIsoTau::MYOTHERHLT";	  
     std::string hltL1sSingleMu22_Tag = "hltL1sSingleMu22::MYOTHERHLT";
     std::string hltL1sMu22er2p1IsoTau28er2p1_Tag = "hltL1sMu22er2p1IsoTau28er2p1::MYOTHERHLT";
-
+*/
     // Start VBF Double Deep Tau
     std::string hltL2VBFIsoTauNNFilter_Tag = "hltL2VBFIsoTauNNFilter::MYOTHERHLT";
     
@@ -689,8 +695,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
     std::string hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_Tag = "hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau::MYOTHERHLT";
 
-    std::string hltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon_Tag = "hltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon::MYOTHERHLT";
-    std::string hltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon_Tag = "hltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon::MYOTHERHLT";
 
     std::string hltL1VBFElectron_Tag = "hltL1VBFElectron::MYOTHERHLT";
     std::string hltL1VBFElectronLoose_Tag = "hltL1VBFElectronLoose::MYOTHERHLT";
@@ -703,6 +707,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 	const trigger::TriggerObjectCollection& triggerObjects(triggerEvent->getObjects());
 	// fill "pass filter" branches
 	int nObjKeys = objectKeys.size();
+/*
 	if (filterTag == hltL1VBFDiJetOR_Tag && nObjKeys >= 0) nEvents = 1; // accept pass or fail condition to fill nEvents
 
         // L1s
@@ -715,7 +720,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                                                           && hltL1sMu22er2p1IsoTau28er2p1_tauPt.size() >= 1) passhltL1sMu22er2p1IsoTau28er2p1 = 1;
         if (filterTag == hltL1VBFElectron_Tag && hltL1VBFElectron_ePt.size() >=1 && hltL1VBFElectron_jPt.size() >= 2) passhltL1VBFElectron = 1; 
         if (filterTag == hltL1VBFElectronLoose_Tag && hltL1VBFElectronLoose_ePt.size() >= 1 && hltL1VBFElectronLoose_jPt.size() >= 2) passhltL1VBFElectronLoose = 1;
-
+*/
 
         // VBFPlusTwoDeepTau Modules
         if (filterTag == hltL2VBFIsoTauNNFilter_Tag && nObjKeys >= 1) passhltL2VBFIsoTauNNFilter = 1;
@@ -757,8 +762,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
         if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_Tag && nObjKeys >= 2) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau = 1;
 
-        if (filterTag == hltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon_Tag && nObjKeys >= 2) passhltMatchedVBFTwoPFJetsPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon = 1;
-        if (filterTag == hltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon_Tag && nObjKeys >= 1) passhltMatchedVBFOnePFJetPassingDiJetCorrCheckerWithMediumDiTauWPPFTauHPS20NoAntiMuon = 1;
 
 	//loop over trigger objects and store their kinematics to the proper filter branches
 	for(trigger::size_type iKey=0; iKey < nObjKeys; ++iKey){
@@ -768,6 +771,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 	    eta_ = triggerObj.eta();
 	    phi_ = triggerObj.phi();
 	    energy_ = triggerObj.energy();
+/*
 	// fill ditau and inclusive L1 branches (proposed L1 branches filled separately because it has two types of objects)
 	    if (filterTag == hltL1sDoubleTauBigOR_Tag 
                   && passhltL1sDoubleTauBigOR && pt_>0) {
@@ -790,7 +794,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                 hltL1sSingleMu22_phi.push_back(phi_);
                 hltL1sSingleMu22_energy.push_back(energy_);
             }
-
+*/
         // Start VBF Double Deep Tau
         // fill hltL2VBFIsoTauNNFilter if match
             if (filterTag == hltL2VBFIsoTauNNFilter_Tag
