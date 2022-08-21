@@ -26,6 +26,7 @@ vector<float>  elePhi_;
 vector<float>  eleCharge_;
 
 vector<float>  eleChargedHadronIso_;
+vector<float>  elePUChargedHadronIso_;
 vector<float>  eleNeutralHadronIso_;
 vector<float>  elePhotonIso_;
 
@@ -61,6 +62,7 @@ void NtupleMaker::branchesElectrons(TTree* tree) {
   tree->Branch("eleCharge", &eleCharge_);
 
   tree->Branch("eleChargedHadronIso", &eleChargedHadronIso_);
+  tree->Branch("elePUChargedHadronIso", &elePUChargedHadronIso_);
   tree->Branch("eleNeutralHadronIso", &eleNeutralHadronIso_);
   tree->Branch("elePhotonIso", &elePhotonIso_);
 
@@ -103,6 +105,7 @@ void NtupleMaker::fillElectrons(const edm::Event& e) { //, const edm::EventSetup
   eleCharge_.clear();
 
   eleChargedHadronIso_.clear();
+  elePUChargedHadronIso_.clear();
   eleNeutralHadronIso_.clear();
   elePhotonIso_.clear();
 
@@ -133,7 +136,11 @@ void NtupleMaker::fillElectrons(const edm::Event& e) { //, const edm::EventSetup
     eleEnergy_.push_back(iEle->energy());
     eleCharge_.push_back(iEle->charge());
 
+    // variables for lepton hadronic activity, defined here
+    // https://github.com/cms-sw/cmssw/blob/master/DataFormats/PatCandidates/interface/Lepton.h#L163-L165
+    // https://github.com/cms-sw/cmssw/blob/master/DataFormats/PatCandidates/interface/Electron.h#L153-L155
     eleChargedHadronIso_.push_back(iEle->puppiChargedHadronIso());
+    elePUChargedHadronIso_.push_back(iEle->puChargedHadronIso());
     eleNeutralHadronIso_.push_back(iEle->puppiNeutralHadronIso());
     elePhotonIso_.push_back(iEle->puppiPhotonIso());
 
