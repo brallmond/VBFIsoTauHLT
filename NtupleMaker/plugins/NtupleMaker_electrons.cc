@@ -4,20 +4,9 @@
 #include "DataFormats/GsfTrackReco/interface/GsfTrackFwd.h"
 #include "DataFormats/EcalDetId/interface/ESDetId.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
-//#include "RecoEcal/EgammaCoreTools/interface/EcalClusterLazyTools.h"
-//#include "RecoEgamma/EgammaTools/interface/ConversionTools.h"
 
-//#include "JetMETCorrections/Objects/interface/JetCorrector.h"
-//#include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
-//#include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
-//#include "JetMETCorrections/Objects/interface/JetCorrectionsRecord.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/EventSetup.h"
-//#include "DataFormats/Math/interface/LorentzVector.h"
-//#include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
-//#include "FWCore/Utilities/interface/RandomNumberGenerator.h"
-//#include "CLHEP/Random/RandomEngine.h"
-//#include "CLHEP/Random/RandGauss.h"
 
 // from https://github.com/cmkuo/ggAnalysis/blob/94X/ggNtuplizer/plugins/ggNtuplizer_electrons.cc
 
@@ -35,6 +24,10 @@ vector<float>  eleEnergy_;
 vector<float>  eleEta_;
 vector<float>  elePhi_;
 vector<float>  eleCharge_;
+
+vector<float>  eleChargedHadronIso_;
+vector<float>  eleNeutralHadronIso_;
+vector<float>  elePhotonIso_;
 
 vector<int> elePDGID_;
 
@@ -66,6 +59,10 @@ void NtupleMaker::branchesElectrons(TTree* tree) {
   tree->Branch("elePhi", &elePhi_);
   tree->Branch("eleEnergy", &eleEnergy_);
   tree->Branch("eleCharge", &eleCharge_);
+
+  tree->Branch("eleChargedHadronIso", &eleChargedHadronIso_);
+  tree->Branch("eleNeutralHadronIso", &eleNeutralHadronIso_);
+  tree->Branch("elePhotonIso", &elePhotonIso_);
 
   tree->Branch("elePDGID", &elePDGID_);
   tree->Branch("eleIDMVAIso", &eleIDMVAIso_);
@@ -105,6 +102,10 @@ void NtupleMaker::fillElectrons(const edm::Event& e) { //, const edm::EventSetup
   eleEnergy_.clear();
   eleCharge_.clear();
 
+  eleChargedHadronIso_.clear();
+  eleNeutralHadronIso_.clear();
+  elePhotonIso_.clear();
+
   elePDGID_.clear();
 
   eleIDMVAIso_.clear();
@@ -131,6 +132,10 @@ void NtupleMaker::fillElectrons(const edm::Event& e) { //, const edm::EventSetup
     elePhi_.push_back(iEle->phi());
     eleEnergy_.push_back(iEle->energy());
     eleCharge_.push_back(iEle->charge());
+
+    eleChargedHadronIso_.push_back(iEle->puppiChargedHadronIso());
+    eleNeutralHadronIso_.push_back(iEle->puppiNeutralHadronIso());
+    elePhotonIso_.push_back(iEle->puppiPhotonIso());
 
     //elePDGID_.push_back(iEle->genParticle());
     elePDGID_.push_back(iEle->pdgId());
