@@ -6,7 +6,7 @@ config = config()
 config.General.workArea = 'test'
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'hltAddEleTauHLT.py'
+config.JobType.psetName = 'hltUpdatedNtupleMaker.py'
 
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
@@ -28,7 +28,7 @@ config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_2_0_edited.xml']
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
-config.General.requestName = 'AddEleTauHLT_RemovedBadTauPATID'
+config.General.requestName = 'UpdatedNtupleMaker3'
 
 #config.Data.inputDataset = '/EphemeralHLTPhysics8/Run2018D-v1/RAW'
 
