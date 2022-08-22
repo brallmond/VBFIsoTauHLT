@@ -164,7 +164,6 @@ if __name__ == "__main__":
   OffJetPhi = ROOT.std.vector('float')()
   tree.SetBranchAddress("jetPhi", OffJetPhi)
   OffJetEnergy = ROOT.std.vector('float')()
-  #tree.SetBranchAddress("jetEn", OffJetEnergy) use with older files
   tree.SetBranchAddress("jetEnergy", OffJetEnergy)
   ##Electrons
   OffnEles = array('i', [0])
@@ -176,8 +175,15 @@ if __name__ == "__main__":
   OffElePhi = ROOT.std.vector('float')()
   tree.SetBranchAddress("elePhi", OffElePhi)
   OffEleEnergy = ROOT.std.vector('float')()
-  #tree.SetBranchAddress("eleEn", OffEleEnergy) use with older files
   tree.SetBranchAddress("eleEnergy", OffEleEnergy)
+  OffEleChargedHadronIso = ROOT.std.vector('float')()
+  tree.SetBranchAddress("eleChargedHadronIso", OffEleChargedHadronIso)
+  OffElePUChargedHadronIso = ROOT.std.vector('float')()
+  tree.SetBranchAddress("elePUChargedHadronIso", OffElePUChargedHadronIso)
+  OffEleNeutralHadronIso = ROOT.std.vector('float')()
+  tree.SetBranchAddress("eleNeutralHadronIso", OffEleNeutralHadronIso)
+  OffElePhotonIso = ROOT.std.vector('float')()
+  tree.SetBranchAddress("elePhotonIso", OffElePhotonIso)
 
   # Offline Ids
   OffTauIDvsJet = ROOT.std.vector('bool')()
@@ -274,11 +280,37 @@ if __name__ == "__main__":
       OffJets = [OffJets[i] for i in range(sizeOffJets) if ROOT.TLorentzVector.DeltaR(OffTaus[0], OffJets[i]) >= 0.5]
       sizeOffJets = len(OffJets)
       if (sizeOffJets < 2): continue
-      
+ 
+      # leptopn hadronic activity variable
+      # tyler's code and definition of the variable
+      #iso = (ch_iso->at(i) / pt->at(i)) + std::max(0., (neu_iso->at(i) + pho_iso->at(i) - 0.5 * pu_iso->at(i)) / pt->at(i));
+      # available variables
+      # OffEleChargedHadronIso
+      # OffElePUChargedHadronIso
+      # OffEleNeutralHadronIso
+      # OffElePhotonIso
+
+      #print("start new")
+      #for i in range(len(OffEleChargedHadronIso)):
+      #  print(OffEleChargedHadronIso[i])
+      #  print(OffElePt[i])
+      #  print(OffEleNeutralHadronIso[i])
+      #  print(OffElePhotonIso[i])
+      #  print(OffEleChargedHadronIso[i])
+      #  PassEleIso = OffEleChargedHadronIso[i] / OffElePt[i] + \
+      #      max([0., (OffEleNeutralHadronIso[i] + OffElePhotonIso[i] - 0.5*OffEleChargedHadronIso[i]) / OffElePt[i]])
+
+      #print(PassEleIso)
+
+      PassEleIso = [i for i in range(len(OffEleChargedHadronIso)) if 
+                   OffEleChargedHadronIso[i] / OffElePt[i] + \
+                   max([0., (OffEleNeutralHadronIso[i] + OffElePhotonIso[i] - \
+                     0.5*OffEleChargedHadronIso[i] / OffElePt[i])]) >= 0.15]
+     
       EleEtaToPass = 2.1
       PassEleID =  [i for i in range(len(OffEleID)) if OffEleID[i] >= 1] # Ele ID is eleIDMVANoIsowp90
       PassEleEta = [i for i in range(len(OffEleEta)) if abs(OffEleEta[i]) <= EleEtaToPass]
-      OffElesPassFilter = list(set(PassEleID) & set(PassEleEta))
+      OffElesPassFilter = list(set(PassEleIso) & set(PassEleID) & set(PassEleEta))
       if (len(OffElesPassFilter) == 0): continue
       OffEles = fillWithTVecs(OffElePt, OffEleEta, OffElePhi, OffEleEnergy, OffElesPassFilter)
       sizeOffEles = len(OffEles)
