@@ -329,6 +329,7 @@ if __name__ == "__main__":
       PassEleID =  [i for i in range(len(OffEleID)) if OffEleID[i] >= 1] # Ele ID is eleIDMVANoIsowp90
       PassEleEta = [i for i in range(len(OffEleEta)) if abs(OffEleEta[i]) <= EleEtaToPass]
       OffElesPassFilter = list(set(PassEleIso) & set(PassEleID) & set(PassEleEta))
+      #OffElesPassFilter = list(set(PassEleID) & set(PassEleEta))
       if (len(OffElesPassFilter) == 0): continue
       OffEles = fillWithTVecs(OffElePt, OffEleEta, OffElePhi, OffEleEnergy, OffElesPassFilter)
       sizeOffEles = len(OffEles)
