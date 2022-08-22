@@ -1,0 +1,126 @@
+
+        Total counts for L1
+
+        L1_VBF_DoubleJet38_Mass_Min460_LooseIsoEG12 
+
+        VBFEle 469 
+
+        EleTau 344 
+
+        Ovrlap 333 
+
+        Or     567 
+
+        EventsGained = 567-344 = 223 
+
+        Percent Gain = 223/567 = 39.33% 
+
+        
+
+        Total counts for L1
+
+        L1_VBF_DoubleJet40_Mass_Min460_LooseIsoEG12 
+
+        VBFEle 448 
+
+        EleTau 344 
+
+        Ovrlap 317 
+
+        Or     558 
+
+        EventsGained = 558-344 = 214 
+
+        Percent Gain = 214/558 = 38.35% 
+
+        
+
+        Total counts for L1
+
+        L1_VBF_DoubleJet42_Mass_Min460_LooseIsoEG12 
+
+        VBFEle 424 
+
+        EleTau 344 
+
+        Ovrlap 302 
+
+        Or     545 
+
+        EventsGained = 545-344 = 201 
+
+        Percent Gain = 201/545 = 36.88% 
+
+        
+
+        Total counts for L1
+
+        L1_VBF_DoubleJet32_Mass_Min440_LooseIsoEG14 
+
+        VBFEle 561 
+
+        EleTau 344 
+
+        Ovrlap 400 
+
+        Or     616 
+
+        EventsGained = 616-344 = 272 
+
+        Percent Gain = 272/616 = 44.16% 
+
+        
+
+        Total counts for L1
+
+        L1_VBF_DoubleJet34_Mass_Min440_LooseIsoEG14 
+
+        VBFEle 523 
+
+        EleTau 344 
+
+        Ovrlap 378 
+
+        Or     591 
+
+        EventsGained = 591-344 = 247 
+
+        Percent Gain = 247/591 = 41.79% 
+
+        
+
+        Total counts for L1
+
+        L1_VBF_DoubleJet36_Mass_Min440_LooseIsoEG14 
+
+        VBFEle 494 
+
+        EleTau 344 
+
+        Ovrlap 355 
+
+        Or     578 
+
+        EventsGained = 578-344 = 234 
+
+        Percent Gain = 234/578 = 40.48% 
+
+        
+
+        Total counts for L1
+
+        L1_VBF_DoubleJet30_Mass_Min320_LooseIsoEG10 
+
+        VBFEle 611 
+
+        EleTau 327 
+
+        Ovrlap 419 
+
+        Or     638 
+
+        EventsGained = 638-327 = 311 
+
+        Percent Gain = 311/638 = 48.75% 
+
+        
