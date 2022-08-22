@@ -111,16 +111,16 @@
 
         L1_VBF_DoubleJet30_Mass_Min320_IsoEG10 
 
-        VBFEle 1257 
+        VBFEle 1260 
 
-        EleTau 804 
+        EleTau 805 
 
-        Ovrlap 740 
+        Ovrlap 741 
 
-        Or     1321 
+        Or     1324 
 
-        EventsGained = 1321-804 = 517 
+        EventsGained = 1324-805 = 519 
 
-        Percent Gain = 517/1321 = 39.14% 
+        Percent Gain = 519/1324 = 39.20% 
 
         

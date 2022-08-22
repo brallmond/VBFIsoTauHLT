@@ -101,6 +101,8 @@ if __name__ == "__main__":
   #etc
 
   if (L1IndexToTest == 6):
+    passL1 = array('i', [0])
+    tree.SetBranchAddress("passhltL1VBFElectron", passL1)
     L1JetPt = ROOT.std.vector('float')()
     tree.SetBranchAddress("hltL1VBFElectron_jPt", L1JetPt)
     L1JetEta = ROOT.std.vector('float')()
@@ -119,6 +121,8 @@ if __name__ == "__main__":
     tree.SetBranchAddress("hltL1VBFElectron_eEnergy", L1EleEnergy)
  
   else:
+    passL1 = array('i', [0])
+    tree.SetBranchAddress("passhltL1VBFElectronLoose", passL1)
     L1JetPt = ROOT.std.vector('float')()
     tree.SetBranchAddress("hltL1VBFElectronLoose_jPt", L1JetPt)
     L1JetEta = ROOT.std.vector('float')()
@@ -196,9 +200,6 @@ if __name__ == "__main__":
   tree.SetBranchAddress("eleIDMVANoIsowp90", OffEleID)
 
   # Trigger decisions
-  passL1 = array('i', [0])
-  tree.SetBranchAddress("passhltL1VBFElectronLoose", passL1)
-
   passEleTauHLT = array('i', [0])
   tree.SetBranchAddress("passEleTauHLT", passEleTauHLT)
 
