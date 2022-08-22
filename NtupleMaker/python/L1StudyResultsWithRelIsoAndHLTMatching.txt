@@ -7,7 +7,7 @@
 
         EleTau 344 
 
-        Ovrlap 333 
+        Ovrlap 246 
 
         Or     567 
 
@@ -25,7 +25,7 @@
 
         EleTau 344 
 
-        Ovrlap 317 
+        Ovrlap 234 
 
         Or     558 
 
@@ -43,7 +43,7 @@
 
         EleTau 344 
 
-        Ovrlap 302 
+        Ovrlap 223 
 
         Or     545 
 
@@ -61,7 +61,7 @@
 
         EleTau 344 
 
-        Ovrlap 400 
+        Ovrlap 289 
 
         Or     616 
 
@@ -79,7 +79,7 @@
 
         EleTau 344 
 
-        Ovrlap 378 
+        Ovrlap 276 
 
         Or     591 
 
@@ -97,7 +97,7 @@
 
         EleTau 344 
 
-        Ovrlap 355 
+        Ovrlap 260 
 
         Or     578 
 
@@ -115,7 +115,7 @@
 
         EleTau 327 
 
-        Ovrlap 419 
+        Ovrlap 300 
 
         Or     638 
 

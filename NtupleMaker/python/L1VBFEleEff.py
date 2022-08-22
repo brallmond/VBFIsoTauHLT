@@ -399,7 +399,7 @@ if __name__ == "__main__":
       #matchHLTOffEle = [i for i in range(sizeHLTTaus) if ROOT.TLorentzVector.DeltaR(OffEle, HLTTaus[i]) < 0.5]
 
       passEleTauHLTOffMatching = False
-      if (sizeHLTTaus > 0 and sizeHLTEles > 0): passEleTauHLTOffMatching = True
+      if ((sizeHLTTaus > 0) and (sizeHLTEles > 0)): passEleTauHLTOffMatching = True
 
       # we now have quality objects at L1 and Offline which are matched
 
@@ -439,11 +439,15 @@ if __name__ == "__main__":
        and OffEle.Pt() >= 24): passEleTauOffCuts = True
 
       # now tally it up
-      if (passVBFEleL1Restrictions and passVBFEleOffCuts): 
-        TallyVBFEle += 1
-        if (passEleTauOffCuts): TallyVBFEleAndEleTau += 1 
-      if (passEleTauHLTOffMatching and passEleTauOffCuts): TallyEleTau += 1 
+      if (passVBFEleL1Restrictions and passVBFEleOffCuts and passEleTauHLTOffMatching and passEleTauOffCuts): TallyVBFEleAndEleTau += 1
+      if (passVBFEleL1Restrictions and passVBFEleOffCuts): TallyVBFEle += 1
+      if (passEleTauHLTOffMatching and passEleTauOffCuts): TallyEleTau += 1
       if ((passVBFEleL1Restrictions and passVBFEleOffCuts) or (passEleTauHLTOffMatching and passEleTauOffCuts)): TallyVBFEleOrEleTau += 1
+      #if ((passVBFEleL1Restrictions and passVBFEleOffCuts) or (passEleTauHLTOffMatching and passEleTauOffCuts)): 
+      #  TallyVBFEleOrEleTau += 1
+      #  if (passVBFEleL1Restrictions and passVBFEleOffCuts): TallyVBFEle += 1
+      #  if (passEleTauHLTOffMatching and passEleTauOffCuts): TallyEleTau += 1 
+      #  if (passVBFEleOffCuts and passEleTauOffCuts): TallyVBFEleAndEleTau += 1 
 
 
   print("""
