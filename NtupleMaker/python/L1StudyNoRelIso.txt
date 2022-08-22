@@ -109,7 +109,7 @@
 
         Total counts for L1
 
-        L1_VBF_DoubleJet30_Mass_Min320_LooseIsoEG10 
+        L1_VBF_DoubleJet30_Mass_Min320_IsoEG10 
 
         VBFEle 1260 
 
