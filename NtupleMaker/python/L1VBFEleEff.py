@@ -166,6 +166,8 @@ if __name__ == "__main__":
   # HLT Final Decisions
   passEleTauHLT = array('i', [0])
   tree.SetBranchAddress("passEleTauHLT", passEleTauHLT)
+  passSingleEleHLT = array('i', [0])
+  tree.SetBranchAddress("passSingleEleHLT", passSingleEleHLT)
 
   # Offline kinems
   ##Taus
@@ -261,12 +263,16 @@ if __name__ == "__main__":
   TallyEleTau = 0
   TallyVBFEleAndEleTau = 0
   TallyVBFEleOrEleTau = 0
+  TallySingleEle = 0
+  TallyVBFEleOrSingleEle = 0
+  TallyTripleOr = 0
+  TallyEleTauAndSingleEle = 0
 
   for entry in range(tree.GetEntries()):
     tree.GetEntry(entry)
 
     # check if event passes L1 or HLT and has minimum object requirements
-    basicReqs = ((passL1[0] or passEleTauHLT[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
+    basicReqs = ((passL1[0] or passEleTauHLT[0] or passSingleEleHLT[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
 
     if basicReqs:
       # make and fill containers with TLorentzVectors
@@ -439,16 +445,22 @@ if __name__ == "__main__":
        and OffTau.Pt() >= 30
        and OffEle.Pt() >= 24): passEleTauOffCuts = True
 
+      passSingleEleOffCuts = (passEleTauOffCuts and OffEle.Pt() >= 32)
+
+
       # now tally it up
-      if (passVBFEleL1Restrictions and passVBFEleOffCuts and passEleTauHLTOffMatching and passEleTauOffCuts): TallyVBFEleAndEleTau += 1
-      if (passVBFEleL1Restrictions and passVBFEleOffCuts): TallyVBFEle += 1
-      if (passEleTauHLTOffMatching and passEleTauOffCuts): TallyEleTau += 1
-      if ((passVBFEleL1Restrictions and passVBFEleOffCuts) or (passEleTauHLTOffMatching and passEleTauOffCuts)): TallyVBFEleOrEleTau += 1
-      #if ((passVBFEleL1Restrictions and passVBFEleOffCuts) or (passEleTauHLTOffMatching and passEleTauOffCuts)): 
-      #  TallyVBFEleOrEleTau += 1
-      #  if (passVBFEleL1Restrictions and passVBFEleOffCuts): TallyVBFEle += 1
-      #  if (passEleTauHLTOffMatching and passEleTauOffCuts): TallyEleTau += 1 
-      #  if (passVBFEleOffCuts and passEleTauOffCuts): TallyVBFEleAndEleTau += 1 
+      GoodVBFEle = passVBFEleL1Restrictions and passVBFEleOffCuts
+      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
+      GoodSingleEle = passSingleEleOffCuts # and matching
+
+      if (GoodVBFEle and GoodEleTau): TallyVBFEleAndEleTau += 1
+      if (GoodVBFEle): TallyVBFEle += 1
+      if (GoodEleTau): TallyEleTau += 1
+      if ((GoodVBFEle) or (GoodEleTau)): TallyVBFEleOrEleTau += 1
+      if (GoodSingleEle): TallySingleEle += 1
+      if ((GoodVBFEle) or (GoodSingleEle)): TallyVBFEleOrSingleEle += 1
+      if ((GoodVBFEle) or (GoodSingleEle) or (GoodEleTau)): TallyTripleOr += 1
+      if ((GoodSingleEle) and (GoodEleTau)): TallyEleTauAndSingleEle += 1
 
 
   if (L1IndexToTest == 6): 
@@ -457,14 +469,13 @@ if __name__ == "__main__":
     print("Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
 
   print("""
-        VBFEle {0} \n
-        EleTau {1} \n
-        Ovrlap {2} \n
-        Or     {3} \n
-        EventsGained = {3}-{1} = {4} \n
-        Percent Gain = {4}/{3} = {5:.2f}% \n
-        """.format(TallyVBFEle, TallyEleTau, TallyVBFEleAndEleTau, TallyVBFEleOrEleTau,
-                   TallyVBFEleOrEleTau-TallyEleTau, 100*(TallyVBFEleOrEleTau-TallyEleTau) / TallyVBFEleOrEleTau))
+          VBFEle    EleTau    SingleEle
+Counts     {0}       {1}       {2}
+Triple OR  {3}
+EleTau AND Single Tau {4}
+Uniq VBFEle {5}
+""".format(TallyVBFEle, TallyEleTau, TallySingleEle, TallyTripleOr, TallyEleTauAndSingleEle,
+           TallyTripleOr - TallyEleTau - TallySingleEle + TallyEleTauAndSingleEle))
 
 ########################################################################
       # side-analysis, see how often we get the wrong objects.
