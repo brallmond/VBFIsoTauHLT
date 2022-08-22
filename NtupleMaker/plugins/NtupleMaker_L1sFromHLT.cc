@@ -83,6 +83,7 @@ vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEnergy;
 
 void NtupleMaker::branchesL1sFromHLT(TTree* tree){
 
+    tree->Branch("nEvents", &nEvents);
 
     tree->Branch("passhltL1EGOR", &passhltL1EGOR);
 
@@ -319,24 +320,18 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
       }
     }
 
-    // event loop here for the rest of the L1s...
-    // would reduce the size of the code and separate L1s from other modules
-    // I'm a fan of this, assuming it's possible. unsure if the same triggerEvent handle
-    // can be used in two separate places of code
+    nEvents = 0;
 
     passhltL1VBFElectron = 0;
     passhltL1VBFElectronLoose = 0;
 
     passhltL1sDoubleTauBigOR = 0;
-
     hltL1sDoubleTauBigOR_pt.clear();
     hltL1sDoubleTauBigOR_eta.clear();
     hltL1sDoubleTauBigOR_phi.clear();
     hltL1sDoubleTauBigOR_energy.clear();
 
-
     passhltL1VBFDiJetOR = 0;
-
     hltL1VBFDiJetOR_pt.clear();
     hltL1VBFDiJetOR_eta.clear();
     hltL1VBFDiJetOR_phi.clear();
@@ -352,19 +347,10 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
 
     passhltL1sMu22er2p1IsoTau28er2p1 = 0;
 
-
-
-    // entirely separate from the split L1s
     // getting trigger event per this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
     edm::Handle<trigger::TriggerEvent> triggerEventL1; // this code should be with the filters
     iEvent.getByToken(triggerEventToken_, triggerEventL1); // same
-    // may be possible to make this twice, allowing me to separate filters and L1s
-    // right now I should adjust all the filters so they're available, and then see about separating the L1s
-    // in general I could be writing this code better. like making declarations near where variables are used
-    // this function call is also way too big, just massive
-
-
 
     // make strings to identify filter names
     const trigger::size_type nFilters(triggerEventL1->sizeFilters());

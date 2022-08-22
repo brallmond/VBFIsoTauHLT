@@ -151,12 +151,13 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
         if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_Tag && nObjKeys >= 2) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau = 1;
 
-        //
+
         if (filterTag == "hltEle24erWPTightGsfTrackIsoFilterForTau::MYOTHERHLT"
                       && nObjKeys >= 1) passhltEle24erWPTightGsfTrackIsoFilterForTau = 1;
 
         if (filterTag == "hltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30::MYOTHERHLT"
                       && nObjKeys >= 1) passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30 = 1;
+
 
         // it's definitely right to be clearing things where i'm clearing them, 
         // i shouldn't be defining strings, just break lines, make better variable names
