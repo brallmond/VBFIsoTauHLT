@@ -321,9 +321,9 @@ if __name__ == "__main__":
       # variable cuts events passing in half
 
       PassEleIso = [i for i in range(len(OffEleChargedHadronIso)) if 
-                   OffEleChargedHadronIso[i] / OffElePt[i] + \
+                   ((OffEleChargedHadronIso[i] / OffElePt[i]) + \
                    max([0., (OffEleNeutralHadronIso[i] + OffElePhotonIso[i] - \
-                     0.5*OffEleChargedHadronIso[i] / OffElePt[i])]) >= 0.15]
+                     0.5*OffElePUChargedHadronIso[i]) / OffElePt[i]])) >= 0.15]
      
       EleEtaToPass = 2.1
       PassEleID =  [i for i in range(len(OffEleID)) if OffEleID[i] >= 1] # Ele ID is eleIDMVANoIsowp90
