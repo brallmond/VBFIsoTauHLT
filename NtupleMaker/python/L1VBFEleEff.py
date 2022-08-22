@@ -451,17 +451,19 @@ if __name__ == "__main__":
       #  if (passVBFEleOffCuts and passEleTauOffCuts): TallyVBFEleAndEleTau += 1 
 
 
+  if (L1IndexToTest == 6): 
+    print("Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+  else:
+    print("Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+
   print("""
-        Total counts for L1\n
-        L1_VBF_DoubleJet{0}_Mass_Min{1}_LooseIsoEG{2} \n
-        VBFEle {3} \n
-        EleTau {4} \n
-        Ovrlap {5} \n
-        Or     {6} \n
-        EventsGained = {6}-{4} = {7} \n
-        Percent Gain = {7}/{6} = {8:.2f}% \n
-        """.format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass,
-                   TallyVBFEle, TallyEleTau, TallyVBFEleAndEleTau, TallyVBFEleOrEleTau,
+        VBFEle {0} \n
+        EleTau {1} \n
+        Ovrlap {2} \n
+        Or     {3} \n
+        EventsGained = {3}-{1} = {4} \n
+        Percent Gain = {4}/{3} = {5:.2f}% \n
+        """.format(TallyVBFEle, TallyEleTau, TallyVBFEleAndEleTau, TallyVBFEleOrEleTau,
                    TallyVBFEleOrEleTau-TallyEleTau, 100*(TallyVBFEleOrEleTau-TallyEleTau) / TallyVBFEleOrEleTau))
 
 ########################################################################
