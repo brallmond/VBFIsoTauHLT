@@ -27,41 +27,42 @@ float 	energy_;
 //branches for passDiTauControlHLT
 
 
-//branches for EleTau
-//hltEle24erWPTightGsfTrackIsoFilterForTau // single final electron filter
-int passEleTauHLTFinalFilterEle;
-vector<float> EleTauHLTFinalFilterEle_pt;
-vector<float> EleTauHLTFinalFilterEle_eta;
-vector<float> EleTauHLTFinalFilterEle_phi;
-vector<float> EleTauHLTFinalFilterEle_energy;
-//hltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30 // single final tau filter
-int passEleTauHLTFinalFilterTau;
-vector<float> EleTauHLTFinalFilterTau_pt;
-vector<float> EleTauHLTFinalFilterTau_eta;
-vector<float> EleTauHLTFinalFilterTau_phi;
-vector<float> EleTauHLTFinalFilterTau_energy;
+//EleTau
+int passEleTauFinalFilterEle;
+vector<float> EleTauFinalFilterEle_pt;
+vector<float> EleTauFinalFilterEle_eta;
+vector<float> EleTauFinalFilterEle_phi;
+vector<float> EleTauFinalFilterEle_energy;
+int passEleTauFinalFilterTau;
+vector<float> EleTauFinalFilterTau_pt;
+vector<float> EleTauFinalFilterTau_eta;
+vector<float> EleTauFinalFilterTau_phi;
+vector<float> EleTauFinalFilterTau_energy;
 
-//branches for VBF2DTHLT
-// the pass statements don't matter without a cut flow, but the final objects do for matching
+//SingleEle
+int passSingleEleFinalFilter;
+vector<float> SingleEleFinalFilter_pt;
+vector<float> SingleEleFinalFilter_eta;
+vector<float> SingleEleFinalFilter_phi;
+vector<float> SingleEleFinalFilter_energy;
+
+//VBF2DTHLT
 int passhltL2VBFIsoTauNNFilter;
 vector<float> hltL2VBFIsoTauNNFilter_pt;
 vector<float> hltL2VBFIsoTauNNFilter_eta;
 vector<float> hltL2VBFIsoTauNNFilter_phi;
 vector<float> hltL2VBFIsoTauNNFilter_energy;
-
-int passVBF2DTDoubleTauFinalFilter; // two taus final filter
+int passVBF2DTDoubleTauFinalFilter;
 vector<float> VBF2DTDoubleTauFinalFilter_pt;
 vector<float> VBF2DTDoubleTauFinalFilter_eta;
 vector<float> VBF2DTDoubleTauFinalFilter_phi;
 vector<float> VBF2DTDoubleTauFinalFilter_energy;
-
-int passVBF2DTL1MatchedTauFinalFilter; // matched L1 tau final filter
+int passVBF2DTL1MatchedTauFinalFilter; 
 vector<float> VBF2DTL1MatchedTauFinalFilter_pt;
 vector<float> VBF2DTL1MatchedTauFinalFilter_eta;
 vector<float> VBF2DTL1MatchedTauFinalFilter_phi;
 vector<float> VBF2DTL1MatchedTauFinalFilter_energy;
-
-int passVBF2DTDoubleJetFinalFilter; // dijet final filter
+int passVBF2DTDoubleJetFinalFilter;
 vector<float> VBF2DTDoubleJetFinalFilter_pt;
 vector<float> VBF2DTDoubleJetFinalFilter_eta;
 vector<float> VBF2DTDoubleJetFinalFilter_phi;
@@ -70,19 +71,24 @@ vector<float> VBF2DTDoubleJetFinalFilter_energy;
 
 void NtupleMaker::branchesTriggers(TTree* tree){
 
-    tree->Branch("passEleTauHLTFinalFilterEle", &passEleTauHLTFinalFilterEle);
+    //EleTau
+    tree->Branch("passEleTauFinalFilterEle", &passEleTauFinalFilterEle);
+    tree->Branch("EleTauFinalFilterEle_pt", &EleTauFinalFilterEle_pt);
+    tree->Branch("EleTauFinalFilterEle_eta", &EleTauFinalFilterEle_eta);
+    tree->Branch("EleTauFinalFilterEle_phi", &EleTauFinalFilterEle_phi);
+    tree->Branch("EleTauFinalFilterEle_energy", &EleTauFinalFilterEle_energy);
+    tree->Branch("passEleTauFinalFilterTau", &passEleTauFinalFilterTau);
+    tree->Branch("EleTauFinalFilterTau_pt", &EleTauFinalFilterTau_pt);
+    tree->Branch("EleTauFinalFilterTau_eta", &EleTauFinalFilterTau_eta);
+    tree->Branch("EleTauFinalFilterTau_phi", &EleTauFinalFilterTau_phi);
+    tree->Branch("EleTauFinalFilterTau_energy", &EleTauFinalFilterTau_energy);
 
-    tree->Branch("EleTauHLTFinalFilterEle_pt", &EleTauHLTFinalFilterEle_pt);
-    tree->Branch("EleTauHLTFinalFilterEle_eta", &EleTauHLTFinalFilterEle_eta);
-    tree->Branch("EleTauHLTFinalFilterEle_phi", &EleTauHLTFinalFilterEle_phi);
-    tree->Branch("EleTauHLTFinalFilterEle_energy", &EleTauHLTFinalFilterEle_energy);
-
-    tree->Branch("passEleTauHLTFinalFilterTau", &passEleTauHLTFinalFilterTau);
-    tree->Branch("EleTauHLTFinalFilterTau_pt", &EleTauHLTFinalFilterTau_pt);
-    tree->Branch("EleTauHLTFinalFilterTau_eta", &EleTauHLTFinalFilterTau_eta);
-    tree->Branch("EleTauHLTFinalFilterTau_phi", &EleTauHLTFinalFilterTau_phi);
-    tree->Branch("EleTauHLTFinalFilterTau_energy", &EleTauHLTFinalFilterTau_energy);
-
+    //SingleEle
+    tree->Branch("passSingleEleFinalFilter", &passSingleEleFinalFilter);
+    tree->Branch("SingleEleFinalFilter_pt", &SingleEleFinalFilter_pt);
+    tree->Branch("SingleEleFinalFilter_eta", &SingleEleFinalFilter_eta);
+    tree->Branch("SingleEleFinalFilter_phi", &SingleEleFinalFilter_phi);
+    tree->Branch("SingleEleFinalFilter_energy", &SingleEleFinalFilter_energy);
 
     // VBFPlusTwoDeepTau HLT Modules
     tree->Branch("passhltL2VBFIsoTauNNFilter", &passhltL2VBFIsoTauNNFilter);
@@ -117,10 +123,10 @@ void fillFilterKinematics(
   trigger::Keys objectKeys_,
   trigger::TriggerObjectCollection triggerObjects_,
   int nObjKeys_,
-  vector<float> branch_pt,
-  vector<float> branch_eta, 
-  vector<float> branch_phi,
-  vector<float> branch_energy) {
+  vector<float> &branch_pt,
+  vector<float> &branch_eta, 
+  vector<float> &branch_phi,
+  vector<float> &branch_energy) {
 
   for(trigger::size_type iKey=0; iKey < nObjKeys_; ++iKey) {
     trigger::size_type objKey = objectKeys_.at(iKey);
@@ -139,17 +145,24 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
     // clearing vectors and initializing flags at the start of every event 
     // EleTau
-    passEleTauHLTFinalFilterEle = 0;
-    EleTauHLTFinalFilterEle_pt.clear();
-    EleTauHLTFinalFilterEle_eta.clear();
-    EleTauHLTFinalFilterEle_phi.clear();
-    EleTauHLTFinalFilterEle_energy.clear();
+    passEleTauFinalFilterEle = 0;
+    EleTauFinalFilterEle_pt.clear();
+    EleTauFinalFilterEle_eta.clear();
+    EleTauFinalFilterEle_phi.clear();
+    EleTauFinalFilterEle_energy.clear();
 
-    passEleTauHLTFinalFilterTau = 0;
-    EleTauHLTFinalFilterTau_pt.clear();
-    EleTauHLTFinalFilterTau_eta.clear();
-    EleTauHLTFinalFilterTau_phi.clear();
-    EleTauHLTFinalFilterTau_energy.clear();
+    passEleTauFinalFilterTau = 0;
+    EleTauFinalFilterTau_pt.clear();
+    EleTauFinalFilterTau_eta.clear();
+    EleTauFinalFilterTau_phi.clear();
+    EleTauFinalFilterTau_energy.clear();
+
+    // SingleEle
+    passSingleEleFinalFilter = 0;
+    SingleEleFinalFilter_pt.clear();
+    SingleEleFinalFilter_eta.clear();
+    SingleEleFinalFilter_phi.clear();
+    SingleEleFinalFilter_energy.clear();
 
     // VBF2DT
     passhltL2VBFIsoTauNNFilter = 0;
@@ -200,25 +213,38 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         // EleTau
         if (filterTag == "hltEle24erWPTightGsfTrackIsoFilterForTau::MYOTHERHLT"
                       && nObjKeys >= 1) {
-          passEleTauHLTFinalFilterEle = 1;
+          passEleTauFinalFilterEle = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
-                               EleTauHLTFinalFilterEle_pt,
-                               EleTauHLTFinalFilterEle_eta,
-                               EleTauHLTFinalFilterEle_phi,
-                               EleTauHLTFinalFilterEle_energy);
+                               EleTauFinalFilterEle_pt,
+                               EleTauFinalFilterEle_eta,
+                               EleTauFinalFilterEle_phi,
+                               EleTauFinalFilterEle_energy);
           continue;
         }
 
         if (filterTag == "hltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30::MYOTHERHLT"
                       && nObjKeys >= 1) {
-          passEleTauHLTFinalFilterTau = 1;
+          passEleTauFinalFilterTau = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
-                               EleTauHLTFinalFilterTau_pt,
-                               EleTauHLTFinalFilterTau_eta,
-                               EleTauHLTFinalFilterTau_phi,
-                               EleTauHLTFinalFilterTau_energy);
+                               EleTauFinalFilterTau_pt,
+                               EleTauFinalFilterTau_eta,
+                               EleTauFinalFilterTau_phi,
+                               EleTauFinalFilterTau_energy);
           continue;
         }
+
+        // SingleEle
+        if (filterTag == "hltEle32WPTightGsfTrackIsoFilter::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passSingleEleFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               SingleEleFinalFilter_pt,
+                               SingleEleFinalFilter_eta,
+                               SingleEleFinalFilter_phi,
+                               SingleEleFinalFilter_energy);
+          continue;
+        }
+
 
         // VBF2DT
         if (filterTag == "hltL2VBFIsoTauNNFilter::MYOTHERHLT"

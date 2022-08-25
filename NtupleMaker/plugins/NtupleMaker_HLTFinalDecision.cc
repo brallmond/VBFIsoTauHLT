@@ -70,7 +70,7 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent){
     passEleTauHLT = triggerResults->accept(triggerNames_.triggerIndex(
                  "HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v1"));
     passSingleEleHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                     "HLT_Ele30_WPTight_Gsf_v1"));
+                     "HLT_Ele32_WPTight_Gsf_v15"));
     passVBF2DTHLT = triggerResults->accept(triggerNames_.triggerIndex(
                   "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1"));
     passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
