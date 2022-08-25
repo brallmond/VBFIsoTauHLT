@@ -59,6 +59,7 @@ NtupleMaker::~NtupleMaker(){
 void NtupleMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 
+    //std::cout << "############## NEW EVENT! #################" << std::endl;
     if(fillingTriggers) fillTriggers(iEvent);
     if(fillingL1sFromHLT) fillL1sFromHLT(iEvent);
     if(fillingHLTFinalDecision) fillHLTFinalDecision(iEvent);
