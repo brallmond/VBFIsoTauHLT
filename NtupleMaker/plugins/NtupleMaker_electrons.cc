@@ -25,10 +25,15 @@ vector<float>  eleEta_;
 vector<float>  elePhi_;
 vector<float>  eleCharge_;
 
-vector<float>  eleChargedHadronIso_;
-vector<float>  elePUChargedHadronIso_;
-vector<float>  eleNeutralHadronIso_;
-vector<float>  elePhotonIso_;
+vector<float>  elePFChIso_;
+vector<float>  elePFPUIso_;
+vector<float>  elePFNeuIso_;
+vector<float>  elePFPhoIso_;
+
+vector<float>  elePUPPIChIso_;
+vector<float>  elePUPPIPUIso_;
+vector<float>  elePUPPINeuIso_;
+vector<float>  elePUPPIPhoIso_;
 
 vector<int> elePDGID_;
 
@@ -61,10 +66,16 @@ void NtupleMaker::branchesElectrons(TTree* tree) {
   tree->Branch("eleEnergy", &eleEnergy_);
   tree->Branch("eleCharge", &eleCharge_);
 
-  tree->Branch("eleChargedHadronIso", &eleChargedHadronIso_);
-  tree->Branch("elePUChargedHadronIso", &elePUChargedHadronIso_);
-  tree->Branch("eleNeutralHadronIso", &eleNeutralHadronIso_);
-  tree->Branch("elePhotonIso", &elePhotonIso_);
+  tree->Branch("elePFChIso", &elePFChIso_);
+  tree->Branch("elePFPUIso", &elePFPUIso_);
+  tree->Branch("elePFNeuIso", &elePFNeuIso_);
+  tree->Branch("elePFPhoIso", &elePFPhoIso_);
+
+  tree->Branch("elePUPPIChIso", &elePUPPIChIso_);
+  tree->Branch("elePUPPIPUIso", &elePUPPIPUIso_);
+  tree->Branch("elePUPPINeuIso", &elePUPPINeuIso_);
+  tree->Branch("elePUPPIPhoIso", &elePUPPIPhoIso_);
+
 
   tree->Branch("elePDGID", &elePDGID_);
   tree->Branch("eleIDMVAIso", &eleIDMVAIso_);
@@ -104,10 +115,16 @@ void NtupleMaker::fillElectrons(const edm::Event& e) { //, const edm::EventSetup
   eleEnergy_.clear();
   eleCharge_.clear();
 
-  eleChargedHadronIso_.clear();
-  elePUChargedHadronIso_.clear();
-  eleNeutralHadronIso_.clear();
-  elePhotonIso_.clear();
+  elePFChIso_.clear();
+  elePFPUIso_.clear();
+  elePFNeuIso_.clear();
+  elePFPhoIso_.clear();
+
+  elePUPPIChIso_.clear();
+  elePUPPIPUIso_.clear();
+  elePUPPINeuIso_.clear();
+  elePUPPIPhoIso_.clear();
+
 
   elePDGID_.clear();
 
@@ -139,12 +156,21 @@ void NtupleMaker::fillElectrons(const edm::Event& e) { //, const edm::EventSetup
     // variables for lepton hadronic activity, defined here
     // https://github.com/cms-sw/cmssw/blob/master/DataFormats/PatCandidates/interface/Lepton.h#L163-L165
     // https://github.com/cms-sw/cmssw/blob/master/DataFormats/PatCandidates/interface/Electron.h#L153-L155
-    eleChargedHadronIso_.push_back(iEle->puppiChargedHadronIso());
-    elePUChargedHadronIso_.push_back(iEle->puChargedHadronIso());
-    eleNeutralHadronIso_.push_back(iEle->puppiNeutralHadronIso());
-    elePhotonIso_.push_back(iEle->puppiPhotonIso());
+    // actually accessing them here
+    // https://github.com/cmkuo/ggAnalysis/blob/94X/ggNtuplizer/plugins/ggNtuplizer_electrons.cc#L350-L354
+    
+    reco::GsfElectron::PflowIsolationVariables pfIso = iEle->pfIsolationVariables();
+    elePFChIso_.push_back(pfIso.sumChargedHadronPt);
+    elePFPhoIso_.push_back(pfIso.sumPhotonEt);
+    elePFNeuIso_.push_back(pfIso.sumNeutralHadronEt);
+    elePFPUIso_.push_back(pfIso.sumPUPt);
 
-    //elePDGID_.push_back(iEle->genParticle());
+    elePUPPIChIso_.push_back(iEle->puppiChargedHadronIso());
+    elePUPPIPUIso_.push_back(iEle->puChargedHadronIso());
+    elePUPPINeuIso_.push_back(iEle->puppiNeutralHadronIso());
+    elePUPPIPhoIso_.push_back(iEle->puppiPhotonIso());
+
+
     elePDGID_.push_back(iEle->pdgId());
 
     eleIDMVAIso_.push_back(iEle->userFloat("ElectronMVAEstimatorRun2Fall17IsoV2Values")); // actual MVA result
