@@ -13,6 +13,20 @@ float 	energy_;
 
 // is there a smart way to organize these?
 // Signal, Monitoring/Control, adhoc, Jaime's (not stored)
+// Signal
+//branches for passDeepDiTau35HLT;
+//branches for passEleTauHLT [x]
+//branches for passSingleEleHLT 
+//branches for passVBF2DTHLT [partial]
+//branches for passInclusiveVBFHLT
+//branches for passDeepInclusiveVBFHLT
+// Monitoring/Control HLTs
+//branches for passIsoMu24eta2p1HLT;
+//branches for passUpperControlHLT;
+//branches for passLowerControlHLT;
+//branches for passDiTauControlHLT;
+
+
 //branches for EleTau
 //hltEle24erWPTightGsfTrackIsoFilterForTau // single final electron filter
 int passhltEle24erWPTightGsfTrackIsoFilterForTau;
@@ -56,6 +70,21 @@ vector<float> hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWith
 
 void NtupleMaker::branchesTriggers(TTree* tree){
 
+    tree->Branch("passhltEle24erWPTightGsfTrackIsoFilterForTau", 
+                  &passhltEle24erWPTightGsfTrackIsoFilterForTau);
+    tree->Branch("EleTauHLTFinalFilterEle_pt", &EleTauHLTFinalFilterEle_pt);
+    tree->Branch("EleTauHLTFinalFilterEle_eta", &EleTauHLTFinalFilterEle_eta);
+    tree->Branch("EleTauHLTFinalFilterEle_phi", &EleTauHLTFinalFilterEle_phi);
+    tree->Branch("EleTauHLTFinalFilterEle_energy", &EleTauHLTFinalFilterEle_energy);
+
+    tree->Branch("passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30", 
+                  &passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30);
+    tree->Branch("EleTauHLTFinalFilterTau_pt", &EleTauHLTFinalFilterTau_pt);
+    tree->Branch("EleTauHLTFinalFilterTau_eta", &EleTauHLTFinalFilterTau_eta);
+    tree->Branch("EleTauHLTFinalFilterTau_phi", &EleTauHLTFinalFilterTau_phi);
+    tree->Branch("EleTauHLTFinalFilterTau_energy", &EleTauHLTFinalFilterTau_energy);
+
+
     // VBFPlusTwoDeepTau HLT Modules
     // define additional branches later
     tree->Branch("passhltL2VBFIsoTauNNFilter", &passhltL2VBFIsoTauNNFilter);
@@ -70,18 +99,6 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau", &passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau);
     tree->Branch("hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_pt", &hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_pt);
 
-    tree->Branch("passhltEle24erWPTightGsfTrackIsoFilterForTau", &passhltEle24erWPTightGsfTrackIsoFilterForTau);
-    tree->Branch("EleTauHLTFinalFilterEle_pt", &EleTauHLTFinalFilterEle_pt);
-    tree->Branch("EleTauHLTFinalFilterEle_eta", &EleTauHLTFinalFilterEle_eta);
-    tree->Branch("EleTauHLTFinalFilterEle_phi", &EleTauHLTFinalFilterEle_phi);
-    tree->Branch("EleTauHLTFinalFilterEle_energy", &EleTauHLTFinalFilterEle_energy);
-
-    tree->Branch("passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30", &passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30);
-    tree->Branch("EleTauHLTFinalFilterTau_pt", &EleTauHLTFinalFilterTau_pt);
-    tree->Branch("EleTauHLTFinalFilterTau_eta", &EleTauHLTFinalFilterTau_eta);
-    tree->Branch("EleTauHLTFinalFilterTau_phi", &EleTauHLTFinalFilterTau_phi);
-    tree->Branch("EleTauHLTFinalFilterTau_energy", &EleTauHLTFinalFilterTau_energy);
-
 }
 
 void NtupleMaker::fillTriggers(const edm::Event& iEvent){
@@ -89,6 +106,19 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     using namespace edm;
 
     // clearing vectors and initializing flags at the start of every event 
+
+
+    passhltEle24erWPTightGsfTrackIsoFilterForTau = 0;
+    EleTauHLTFinalFilterEle_pt.clear();
+    EleTauHLTFinalFilterEle_eta.clear();
+    EleTauHLTFinalFilterEle_phi.clear();
+    EleTauHLTFinalFilterEle_energy.clear();
+
+    passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30 = 0;
+    EleTauHLTFinalFilterTau_pt.clear();
+    EleTauHLTFinalFilterTau_eta.clear();
+    EleTauHLTFinalFilterTau_phi.clear();
+    EleTauHLTFinalFilterTau_energy.clear();
 
     // VBF2DT
     passhltL2VBFIsoTauNNFilter = 0;
@@ -103,17 +133,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau = 0;
     hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_pt.clear();
 
-    passhltEle24erWPTightGsfTrackIsoFilterForTau = 0;
-    EleTauHLTFinalFilterEle_pt.clear();
-    EleTauHLTFinalFilterEle_eta.clear();
-    EleTauHLTFinalFilterEle_phi.clear();
-    EleTauHLTFinalFilterEle_energy.clear();
-
-    passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30 = 0;
-    EleTauHLTFinalFilterTau_pt.clear();
-    EleTauHLTFinalFilterTau_eta.clear();
-    EleTauHLTFinalFilterTau_phi.clear();
-    EleTauHLTFinalFilterTau_energy.clear();
 
     // getting trigger event per this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
@@ -141,7 +160,14 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 	// fill "pass filter" branches
 	int nObjKeys = objectKeys.size();
 
-        //if (filterTag == hltL2VBFIsoTauNNFilter_Tag 
+        // EleTau
+        if (filterTag == "hltEle24erWPTightGsfTrackIsoFilterForTau::MYOTHERHLT"
+                      && nObjKeys >= 1) passhltEle24erWPTightGsfTrackIsoFilterForTau = 1;
+
+        if (filterTag == "hltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30::MYOTHERHLT"
+                      && nObjKeys >= 1) passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30 = 1;
+
+        // VBF2DT
         if (filterTag == "hltL2VBFIsoTauNNFilter::MYOTHERHLT"
                       && nObjKeys >= 1) passhltL2VBFIsoTauNNFilter = 1;
 
@@ -150,13 +176,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         if (filterTag == hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched_Tag && nObjKeys >= 1) passhltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatched = 1;
 
         if (filterTag == hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_Tag && nObjKeys >= 2) passhltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau = 1;
-
-
-        if (filterTag == "hltEle24erWPTightGsfTrackIsoFilterForTau::MYOTHERHLT"
-                      && nObjKeys >= 1) passhltEle24erWPTightGsfTrackIsoFilterForTau = 1;
-
-        if (filterTag == "hltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30::MYOTHERHLT"
-                      && nObjKeys >= 1) passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30 = 1;
 
 
         // it's definitely right to be clearing things where i'm clearing them, 
@@ -170,6 +189,23 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 	    eta_ = triggerObj.eta();
 	    phi_ = triggerObj.phi();
 	    energy_ = triggerObj.energy();
+
+
+            if (filterTag == "hltEle24erWPTightGsfTrackIsoFilterForTau::MYOTHERHLT"
+                 && passhltEle24erWPTightGsfTrackIsoFilterForTau && pt_>0) {
+               EleTauHLTFinalFilterEle_pt.push_back(pt_);
+               EleTauHLTFinalFilterEle_eta.push_back(eta_);
+               EleTauHLTFinalFilterEle_phi.push_back(phi_);
+               EleTauHLTFinalFilterEle_energy.push_back(energy_);
+            }
+
+            if (filterTag == "hltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30::MYOTHERHLT"
+                 && passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30 && pt_>0) {
+               EleTauHLTFinalFilterTau_pt.push_back(pt_);
+               EleTauHLTFinalFilterTau_eta.push_back(eta_);
+               EleTauHLTFinalFilterTau_phi.push_back(phi_);
+               EleTauHLTFinalFilterTau_energy.push_back(energy_);
+            }
 
             if (filterTag == hltL2VBFIsoTauNNFilter_Tag
                  && passhltL2VBFIsoTauNNFilter && pt_>0) {
@@ -191,21 +227,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTau_pt.push_back(pt_);
             }
 
-            if (filterTag == "hltEle24erWPTightGsfTrackIsoFilterForTau::MYOTHERHLT"
-                 && passhltEle24erWPTightGsfTrackIsoFilterForTau && pt_>0) {
-               EleTauHLTFinalFilterEle_pt.push_back(pt_);
-               EleTauHLTFinalFilterEle_eta.push_back(eta_);
-               EleTauHLTFinalFilterEle_phi.push_back(phi_);
-               EleTauHLTFinalFilterEle_energy.push_back(energy_);
-            }
-
-            if (filterTag == "hltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30::MYOTHERHLT"
-                 && passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30 && pt_>0) {
-               EleTauHLTFinalFilterTau_pt.push_back(pt_);
-               EleTauHLTFinalFilterTau_eta.push_back(eta_);
-               EleTauHLTFinalFilterTau_phi.push_back(phi_);
-               EleTauHLTFinalFilterTau_energy.push_back(energy_);
-            }
 
 	} // end loop over trigger object keys
     } // end loop over nfilters
