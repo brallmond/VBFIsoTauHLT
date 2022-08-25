@@ -450,7 +450,8 @@ if __name__ == "__main__":
 
       # now tally it up
       GoodVBFEle = passVBFEleL1Restrictions and passVBFEleOffCuts
-      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
+      #GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
+      GoodEleTau = passEleTauOffCuts
       GoodSingleEle = passSingleEleOffCuts # and matching
 
       if (GoodVBFEle and GoodEleTau): TallyVBFEleAndEleTau += 1
@@ -469,11 +470,11 @@ if __name__ == "__main__":
     print("Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
 
   print("""
-          VBFEle    EleTau    SingleEle
-Counts     {0}       {1}       {2}
-Triple OR  {3}
+                     VBFEle    EleTau    SingleEle
+Counts                {0}       {1}       {2}
+Triple OR             {3}
 EleTau AND Single Tau {4}
-Uniq VBFEle {5}
+Uniq VBFEle           {5}
 """.format(TallyVBFEle, TallyEleTau, TallySingleEle, TallyTripleOr, TallyEleTauAndSingleEle,
            TallyTripleOr - TallyEleTau - TallySingleEle + TallyEleTauAndSingleEle))
 
