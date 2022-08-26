@@ -141,26 +141,39 @@ if __name__ == "__main__":
     tree.SetBranchAddress("hltL1VBFElectronLoose_eEnergy", L1EleEnergy)
    
   # HLT Filter Matching
-  PassEleTauHLTFinalTauFilter = array('i', [0])
-  tree.SetBranchAddress("passhltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30", PassEleTauHLTFinalTauFilter)
-  EleTauHLTFinalFilterTau_pt = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauHLTFinalFilterTau_pt", EleTauHLTFinalFilterTau_pt)
-  EleTauHLTFinalFilterTau_eta = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauHLTFinalFilterTau_eta", EleTauHLTFinalFilterTau_eta)
-  EleTauHLTFinalFilterTau_phi = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauHLTFinalFilterTau_phi", EleTauHLTFinalFilterTau_phi)
-  EleTauHLTFinalFilterTau_energy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauHLTFinalFilterTau_energy", EleTauHLTFinalFilterTau_energy)
-  PassEleTauHLTFinalEleFilter = array('i', [0])
-  tree.SetBranchAddress("passhltEle24erWPTightGsfTrackIsoFilterForTau", PassEleTauHLTFinalEleFilter)
-  EleTauHLTFinalFilterEle_pt = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauHLTFinalFilterEle_pt", EleTauHLTFinalFilterEle_pt)
-  EleTauHLTFinalFilterEle_eta = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauHLTFinalFilterEle_eta", EleTauHLTFinalFilterEle_eta)
-  EleTauHLTFinalFilterEle_phi = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauHLTFinalFilterEle_phi", EleTauHLTFinalFilterEle_phi)
-  EleTauHLTFinalFilterEle_energy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauHLTFinalFilterEle_energy", EleTauHLTFinalFilterEle_energy)
+  # EleTau
+  PassEleTauFinalFilterTau = array('i', [0])
+  tree.SetBranchAddress("passEleTauFinalFilterTau", PassEleTauFinalFilterTau)
+  EleTauFinalFilterTau_pt = ROOT.std.vector('float')()
+  tree.SetBranchAddress("EleTauFinalFilterTau_pt", EleTauFinalFilterTau_pt)
+  EleTauFinalFilterTau_eta = ROOT.std.vector('float')()
+  tree.SetBranchAddress("EleTauFinalFilterTau_eta", EleTauFinalFilterTau_eta)
+  EleTauFinalFilterTau_phi = ROOT.std.vector('float')()
+  tree.SetBranchAddress("EleTauFinalFilterTau_phi", EleTauFinalFilterTau_phi)
+  EleTauFinalFilterTau_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("EleTauFinalFilterTau_energy", EleTauFinalFilterTau_energy)
+  PassEleTauFinalFilterEle = array('i', [0])
+  tree.SetBranchAddress("passEleTauFinalFilterEle", PassEleTauFinalFilterEle)
+  EleTauFinalFilterEle_pt = ROOT.std.vector('float')()
+  tree.SetBranchAddress("EleTauFinalFilterEle_pt", EleTauFinalFilterEle_pt)
+  EleTauFinalFilterEle_eta = ROOT.std.vector('float')()
+  tree.SetBranchAddress("EleTauFinalFilterEle_eta", EleTauFinalFilterEle_eta)
+  EleTauFinalFilterEle_phi = ROOT.std.vector('float')()
+  tree.SetBranchAddress("EleTauFinalFilterEle_phi", EleTauFinalFilterEle_phi)
+  EleTauFinalFilterEle_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("EleTauFinalFilterEle_energy", EleTauFinalFilterEle_energy)
+
+  # SingleTau
+  PassSingleEleFinalFilter = array('i', [0])
+  tree.SetBranchAddress("passSingleEleFinalFilter", PassSingleEleFinalFilter)
+  SingleEleFinalFilter_pt = ROOT.std.vector('float')()
+  tree.SetBranchAddress("SingleEleFinalFilter_pt", SingleEleFinalFilter_pt)
+  SingleEleFinalFilter_eta = ROOT.std.vector('float')()
+  tree.SetBranchAddress("SingleEleFinalFilter_eta", SingleEleFinalFilter_eta)
+  SingleEleFinalFilter_phi = ROOT.std.vector('float')()
+  tree.SetBranchAddress("SingleEleFinalFilter_phi", SingleEleFinalFilter_phi)
+  SingleEleFinalFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("SingleEleFinalFilter_energy", SingleEleFinalFilter_energy)
   
 
   # HLT Final Decisions
@@ -203,14 +216,15 @@ if __name__ == "__main__":
   tree.SetBranchAddress("elePhi", OffElePhi)
   OffEleEnergy = ROOT.std.vector('float')()
   tree.SetBranchAddress("eleEnergy", OffEleEnergy)
-  OffEleChargedHadronIso = ROOT.std.vector('float')()
-  tree.SetBranchAddress("eleChargedHadronIso", OffEleChargedHadronIso)
-  OffElePUChargedHadronIso = ROOT.std.vector('float')()
-  tree.SetBranchAddress("elePUChargedHadronIso", OffElePUChargedHadronIso)
-  OffEleNeutralHadronIso = ROOT.std.vector('float')()
-  tree.SetBranchAddress("eleNeutralHadronIso", OffEleNeutralHadronIso)
-  OffElePhotonIso = ROOT.std.vector('float')()
-  tree.SetBranchAddress("elePhotonIso", OffElePhotonIso)
+
+  OffElePFChIso = ROOT.std.vector('float')()
+  tree.SetBranchAddress("elePFChIso", OffElePFChIso)
+  OffElePFPUIso = ROOT.std.vector('float')()
+  tree.SetBranchAddress("elePFPUIso", OffElePFPUIso)
+  OffElePFNeuIso = ROOT.std.vector('float')()
+  tree.SetBranchAddress("elePFNeuIso", OffElePFNeuIso)
+  OffElePFPhoIso = ROOT.std.vector('float')()
+  tree.SetBranchAddress("elePFPhoIso", OffElePFPhoIso)
 
   # Offline Ids
   OffTauIDvsJet = ROOT.std.vector('bool')()
@@ -268,7 +282,9 @@ if __name__ == "__main__":
   TallyTripleOr = 0
   TallyEleTauAndSingleEle = 0
 
-  for entry in range(tree.GetEntries()):
+  TotalEntries = tree.GetEntries()
+  print("Sample size: {} events".format(TotalEntries))
+  for entry in range(TotalEntries):
     tree.GetEntry(entry)
 
     # check if event passes L1 or HLT and has minimum object requirements
@@ -308,34 +324,24 @@ if __name__ == "__main__":
       sizeOffJets = len(OffJets)
       if (sizeOffJets < 2): continue
  
-      # leptopn hadronic activity variable
-      # tyler's code and definition of the variable
-      #iso = (ch_iso->at(i) / pt->at(i)) + std::max(0., (neu_iso->at(i) + pho_iso->at(i) - 0.5 * pu_iso->at(i)) / pt->at(i));
-
-      # some debugging
-      #print("start new")
-      #for i in range(len(OffEleChargedHadronIso)):
-      #  print(OffEleChargedHadronIso[i])
-      #  print(OffElePt[i])
-      #  print(OffEleNeutralHadronIso[i])
-      #  print(OffElePhotonIso[i])
-      #  print(OffEleChargedHadronIso[i])
-      #  PassEleIso = OffEleChargedHadronIso[i] / OffElePt[i] + \
-      #      max([0., (OffEleNeutralHadronIso[i] + OffElePhotonIso[i] - 0.5*OffEleChargedHadronIso[i]) / OffElePt[i]])
-
-      #print(PassEleIso)
-      # variable cuts events passing in half
-
-      PassEleIso = [i for i in range(len(OffEleChargedHadronIso)) if 
-                   ((OffEleChargedHadronIso[i] / OffElePt[i]) + \
-                   max([0., (OffEleNeutralHadronIso[i] + OffElePhotonIso[i] - \
-                     0.5*OffElePUChargedHadronIso[i]) / OffElePt[i]])) >= 0.15]
+      # lepton hadronic activity variable
+      # "how well is this lepton isolated, given information about its PF sums for Charged&Neutral Hadrons and Photons"
+      # slide 5 of this presentation: https://docs.google.com/presentation/d/1Bsz5eBHYlQSg5Lfay8OyL1wf67CuzixNds9wQIgAfgk/edit?usp=sharing
+      # TODO: confirm if Tyler's code was an error or if the AN was wrong, check later papers for rel iso description
+      # PU = rho*EffectiveArea in eta-phi, but we have a PU branch?
+      # could do list comprehension but it's hard to read
+      PassEleIso = []
+      for i in range(len(OffElePFChIso)):
+        firstTerm = OffElePFChIso[i]
+        secondTerm = OffElePFNeuIso[i] + OffElePFPhoIso[i] - 0.5 * OffElePFPUIso[i]
+        secondTerm = max([0., secondTerm]) #make term zero if above is negative
+        Iso = (firstTerm + secondTerm) / OffElePt[i]
+        if (Iso < 0.15): PassEleIso.append(i)
      
       EleEtaToPass = 2.1
       PassEleID =  [i for i in range(len(OffEleID)) if OffEleID[i] >= 1] # Ele ID is eleIDMVANoIsowp90
       PassEleEta = [i for i in range(len(OffEleEta)) if abs(OffEleEta[i]) <= EleEtaToPass]
       OffElesPassFilter = list(set(PassEleIso) & set(PassEleID) & set(PassEleEta))
-      #OffElesPassFilter = list(set(PassEleID) & set(PassEleEta))
       if (len(OffElesPassFilter) == 0): continue
       OffEles = fillWithTVecs(OffElePt, OffEleEta, OffElePhi, OffEleEnergy, OffElesPassFilter)
       sizeOffEles = len(OffEles)
@@ -394,13 +400,13 @@ if __name__ == "__main__":
       # check that HLT objects can be matched to offline
       # should be MORE L1 objects that match than HLT objects from another trigger
       # the HLT objects can match different objects than the ones the L1s match
-      HLTTaus = fillWithTVecs(EleTauHLTFinalFilterTau_pt, EleTauHLTFinalFilterTau_eta, \
-                                EleTauHLTFinalFilterTau_phi, EleTauHLTFinalFilterTau_energy)
+      HLTTaus = fillWithTVecs(EleTauFinalFilterTau_pt, EleTauFinalFilterTau_eta, \
+                                EleTauFinalFilterTau_phi, EleTauFinalFilterTau_energy)
       sizeHLTTaus = len(HLTTaus)
       matchHLTOffTau = [i for i in range(sizeHLTTaus) if ROOT.TLorentzVector.DeltaR(OffTau, HLTTaus[i]) < 0.5]
 
-      HLTEles = fillWithTVecs(EleTauHLTFinalFilterEle_pt, EleTauHLTFinalFilterEle_eta, \
-                                EleTauHLTFinalFilterEle_phi, EleTauHLTFinalFilterEle_energy)
+      HLTEles = fillWithTVecs(EleTauFinalFilterEle_pt, EleTauFinalFilterEle_eta, \
+                                EleTauFinalFilterEle_phi, EleTauFinalFilterEle_energy)
       sizeHLTEles = len(HLTEles)
       matchHLTOffEle = [i for i in range(sizeHLTEles) if ROOT.TLorentzVector.DeltaR(OffEle, HLTEles[i]) < 0.5]
       #matchHLTOffEle = [i for i in range(sizeHLTTaus) if ROOT.TLorentzVector.DeltaR(OffEle, HLTTaus[i]) < 0.5]
