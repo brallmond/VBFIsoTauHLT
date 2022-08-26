@@ -400,19 +400,31 @@ if __name__ == "__main__":
       # check that HLT objects can be matched to offline
       # should be MORE L1 objects that match than HLT objects from another trigger
       # the HLT objects can match different objects than the ones the L1s match
-      HLTTaus = fillWithTVecs(EleTauFinalFilterTau_pt, EleTauFinalFilterTau_eta, \
-                                EleTauFinalFilterTau_phi, EleTauFinalFilterTau_energy)
-      sizeHLTTaus = len(HLTTaus)
-      matchHLTOffTau = [i for i in range(sizeHLTTaus) if ROOT.TLorentzVector.DeltaR(OffTau, HLTTaus[i]) < 0.5]
 
-      HLTEles = fillWithTVecs(EleTauFinalFilterEle_pt, EleTauFinalFilterEle_eta, \
+      # Ele Tau Matching
+      EleTauHLTTaus = fillWithTVecs(EleTauFinalFilterTau_pt, EleTauFinalFilterTau_eta, \
+                                EleTauFinalFilterTau_phi, EleTauFinalFilterTau_energy)
+      sizeEleTauHLTTaus = len(EleTauHLTTaus)
+      matchEleTauHLTOffTau = [i for i in range(sizeEleTauHLTTaus) 
+                     if ROOT.TLorentzVector.DeltaR(OffTau, EleTauHLTTaus[i]) < 0.5]
+
+      EleTauHLTEles = fillWithTVecs(EleTauFinalFilterEle_pt, EleTauFinalFilterEle_eta, \
                                 EleTauFinalFilterEle_phi, EleTauFinalFilterEle_energy)
-      sizeHLTEles = len(HLTEles)
-      matchHLTOffEle = [i for i in range(sizeHLTEles) if ROOT.TLorentzVector.DeltaR(OffEle, HLTEles[i]) < 0.5]
-      #matchHLTOffEle = [i for i in range(sizeHLTTaus) if ROOT.TLorentzVector.DeltaR(OffEle, HLTTaus[i]) < 0.5]
+      sizeEleTauHLTEles = len(EleTauHLTEles)
+      matchEleTauHLTOffEle = [i for i in range(sizeEleTauHLTEles) 
+                     if ROOT.TLorentzVector.DeltaR(OffEle, EleTauHLTEles[i]) < 0.5]
 
       passEleTauHLTOffMatching = False
-      if ((sizeHLTTaus > 0) and (sizeHLTEles > 0)): passEleTauHLTOffMatching = True
+      if ( (len(matchEleTauHLTOffTau) > 0) and (len(matchEleTauHLTOffEle) > 0) ): passEleTauHLTOffMatching = True
+
+      # SingleEle Matching
+      SingleEleHLTEles = fillWithTVecs(SingleEleFinalFilter_pt, SingleEleFinalFilter_eta, \
+                                   SingleEleFinalFilter_phi, SingleEleFinalFilter_energy)
+      sizeSingleEleHLTEles = len(SingleEleHLTEles)
+      matchSingleEleHLTOffEle = [i for i in range(sizeSingleEleHLTEles) 
+                              if ROOT.TLorentzVector.DeltaR(OffEle, SingleEleHLTEles[i]) < 0.5]
+      passSingleEleHLTOffMatching = False
+      if (len(matchSingleEleHLTOffEle) > 0): passSingleEleHLTOffMatching = True
 
       # we now have quality objects at L1 and Offline which are matched
 
@@ -456,9 +468,8 @@ if __name__ == "__main__":
 
       # now tally it up
       GoodVBFEle = passVBFEleL1Restrictions and passVBFEleOffCuts
-      #GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
-      GoodEleTau = passEleTauOffCuts
-      GoodSingleEle = passSingleEleOffCuts # and matching
+      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
+      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts
 
       if (GoodVBFEle and GoodEleTau): TallyVBFEleAndEleTau += 1
       if (GoodVBFEle): TallyVBFEle += 1
@@ -476,11 +487,11 @@ if __name__ == "__main__":
     print("Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
 
   print("""
-                     VBFEle    EleTau    SingleEle
-Counts                {0}       {1}       {2}
-Triple OR             {3}
-EleTau AND Single Tau {4}
-Uniq VBFEle           {5}
+                       VBFEle    EleTau    SingleEle
+Single Counts           {0}       {1}       {2}
+Triple OR               {3}
+EleTau AND Single Tau   {4}
+Uniq VBFEle             {5}
 """.format(TallyVBFEle, TallyEleTau, TallySingleEle, TallyTripleOr, TallyEleTauAndSingleEle,
            TallyTripleOr - TallyEleTau - TallySingleEle + TallyEleTauAndSingleEle))
 
