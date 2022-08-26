@@ -275,12 +275,10 @@ if __name__ == "__main__":
 
   TallyVBFEle = 0
   TallyEleTau = 0
-  TallyVBFEleAndEleTau = 0
-  TallyVBFEleOrEleTau = 0
   TallySingleEle = 0
-  TallyVBFEleOrSingleEle = 0
-  TallyTripleOr = 0
   TallyEleTauAndSingleEle = 0
+  TallyEleTauOrSingleEle = 0
+  TallyTripleOr = 0
 
   TotalEntries = tree.GetEntries()
   print("Sample size: {} events".format(TotalEntries))
@@ -471,29 +469,34 @@ if __name__ == "__main__":
       GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
       GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts
 
-      if (GoodVBFEle and GoodEleTau): TallyVBFEleAndEleTau += 1
+      # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
       if (GoodVBFEle): TallyVBFEle += 1
       if (GoodEleTau): TallyEleTau += 1
-      if ((GoodVBFEle) or (GoodEleTau)): TallyVBFEleOrEleTau += 1
       if (GoodSingleEle): TallySingleEle += 1
-      if ((GoodVBFEle) or (GoodSingleEle)): TallyVBFEleOrSingleEle += 1
-      if ((GoodVBFEle) or (GoodSingleEle) or (GoodEleTau)): TallyTripleOr += 1
-      if ((GoodSingleEle) and (GoodEleTau)): TallyEleTauAndSingleEle += 1
+
+      if (GoodEleTau or GoodSingleEle): TallyEleTauOrSingleEle += 1
+      if (GoodEleTau and GoodSingleEle): TallyEleTauAndSingleEle += 1
+
+      if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
 
 
   if (L1IndexToTest == 6): 
-    print("Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+    print("\n Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
   else:
-    print("Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+    print("\n Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
 
-  print("""
-                       VBFEle    EleTau    SingleEle
-Single Counts           {0}       {1}       {2}
-Triple OR               {3}
-EleTau AND Single Tau   {4}
-Uniq VBFEle             {5}
-""".format(TallyVBFEle, TallyEleTau, TallySingleEle, TallyTripleOr, TallyEleTauAndSingleEle,
-           TallyTripleOr - TallyEleTau - TallySingleEle + TallyEleTauAndSingleEle))
+  # formatting a table to print instead of free-forming printing
+  labels = ["SingleEle", "EleTau", "OR", "AND"]
+  print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
+  values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
+  print("{0:<10} {1:<9} {2:<9} {3:<9}".format(values[0], values[1], values[2], values[3]))
+
+  UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
+  Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
+  labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
+  print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
+  values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
+  print("{0:<10} {1:<9} {2:<9} {3:<.1f}%".format(values[0], values[1], values[2], values[3]))
 
 ########################################################################
       # side-analysis, see how often we get the wrong objects.
