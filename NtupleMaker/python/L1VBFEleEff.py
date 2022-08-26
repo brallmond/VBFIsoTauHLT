@@ -281,7 +281,6 @@ if __name__ == "__main__":
   TallyTripleOr = 0
 
   TotalEntries = tree.GetEntries()
-  print("Sample size: {} events".format(TotalEntries))
   for entry in range(TotalEntries):
     tree.GetEntry(entry)
 
@@ -369,31 +368,38 @@ if __name__ == "__main__":
       # so we pick that as well and hope it matches the offline objects
       L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
       sizeL1Jets = len(L1Jets)
-      if (sizeL1Jets < 2): continue
-      L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
-
-      # see which offline jets the L1s are matched to
-      matchL1OffJet = [i for i in range(sizeL1Jets) if 
-                        (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
-                         ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5 ) ]
-
-      if (len(matchL1OffJet) < 2): continue # need at least two matched jets
-      if (L1Jet1Index not in matchL1OffJet or L1Jet2Index not in matchL1OffJet): continue # need them to be the highest mjj pair
-        #print("j1, j2, matched: {} {} {}".format(L1Jet1Index, L1Jet2Index, matchL1OffJet))
-
-      # use this instead of L1Jet1/2Index directly 
-      # alread checked that output was the same 
-      L1Jet1 = L1Jets[matchL1OffJet[0]]
-      L1Jet2 = L1Jets[matchL1OffJet[1]]
-
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
-      if (sizeL1Eles < 1): continue
+      matchL1Off = False
+      if (sizeL1Jets >= 2 and sizeL1Eles >= 1):
+        L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+        matchL1OffJet = [i for i in range(sizeL1Jets) 
+                if (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
+                    ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5 ) ]
+        matchL1OffEle = [i for i in range(sizeL1Eles) 
+                if ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) < 0.5 ] 
 
-      matchL1OffEle = [i for i in range(sizeL1Eles) if ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) < 0.5 ] 
-      if (len(matchL1OffEle) == 0): continue
+        if (L1Jet1Index in matchL1OffJet and L1Jet2Index in matchL1OffJet
+            and len(matchL1OffEle) >= 1): matchL1Off = True
 
-      L1Ele = L1Eles[matchL1OffEle[0]]
+      if (matchL1Off):
+        # use this instead of L1Jet1/2Index directly (output is the same)
+        L1Jet1 = L1Jets[matchL1OffJet[0]]
+        L1Jet2 = L1Jets[matchL1OffJet[1]]
+        L1Ele = L1Eles[matchL1OffEle[0]]
+
+      # side-analysis, see how often we get the wrong objects.
+      # a very detailed analysis of this would benefit algorithm construction
+      # not sure i'm the person to do it though
+      #if ( (len(matchL1OffJet) >= 2) and (len(matchL1OffEle) >= 1) ):
+        #L1LeadingJetIndex, L1SubleadingJetIndex, L1Mjj = highestMjjPair(L1Jets)
+        
+        #if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): 
+          #print("Not L1 highest pT pair")
+          #print("L1 Mjj = {}, Offline Mjj = {}, OffMjj - L1Mjj = {}".format(L1Mjj, OffMjj, OffMjj - L1Mjj))
+          #print("iEntry {}".format(entry))
+          #print(L1LeadingJetIndex, L1SubleadingJetIndex)
+          #print(matchL1OffJet)
 
       # check that HLT objects can be matched to offline
       # should be MORE L1 objects that match than HLT objects from another trigger
@@ -436,10 +442,11 @@ if __name__ == "__main__":
       
       passVBFEleL1Restrictions = False
       # L1 Kinematic Restrictions
-      if (L1Jet1.Pt() >= L1JetPtToPass 
-       and L1Jet2.Pt() >= L1JetPtToPass 
-       and L1Mjj >= L1JetMjjToPass 
-       and L1Ele.Pt() >= L1ElePtToPass): passVBFEleL1Restrictions = True
+      if (matchL1Off):
+        if (L1Jet1.Pt() >= L1JetPtToPass 
+         and L1Jet2.Pt() >= L1JetPtToPass 
+         and L1Mjj >= L1JetMjjToPass 
+         and L1Ele.Pt() >= L1ElePtToPass): passVBFEleL1Restrictions = True
 
       passVBFEleOffCuts = False
       # next, set a flag for events that pass
@@ -465,9 +472,12 @@ if __name__ == "__main__":
 
 
       # now tally it up
+      #GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
       GoodVBFEle = passVBFEleL1Restrictions and passVBFEleOffCuts
-      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
-      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts
+      #GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
+      GoodEleTau = passEleTauOffCuts
+      #GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts
+      GoodSingleEle = passSingleEleOffCuts
 
       # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
       if (GoodVBFEle): TallyVBFEle += 1
@@ -479,13 +489,12 @@ if __name__ == "__main__":
 
       if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
 
-
   if (L1IndexToTest == 6): 
-    print("\n Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+    print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
   else:
-    print("\n Total counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+    print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
 
-  # formatting a table to print instead of free-forming printing
+  # formatting a table to print instead of free-form printing
   labels = ["SingleEle", "EleTau", "OR", "AND"]
   print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
   values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
@@ -497,19 +506,4 @@ if __name__ == "__main__":
   print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
   values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
   print("{0:<10} {1:<9} {2:<9} {3:<.1f}%".format(values[0], values[1], values[2], values[3]))
-
-########################################################################
-      # side-analysis, see how often we get the wrong objects.
-      # a very detailed analysis of this would benefit algorithm construction
-      # not sure i'm the person to do it though
-      #if ( (len(matchL1OffJet) >= 2) and (len(matchL1OffEle) >= 1) ):
-        #L1LeadingJetIndex, L1SubleadingJetIndex, L1Mjj = highestMjjPair(L1Jets)
-        
-        #if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): 
-          #print("Not L1 highest pT pair")
-          #print("L1 Mjj = {}, Offline Mjj = {}, OffMjj - L1Mjj = {}".format(L1Mjj, OffMjj, OffMjj - L1Mjj))
-          #print("iEntry {}".format(entry))
-          #print(L1LeadingJetIndex, L1SubleadingJetIndex)
-          #print(matchL1OffJet)
-  
 
