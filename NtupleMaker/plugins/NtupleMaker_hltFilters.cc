@@ -5,12 +5,6 @@
 
 using namespace std;
 
-//branches for passDeepDiTau35HLT [x]
-//branches for passInclusiveVBFHLT
-//branches for passDeepInclusiveVBFHLT
-// Monitoring/Control HLTs
-//branches for passIsoMu24eta2p1HLT
-//branches for passUpperControlHLT
 //branches for passLowerControlHLT
 //branches for passDiTauControlHLT
 
@@ -27,7 +21,7 @@ vector<float> DiTauFinalFilter_eta;
 vector<float> DiTauFinalFilter_phi;
 vector<float> DiTauFinalFilter_energy;
 
-//EleTau
+// EleTau
 int passEleTauFinalFilterEle;
 vector<float> EleTauFinalFilterEle_pt;
 vector<float> EleTauFinalFilterEle_eta;
@@ -39,14 +33,14 @@ vector<float> EleTauFinalFilterTau_eta;
 vector<float> EleTauFinalFilterTau_phi;
 vector<float> EleTauFinalFilterTau_energy;
 
-//SingleEle
+// SingleEle
 int passSingleEleFinalFilter;
 vector<float> SingleEleFinalFilter_pt;
 vector<float> SingleEleFinalFilter_eta;
 vector<float> SingleEleFinalFilter_phi;
 vector<float> SingleEleFinalFilter_energy;
 
-//VBF2DTHLT
+// VBF2DTHLT
 int passhltL2VBFIsoTauNNFilter;
 vector<float> hltL2VBFIsoTauNNFilter_pt;
 vector<float> hltL2VBFIsoTauNNFilter_eta;
@@ -68,14 +62,35 @@ vector<float> VBF2DTDoubleJetFinalFilter_eta;
 vector<float> VBF2DTDoubleJetFinalFilter_phi;
 vector<float> VBF2DTDoubleJetFinalFilter_energy;
 
-//Monitoring
-//SingleMu
+// Monitoring
+// SingleMu
 int passSingleMuFinalFilter;
 vector<float> SingleMuFinalFilter_pt;
 vector<float> SingleMuFinalFilter_eta;
 vector<float> SingleMuFinalFilter_phi;
 vector<float> SingleMuFinalFilter_energy;
 
+// Upper MuTau
+int passUpperMuTauL2NN;
+vector<float> UpperMuTauL2NN_pt;
+vector<float> UpperMuTauL2NN_eta;
+vector<float> UpperMuTauL2NN_phi;
+vector<float> UpperMuTauL2NN_energy;
+int passUpperMuTauFinalFilterMuon;
+vector<float> UpperMuTauFinalFilterMuon_pt;
+vector<float> UpperMuTauFinalFilterMuon_eta;
+vector<float> UpperMuTauFinalFilterMuon_phi;
+vector<float> UpperMuTauFinalFilterMuon_energy;
+int passUpperMuTauFinalFilterTau;
+vector<float> UpperMuTauFinalFilterTau_pt;
+vector<float> UpperMuTauFinalFilterTau_eta;
+vector<float> UpperMuTauFinalFilterTau_phi;
+vector<float> UpperMuTauFinalFilterTau_energy;
+int passUpperMuTauFinalFilterOverlap;
+vector<float> UpperMuTauFinalFilterOverlap_pt;
+vector<float> UpperMuTauFinalFilterOverlap_eta;
+vector<float> UpperMuTauFinalFilterOverlap_phi;
+vector<float> UpperMuTauFinalFilterOverlap_energy;
 
 void NtupleMaker::branchesTriggers(TTree* tree){
 
@@ -142,6 +157,34 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("SingleMuFinalFilter_eta", &SingleMuFinalFilter_eta);
     tree->Branch("SingleMuFinalFilter_phi", &SingleMuFinalFilter_phi);
     tree->Branch("SingleMuFinalFilter_energy", &SingleMuFinalFilter_energy);
+
+    // Upper MuTau
+    tree->Branch("passUpperMuTauL2NN", &passUpperMuTauL2NN);
+    tree->Branch("UpperMuTauL2NN_pt", &UpperMuTauL2NN_pt);
+    tree->Branch("UpperMuTauL2NN_eta", &UpperMuTauL2NN_eta);
+    tree->Branch("UpperMuTauL2NN_phi", &UpperMuTauL2NN_phi);
+    tree->Branch("UpperMuTauL2NN_energy", &UpperMuTauL2NN_energy);
+
+    tree->Branch("passUpperMuTauFinalFilterMuon", &passUpperMuTauFinalFilterMuon);
+    tree->Branch("UpperMuTauFinalFilterMuon_pt", &UpperMuTauFinalFilterMuon_pt);
+    tree->Branch("UpperMuTauFinalFilterMuon_eta", &UpperMuTauFinalFilterMuon_eta);
+    tree->Branch("UpperMuTauFinalFilterMuon_phi", &UpperMuTauFinalFilterMuon_phi);
+    tree->Branch("UpperMuTauFinalFilterMuon_energy", &UpperMuTauFinalFilterMuon_energy);
+
+    tree->Branch("passUpperMuTauFinalFilterTau", &passUpperMuTauFinalFilterTau);
+    tree->Branch("UpperMuTauFinalFilterTau_pt", &UpperMuTauFinalFilterTau_pt);
+    tree->Branch("UpperMuTauFinalFilterTau_eta", &UpperMuTauFinalFilterTau_eta);
+    tree->Branch("UpperMuTauFinalFilterTau_phi", &UpperMuTauFinalFilterTau_phi);
+    tree->Branch("UpperMuTauFinalFilterTau_energy", &UpperMuTauFinalFilterTau_energy);
+
+    tree->Branch("passUpperMuTauFinalFilterOverlap", &passUpperMuTauFinalFilterOverlap);
+    tree->Branch("UpperMuTauFinalFilterOverlap_pt", &UpperMuTauFinalFilterOverlap_pt);
+    tree->Branch("UpperMuTauFinalFilterOverlap_eta", &UpperMuTauFinalFilterOverlap_eta);
+    tree->Branch("UpperMuTauFinalFilterOverlap_phi", &UpperMuTauFinalFilterOverlap_phi);
+    tree->Branch("UpperMuTauFinalFilterOverlap_energy", &UpperMuTauFinalFilterOverlap_energy);
+
+
+
 
 }
 
@@ -231,11 +274,40 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     VBF2DTDoubleJetFinalFilter_energy.clear();
 
     // Monitoring
+    // SingleMu
     passSingleMuFinalFilter = 0;
     SingleMuFinalFilter_pt.clear();
     SingleMuFinalFilter_eta.clear();
     SingleMuFinalFilter_phi.clear();
     SingleMuFinalFilter_energy.clear();
+
+    // Upper MuTau
+    passUpperMuTauL2NN = 0;
+    UpperMuTauL2NN_pt.clear();
+    UpperMuTauL2NN_eta.clear();
+    UpperMuTauL2NN_phi.clear();
+    UpperMuTauL2NN_energy.clear();
+
+    passUpperMuTauFinalFilterMuon = 0;
+    UpperMuTauFinalFilterMuon_pt.clear();
+    UpperMuTauFinalFilterMuon_eta.clear();
+    UpperMuTauFinalFilterMuon_phi.clear();
+    UpperMuTauFinalFilterMuon_energy.clear();
+
+    passUpperMuTauFinalFilterTau = 0;
+    UpperMuTauFinalFilterTau_pt.clear();
+    UpperMuTauFinalFilterTau_eta.clear();
+    UpperMuTauFinalFilterTau_phi.clear();
+    UpperMuTauFinalFilterTau_energy.clear();
+
+    passUpperMuTauFinalFilterOverlap = 0;
+    UpperMuTauFinalFilterOverlap_pt.clear();
+    UpperMuTauFinalFilterOverlap_eta.clear();
+    UpperMuTauFinalFilterOverlap_phi.clear();
+    UpperMuTauFinalFilterOverlap_energy.clear();
+
+
+
 
     // getting trigger event per this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
@@ -374,6 +446,52 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                                SingleMuFinalFilter_energy);
           continue;
         }
+
+        // Upper MuTau
+        if (filterTag == "hltL2TauTagNNFilterMuXXerIsoTauYYForVBFTauTau::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passUpperMuTauL2NN = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               UpperMuTauL2NN_pt,
+                               UpperMuTauL2NN_eta,
+                               UpperMuTauL2NN_phi,
+                               UpperMuTauL2NN_energy);
+          continue;
+        }
+
+        if (filterTag == "hltL3crIsoL1sBigOrMuXXerIsoTauYYerL1f0L2f10QL3f24QL3trkIsoFiltered0p08::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passUpperMuTauFinalFilterMuon = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               UpperMuTauFinalFilterMuon_pt,
+                               UpperMuTauFinalFilterMuon_eta,
+                               UpperMuTauFinalFilterMuon_phi,
+                               UpperMuTauFinalFilterMuon_energy);
+          continue;
+        }
+
+        if (filterTag == "hltHpsSelectedPFTau45MediumDitauWPDeepTauL1HLTBigOrMuXXerIsoTauYYerMatchedForVBFIsoTau::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passUpperMuTauFinalFilterTau = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               UpperMuTauFinalFilterTau_pt,
+                               UpperMuTauFinalFilterTau_eta,
+                               UpperMuTauFinalFilterTau_phi,
+                               UpperMuTauFinalFilterTau_energy);
+          continue;
+        }
+
+        if (filterTag == "hltHpsOverlapFilterIsoMu24MediumDitauWPDeepTauPFTau45MonitoringForVBFIsoTau::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passUpperMuTauFinalFilterOverlap = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               UpperMuTauFinalFilterOverlap_pt,
+                               UpperMuTauFinalFilterOverlap_eta,
+                               UpperMuTauFinalFilterOverlap_phi,
+                               UpperMuTauFinalFilterOverlap_energy);
+          continue;
+        }
+
 
     } // end loop over nfilters
 } // end function
