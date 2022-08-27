@@ -64,11 +64,11 @@ vector<float> VBF2DTDoubleJetFinalFilter_energy;
 
 // Monitoring
 // SingleMu
-int passSingleMuFinalFilter;
-vector<float> SingleMuFinalFilter_pt;
-vector<float> SingleMuFinalFilter_eta;
-vector<float> SingleMuFinalFilter_phi;
-vector<float> SingleMuFinalFilter_energy;
+int passSingleMuAndLowerMuFinalFilter;
+vector<float> SingleMuAndLowerMuFinalFilter_pt;
+vector<float> SingleMuAndLowerMuFinalFilter_eta;
+vector<float> SingleMuAndLowerMuFinalFilter_phi;
+vector<float> SingleMuAndLowerMuFinalFilter_energy;
 
 // Upper MuTau
 int passUpperMuTauL2NN;
@@ -76,11 +76,11 @@ vector<float> UpperMuTauL2NN_pt;
 vector<float> UpperMuTauL2NN_eta;
 vector<float> UpperMuTauL2NN_phi;
 vector<float> UpperMuTauL2NN_energy;
-int passUpperMuTauFinalFilterMuon;
-vector<float> UpperMuTauFinalFilterMuon_pt;
-vector<float> UpperMuTauFinalFilterMuon_eta;
-vector<float> UpperMuTauFinalFilterMuon_phi;
-vector<float> UpperMuTauFinalFilterMuon_energy;
+int passUpperMuTauAndDiTau35FinalFilterMuon;
+vector<float> UpperMuTauAndDiTau35FinalFilterMuon_pt;
+vector<float> UpperMuTauAndDiTau35FinalFilterMuon_eta;
+vector<float> UpperMuTauAndDiTau35FinalFilterMuon_phi;
+vector<float> UpperMuTauAndDiTau35FinalFilterMuon_energy;
 int passUpperMuTauFinalFilterTau;
 vector<float> UpperMuTauFinalFilterTau_pt;
 vector<float> UpperMuTauFinalFilterTau_eta;
@@ -93,6 +93,7 @@ vector<float> UpperMuTauFinalFilterOverlap_phi;
 vector<float> UpperMuTauFinalFilterOverlap_energy;
 
 // Lower MuTau
+// uses same Mu filter as SingleMu
 int passLowerMuTauFinalFilterTau;
 vector<float> LowerMuTauFinalFilterTau_pt;
 vector<float> LowerMuTauFinalFilterTau_eta;
@@ -104,6 +105,12 @@ vector<float> LowerMuTauFinalFilterOverlap_eta;
 vector<float> LowerMuTauFinalFilterOverlap_phi;
 vector<float> LowerMuTauFinalFilterOverlap_energy;
 
+// MuTau for DiTau 35
+int passMuTauForDiTauL2NN = 0;
+vector<float> MuTauForDiTauL2NN_pt;
+vector<float> MuTauForDiTauL2NN_eta;
+vector<float> MuTauForDiTauL2NN_phi;
+vector<float> MuTauForDiTauL2NN_energy;
 
 
 void NtupleMaker::branchesTriggers(TTree* tree){
@@ -166,11 +173,11 @@ void NtupleMaker::branchesTriggers(TTree* tree){
 
     // Monitoring
     // Single Mu
-    tree->Branch("passSingleMuFinalFilter", &passSingleMuFinalFilter);
-    tree->Branch("SingleMuFinalFilter_pt", &SingleMuFinalFilter_pt);
-    tree->Branch("SingleMuFinalFilter_eta", &SingleMuFinalFilter_eta);
-    tree->Branch("SingleMuFinalFilter_phi", &SingleMuFinalFilter_phi);
-    tree->Branch("SingleMuFinalFilter_energy", &SingleMuFinalFilter_energy);
+    tree->Branch("passSingleMuAndLowerMuFinalFilter", &passSingleMuAndLowerMuFinalFilter);
+    tree->Branch("SingleMuAndLowerMuFinalFilter_pt", &SingleMuAndLowerMuFinalFilter_pt);
+    tree->Branch("SingleMuAndLowerMuFinalFilter_eta", &SingleMuAndLowerMuFinalFilter_eta);
+    tree->Branch("SingleMuAndLowerMuFinalFilter_phi", &SingleMuAndLowerMuFinalFilter_phi);
+    tree->Branch("SingleMuAndLowerMuFinalFilter_energy", &SingleMuAndLowerMuFinalFilter_energy);
 
     // Upper MuTau
     tree->Branch("passUpperMuTauL2NN", &passUpperMuTauL2NN);
@@ -179,11 +186,11 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("UpperMuTauL2NN_phi", &UpperMuTauL2NN_phi);
     tree->Branch("UpperMuTauL2NN_energy", &UpperMuTauL2NN_energy);
 
-    tree->Branch("passUpperMuTauFinalFilterMuon", &passUpperMuTauFinalFilterMuon);
-    tree->Branch("UpperMuTauFinalFilterMuon_pt", &UpperMuTauFinalFilterMuon_pt);
-    tree->Branch("UpperMuTauFinalFilterMuon_eta", &UpperMuTauFinalFilterMuon_eta);
-    tree->Branch("UpperMuTauFinalFilterMuon_phi", &UpperMuTauFinalFilterMuon_phi);
-    tree->Branch("UpperMuTauFinalFilterMuon_energy", &UpperMuTauFinalFilterMuon_energy);
+    tree->Branch("passUpperMuTauAndDiTau35FinalFilterMuon", &passUpperMuTauAndDiTau35FinalFilterMuon);
+    tree->Branch("UpperMuTauAndDiTau35FinalFilterMuon_pt", &UpperMuTauAndDiTau35FinalFilterMuon_pt);
+    tree->Branch("UpperMuTauAndDiTau35FinalFilterMuon_eta", &UpperMuTauAndDiTau35FinalFilterMuon_eta);
+    tree->Branch("UpperMuTauAndDiTau35FinalFilterMuon_phi", &UpperMuTauAndDiTau35FinalFilterMuon_phi);
+    tree->Branch("UpperMuTauAndDiTau35FinalFilterMuon_energy", &UpperMuTauAndDiTau35FinalFilterMuon_energy);
 
     tree->Branch("passUpperMuTauFinalFilterTau", &passUpperMuTauFinalFilterTau);
     tree->Branch("UpperMuTauFinalFilterTau_pt", &UpperMuTauFinalFilterTau_pt);
@@ -198,7 +205,6 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("UpperMuTauFinalFilterOverlap_energy", &UpperMuTauFinalFilterOverlap_energy);
 
     // Lower MuTau
-
     tree->Branch("passLowerMuTauFinalFilterTau", &passLowerMuTauFinalFilterTau);
     tree->Branch("LowerMuTauFinalFilterTau_pt", &LowerMuTauFinalFilterTau_pt);
     tree->Branch("LowerMuTauFinalFilterTau_eta", &LowerMuTauFinalFilterTau_eta);
@@ -303,11 +309,11 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
     // Monitoring
     // SingleMu
-    passSingleMuFinalFilter = 0;
-    SingleMuFinalFilter_pt.clear();
-    SingleMuFinalFilter_eta.clear();
-    SingleMuFinalFilter_phi.clear();
-    SingleMuFinalFilter_energy.clear();
+    passSingleMuAndLowerMuFinalFilter = 0;
+    SingleMuAndLowerMuFinalFilter_pt.clear();
+    SingleMuAndLowerMuFinalFilter_eta.clear();
+    SingleMuAndLowerMuFinalFilter_phi.clear();
+    SingleMuAndLowerMuFinalFilter_energy.clear();
 
     // Upper MuTau
     passUpperMuTauL2NN = 0;
@@ -316,11 +322,11 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     UpperMuTauL2NN_phi.clear();
     UpperMuTauL2NN_energy.clear();
 
-    passUpperMuTauFinalFilterMuon = 0;
-    UpperMuTauFinalFilterMuon_pt.clear();
-    UpperMuTauFinalFilterMuon_eta.clear();
-    UpperMuTauFinalFilterMuon_phi.clear();
-    UpperMuTauFinalFilterMuon_energy.clear();
+    passUpperMuTauAndDiTau35FinalFilterMuon = 0;
+    UpperMuTauAndDiTau35FinalFilterMuon_pt.clear();
+    UpperMuTauAndDiTau35FinalFilterMuon_eta.clear();
+    UpperMuTauAndDiTau35FinalFilterMuon_phi.clear();
+    UpperMuTauAndDiTau35FinalFilterMuon_energy.clear();
 
     passUpperMuTauFinalFilterTau = 0;
     UpperMuTauFinalFilterTau_pt.clear();
@@ -480,12 +486,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         // SingleMu
         if (filterTag == "hltL3crIsoL1sSingleMu22erL1f0L2f10QL3f24QL3trkIsoFiltered0p08::MYOTHERHLT"
                       && nObjKeys >= 1) {
-          passSingleMuFinalFilter = 1;
+          passSingleMuAndLowerMuFinalFilter = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
-                               SingleMuFinalFilter_pt,
-                               SingleMuFinalFilter_eta,
-                               SingleMuFinalFilter_phi,
-                               SingleMuFinalFilter_energy);
+                               SingleMuAndLowerMuFinalFilter_pt,
+                               SingleMuAndLowerMuFinalFilter_eta,
+                               SingleMuAndLowerMuFinalFilter_phi,
+                               SingleMuAndLowerMuFinalFilter_energy);
           continue;
         }
 
@@ -503,12 +509,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
         if (filterTag == "hltL3crIsoL1sBigOrMuXXerIsoTauYYerL1f0L2f10QL3f24QL3trkIsoFiltered0p08::MYOTHERHLT"
                       && nObjKeys >= 1) {
-          passUpperMuTauFinalFilterMuon = 1;
+          passUpperMuTauAndDiTau35FinalFilterMuon = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
-                               UpperMuTauFinalFilterMuon_pt,
-                               UpperMuTauFinalFilterMuon_eta,
-                               UpperMuTauFinalFilterMuon_phi,
-                               UpperMuTauFinalFilterMuon_energy);
+                               UpperMuTauAndDiTau35FinalFilterMuon_pt,
+                               UpperMuTauAndDiTau35FinalFilterMuon_eta,
+                               UpperMuTauAndDiTau35FinalFilterMuon_phi,
+                               UpperMuTauAndDiTau35FinalFilterMuon_energy);
           continue;
         }
 
