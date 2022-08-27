@@ -92,6 +92,20 @@ vector<float> UpperMuTauFinalFilterOverlap_eta;
 vector<float> UpperMuTauFinalFilterOverlap_phi;
 vector<float> UpperMuTauFinalFilterOverlap_energy;
 
+// Lower MuTau
+int passLowerMuTauFinalFilterTau;
+vector<float> LowerMuTauFinalFilterTau_pt;
+vector<float> LowerMuTauFinalFilterTau_eta;
+vector<float> LowerMuTauFinalFilterTau_phi;
+vector<float> LowerMuTauFinalFilterTau_energy;
+int passLowerMuTauFinalFilterOverlap;
+vector<float> LowerMuTauFinalFilterOverlap_pt;
+vector<float> LowerMuTauFinalFilterOverlap_eta;
+vector<float> LowerMuTauFinalFilterOverlap_phi;
+vector<float> LowerMuTauFinalFilterOverlap_energy;
+
+
+
 void NtupleMaker::branchesTriggers(TTree* tree){
 
     //DiTau
@@ -182,6 +196,20 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("UpperMuTauFinalFilterOverlap_eta", &UpperMuTauFinalFilterOverlap_eta);
     tree->Branch("UpperMuTauFinalFilterOverlap_phi", &UpperMuTauFinalFilterOverlap_phi);
     tree->Branch("UpperMuTauFinalFilterOverlap_energy", &UpperMuTauFinalFilterOverlap_energy);
+
+    // Lower MuTau
+
+    tree->Branch("passLowerMuTauFinalFilterTau", &passLowerMuTauFinalFilterTau);
+    tree->Branch("LowerMuTauFinalFilterTau_pt", &LowerMuTauFinalFilterTau_pt);
+    tree->Branch("LowerMuTauFinalFilterTau_eta", &LowerMuTauFinalFilterTau_eta);
+    tree->Branch("LowerMuTauFinalFilterTau_phi", &LowerMuTauFinalFilterTau_phi);
+    tree->Branch("LowerMuTauFinalFilterTau_energy", &LowerMuTauFinalFilterTau_energy);
+
+    tree->Branch("passLowerMuTauFinalFilterOverlap", &passLowerMuTauFinalFilterOverlap);
+    tree->Branch("LowerMuTauFinalFilterOverlap_pt", &LowerMuTauFinalFilterOverlap_pt);
+    tree->Branch("LowerMuTauFinalFilterOverlap_eta", &LowerMuTauFinalFilterOverlap_eta);
+    tree->Branch("LowerMuTauFinalFilterOverlap_phi", &LowerMuTauFinalFilterOverlap_phi);
+    tree->Branch("LowerMuTauFinalFilterOverlap_energy", &LowerMuTauFinalFilterOverlap_energy);
 
 
 
@@ -305,6 +333,20 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     UpperMuTauFinalFilterOverlap_eta.clear();
     UpperMuTauFinalFilterOverlap_phi.clear();
     UpperMuTauFinalFilterOverlap_energy.clear();
+
+    // Lower MuTau
+    passLowerMuTauFinalFilterTau = 0;
+    LowerMuTauFinalFilterTau_pt.clear();
+    LowerMuTauFinalFilterTau_eta.clear();
+    LowerMuTauFinalFilterTau_phi.clear();
+    LowerMuTauFinalFilterTau_energy.clear();
+
+    passLowerMuTauFinalFilterOverlap = 0;
+    LowerMuTauFinalFilterOverlap_pt.clear();
+    LowerMuTauFinalFilterOverlap_eta.clear();
+    LowerMuTauFinalFilterOverlap_phi.clear();
+    LowerMuTauFinalFilterOverlap_energy.clear();
+
 
 
 
@@ -491,7 +533,29 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                                UpperMuTauFinalFilterOverlap_energy);
           continue;
         }
+    
+        // Lower MuTau
+        if (filterTag == "hltHpsSinglePFTau20MediumDitauWPDeepTauNoMatchForVBFIsoTau::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passLowerMuTauFinalFilterTau = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               LowerMuTauFinalFilterTau_pt,
+                               LowerMuTauFinalFilterTau_eta,
+                               LowerMuTauFinalFilterTau_phi,
+                               LowerMuTauFinalFilterTau_energy);
+          continue;
+        }
 
+        if (filterTag == "hltHpsOverlapFilterIsoMu24MediumDeepTauPFTau20::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passLowerMuTauFinalFilterOverlap = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               LowerMuTauFinalFilterOverlap_pt,
+                               LowerMuTauFinalFilterOverlap_eta,
+                               LowerMuTauFinalFilterOverlap_phi,
+                               LowerMuTauFinalFilterOverlap_energy);
+          continue;
+        }
 
     } // end loop over nfilters
 } // end function
