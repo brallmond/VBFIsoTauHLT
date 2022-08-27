@@ -15,6 +15,18 @@ using namespace std;
 //branches for passDiTauControlHLT
 
 // Signal
+// DiTau
+int passhltL2DoubleTauTagNNFilter;
+vector<float> hltL2DoubleTauTagNNFilter_pt;
+vector<float> hltL2DoubleTauTagNNFilter_eta;
+vector<float> hltL2DoubleTauTagNNFilter_phi;
+vector<float> hltL2DoubleTauTagNNFilter_energy;
+int passDiTauFinalFilter;
+vector<float> DiTauFinalFilter_pt;
+vector<float> DiTauFinalFilter_eta;
+vector<float> DiTauFinalFilter_phi;
+vector<float> DiTauFinalFilter_energy;
+
 //EleTau
 int passEleTauFinalFilterEle;
 vector<float> EleTauFinalFilterEle_pt;
@@ -58,6 +70,18 @@ vector<float> VBF2DTDoubleJetFinalFilter_energy;
 
 
 void NtupleMaker::branchesTriggers(TTree* tree){
+
+    //DiTau
+    tree->Branch("passhltL2DoubleTauTagNNFilter", &passhltL2DoubleTauTagNNFilter);
+    tree->Branch("hltL2DoubleTauTagNNFilter_pt", &hltL2DoubleTauTagNNFilter_pt);
+    tree->Branch("hltL2DoubleTauTagNNFilter_eta", &hltL2DoubleTauTagNNFilter_eta);
+    tree->Branch("hltL2DoubleTauTagNNFilter_phi", &hltL2DoubleTauTagNNFilter_phi);
+    tree->Branch("hltL2DoubleTauTagNNFilter_energy", &hltL2DoubleTauTagNNFilter_energy);
+    tree->Branch("passDiTauFinalFilter", &passDiTauFinalFilter);
+    tree->Branch("DiTauFinalFilter_pt", &DiTauFinalFilter_pt);
+    tree->Branch("DiTauFinalFilter_eta", &DiTauFinalFilter_eta);
+    tree->Branch("DiTauFinalFilter_phi", &DiTauFinalFilter_phi);
+    tree->Branch("DiTauFinalFilter_energy", &DiTauFinalFilter_energy);
 
     //EleTau
     tree->Branch("passEleTauFinalFilterEle", &passEleTauFinalFilterEle);
@@ -132,6 +156,18 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     using namespace edm;
 
     // clearing vectors and initializing flags at the start of every event 
+    // DiTau
+    passhltL2DoubleTauTagNNFilter = 0;
+    hltL2DoubleTauTagNNFilter_pt.clear();
+    hltL2DoubleTauTagNNFilter_eta.clear();
+    hltL2DoubleTauTagNNFilter_phi.clear();
+    hltL2DoubleTauTagNNFilter_energy.clear();
+    passDiTauFinalFilter = 0;
+    DiTauFinalFilter_pt.clear();
+    DiTauFinalFilter_eta.clear();
+    DiTauFinalFilter_phi.clear();
+    DiTauFinalFilter_energy.clear();
+
     // EleTau
     passEleTauFinalFilterEle = 0;
     EleTauFinalFilterEle_pt.clear();
@@ -197,6 +233,29 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
        
         if (nObjKeys == 0) continue; 
         //std::cout << "filter tag: " << filterTag  << " iFilter " << iFilter  << " nObjKeys " << nObjKeys << std::endl;
+        
+        // DiTau
+        if (filterTag == "hltL2DoubleTauTagNNFilter::MYOTHERHLT"
+                      && nObjKeys >= 2) {
+          passhltL2DoubleTauTagNNFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               hltL2DoubleTauTagNNFilter_pt,
+                               hltL2DoubleTauTagNNFilter_eta,
+                               hltL2DoubleTauTagNNFilter_phi,
+                               hltL2DoubleTauTagNNFilter_energy);
+          continue;
+        }
+
+        if (filterTag == "hltHpsDoublePFTau35MediumDitauWPDeepTauL1HLTMatched::MYOTHERHLT"
+                      && nObjKeys >= 2) {
+          passDiTauFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               DiTauFinalFilter_pt,
+                               DiTauFinalFilter_eta,
+                               DiTauFinalFilter_phi,
+                               DiTauFinalFilter_energy);
+          continue;
+        }
 
         // EleTau
         if (filterTag == "hltEle24erWPTightGsfTrackIsoFilterForTau::MYOTHERHLT"
