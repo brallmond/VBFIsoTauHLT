@@ -32,6 +32,11 @@ vector<float> EleTauFinalFilterTau_pt;
 vector<float> EleTauFinalFilterTau_eta;
 vector<float> EleTauFinalFilterTau_phi;
 vector<float> EleTauFinalFilterTau_energy;
+int passEleTauFinalFilterOverlap;
+vector<float> EleTauFinalFilterOverlap_pt;
+vector<float> EleTauFinalFilterOverlap_eta;
+vector<float> EleTauFinalFilterOverlap_phi;
+vector<float> EleTauFinalFilterOverlap_energy;
 
 // SingleEle
 int passSingleEleFinalFilter;
@@ -130,25 +135,33 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("hltL2DoubleTauTagNNFilter_eta", &hltL2DoubleTauTagNNFilter_eta);
     tree->Branch("hltL2DoubleTauTagNNFilter_phi", &hltL2DoubleTauTagNNFilter_phi);
     tree->Branch("hltL2DoubleTauTagNNFilter_energy", &hltL2DoubleTauTagNNFilter_energy);
+
     tree->Branch("passDiTauFinalFilter", &passDiTauFinalFilter);
     tree->Branch("DiTauFinalFilter_pt", &DiTauFinalFilter_pt);
     tree->Branch("DiTauFinalFilter_eta", &DiTauFinalFilter_eta);
     tree->Branch("DiTauFinalFilter_phi", &DiTauFinalFilter_phi);
     tree->Branch("DiTauFinalFilter_energy", &DiTauFinalFilter_energy);
 
-    //EleTau
+    // EleTau
     tree->Branch("passEleTauFinalFilterEle", &passEleTauFinalFilterEle);
     tree->Branch("EleTauFinalFilterEle_pt", &EleTauFinalFilterEle_pt);
     tree->Branch("EleTauFinalFilterEle_eta", &EleTauFinalFilterEle_eta);
     tree->Branch("EleTauFinalFilterEle_phi", &EleTauFinalFilterEle_phi);
     tree->Branch("EleTauFinalFilterEle_energy", &EleTauFinalFilterEle_energy);
+
     tree->Branch("passEleTauFinalFilterTau", &passEleTauFinalFilterTau);
     tree->Branch("EleTauFinalFilterTau_pt", &EleTauFinalFilterTau_pt);
     tree->Branch("EleTauFinalFilterTau_eta", &EleTauFinalFilterTau_eta);
     tree->Branch("EleTauFinalFilterTau_phi", &EleTauFinalFilterTau_phi);
     tree->Branch("EleTauFinalFilterTau_energy", &EleTauFinalFilterTau_energy);
 
-    //SingleEle
+    tree->Branch("passEleTauFinalFilterOverlap", &passEleTauFinalFilterOverlap);
+    tree->Branch("EleTauFinalFilterOverlap_pt", &EleTauFinalFilterOverlap_pt);
+    tree->Branch("EleTauFinalFilterOverlap_eta", &EleTauFinalFilterOverlap_eta);
+    tree->Branch("EleTauFinalFilterOverlap_phi", &EleTauFinalFilterOverlap_phi);
+    tree->Branch("EleTauFinalFilterOverlap_energy", &EleTauFinalFilterOverlap_energy);
+
+    // SingleEle
     tree->Branch("passSingleEleFinalFilter", &passSingleEleFinalFilter);
     tree->Branch("SingleEleFinalFilter_pt", &SingleEleFinalFilter_pt);
     tree->Branch("SingleEleFinalFilter_eta", &SingleEleFinalFilter_eta);
@@ -299,6 +312,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     EleTauFinalFilterTau_eta.clear();
     EleTauFinalFilterTau_phi.clear();
     EleTauFinalFilterTau_energy.clear();
+
+    passEleTauFinalFilterOverlap = 0;
+    EleTauFinalFilterOverlap_pt.clear();
+    EleTauFinalFilterOverlap_eta.clear();
+    EleTauFinalFilterOverlap_phi.clear();
+    EleTauFinalFilterOverlap_energy.clear();
 
     // SingleEle
     passSingleEleFinalFilter = 0;
@@ -453,7 +472,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
           continue;
         }
 
-        if (filterTag == "hltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30::MYOTHERHLT"
+        if (filterTag == "hltHpsSelectedPFTau30LooseETauWPDeepTauL1HLTMatched::MYOTHERHLT"
                       && nObjKeys >= 1) {
           passEleTauFinalFilterTau = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
@@ -461,6 +480,17 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                                EleTauFinalFilterTau_eta,
                                EleTauFinalFilterTau_phi,
                                EleTauFinalFilterTau_energy);
+          continue;
+        }
+
+        if (filterTag == "hltHpsOverlapFilterIsoEle24WPTightGsfLooseETauWPDeepTauPFTau30::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passEleTauFinalFilterOverlap = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               EleTauFinalFilterOverlap_pt,
+                               EleTauFinalFilterOverlap_eta,
+                               EleTauFinalFilterOverlap_phi,
+                               EleTauFinalFilterOverlap_energy);
           continue;
         }
 
