@@ -5,19 +5,7 @@
 
 using namespace std;
 
-
-float 	pt_;
-float 	eta_;
-float 	phi_;
-float 	energy_;
-
-// is there a smart way to organize these?
-// Signal, Monitoring/Control, adhoc, Jaime's (not stored)
-// Signal
 //branches for passDeepDiTau35HLT [x]
-//branches for passEleTauHLT [x]
-//branches for passSingleEleHLT 
-//branches for passVBF2DTHLT [partial]
 //branches for passInclusiveVBFHLT
 //branches for passDeepInclusiveVBFHLT
 // Monitoring/Control HLTs
@@ -26,7 +14,7 @@ float 	energy_;
 //branches for passLowerControlHLT
 //branches for passDiTauControlHLT
 
-
+// Signal
 //EleTau
 int passEleTauFinalFilterEle;
 vector<float> EleTauFinalFilterEle_pt;
