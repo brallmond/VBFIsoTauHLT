@@ -68,6 +68,14 @@ vector<float> VBF2DTDoubleJetFinalFilter_eta;
 vector<float> VBF2DTDoubleJetFinalFilter_phi;
 vector<float> VBF2DTDoubleJetFinalFilter_energy;
 
+//Monitoring
+//SingleMu
+int passSingleMuFinalFilter;
+vector<float> SingleMuFinalFilter_pt;
+vector<float> SingleMuFinalFilter_eta;
+vector<float> SingleMuFinalFilter_phi;
+vector<float> SingleMuFinalFilter_energy;
+
 
 void NtupleMaker::branchesTriggers(TTree* tree){
 
@@ -127,6 +135,14 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("VBF2DTDoubleJetFinalFilter_phi", &VBF2DTDoubleJetFinalFilter_phi);
     tree->Branch("VBF2DTDoubleJetFinalFilter_energy", &VBF2DTDoubleJetFinalFilter_energy);
 
+    // Monitoring
+    // Single Mu
+    tree->Branch("passSingleMuFinalFilter", &passSingleMuFinalFilter);
+    tree->Branch("SingleMuFinalFilter_pt", &SingleMuFinalFilter_pt);
+    tree->Branch("SingleMuFinalFilter_eta", &SingleMuFinalFilter_eta);
+    tree->Branch("SingleMuFinalFilter_phi", &SingleMuFinalFilter_phi);
+    tree->Branch("SingleMuFinalFilter_energy", &SingleMuFinalFilter_energy);
+
 }
 
 // small function to fill kinematics to object branches
@@ -156,6 +172,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     using namespace edm;
 
     // clearing vectors and initializing flags at the start of every event 
+    // Signal
     // DiTau
     passhltL2DoubleTauTagNNFilter = 0;
     hltL2DoubleTauTagNNFilter_pt.clear();
@@ -213,6 +230,12 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     VBF2DTDoubleJetFinalFilter_phi.clear();
     VBF2DTDoubleJetFinalFilter_energy.clear();
 
+    // Monitoring
+    passSingleMuFinalFilter = 0;
+    SingleMuFinalFilter_pt.clear();
+    SingleMuFinalFilter_eta.clear();
+    SingleMuFinalFilter_phi.clear();
+    SingleMuFinalFilter_energy.clear();
 
     // getting trigger event per this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
@@ -234,6 +257,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         if (nObjKeys == 0) continue; 
         //std::cout << "filter tag: " << filterTag  << " iFilter " << iFilter  << " nObjKeys " << nObjKeys << std::endl;
         
+        // Signal
         // DiTau
         if (filterTag == "hltL2DoubleTauTagNNFilter::MYOTHERHLT"
                       && nObjKeys >= 2) {
@@ -335,6 +359,19 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                                VBF2DTDoubleJetFinalFilter_eta,
                                VBF2DTDoubleJetFinalFilter_phi,
                                VBF2DTDoubleJetFinalFilter_energy);
+          continue;
+        }
+
+        // Monitoring
+        // SingleMu
+        if (filterTag == "hltL3crIsoL1sSingleMu22erL1f0L2f10QL3f24QL3trkIsoFiltered0p08::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passSingleMuFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               SingleMuFinalFilter_pt,
+                               SingleMuFinalFilter_eta,
+                               SingleMuFinalFilter_phi,
+                               SingleMuFinalFilter_energy);
           continue;
         }
 
