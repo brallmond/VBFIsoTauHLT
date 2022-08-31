@@ -11,6 +11,8 @@ ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 # usage: python3 plotOneVariable.py -i ../../samples/VBFE_wMuTauFilters.root -b tauPt
 # plots one branch variable (vectors only) in a simple matplot histogram 
 
+# followup: make into a root version https://nyx.physics.mcgill.ca/event/264/contributions/1491/attachments/346/488/slides.pdf
+
 if __name__ == "__main__": 
 
   parser = argparse.ArgumentParser(description='Open a .root file') 
