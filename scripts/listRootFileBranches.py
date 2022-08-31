@@ -15,11 +15,14 @@ if __name__ == "__main__":
 
   parser = argparse.ArgumentParser(description='Open a .root file') 
   parser.add_argument('-i', '--inputRootFile', dest='inFilename', action='store', 
-                    help='the input .root file\'s name') 
+                    help='the input .root file\'s name.') 
+  parser.add_argument('-d', '--directoryPath', dest='directoryPath', action='store', default="demo/vbf",
+                    help='the path to the directory of branches you want to print.')
   args = parser.parse_args() 
 
   inFile = ROOT.TFile.Open(args.inFilename,"READ") 
-  tree = inFile.Get("demo/vbf") 
+  #tree = inFile.Get("demo/vbf") 
+  tree = inFile.Get(args.directoryPath) 
 
 
   listBranches = tree.GetListOfBranches()
