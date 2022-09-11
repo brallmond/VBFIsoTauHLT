@@ -79,9 +79,11 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
 	void branchesL1Taus(TTree*);
 	void branchesL1Jets(TTree*);
 	void branchesL1Electrons(TTree*);
+	void branchesL1Muons(TTree*);
         void branchesTaus(TTree*);
         void branchesJets(TTree*);
         void branchesElectrons(TTree*);
+        void branchesMuons(TTree*);
 
 	void fillTriggers(const edm::Event&);
         void fillL1sFromHLT(const edm::Event&);
@@ -90,9 +92,11 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
 	void fillL1Taus(const edm::Event&);
 	void fillL1Jets(const edm::Event&);
         void fillL1Electrons(const edm::Event&);
+        void fillL1Muons(const edm::Event&);
         void fillTaus(const edm::Event&);
 	void fillJets(const edm::Event&, const edm::EventSetup&);
         void fillElectrons(const edm::Event&);
+        void fillMuons(const edm::Event&);
 
 	//-------------member data----------------//
 	TTree* tree_; 
@@ -105,17 +109,20 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
 	bool fillingTaus;
 	bool fillingJets;
         bool fillingElectrons;
+        bool fillingMuons;
 
 	bool development_; //had to add these in so the copied tau/jet files would play nice with my config file
 	bool doGenParticles_;
 	edm::EDGetTokenT<vector<reco::GenParticle> >    genParticlesCollection_;
 	edm::EDGetTokenT<vector<pat::Tau> >             tauCollection_; 
         edm::EDGetTokenT<vector<pat::Electron> >        electronCollection_;
+        edm::EDGetTokenT<vector<pat::Muon> >            muonCollection_;
         //edm::EDGetTokenT<vector<reco::PFTau>>		PFTauCollection_;
         // trigger primitives
         edm::EDGetTokenT<BXVector<l1t::Jet> >		jetTriggerPrimitives_;
 	edm::EDGetTokenT<BXVector<l1t::Tau> >		tauTriggerPrimitives_;
         edm::EDGetTokenT<BXVector<l1t::EGamma> >        eleTriggerPrimitives_;
+        edm::EDGetTokenT<BXVector<l1t::Muon> >          muonTriggerPrimitives_;
 
 	edm::EDGetTokenT<reco::VertexCollection>        vtxLabel_;
 	edm::EDGetTokenT<double>                        rhoLabel_;
