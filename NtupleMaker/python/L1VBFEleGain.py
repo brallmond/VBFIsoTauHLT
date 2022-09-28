@@ -186,6 +186,8 @@ if __name__ == "__main__":
   ##Taus
   OffnTaus = array('i', [0])
   tree.SetBranchAddress("nTau", OffnTaus)
+  OffTauCh = ROOT.std.vector('float')()
+  tree.SetBranchAddress("tauCharge", OffTauCh)
   OffTauPt = ROOT.std.vector('float')()
   tree.SetBranchAddress("tauPt", OffTauPt)
   OffTauEta = ROOT.std.vector('float')()
@@ -208,6 +210,8 @@ if __name__ == "__main__":
   ##Electrons
   OffnEles = array('i', [0])
   tree.SetBranchAddress("nEle", OffnEles)
+  OffEleCh = ROOT.std.vector('float')()
+  tree.SetBranchAddress("eleCharge", OffEleCh)
   OffElePt = ROOT.std.vector('float')()
   tree.SetBranchAddress("elePt", OffElePt)
   OffEleEta = ROOT.std.vector('float')()
@@ -269,9 +273,9 @@ if __name__ == "__main__":
   OffJetPtToPass = L1JetPtToPass + 10
   OffJetMjjToPass = L1JetMjjToPass + 50
   # Tau
-  OffTauPtToPass = 25
+  OffTauPtToPass = 30
   # Ele
-  OffElePtToPass = L1ElePtToPass + 1
+  OffElePtToPass = L1ElePtToPass + 1 + 1
 
   TallyVBFEle = 0
   TallyEleTau = 0
@@ -353,6 +357,12 @@ if __name__ == "__main__":
       # skip the event if the tau and electron are overlapped
       if (ROOT.TLorentzVector.DeltaR(OffEles[0], OffTaus[0]) < 0.5): 
         #print("electron and tau overlapped!") 
+        continue
+
+      # skip the event if the tau and electron have the same charge
+      if (OffEleCh[OffElesPassFilter[0]] == OffTauCh[OffTausPassFilter[0]]): 
+        #print(OffElesPassFilter, OffEleCh[OffElesPassFilter[0]])
+        #print(OffTausPassFilter, OffTauCh[OffTausPassFilter[0]])
         continue
 
       # assign Offline objects
@@ -467,9 +477,9 @@ if __name__ == "__main__":
        and OffJet2.Pt() >= 30
        and OffMjj >= 300
        and OffTau.Pt() >= 30
-       and OffEle.Pt() >= 24): passEleTauOffCuts = True
+       and OffEle.Pt() >= 25): passEleTauOffCuts = True
 
-      passSingleEleOffCuts = (passEleTauOffCuts and OffEle.Pt() >= 32)
+      passSingleEleOffCuts = (passEleTauOffCuts and OffEle.Pt() >= 33)
 
 
       # now tally it up
