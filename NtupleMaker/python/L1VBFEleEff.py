@@ -76,13 +76,27 @@ if __name__ == "__main__":
                     help='the input .root file\'s name')
   parser.add_argument('-L', '--L1IndexToTest', dest='L1IndexToTest', action='store',
                     help='the L1 being tested')
+  parser.add_argument('-o', '--output_name', dest='output_name', action='store',
+                    help='name of your output file')
   args = parser.parse_args()
 
   inFile = ROOT.TFile.Open(args.inFilename,"READ")
   tree = inFile.Get("demo/vbf")
 
+  print(args.output_name)
+  outFile = ROOT.TFile.Open(args.output_name, "RECREATE")
+  h_L1ElePt = ROOT.TH1F("h_L1ElePt", "L1 e_{pT}", 100, 0, 100)
+  h_L1ElePt.Sumw2()
+  h_OffElePt = ROOT.TH1F("h_OffElePt", "Off. e_{pT}", 100, 0, 100)
+  h_OffElePt.Sumw2()
+  h_OffElePtMatch = ROOT.TH1F("h_OffElePtMatch", "Off. e_{pT} Matched to L1", 100, 0, 100)
+  h_OffElePtMatch.Sumw2()
+  h_GoodVBFEle = ROOT.TH1F("h_GoodVBFEle", "Match L1Off Flag", 3, 0, 2)
+  #mll = ROOT . TH1D (" data ","m_{ll} , data " ,150 ,50. e3 ,200. e3 )
+  #mll . Sumw2 ()
+
   L1IndexToTest = int(args.L1IndexToTest)
-  if ((not (0 <= L1IndexToTest <= 6)) or not isinstance(L1IndexToTest, int)):
+  if ((not (0 <= L1IndexToTest <= 7)) or not isinstance(L1IndexToTest, int)):
     print("need an int from 0 to 6")
     sys.exit()
 
@@ -94,12 +108,14 @@ if __name__ == "__main__":
 
   # L1
   # try with primitives at some point to compare...
-  #eleL1PrimitivesPt
+  eleL1PrimitivesPt = ROOT.std.vector('float')()
+  tree.SetBranchAddress("eleL1PrimitivesPt", eleL1PrimitivesPt)
   #eleL1PrimitivesEta
   #eleL1PrimitivesPhi
   #eleL1PrimitivesEnergy
   #etc
 
+  #if (L1IndexToTest == 7):
   if (L1IndexToTest == 6):
     passL1 = array('i', [0])
     tree.SetBranchAddress("passhltL1VBFElectron", passL1)
@@ -186,6 +202,8 @@ if __name__ == "__main__":
   ##Taus
   OffnTaus = array('i', [0])
   tree.SetBranchAddress("nTau", OffnTaus)
+  OffTauCh = ROOT.std.vector('float')()
+  tree.SetBranchAddress("tauCharge", OffTauCh)
   OffTauPt = ROOT.std.vector('float')()
   tree.SetBranchAddress("tauPt", OffTauPt)
   OffTauEta = ROOT.std.vector('float')()
@@ -208,6 +226,8 @@ if __name__ == "__main__":
   ##Electrons
   OffnEles = array('i', [0])
   tree.SetBranchAddress("nEle", OffnEles)
+  OffEleCh = ROOT.std.vector('float')()
+  tree.SetBranchAddress("eleCharge", OffEleCh)
   OffElePt = ROOT.std.vector('float')()
   tree.SetBranchAddress("elePt", OffElePt)
   OffEleEta = ROOT.std.vector('float')()
@@ -255,6 +275,8 @@ if __name__ == "__main__":
                [34, 440, 14],
                [36, 440, 14],
                # Iso
+               [30, 320, 10],
+               # Loose Iso
                [30, 320, 10]]
 
   L1Cuts = L1sToTest[L1IndexToTest] #defined by argparse
@@ -269,9 +291,9 @@ if __name__ == "__main__":
   OffJetPtToPass = L1JetPtToPass + 10
   OffJetMjjToPass = L1JetMjjToPass + 50
   # Tau
-  OffTauPtToPass = 25
+  OffTauPtToPass = 30
   # Ele
-  OffElePtToPass = L1ElePtToPass + 1
+  OffElePtToPass = L1ElePtToPass + 2
 
   TallyVBFEle = 0
   TallyEleTau = 0
@@ -285,7 +307,8 @@ if __name__ == "__main__":
     tree.GetEntry(entry)
 
     # check if event passes L1 or HLT and has minimum object requirements
-    basicReqs = ((passL1[0] or passEleTauHLT[0] or passSingleEleHLT[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
+    #basicReqs = ((passL1[0] or passEleTauHLT[0] or passSingleEleHLT[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
+    basicReqs = ((passL1[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
 
     if basicReqs:
       # make and fill containers with TLorentzVectors
@@ -353,6 +376,12 @@ if __name__ == "__main__":
       # skip the event if the tau and electron are overlapped
       if (ROOT.TLorentzVector.DeltaR(OffEles[0], OffTaus[0]) < 0.5): 
         #print("electron and tau overlapped!") 
+        continue
+
+      # skip the event if the tau and electron have the same charge
+      if (OffEleCh[OffElesPassFilter[0]] == OffTauCh[OffTausPassFilter[0]]):
+        #print(OffElesPassFilter, OffEleCh[OffElesPassFilter[0]])
+        #print(OffTausPassFilter, OffTauCh[OffTausPassFilter[0]])
         continue
 
       # assign Offline objects
@@ -446,62 +475,80 @@ if __name__ == "__main__":
       if (matchL1Off):
         if (L1Jet1.Pt() >= L1JetPtToPass 
          and L1Jet2.Pt() >= L1JetPtToPass 
-         and L1Mjj >= L1JetMjjToPass 
-         and L1Ele.Pt() >= L1ElePtToPass): passVBFEleL1Restrictions = True
+         and L1Mjj >= L1JetMjjToPass):
+         #and L1Ele.Pt() >= L1ElePtToPass): 
+          passVBFEleL1Restrictions = True
+          h_L1ElePt.Fill(L1Ele.Pt())
+          tempPt = eleL1PrimitivesPt[0]
+          if (tempPt < 10): print(tempPt)
 
       passVBFEleOffCuts = False
       # next, set a flag for events that pass
       # Offline Cuts
-      if (OffJet1.Pt() >= OffJetPtToPass
-       and OffJet2.Pt() >= OffJetPtToPass
-       and OffMjj >= OffJetMjjToPass
-       and OffTau.Pt() >= OffTauPtToPass
-       and OffEle.Pt() >= OffElePtToPass): passVBFEleOffCuts = True
+      if (matchL1Off and passVBFEleL1Restrictions):
+        if (OffJet1.Pt() >= OffJetPtToPass
+         and OffJet2.Pt() >= OffJetPtToPass
+         and OffMjj >= OffJetMjjToPass
+         and OffTau.Pt() >= OffTauPtToPass):
+         #and OffEle.Pt() >= OffElePtToPass): 
+          passVBFEleOffCuts = True
+          h_OffElePt.Fill(OffEle.Pt())
 
       # that's all for the simulated L1
       # now we see how many events pass the EleTauHLT and offline cuts
       # we do this specifically because we assumed some heavy overlap
      
-      passEleTauOffCuts = False
-      if (OffJet1.Pt() >= 30
-       and OffJet2.Pt() >= 30
-       and OffMjj >= 300
-       and OffTau.Pt() >= 30
-       and OffEle.Pt() >= 24): passEleTauOffCuts = True
+      #passEleTauOffCuts = False
+      #if (OffJet1.Pt() >= 30
+      # and OffJet2.Pt() >= 30
+      # and OffMjj >= 300
+      # and OffTau.Pt() >= 30
+      # and OffEle.Pt() >= 25): passEleTauOffCuts = True
 
-      passSingleEleOffCuts = (passEleTauOffCuts and OffEle.Pt() >= 32)
+      #passSingleEleOffCuts = (passEleTauOffCuts and OffEle.Pt() >= 33)
 
 
       # now tally it up
       GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
-      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
-      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts
+      h_GoodVBFEle.Fill(GoodVBFEle)
+      if (GoodVBFEle): h_OffElePtMatch.Fill(OffEle.Pt())
+      #GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
+      #GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts
 
       # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
       if (GoodVBFEle): TallyVBFEle += 1
-      if (GoodEleTau): TallyEleTau += 1
-      if (GoodSingleEle): TallySingleEle += 1
+      #if (GoodEleTau): TallyEleTau += 1
+      #if (GoodSingleEle): TallySingleEle += 1
 
-      if (GoodEleTau or GoodSingleEle): TallyEleTauOrSingleEle += 1
-      if (GoodEleTau and GoodSingleEle): TallyEleTauAndSingleEle += 1
+      #if (GoodEleTau or GoodSingleEle): TallyEleTauOrSingleEle += 1
+      #if (GoodEleTau and GoodSingleEle): TallyEleTauAndSingleEle += 1
 
-      if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
+      #if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
 
   if (L1IndexToTest == 6): 
     print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
   else:
     print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+  print(TallyVBFEle)
+
+  #h_L1ElePt.Draw("HIST")
+  #h_OffElePt.Draw("SAME")
+  h_L1ElePt.Write()
+  h_OffElePt.Write()
+  h_GoodVBFEle.Write()
+  h_OffElePtMatch.Write()
+  outFile.Close()
 
   # formatting a table to print instead of free-form printing
-  labels = ["SingleEle", "EleTau", "OR", "AND"]
-  print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
-  values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
-  print("{0:<10} {1:<9} {2:<9} {3:<9}".format(values[0], values[1], values[2], values[3]))
+  #labels = ["SingleEle", "EleTau", "OR", "AND"]
+  #print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
+  #values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
+  #print("{0:<10} {1:<9} {2:<9} {3:<9}".format(values[0], values[1], values[2], values[3]))
 
-  UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
-  Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
-  labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
-  print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
-  values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
-  print("{0:<10} {1:<9} {2:<9} {3:<.1f}%".format(values[0], values[1], values[2], values[3]))
+  #UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
+  #Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
+  #labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
+  #print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
+  #values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
+  #print("{0:<10} {1:<9} {2:<9} {3:<.1f}%".format(values[0], values[1], values[2], values[3]))
 
