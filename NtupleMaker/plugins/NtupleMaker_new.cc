@@ -13,17 +13,20 @@ NtupleMaker::NtupleMaker(const edm::ParameterSet& iConfig) :
     fillingTaus(iConfig.getUntrackedParameter<bool>("fillingTaus")),
     fillingJets(iConfig.getUntrackedParameter<bool>("fillingJets")),
     fillingElectrons(iConfig.getUntrackedParameter<bool>("fillingElectrons")),
+    fillingMuons(iConfig.getUntrackedParameter<bool>("fillingMuons")),
 
     development_(iConfig.getUntrackedParameter<bool>("development")),
     doGenParticles_(iConfig.getUntrackedParameter<bool>("doGenParticles")),
     genParticlesCollection_(consumes<vector<reco::GenParticle>>(iConfig.getUntrackedParameter<edm::InputTag>("genParticleSrc"))),
     tauCollection_(consumes<vector<pat::Tau>>(iConfig.getUntrackedParameter<edm::InputTag>("tauSrc"))),
     electronCollection_(consumes<vector<pat::Electron>>(iConfig.getUntrackedParameter<edm::InputTag>("electronSrc"))),
+    muonCollection_(consumes<vector<pat::Muon>>(iConfig.getUntrackedParameter<edm::InputTag>("muonSrc"))),
     //PFTauCollection_(consumes<vector<reco::PFTau>>(iConfig.getUntrackedParameter<edm::InputTag>("PFTauCollection"))),
     // L1 Trigger Primitives
     jetTriggerPrimitives_(consumes<BXVector<l1t::Jet>>(iConfig.getUntrackedParameter<edm::InputTag>("jetTriggerPrimitives"))),
     tauTriggerPrimitives_(consumes<BXVector<l1t::Tau>>(iConfig.getUntrackedParameter<edm::InputTag>("tauTriggerPrimitives"))),
     eleTriggerPrimitives_(consumes<BXVector<l1t::EGamma>>(iConfig.getUntrackedParameter<edm::InputTag>("eleTriggerPrimitives"))),
+    muonTriggerPrimitives_(consumes<BXVector<l1t::Muon>>(iConfig.getUntrackedParameter<edm::InputTag>("muonTriggerPrimitives"))),
 
     vtxLabel_(consumes<reco::VertexCollection>(iConfig.getUntrackedParameter<edm::InputTag>("VtxLabel"))),
     rhoLabel_(consumes<double>(iConfig.getUntrackedParameter<edm::InputTag>("rhoLabel"))),
@@ -46,9 +49,11 @@ NtupleMaker::NtupleMaker(const edm::ParameterSet& iConfig) :
     if(fillingL1Primitives) branchesL1Taus(tree_);
     if(fillingL1Primitives) branchesL1Jets(tree_);
     if(fillingL1Primitives) branchesL1Electrons(tree_);
+    if(fillingL1Primitives) branchesL1Muons(tree_);
     if(fillingTaus) branchesTaus(tree_);
     if(fillingJets) branchesJets(tree_);
     if(fillingElectrons) branchesElectrons(tree_);
+    if(fillingMuons) branchesMuons(tree_);
 
 }
 
@@ -67,9 +72,11 @@ void NtupleMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetu
     if(fillingL1Primitives) fillL1Taus(iEvent);
     if(fillingL1Primitives) fillL1Jets(iEvent);
     if(fillingL1Primitives) fillL1Electrons(iEvent);
+    if(fillingL1Primitives) fillL1Muons(iEvent);
     if(fillingTaus) fillTaus(iEvent);
     if(fillingJets) fillJets(iEvent, iSetup);
     if(fillingElectrons) fillElectrons(iEvent);
+    if(fillingMuons) fillMuons(iEvent);
 
     tree_->Fill();
 }

@@ -45,18 +45,21 @@ process.demo = cms.EDAnalyzer('NtupleMaker'
      , fillingTaus = cms.untracked.bool(True)      # can run on MINIAODSIM
      , fillingJets = cms.untracked.bool(True)      # can run on MINIAODSIM
      , fillingElectrons = cms.untracked.bool(True) # can run on MINIAODSIM
+     , fillingMuons = cms.untracked.bool(True) # can run on MINIAODSIM
      , development = cms.untracked.bool(False)     # left in to play nice with NtupleMaker
      , doGenParticles = cms.untracked.bool(False)  # left in to play nice with NtupleMaker
 
      , jetTriggerPrimitives = cms.untracked.InputTag("caloStage2Digis", "Jet", "RECO")
      , tauTriggerPrimitives = cms.untracked.InputTag("caloStage2Digis", "Tau", "RECO")
      , eleTriggerPrimitives = cms.untracked.InputTag("caloStage2Digis", "EGamma", "RECO")
+     , muonTriggerPrimitives = cms.untracked.InputTag("gmtStage2Digis", "Muon", "RECO")
 
      , genParticleSrc = cms.untracked.InputTag("prunedGenParticles")
      , VtxLabel = cms.untracked.InputTag("offlineSlimmedPrimaryVertices")
      , rhoLabel = cms.untracked.InputTag("fixedGridRhoFastjetAll")
      , tauSrc = cms.untracked.InputTag("slimmedTausNewID")
      , electronSrc = cms.untracked.InputTag("slimmedElectrons")
+     , muonSrc = cms.untracked.InputTag("slimmedMuons")
      , ak4JetSrc = cms.untracked.InputTag("slimmedJets")
 )
 
