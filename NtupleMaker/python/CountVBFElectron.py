@@ -8,8 +8,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 # usage: python3 CountVBFElectron.py *.root
+# or     python3 CountVBFElectron.py ../../../samples/EZBs/*.root
 # prints all event numbers and events passing a particular HLT
 # intended for use in easily finding rate of L1/HLT on EZB dataset
+# should take between 5 and 10 minutes to run
 
 ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
