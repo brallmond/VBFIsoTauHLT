@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 
 ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
+# usage: python3 L1VBFEleGain.py -i ../../../samples/VBFE_CorrectEleIsoAndNewFilter.root -L 6
 
 def highestMjjPair(inObjs):
   '''
