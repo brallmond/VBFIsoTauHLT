@@ -85,16 +85,26 @@ if __name__ == "__main__":
   tree = inFile.Get("demo/vbf")
 
   print(args.output_name)
+  ROOT.TH1.SetDefaultSumw2()
   outFile = ROOT.TFile.Open(args.output_name, "RECREATE")
-  h_L1ElePt = ROOT.TH1F("h_L1ElePt", "L1 e_{pT}", 100, 0, 100)
-  h_L1ElePt.Sumw2()
-  h_OffElePt = ROOT.TH1F("h_OffElePt", "Off. e_{pT}", 100, 0, 100)
-  h_OffElePt.Sumw2()
-  h_OffElePtMatch = ROOT.TH1F("h_OffElePtMatch", "Off. e_{pT} Matched to L1", 100, 0, 100)
-  h_OffElePtMatch.Sumw2()
-  h_GoodVBFEle = ROOT.TH1F("h_GoodVBFEle", "Match L1Off Flag", 3, 0, 2)
-  #mll = ROOT . TH1D (" data ","m_{ll} , data " ,150 ,50. e3 ,200. e3 )
-  #mll . Sumw2 ()
+
+  h_L1ElePt = ROOT.TH1F("h_L1ElePt", "", 100, 0, 300)
+  h_L1Jet1Pt = ROOT.TH1F("h_L1Jet1Pt", "", 100, 0, 300)
+  h_L1Jet2Pt = ROOT.TH1F("h_L1Jet2Pt", "", 100, 0, 300)
+  h_L1Mjj = ROOT.TH1F("h_L1Mjj", "", 100, 0, 2000)
+
+  h_matchedL1ElePt = ROOT.TH1F("h_matchedL1ElePt", "", 100, 0, 300)
+  h_matchedL1Jet1Pt = ROOT.TH1F("h_matchedL1Jet1Pt", "", 100, 0, 300)
+  h_matchedL1Jet2Pt = ROOT.TH1F("h_matchedL1Jet2Pt", "", 100, 0, 300)
+  h_matchedL1Mjj = ROOT.TH1F("h_matchedL1Mjj", "", 100, 0, 2000)
+ 
+  h_OffElePt = ROOT.TH1F("h_OffElePt", "", 100, 0, 300)
+  h_OffTauPt = ROOT.TH1F("h_OffTauPt", "", 100, 0, 300)
+  h_OffJet1Pt = ROOT.TH1F("h_OffJet1Pt", "", 100, 0, 300)
+  h_OffJet2Pt = ROOT.TH1F("h_OffJet2Pt", "", 100, 0, 300)
+  h_OffMjj = ROOT.TH1F("h_OffMjj", "", 100, 0, 2000)
+
+  h_matchL1Off = ROOT.TH1I("h_matchL1Off", "match L1 and Offline objects", 2, 0, 2)
 
   L1IndexToTest = int(args.L1IndexToTest)
   if ((not (0 <= L1IndexToTest <= 7)) or not isinstance(L1IndexToTest, int)):
@@ -108,15 +118,7 @@ if __name__ == "__main__":
   #   tree.SetBranchAddress("branchOfObjInTree", objHandle)
 
   # L1
-  # try with primitives at some point to compare...
-  eleL1PrimitivesPt = ROOT.std.vector('float')()
-  tree.SetBranchAddress("eleL1PrimitivesPt", eleL1PrimitivesPt)
-  #eleL1PrimitivesEta
-  #eleL1PrimitivesPhi
-  #eleL1PrimitivesEnergy
-  #etc
 
-  #if (L1IndexToTest == 7):
   if (L1IndexToTest == 6):
     passL1 = array('i', [0])
     tree.SetBranchAddress("passhltL1VBFElectron", passL1)
@@ -393,6 +395,11 @@ if __name__ == "__main__":
       OffJet2 = OffJets[OffJet2Index]
       if (ROOT.TLorentzVector.DeltaR(OffJet1, OffJet2) < 0.5): continue
  
+      # we now have quality objects at L1 and Offline
+
+      # now, we have to artificially restrict the objects entering from
+      # the baseline L1 by cutting on the L1 object kinematics. 
+      # so, first thing we do is set a flag for events that pass
 
       # fill L1 objects and get the highestMjjPair of jets
       # the L1 trigger will always pick the highestMjjPair
@@ -401,9 +408,19 @@ if __name__ == "__main__":
       sizeL1Jets = len(L1Jets)
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
-      matchL1Off = False
-      if (sizeL1Jets >= 2 and sizeL1Eles >= 1):
+      matchL1Off = 0
+      # fill L1 branches regardless of cuts or matching (applied later)
+      if (sizeL1Jets >=2 and sizeL1Eles >= 1):
         L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+        L1Jet1 = L1Jets[L1Jet1Index]
+        L1Jet2 = L1Jets[L1Jet2Index]
+        L1Ele = L1Eles[0]
+        h_L1ElePt.Fill(L1Ele.Pt())
+        h_L1Jet1Pt.Fill(L1Jet1.Pt())
+        h_L1Jet2Pt.Fill(L1Jet2.Pt())
+        h_L1Mjj.Fill(L1Mjj)
+
+
         matchL1OffJet = [i for i in range(sizeL1Jets) 
                 if (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
                     ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5 ) ]
@@ -411,120 +428,27 @@ if __name__ == "__main__":
                 if ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) < 0.5 ] 
 
         if (L1Jet1Index in matchL1OffJet and L1Jet2Index in matchL1OffJet
-            and len(matchL1OffEle) >= 1): matchL1Off = True
+            and len(matchL1OffEle) >= 1): matchL1Off = 1
 
-      if (matchL1Off):
-        # use this instead of L1Jet1/2Index directly (output is the same)
-        L1Jet1 = L1Jets[matchL1OffJet[0]]
-        L1Jet2 = L1Jets[matchL1OffJet[1]]
-        L1Ele = L1Eles[matchL1OffEle[0]]
+        # fill L1 branches regardless of kinem cuts (applied later)
+        if (matchL1Off):
+          L1Jet1 = L1Jets[matchL1OffJet[0]]
+          L1Jet2 = L1Jets[matchL1OffJet[1]]
+          L1Ele = L1Eles[matchL1OffEle[0]]
 
-      # side-analysis, see how often we get the wrong objects.
-      # a very detailed analysis of this would benefit algorithm construction
-      # not sure i'm the person to do it though
-      #if ( (len(matchL1OffJet) >= 2) and (len(matchL1OffEle) >= 1) ):
-        #L1LeadingJetIndex, L1SubleadingJetIndex, L1Mjj = highestMjjPair(L1Jets)
-        
-        #if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): 
-          #print("Not L1 highest pT pair")
-          #print("L1 Mjj = {}, Offline Mjj = {}, OffMjj - L1Mjj = {}".format(L1Mjj, OffMjj, OffMjj - L1Mjj))
-          #print("iEntry {}".format(entry))
-          #print(L1LeadingJetIndex, L1SubleadingJetIndex)
-          #print(matchL1OffJet)
+          h_matchL1Off.Fill(matchL1Off)
+          h_matchedL1ElePt.Fill(L1Ele.Pt())
+          h_matchedL1Jet1Pt.Fill(L1Jet1.Pt())
+          h_matchedL1Jet2Pt.Fill(L1Jet2.Pt())
+          h_matchedL1Mjj.Fill(L1Mjj)
 
-      # check that HLT objects can be matched to offline
-      # should be MORE L1 objects that match than HLT objects from another trigger
-      # the HLT objects can match different objects than the ones the L1s match
+      # end filling of L1s
+      h_OffElePt.Fill(OffEle.Pt())
+      h_OffTauPt.Fill(OffTau.Pt())
+      h_OffJet1Pt.Fill(OffJet1.Pt())
+      h_OffJet2Pt.Fill(OffJet2.Pt())
+      h_OffMjj.Fill(OffMjj)
 
-      # Ele Tau Matching
-      EleTauHLTTaus = fillWithTVecs(EleTauFinalFilterTau_pt, EleTauFinalFilterTau_eta, \
-                                EleTauFinalFilterTau_phi, EleTauFinalFilterTau_energy)
-      sizeEleTauHLTTaus = len(EleTauHLTTaus)
-      matchEleTauHLTOffTau = [i for i in range(sizeEleTauHLTTaus) 
-                     if ROOT.TLorentzVector.DeltaR(OffTau, EleTauHLTTaus[i]) < 0.5]
-
-      EleTauHLTEles = fillWithTVecs(EleTauFinalFilterEle_pt, EleTauFinalFilterEle_eta, \
-                                EleTauFinalFilterEle_phi, EleTauFinalFilterEle_energy)
-      sizeEleTauHLTEles = len(EleTauHLTEles)
-      matchEleTauHLTOffEle = [i for i in range(sizeEleTauHLTEles) 
-                     if ROOT.TLorentzVector.DeltaR(OffEle, EleTauHLTEles[i]) < 0.5]
-
-      passEleTauHLTOffMatching = False
-      if ( (len(matchEleTauHLTOffTau) > 0) and (len(matchEleTauHLTOffEle) > 0) ): passEleTauHLTOffMatching = True
-
-      # SingleEle Matching
-      SingleEleHLTEles = fillWithTVecs(SingleEleFinalFilter_pt, SingleEleFinalFilter_eta, \
-                                   SingleEleFinalFilter_phi, SingleEleFinalFilter_energy)
-      sizeSingleEleHLTEles = len(SingleEleHLTEles)
-      matchSingleEleHLTOffEle = [i for i in range(sizeSingleEleHLTEles) 
-                              if ROOT.TLorentzVector.DeltaR(OffEle, SingleEleHLTEles[i]) < 0.5]
-      passSingleEleHLTOffMatching = False
-      if (len(matchSingleEleHLTOffEle) > 0): passSingleEleHLTOffMatching = True
-
-      # we now have quality objects at L1 and Offline which are matched
-
-      # we are testing what L1 at a given rate gives us the highest efficiency
-      # how is efficiency defined?
-      # unsure, let's see first highest gain.
-      # to do this, we have a baseline L1 and matched offline objects
-      # now, we have to artificially restrict the objects entering from
-      # the baseline L1 by cutting on the L1 object kinematics. 
-      # so, first thing we do is set a flag for events that pass
-      
-      passVBFEleL1Restrictions = False
-      # L1 Kinematic Restrictions
-      if (matchL1Off):
-        if (L1Jet1.Pt() >= L1JetPtToPass 
-         and L1Jet2.Pt() >= L1JetPtToPass 
-         and L1Mjj >= L1JetMjjToPass):
-         #and L1Ele.Pt() >= L1ElePtToPass): 
-          passVBFEleL1Restrictions = True
-          h_L1ElePt.Fill(L1Ele.Pt())
-          tempPt = eleL1PrimitivesPt[0]
-          if (tempPt < 10): print(tempPt)
-
-      passVBFEleOffCuts = False
-      # next, set a flag for events that pass
-      # Offline Cuts
-      if (matchL1Off and passVBFEleL1Restrictions):
-        if (OffJet1.Pt() >= OffJetPtToPass
-         and OffJet2.Pt() >= OffJetPtToPass
-         and OffMjj >= OffJetMjjToPass
-         and OffTau.Pt() >= OffTauPtToPass):
-         #and OffEle.Pt() >= OffElePtToPass): 
-          passVBFEleOffCuts = True
-          h_OffElePt.Fill(OffEle.Pt())
-
-      # that's all for the simulated L1
-      # now we see how many events pass the EleTauHLT and offline cuts
-      # we do this specifically because we assumed some heavy overlap
-     
-      #passEleTauOffCuts = False
-      #if (OffJet1.Pt() >= 30
-      # and OffJet2.Pt() >= 30
-      # and OffMjj >= 300
-      # and OffTau.Pt() >= 30
-      # and OffEle.Pt() >= 25): passEleTauOffCuts = True
-
-      #passSingleEleOffCuts = (passEleTauOffCuts and OffEle.Pt() >= 33)
-
-
-      # now tally it up
-      GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
-      h_GoodVBFEle.Fill(GoodVBFEle)
-      if (GoodVBFEle): h_OffElePtMatch.Fill(OffEle.Pt())
-      #GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
-      #GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts
-
-      # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
-      if (GoodVBFEle): TallyVBFEle += 1
-      #if (GoodEleTau): TallyEleTau += 1
-      #if (GoodSingleEle): TallySingleEle += 1
-
-      #if (GoodEleTau or GoodSingleEle): TallyEleTauOrSingleEle += 1
-      #if (GoodEleTau and GoodSingleEle): TallyEleTauAndSingleEle += 1
-
-      #if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
 
   if (L1IndexToTest == 6): 
     print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
@@ -532,24 +456,22 @@ if __name__ == "__main__":
     print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
   print(TallyVBFEle)
 
-  #h_L1ElePt.Draw("HIST")
-  #h_OffElePt.Draw("SAME")
   h_L1ElePt.Write()
+  h_L1Jet1Pt.Write()
+  h_L1Jet2Pt.Write()
+  h_L1Mjj.Write()
+
+  h_matchL1Off.Write()
+  h_matchedL1ElePt.Write()
+  h_matchedL1Jet1Pt.Write()
+  h_matchedL1Jet2Pt.Write()
+  h_matchedL1Mjj.Write()
+
   h_OffElePt.Write()
-  h_GoodVBFEle.Write()
-  h_OffElePtMatch.Write()
+  h_OffTauPt.Write()
+  h_OffJet1Pt.Write()
+  h_OffJet2Pt.Write()
+  h_OffMjj.Write()
+
   outFile.Close()
-
-  # formatting a table to print instead of free-form printing
-  #labels = ["SingleEle", "EleTau", "OR", "AND"]
-  #print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
-  #values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
-  #print("{0:<10} {1:<9} {2:<9} {3:<9}".format(values[0], values[1], values[2], values[3]))
-
-  #UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
-  #Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
-  #labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
-  #print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
-  #values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
-  #print("{0:<10} {1:<9} {2:<9} {3:<.1f}%".format(values[0], values[1], values[2], values[3]))
 
