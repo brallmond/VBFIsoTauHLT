@@ -86,25 +86,56 @@ if __name__ == "__main__":
 
   print(args.output_name)
   ROOT.TH1.SetDefaultSumw2()
+
+
   outFile = ROOT.TFile.Open(args.output_name, "RECREATE")
+  outtree = ROOT.TTree("outtree", "skimmed event data")
 
-  h_L1ElePt = ROOT.TH1F("h_L1ElePt", "", 100, 0, 300)
-  h_L1Jet1Pt = ROOT.TH1F("h_L1Jet1Pt", "", 100, 0, 300)
-  h_L1Jet2Pt = ROOT.TH1F("h_L1Jet2Pt", "", 100, 0, 300)
-  h_L1Mjj = ROOT.TH1F("h_L1Mjj", "", 100, 0, 2000)
+  #h_L1ElePt = ROOT.TH1F("h_L1ElePt", "", 100, 0, 300)
+  #h_L1Jet1Pt = ROOT.TH1F("h_L1Jet1Pt", "", 100, 0, 300)
+  #h_L1Jet2Pt = ROOT.TH1F("h_L1Jet2Pt", "", 100, 0, 300)
+  #h_L1Mjj = ROOT.TH1F("h_L1Mjj", "", 100, 0, 2000)
+  outL1ElePt = array('f', [0.])
+  outL1Jet1Pt = array('f', [0.])
+  outL1Jet2Pt = array('f', [0.])
+  outL1Mjj = array('f', [0.])
+  outtree.Branch("L1ElePt", outL1ElePt, 'pt/F')
+  outtree.Branch("L1Jet1Pt", outL1Jet1Pt, 'pt/F')
+  outtree.Branch("L1Jet2Pt", outL1Jet2Pt, 'pt/F')
+  outtree.Branch("L1Mjj", outL1Mjj, 'mjj/F')
 
-  h_matchedL1ElePt = ROOT.TH1F("h_matchedL1ElePt", "", 100, 0, 300)
-  h_matchedL1Jet1Pt = ROOT.TH1F("h_matchedL1Jet1Pt", "", 100, 0, 300)
-  h_matchedL1Jet2Pt = ROOT.TH1F("h_matchedL1Jet2Pt", "", 100, 0, 300)
-  h_matchedL1Mjj = ROOT.TH1F("h_matchedL1Mjj", "", 100, 0, 2000)
+  #h_matchedL1EleP.t = ROOT.TH1F("h_matchedL1ElePt", "", 100, 0, 300)
+  #h_matchedL1Jet1Pt = ROOT.TH1F("h_matchedL1Jet1Pt", "", 100, 0, 300)
+  #h_matchedL1Jet2Pt = ROOT.TH1F("h_matchedL1Jet2Pt", "", 100, 0, 300)
+  #h_matchedL1Mjj = ROOT.TH1F("h_matchedL1Mjj", "", 100, 0, 2000)
+  outMatchedL1ElePt = array('f', [0.])
+  outMatchedL1Jet1Pt = array('f', [0.])
+  outMatchedL1Jet2Pt = array('f', [0.])
+  outMatchedL1Mjj = array('f', [0.])
+  outtree.Branch("matchL1ElePt", outMatchedL1ElePt, 'pt/F')
+  outtree.Branch("matchL1Jet1Pt", outMatchedL1Jet1Pt, 'pt/F')
+  outtree.Branch("matchL1Jet2Pt", outMatchedL1Jet2Pt, 'pt/F')
+  outtree.Branch("matchL1Mjj", outMatchedL1Mjj, 'mjj/F')
  
-  h_OffElePt = ROOT.TH1F("h_OffElePt", "", 100, 0, 300)
-  h_OffTauPt = ROOT.TH1F("h_OffTauPt", "", 100, 0, 300)
-  h_OffJet1Pt = ROOT.TH1F("h_OffJet1Pt", "", 100, 0, 300)
-  h_OffJet2Pt = ROOT.TH1F("h_OffJet2Pt", "", 100, 0, 300)
-  h_OffMjj = ROOT.TH1F("h_OffMjj", "", 100, 0, 2000)
+  #h_OffElePt = ROOT.TH1F("h_OffElePt", "", 100, 0, 300)
+  #h_OffTauPt = ROOT.TH1F("h_OffTauPt", "", 100, 0, 300)
+  #h_OffJet1Pt = ROOT.TH1F("h_OffJet1Pt", "", 100, 0, 300)
+  #h_OffJet2Pt = ROOT.TH1F("h_OffJet2Pt", "", 100, 0, 300)
+  #h_OffMjj = ROOT.TH1F("h_OffMjj", "", 100, 0, 2000)
+  outOffElePt = array('f', [0.])
+  outOffTauPt = array('f', [0.])
+  outOffJet1Pt = array('f', [0.])
+  outOffJet2Pt = array('f', [0.])
+  outOffMjj = array('f', [0.])
+  outtree.Branch("OffElePt", outOffElePt, 'pt/F')
+  outtree.Branch("OffTauPt", outOffTauPt, 'pt/F')
+  outtree.Branch("OffJet1Pt", outOffJet1Pt, 'pt/F')
+  outtree.Branch("OffJet2Pt", outOffJet2Pt, 'pt/F')
+  outtree.Branch("OffMjj", outOffMjj, 'mjj/F')
 
-  h_matchL1Off = ROOT.TH1I("h_matchL1Off", "match L1 and Offline objects", 2, 0, 2)
+  #h_matchL1Off = ROOT.TH1I("h_matchL1Off", "match L1 and Offline objects", 2, 0, 2)
+  outMatchL1Off = array('i', [0])
+  outtree.Branch("MatchL1Off", outMatchL1Off, 'matched/I')
 
   L1IndexToTest = int(args.L1IndexToTest)
   if ((not (0 <= L1IndexToTest <= 7)) or not isinstance(L1IndexToTest, int)):
@@ -415,10 +446,14 @@ if __name__ == "__main__":
         L1Jet1 = L1Jets[L1Jet1Index]
         L1Jet2 = L1Jets[L1Jet2Index]
         L1Ele = L1Eles[0]
-        h_L1ElePt.Fill(L1Ele.Pt())
-        h_L1Jet1Pt.Fill(L1Jet1.Pt())
-        h_L1Jet2Pt.Fill(L1Jet2.Pt())
-        h_L1Mjj.Fill(L1Mjj)
+        #h_L1ElePt.Fill(L1Ele.Pt())
+        #h_L1Jet1Pt.Fill(L1Jet1.Pt())
+        #h_L1Jet2Pt.Fill(L1Jet2.Pt())
+        #h_L1Mjj.Fill(L1Mjj)
+        outL1ElePt[0] = L1Ele.Pt()
+        outL1Jet1Pt[0] = L1Jet1.Pt()
+        outL1Jet2Pt[0] = L1Jet2.Pt()
+        outL1Mjj[0] = L1Mjj
 
 
         matchL1OffJet = [i for i in range(sizeL1Jets) 
@@ -431,23 +466,35 @@ if __name__ == "__main__":
             and len(matchL1OffEle) >= 1): matchL1Off = 1
 
         # fill L1 branches regardless of kinem cuts (applied later)
+        outMatchL1Off[0] = matchL1Off
         if (matchL1Off):
           L1Jet1 = L1Jets[matchL1OffJet[0]]
           L1Jet2 = L1Jets[matchL1OffJet[1]]
           L1Ele = L1Eles[matchL1OffEle[0]]
 
-          h_matchL1Off.Fill(matchL1Off)
-          h_matchedL1ElePt.Fill(L1Ele.Pt())
-          h_matchedL1Jet1Pt.Fill(L1Jet1.Pt())
-          h_matchedL1Jet2Pt.Fill(L1Jet2.Pt())
-          h_matchedL1Mjj.Fill(L1Mjj)
+          #h_matchL1Off.Fill(matchL1Off)
+          #h_matchedL1ElePt.Fill(L1Ele.Pt())
+          #h_matchedL1Jet1Pt.Fill(L1Jet1.Pt())
+          #h_matchedL1Jet2Pt.Fill(L1Jet2.Pt())
+          #h_matchedL1Mjj.Fill(L1Mjj)
+          outMatchedL1ElePt[0] = L1Ele.Pt()
+          outMatchedL1Jet1Pt[0] = L1Jet1.Pt()
+          outMatchedL1Jet2Pt[0] = L1Jet2.Pt()
+          outMatchedL1Mjj[0] = L1Mjj
 
       # end filling of L1s
-      h_OffElePt.Fill(OffEle.Pt())
-      h_OffTauPt.Fill(OffTau.Pt())
-      h_OffJet1Pt.Fill(OffJet1.Pt())
-      h_OffJet2Pt.Fill(OffJet2.Pt())
-      h_OffMjj.Fill(OffMjj)
+      #h_OffElePt.Fill(OffEle.Pt())
+      #h_OffTauPt.Fill(OffTau.Pt())
+      #h_OffJet1Pt.Fill(OffJet1.Pt())
+      #h_OffJet2Pt.Fill(OffJet2.Pt())
+      #h_OffMjj.Fill(OffMjj)
+      outOffElePt[0] = OffEle.Pt()
+      outOffTauPt[0] = OffTau.Pt()
+      outOffJet1Pt[0] = OffJet1.Pt()
+      outOffJet2Pt[0] = OffJet2.Pt()
+      outOffMjj[0] = OffMjj
+
+      outtree.Fill()
 
 
   if (L1IndexToTest == 6): 
@@ -456,22 +503,22 @@ if __name__ == "__main__":
     print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
   print(TallyVBFEle)
 
-  h_L1ElePt.Write()
-  h_L1Jet1Pt.Write()
-  h_L1Jet2Pt.Write()
-  h_L1Mjj.Write()
+  #h_L1ElePt.Write()
+  #h_L1Jet1Pt.Write()
+  #h_L1Jet2Pt.Write()
+  #h_L1Mjj.Write()
 
-  h_matchL1Off.Write()
-  h_matchedL1ElePt.Write()
-  h_matchedL1Jet1Pt.Write()
-  h_matchedL1Jet2Pt.Write()
-  h_matchedL1Mjj.Write()
+  #h_matchL1Off.Write()
+  #h_matchedL1ElePt.Write()
+  #h_matchedL1Jet1Pt.Write()
+  #h_matchedL1Jet2Pt.Write()
+  #h_matchedL1Mjj.Write()
 
-  h_OffElePt.Write()
-  h_OffTauPt.Write()
-  h_OffJet1Pt.Write()
-  h_OffJet2Pt.Write()
-  h_OffMjj.Write()
-
+  #h_OffElePt.Write()
+  #h_OffTauPt.Write()
+  #h_OffJet1Pt.Write()
+  #h_OffJet2Pt.Write()
+  #h_OffMjj.Write()
+  outtree.Write()
   outFile.Close()
 
