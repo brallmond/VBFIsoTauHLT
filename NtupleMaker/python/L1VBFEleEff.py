@@ -100,15 +100,6 @@ if __name__ == "__main__":
   outtree.Branch("L1Jet2Pt", outL1Jet2Pt, 'pt/F')
   outtree.Branch("L1Mjj", outL1Mjj, 'mjj/F')
 
-  outMatchedL1ElePt = array('f', [0.])
-  outMatchedL1Jet1Pt = array('f', [0.])
-  outMatchedL1Jet2Pt = array('f', [0.])
-  outMatchedL1Mjj = array('f', [0.])
-  outtree.Branch("matchL1ElePt", outMatchedL1ElePt, 'pt/F')
-  outtree.Branch("matchL1Jet1Pt", outMatchedL1Jet1Pt, 'pt/F')
-  outtree.Branch("matchL1Jet2Pt", outMatchedL1Jet2Pt, 'pt/F')
-  outtree.Branch("matchL1Mjj", outMatchedL1Mjj, 'mjj/F')
- 
   outOffElePt = array('f', [0.])
   outOffTauPt = array('f', [0.])
   outOffJet1Pt = array('f', [0.])
@@ -420,40 +411,63 @@ if __name__ == "__main__":
       sizeL1Jets = len(L1Jets)
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
-      matchL1Off = 0
       # fill L1 branches regardless of cuts or matching (applied later)
-      if (sizeL1Jets >=2 and sizeL1Eles >= 1):
-        L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
-        L1Jet1 = L1Jets[L1Jet1Index]
-        L1Jet2 = L1Jets[L1Jet2Index]
-        L1Ele = L1Eles[0]
 
-        outL1ElePt[0] = L1Ele.Pt()
-        outL1Jet1Pt[0] = L1Jet1.Pt()
-        outL1Jet2Pt[0] = L1Jet2.Pt()
-        outL1Mjj[0] = L1Mjj
+      if (sizeL1Jets < 2 or sizeL1Eles < 1): continue
 
+      L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+      L1Jet1 = L1Jets[L1Jet1Index]
+      L1Jet2 = L1Jets[L1Jet2Index]
+      L1Ele = L1Eles[0]
 
-        matchL1OffJet = [i for i in range(sizeL1Jets) 
-                if (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
-                    ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5 ) ]
-        matchL1OffEle = [i for i in range(sizeL1Eles) 
-                if ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) < 0.5 ] 
+      matchL1Off = False
 
-        if (L1Jet1Index in matchL1OffJet and L1Jet2Index in matchL1OffJet
-            and len(matchL1OffEle) >= 1): matchL1Off = 1
+      matchL1OffJetsNormal = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet1) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet2) < 0.5)
+      matchL1OffJetsSwapped = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet2) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet1) < 0.5)
+      matchL1OffJets = matchL1OffJetsNormal or matchL1OffJetsSwapped
+      matchL1OffEle = (ROOT.TLorentzVector.DeltaR(OffEle, L1Ele) < 0.5)
+
+      matchL1Off = matchL1OffJets and matchL1OffEle
+
+      outL1ElePt[0] = L1Ele.Pt()
+      outL1Jet1Pt[0] = L1Jet1.Pt()
+      outL1Jet2Pt[0] = L1Jet2.Pt()
+      outL1Mjj[0] = L1Mjj
+
+      outMatchL1Off[0] = matchL1Off
+
+      #matchL1Off = 0
+      #if (sizeL1Jets >=2 and sizeL1Eles >= 1):
+      #  L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+      #  L1Jet1 = L1Jets[L1Jet1Index]
+      #  L1Jet2 = L1Jets[L1Jet2Index]
+      #  L1Ele = L1Eles[0]
+
+      #  outL1ElePt[0] = L1Ele.Pt()
+      #  outL1Jet1Pt[0] = L1Jet1.Pt()
+      #  outL1Jet2Pt[0] = L1Jet2.Pt()
+      #  outL1Mjj[0] = L1Mjj
+
+      #  matchL1OffJet = [i for i in range(sizeL1Jets) 
+      #          if (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
+      #              ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5 ) ]
+      #  matchL1OffEle = [i for i in range(sizeL1Eles) 
+      #          if ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) < 0.5 ] 
+
+      #  if (L1Jet1Index in matchL1OffJet and L1Jet2Index in matchL1OffJet
+      #      and len(matchL1OffEle) >= 1): matchL1Off = 1
 
         # fill L1 branches regardless of kinem cuts (applied later)
-        outMatchL1Off[0] = matchL1Off
-        if (matchL1Off):
-          L1Jet1 = L1Jets[matchL1OffJet[0]]
-          L1Jet2 = L1Jets[matchL1OffJet[1]]
-          L1Ele = L1Eles[matchL1OffEle[0]]
+      #  outMatchL1Off[0] = matchL1Off
+      #  if (matchL1Off):
+      #    L1Jet1 = L1Jets[matchL1OffJet[0]]
+      #    L1Jet2 = L1Jets[matchL1OffJet[1]]
+      #    L1Ele = L1Eles[matchL1OffEle[0]]
 
-          outMatchedL1ElePt[0] = L1Ele.Pt()
-          outMatchedL1Jet1Pt[0] = L1Jet1.Pt()
-          outMatchedL1Jet2Pt[0] = L1Jet2.Pt()
-          outMatchedL1Mjj[0] = L1Mjj
+      #    outMatchedL1ElePt[0] = L1Ele.Pt()
+      #    outMatchedL1Jet1Pt[0] = L1Jet1.Pt()
+      #    outMatchedL1Jet2Pt[0] = L1Jet2.Pt()
+      #    outMatchedL1Mjj[0] = L1Mjj
 
       # end filling of L1s
       outOffElePt[0] = OffEle.Pt()
