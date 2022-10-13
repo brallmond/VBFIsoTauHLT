@@ -91,10 +91,6 @@ if __name__ == "__main__":
   outFile = ROOT.TFile.Open(args.output_name, "RECREATE")
   outtree = ROOT.TTree("outtree", "skimmed event data")
 
-  #h_L1ElePt = ROOT.TH1F("h_L1ElePt", "", 100, 0, 300)
-  #h_L1Jet1Pt = ROOT.TH1F("h_L1Jet1Pt", "", 100, 0, 300)
-  #h_L1Jet2Pt = ROOT.TH1F("h_L1Jet2Pt", "", 100, 0, 300)
-  #h_L1Mjj = ROOT.TH1F("h_L1Mjj", "", 100, 0, 2000)
   outL1ElePt = array('f', [0.])
   outL1Jet1Pt = array('f', [0.])
   outL1Jet2Pt = array('f', [0.])
@@ -104,10 +100,6 @@ if __name__ == "__main__":
   outtree.Branch("L1Jet2Pt", outL1Jet2Pt, 'pt/F')
   outtree.Branch("L1Mjj", outL1Mjj, 'mjj/F')
 
-  #h_matchedL1EleP.t = ROOT.TH1F("h_matchedL1ElePt", "", 100, 0, 300)
-  #h_matchedL1Jet1Pt = ROOT.TH1F("h_matchedL1Jet1Pt", "", 100, 0, 300)
-  #h_matchedL1Jet2Pt = ROOT.TH1F("h_matchedL1Jet2Pt", "", 100, 0, 300)
-  #h_matchedL1Mjj = ROOT.TH1F("h_matchedL1Mjj", "", 100, 0, 2000)
   outMatchedL1ElePt = array('f', [0.])
   outMatchedL1Jet1Pt = array('f', [0.])
   outMatchedL1Jet2Pt = array('f', [0.])
@@ -117,11 +109,6 @@ if __name__ == "__main__":
   outtree.Branch("matchL1Jet2Pt", outMatchedL1Jet2Pt, 'pt/F')
   outtree.Branch("matchL1Mjj", outMatchedL1Mjj, 'mjj/F')
  
-  #h_OffElePt = ROOT.TH1F("h_OffElePt", "", 100, 0, 300)
-  #h_OffTauPt = ROOT.TH1F("h_OffTauPt", "", 100, 0, 300)
-  #h_OffJet1Pt = ROOT.TH1F("h_OffJet1Pt", "", 100, 0, 300)
-  #h_OffJet2Pt = ROOT.TH1F("h_OffJet2Pt", "", 100, 0, 300)
-  #h_OffMjj = ROOT.TH1F("h_OffMjj", "", 100, 0, 2000)
   outOffElePt = array('f', [0.])
   outOffTauPt = array('f', [0.])
   outOffJet1Pt = array('f', [0.])
@@ -133,7 +120,6 @@ if __name__ == "__main__":
   outtree.Branch("OffJet2Pt", outOffJet2Pt, 'pt/F')
   outtree.Branch("OffMjj", outOffMjj, 'mjj/F')
 
-  #h_matchL1Off = ROOT.TH1I("h_matchL1Off", "match L1 and Offline objects", 2, 0, 2)
   outMatchL1Off = array('i', [0])
   outtree.Branch("MatchL1Off", outMatchL1Off, 'matched/I')
 
@@ -341,7 +327,6 @@ if __name__ == "__main__":
     tree.GetEntry(entry)
 
     # check if event passes L1 or HLT and has minimum object requirements
-    #basicReqs = ((passL1[0] or passEleTauHLT[0] or passSingleEleHLT[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
     basicReqs = ((passL1[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
 
     if basicReqs:
@@ -396,7 +381,6 @@ if __name__ == "__main__":
       PassEleID =  [i for i in range(len(OffEleID)) if OffEleID[i] >= 1] # Ele ID is eleIDMVANoIsowp90
       PassEleEta = [i for i in range(len(OffEleEta)) if abs(OffEleEta[i]) <= EleEtaToPass]
       OffElesPassFilter = list(set(PassEleIso) & set(PassEleID) & set(PassEleEta))
-      #OffElesPassFilter = list(set(PassEleID) & set(PassEleEta))
       if (len(OffElesPassFilter) == 0): continue
       OffEles = fillWithTVecs(OffElePt, OffEleEta, OffElePhi, OffEleEnergy, OffElesPassFilter)
       sizeOffEles = len(OffEles)
@@ -409,13 +393,10 @@ if __name__ == "__main__":
 
       # skip the event if the tau and electron are overlapped
       if (ROOT.TLorentzVector.DeltaR(OffEles[0], OffTaus[0]) < 0.5): 
-        #print("electron and tau overlapped!") 
         continue
 
       # skip the event if the tau and electron have the same charge
       if (OffEleCh[OffElesPassFilter[0]] == OffTauCh[OffTausPassFilter[0]]):
-        #print(OffElesPassFilter, OffEleCh[OffElesPassFilter[0]])
-        #print(OffTausPassFilter, OffTauCh[OffTausPassFilter[0]])
         continue
 
       # assign Offline objects
@@ -446,10 +427,7 @@ if __name__ == "__main__":
         L1Jet1 = L1Jets[L1Jet1Index]
         L1Jet2 = L1Jets[L1Jet2Index]
         L1Ele = L1Eles[0]
-        #h_L1ElePt.Fill(L1Ele.Pt())
-        #h_L1Jet1Pt.Fill(L1Jet1.Pt())
-        #h_L1Jet2Pt.Fill(L1Jet2.Pt())
-        #h_L1Mjj.Fill(L1Mjj)
+
         outL1ElePt[0] = L1Ele.Pt()
         outL1Jet1Pt[0] = L1Jet1.Pt()
         outL1Jet2Pt[0] = L1Jet2.Pt()
@@ -472,22 +450,12 @@ if __name__ == "__main__":
           L1Jet2 = L1Jets[matchL1OffJet[1]]
           L1Ele = L1Eles[matchL1OffEle[0]]
 
-          #h_matchL1Off.Fill(matchL1Off)
-          #h_matchedL1ElePt.Fill(L1Ele.Pt())
-          #h_matchedL1Jet1Pt.Fill(L1Jet1.Pt())
-          #h_matchedL1Jet2Pt.Fill(L1Jet2.Pt())
-          #h_matchedL1Mjj.Fill(L1Mjj)
           outMatchedL1ElePt[0] = L1Ele.Pt()
           outMatchedL1Jet1Pt[0] = L1Jet1.Pt()
           outMatchedL1Jet2Pt[0] = L1Jet2.Pt()
           outMatchedL1Mjj[0] = L1Mjj
 
       # end filling of L1s
-      #h_OffElePt.Fill(OffEle.Pt())
-      #h_OffTauPt.Fill(OffTau.Pt())
-      #h_OffJet1Pt.Fill(OffJet1.Pt())
-      #h_OffJet2Pt.Fill(OffJet2.Pt())
-      #h_OffMjj.Fill(OffMjj)
       outOffElePt[0] = OffEle.Pt()
       outOffTauPt[0] = OffTau.Pt()
       outOffJet1Pt[0] = OffJet1.Pt()
@@ -498,27 +466,10 @@ if __name__ == "__main__":
 
 
   if (L1IndexToTest == 6): 
-    print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+    print("\nL1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
   else:
-    print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
-  print(TallyVBFEle)
+    print("\nL1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
 
-  #h_L1ElePt.Write()
-  #h_L1Jet1Pt.Write()
-  #h_L1Jet2Pt.Write()
-  #h_L1Mjj.Write()
-
-  #h_matchL1Off.Write()
-  #h_matchedL1ElePt.Write()
-  #h_matchedL1Jet1Pt.Write()
-  #h_matchedL1Jet2Pt.Write()
-  #h_matchedL1Mjj.Write()
-
-  #h_OffElePt.Write()
-  #h_OffTauPt.Write()
-  #h_OffJet1Pt.Write()
-  #h_OffJet2Pt.Write()
-  #h_OffMjj.Write()
   outtree.Write()
   outFile.Close()
 
