@@ -385,21 +385,20 @@ if __name__ == "__main__":
 
       # pick the L1 objects that the L1 algos will pick (highest pt, mjj)
       # then see if they match the offline objects you picked
-      if (sizeL1Jets < 2 or sizeL1Eles < 1): continue 
-      
-      L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
-      L1Jet1 = L1Jets[L1Jet1Index]
-      L1Jet2 = L1Jets[L1Jet2Index]
-      L1Ele = L1Eles[0]
-
       matchL1Off = False
+      if (sizeL1Jets >= 2 and sizeL1Eles >= 1): 
+      
+        L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+        L1Jet1 = L1Jets[L1Jet1Index]
+        L1Jet2 = L1Jets[L1Jet2Index]
+        L1Ele = L1Eles[0]
 
-      matchL1OffJetsNormal = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet1) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet2) < 0.5)
-      matchL1OffJetsSwapped = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet2) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet1) < 0.5)
-      matchL1OffJets = matchL1OffJetsNormal or matchL1OffJetsSwapped
-      matchL1OffEle = (ROOT.TLorentzVector.DeltaR(OffEle, L1Ele) < 0.5)
+        matchL1OffJetsNormal = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet1) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet2) < 0.5)
+        matchL1OffJetsSwapped = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet2) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet1) < 0.5)
+        matchL1OffJets = matchL1OffJetsNormal or matchL1OffJetsSwapped
+        matchL1OffEle = (ROOT.TLorentzVector.DeltaR(OffEle, L1Ele) < 0.5)
 
-      matchL1Off = matchL1OffJets and matchL1OffEle
+        matchL1Off = matchL1OffJets and matchL1OffEle
 
       # this block of code biases your selection
 
