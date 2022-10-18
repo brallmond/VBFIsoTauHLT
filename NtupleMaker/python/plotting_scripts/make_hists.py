@@ -94,41 +94,38 @@ if __name__ == "__main__":
 
       # simply require the flag when you fill the hist
       # e z p z :^)
-      L1Cut_NoEle = (L1Jet1Pt > L1Cut_Jet1Pt and
-           L1Jet2Pt > L1Cut_Jet2Pt and
-           L1Mjj > L1Cut_Mjj)
-      L1Cut_NoJet1 = (L1ElePt > L1Cut_ElePt and
-            L1Jet2Pt > L1Cut_Jet2Pt and
-            L1Mjj > L1Cut_Mjj)
-      L1Cut_NoJet2 = (L1ElePt > L1Cut_ElePt and
-            L1Jet1Pt > L1Cut_Jet1Pt and
-            L1Mjj > L1Cut_Mjj)
-      L1Cut_NoMjj = (L1ElePt > L1Cut_ElePt and
-           L1Jet1Pt > L1Cut_Jet1Pt and
-           L1Jet2Pt > L1Cut_Jet2Pt)
-      L1Cut_All = L1Cut_NoMjj and L1Cut_NoEle
+      truth_L1_array = [L1ElePt > L1Cut_ElePt, L1Jet1Pt > L1Cut_Jet1Pt, L1Jet2Pt > L1Cut_Jet2Pt, L1Mjj > L1Cut_Mjj]
 
-      OffCut_NoEle = (OffTauPt > OffCut_TauPt and
-            OffJet1Pt > OffCut_Jet1Pt and
-            OffJet2Pt > OffCut_Jet2Pt and
-            OffMjj > OffCut_Mjj)
-      OffCut_NoTau = (OffElePt > OffCut_ElePt and
-            OffJet1Pt > OffCut_Jet1Pt and
-            OffJet2Pt > OffCut_Jet2Pt and
-            OffMjj > OffCut_Mjj)    
-      OffCut_NoJet1 = (OffElePt > OffCut_ElePt and
-             OffTauPt > OffCut_TauPt and
-             OffJet2Pt > OffCut_Jet2Pt and
-             OffMjj > OffCut_Mjj)
-      OffCut_NoJet2 = (OffElePt > OffCut_ElePt and
-             OffTauPt > OffCut_TauPt and
-             OffJet1Pt > OffCut_Jet1Pt and
-             OffMjj > OffCut_Mjj)
-      OffCut_NoMjj  = (OffElePt > OffCut_ElePt and
-             OffTauPt > OffCut_TauPt and
-             OffJet1Pt > OffCut_Jet1Pt and
-             OffJet2Pt > OffCut_Jet2Pt)
-      OffCut_All = OffCut_NoMjj and OffCut_NoEle
+      L1Cut_NoEle = truth_L1_array[1] and truth_L1_array[2] and truth_L1_array[3]
+      L1Cut_NoJet1 = truth_L1_array[0] and truth_L1_array[2] and truth_L1_array[3]
+      L1Cut_NoJet2 = truth_L1_array[0] and truth_L1_array[1] and truth_L1_array[3]
+      L1Cut_NoMjj = truth_L1_array[0] and truth_L1_array[1] and truth_L1_array[2]
+      L1Cut_All = truth_L1_array[0] and truth_L1_array[1] and truth_L1_array[2] and truth_L1_array[3]
+
+      # 1 | 0 1 1 1
+      # 1 | 1 0 1 1
+      # 1 | 1 1 0 1
+      # 1 | 1 1 1 0
+      # 1 | 1 1 1 1
+      
+
+      # how to make five different selections on five criteria NOT by hand
+      # maybe start with three
+      # [VarA > CutA, VarB > CutB, VarC > CutC] # boolean value, True if VarA > CutA, else False
+      # [PassNotA, PassNotB, PassNotC] # boolean value, PassNotA == True if VarB > CutB and VarC > CutC
+      # for i in len(PassCutContainer):
+      #   PassCut = 
+
+
+      truth_Off_array = [OffElePt > OffCut_ElePt, OffTauPt > OffCut_TauPt, \
+                         OffJet1Pt > OffCut_Jet1Pt, OffJet2Pt > OffCut_Jet2Pt, OffMjj > OffCut_Mjj]
+
+      OffCut_NoEle  = truth_Off_array[1] and truth_Off_array[2] and truth_Off_array[3] and truth_Off_array[4]
+      OffCut_NoTau  = truth_Off_array[0] and truth_Off_array[2] and truth_Off_array[3] and truth_Off_array[4]
+      OffCut_NoJet1 = truth_Off_array[0] and truth_Off_array[1] and truth_Off_array[3] and truth_Off_array[4]
+      OffCut_NoJet2 = truth_Off_array[0] and truth_Off_array[1] and truth_Off_array[2] and truth_Off_array[4]
+      OffCut_NoMjj  = truth_Off_array[0] and truth_Off_array[1] and truth_Off_array[2] and truth_Off_array[3]
+      OffCut_All    = truth_Off_array[0] and truth_Off_array[1] and truth_Off_array[2] and truth_Off_array[3] and truth_Off_array[4]
 
       debug = False
       if debug == True:
@@ -136,11 +133,12 @@ if __name__ == "__main__":
         print("L1 info")
         print(f"{L1ElePt:6.2f}, {L1Jet1Pt:6.2f}, {L1Jet2Pt:6.2f}, {L1Mjj:6.2f}")
         print(f"{L1Cut_NoEle:6}, {L1Cut_NoJet1:6}, {L1Cut_NoJet2:6}, {L1Cut_NoMjj:6}, {L1Cut_All:6}")
+        print(truth_L1_array)
         print("Off. info")
         print(f"{OffElePt:6.2f}, {OffTauPt:6.2f}, {OffJet1Pt:6.2f}, {OffJet2Pt:6.2f}, {OffMjj:6.2f}")
         print(f"{OffCut_NoEle:6}, {OffCut_NoTau:6}, {OffCut_NoJet1:6}, {OffCut_NoJet2:6}, {OffCut_NoMjj:6}, {OffCut_All:6}")
-        print("Matching info")
-        print(MatchL1Off)
+        print(truth_Off_array)
+        print(f"Match L1 Off {MatchL1Off}")
 
 
       # make 18 hists :)
@@ -149,7 +147,6 @@ if __name__ == "__main__":
       if (L1Cut_NoJet2): h_L1Jet2Pt.Fill(L1Jet2Pt)
       if (L1Cut_NoMjj):  h_L1Mjj.Fill(L1Mjj)
 
-      #if (L1Cut_All): 
       if (OffCut_NoEle):  h_OffElePt.Fill(OffElePt)
       if (OffCut_NoTau):  h_OffTauPt.Fill(OffTauPt) 
       if (OffCut_NoJet1): h_OffJet1Pt.Fill(OffJet1Pt)
