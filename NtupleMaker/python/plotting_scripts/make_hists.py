@@ -7,6 +7,7 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
     parser.add_argument('--aux_label', '-a', required=True, action='store', help='prepending label for out filename')
+    parser.add_argument('--L1_seed', '-s', required=True, action='store', help='select one of three predefined L1 seeds')
 
     args = parser.parse_args()
     in_file = args.in_file
@@ -56,9 +57,14 @@ if __name__ == "__main__":
     # 10, 30, 320
     # 14, 32, 440
     # 12, 38, 460
-    L1Cut_ElePt = 12
-    L1Cut_Jet1Pt = L1Cut_Jet2Pt = 38
-    L1Cut_Mjj = 460
+    possible_L1Cuts = [ [30, 320, 10],
+                        [38, 460, 12],
+                        [32, 440, 14]]
+
+    L1_seed_index = int(args.L1_seed)
+    L1Cut_Jet1Pt = L1Cut_Jet2Pt = possible_L1Cuts[L1_seed_index][0]
+    L1Cut_Mjj                   = possible_L1Cuts[L1_seed_index][1]
+    L1Cut_ElePt                 = possible_L1Cuts[L1_seed_index][2]
     L1Cuts = [L1Cut_ElePt, L1Cut_Jet1Pt, L1Cut_Jet2Pt, L1Cut_Mjj]
     print(f"L1Cuts: {L1Cuts}")
     # it is possible to perform this with a list comprehension
@@ -165,7 +171,7 @@ if __name__ == "__main__":
         
 
     # end for-loop, write hists to new file
-    strip_in_file = in_file.replace("../data/","")
+    strip_in_file = in_file.replace("../","").replace("data/","")
     out_file_name = args.aux_label + "hists_" + strip_in_file
     out_file = ROOT.TFile.Open(out_file_name, "RECREATE")
     h_L1ElePt.Write()
@@ -186,4 +192,4 @@ if __name__ == "__main__":
     h_mOffJet1Pt.Write()
     h_mOffJet2Pt.Write()
     h_mOffMjj.Write()
-    print("Histograms written to {}".format(out_file_name))
+    print(f"Histograms written to {out_file_name}")
