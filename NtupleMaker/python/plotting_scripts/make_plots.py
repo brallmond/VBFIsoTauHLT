@@ -177,7 +177,7 @@ def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
     can.SaveAs(out_name)
     input() # preserve graph display until user input
 
-    # write ratio hist and rebinned ratio hist to original file
+    # write ratio hist and rebinned ratio hist to new file
     out_hist_name = prepend_string("", in_file)
     out_hist_name += "_ratio_hists.root"
     # FIXME: unable to open "ratio" plot from saved hists, but the rebin is fine
@@ -208,6 +208,7 @@ if __name__ == "__main__":
 
     DEBUG = False
     if DEBUG == True: variables = ["ElePt"]
+
     for var in variables:
       make_plot(args.in_file, var, L1)
 
