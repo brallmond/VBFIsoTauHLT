@@ -10,28 +10,17 @@ XAXIS_LABEL_INDEX = 1
 L1_RE_BINS_INDEX = 2
 OFF_RE_BINS_INDEX = 3
 
-#ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
+ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
 def set_style(in_hist: ROOT.TH1F, line_color: int, marker_style: int, marker_color: int=1) -> None:
-    """
-    Set the style of a histogram (as a function since this is done often)
-
-    :param: in_hist - input histogram to set the style for
-    :param: line_color - an integer corresponding to a color in ROOT
-    :param: marker_style - an integer corresponding to a shape in ROOT
-    :param: marker_color - same corresponding ROOT colors as line_color
-
-    :return: Nothing, but set style of histogram in the process
-    """
-
+    """Set the style of a histogram (as a function since this is done often)"""
     """
     For colors,    1,   2,     3,    4 is
                black, red, green, blue
     For markers,   4,     25,       26 is
               circle, square, triangle
     """
-
-    # set marker_color and line_color the same by default
+    # set marker_color and line_color the same
     marker_color = line_color
     in_hist.SetLineColor(line_color)
     in_hist.SetMarkerStyle(marker_style)
@@ -43,26 +32,6 @@ def set_labels(hist: ROOT.TH1F, hist_title: str, hist_yaxis: str, hist_xaxis: st
     hist.SetTitle(hist_title)
     hist.GetYaxis().SetTitle(hist_yaxis)
     hist.GetXaxis().SetTitle(hist_xaxis)
-
-
-def save_hists(out_file_name: str, hist_one: ROOT.TH1F, hist_two: ROOT.TH1F, add_label: str) -> None:
-    """Make a new out file and write two histograms to it"""
-    if ".root" not in out_file_name: out_file_name += ".root"
-    #out_file = ROOT.TFile.Open(out_file_name, "RECREATE")
-    out_file = ROOT.TFile.Open(out_file_name, "UPDATE")
-    hist_one.Write("ratio_"+add_label)
-    hist_two.Write("ratio_rebinned_"+add_label)
-    print(f"ratio hists written to {out_file_name}")
-
-
-def prepend_string(result: str, search_file: str) -> str:
-    """ search 'search_file' for "Loose" or "Tight" and prepend it to 'in_str' if found"""
-    if "Loose" in search_file: result += "Loose"
-    elif "Tight" in search_file: result += "Tight"
-    else: 
-      print("Is this a 'Loose' or 'Tight' root file? Please let the name of your input datafile reflect this. Exiting...")
-      sys.exit()
-    return result
 
 
 def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
@@ -170,22 +139,17 @@ def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
     leg_right.AddEntry(h_rebin_ratio, "Rebinned")
     leg_right.Draw()
 
-    # save plot
-    out_name = prepend_string("", in_file)
-    out_name += "_" + hist_var + ".png"
-   
-    can.SaveAs(out_name)
-    input() # preserve graph display until user input
+    # save plots
+    out_png_name = in_file + "_" + hist_var + ".png"
+    can.SaveAs(out_png_name)
 
     # write ratio hist and rebinned ratio hist to new file
-    out_hist_name = prepend_string("", in_file)
-    out_hist_name += "_ratio_hists.root"
-    # FIXME: unable to open "ratio" plot from saved hists, but the rebin is fine
-    # the below "setname" was suggested here, but does not appear to fix the issue.
-    # https://root-forum.cern.ch/t/histogram-name-change-on-write/3622
-    #h_ratio.SetName("ratio")
-    #h_rebin_ratio.SetName("rebin_ratio")
-    save_hists(out_hist_name, h_ratio, h_rebin_ratio, hist_var)
+    strip_in_file = in_file.replace("../","").replace("data/","")
+    out_file_name = "ratios_" + strip_in_file
+    out_file = ROOT.TFile.Open(out_file_name, "UPDATE")
+    h_ratio.Write("ratio_"+hist_var)
+    h_rebin_ratio.Write("ratio_rebinned_"+hist_var)
+    print(f"ratio hists written to {out_file_name}")
 
 
 if __name__ == "__main__":
