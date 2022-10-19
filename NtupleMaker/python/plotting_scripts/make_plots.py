@@ -140,7 +140,7 @@ def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
     leg_right.Draw()
 
     # save plots
-    out_png_name = in_file + "_" + hist_var + ".png"
+    out_png_name = in_file.replace(".root","") + "_" + hist_var + ".png"
     can.SaveAs(out_png_name)
 
     # write ratio hist and rebinned ratio hist to new file
@@ -162,6 +162,7 @@ if __name__ == "__main__":
 
     # be careful with boolean values in argparse, they are a headache.
     # Manually setting with more obvious python syntax :)
+
     L1 = False
     str_L1 = args.L1
     if (str_L1 == "True"): L1 = True
