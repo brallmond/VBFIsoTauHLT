@@ -31,7 +31,7 @@ if __name__ == "__main__":
     # i am dedicating myself to change, and bringing
     # forth the light in the world that was missing before
     # i chanced upon this simple and profound knowledge
-    #
+    
     # branches are methods of tree object in pyroot
     
     h_L1ElePt = ROOT.TH1F("L1ElePt", "", 20, 0, 400)
@@ -58,14 +58,7 @@ if __name__ == "__main__":
     h_mOffJet2Pt = ROOT.TH1F("mJet2Pt", "", 20, 0, 400)
     h_mOffMjj = ROOT.TH1F("mMjj", "", 20, 0, 3000)
 
-    # make cut criteria!
-    #   Ele, Tau, J1, J2, Mjj
-    # L1:  10,  --, 30, 30, 320
-    # Off: 12,  30, 40, 40, 370
-    #
-    # 10, 30, 320
-    # 14, 32, 440
-    # 12, 38, 460
+    # make cut criteria
     possible_L1Cuts = [ [30, 320, 10],
                         [38, 460, 12],
                         [32, 440, 14]]
@@ -76,7 +69,6 @@ if __name__ == "__main__":
     L1Cut_ElePt                 = possible_L1Cuts[L1_seed_index][2]
     L1Cuts = [L1Cut_ElePt, L1Cut_Jet1Pt, L1Cut_Jet2Pt, L1Cut_Mjj]
     print(f"L1Cuts: {L1Cuts}")
-    # it is possible to perform this with a list comprehension
 
     OffCut_ElePt = L1Cut_ElePt + 1 + 1
     OffCut_TauPt = 30
