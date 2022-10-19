@@ -1,6 +1,7 @@
 import ROOT
 import os
 import sys
+import re
 
 from make_plots import set_style
 #ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
@@ -62,23 +63,35 @@ def make_comparison_plot(in_file_one: 'str', in_file_two: 'str', in_file_three: 
     leg.Draw()
 
     can.SaveAs("compare_"+var+".png")
-    input() # preserve graph display until user input
+    #input() # preserve graph display until user input
 
 
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('--in_file_one', '-i1', required=True, action='store', help='input file one')
-    parser.add_argument('--label_one', '-l1', required=True, action='store', help='label for input file one on legend')
     parser.add_argument('--in_file_two', '-i2', required=True, action='store', help='input file two')
-    parser.add_argument('--label_two', '-l2', required=True, action='store', help='label for input file two on legend')
     parser.add_argument('--in_file_three', '-i3', required=True, action='store', help='input file three')
-    parser.add_argument('--label_three', '-l3', required=True, action='store', help='label for input file three on legend')
     parser.add_argument('--in_file_four', '-i4', required=True, action='store', help='input file four')
-    parser.add_argument('--label_four', '-l4', required=True, action='store', help='label for input file four on legend')
-
 
     args = parser.parse_args()
+
+    # Mantras and Cleansing Vows before proceeding
+    # making loops on root files in python is a fool's errand
+    # i will use this code once for this express purpose and never try to adapt it
+    # i will write better code that avoids the use of this type of construction
+    # i will also strive to avoid tasks where this type of coding is required
+
+    label_regex = re.compile(r'(Loose|Tight)_\d\d_\d\d\d_\d\d')
+    # above, compile is just the keyword the re module uses to indicate a regex expression in raw text format
+    # r'' is the python raw text format
+    # \d is regex for 'digit', val1|val2 is regex for 'match either of these' 
+    # below, you 'search' the desired string as a method of the regex you 'compile'd above
+    # 'group' concatenates the groups of your regex (we have two groups above, one in () and one not)
+    label_one   = label_regex.search(args.in_file_one).group()
+    label_two   = label_regex.search(args.in_file_two).group()
+    label_three = label_regex.search(args.in_file_three).group()
+    label_four  = label_regex.search(args.in_file_four).group()
 
     variables = ["TauPt", "ElePt", "Jet1Pt", "Jet2Pt", "Mjj"]
 
@@ -86,5 +99,5 @@ if __name__ == "__main__":
     if DEBUG == True: variables = ["ElePt"]
     for var in variables:
       make_comparison_plot(args.in_file_one, args.in_file_two, args.in_file_three, args.in_file_four, var, \
-                           args.label_one, args.label_two, args.label_three, args.label_four)
+                           label_one, label_two, label_three, label_four)
 
