@@ -2,6 +2,15 @@ import ROOT
 
 #ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
+def check_cuts(input_list: list, omit_index: int=-1) -> bool: # python does not have arrays
+  """ given a list of values and an index, return true if all values in the list,
+      *except for the indexed item*, are the same. Return false otherwise.
+      If no index is given in the second argument then no values are skipped in the list"""
+  set_from_input_list = set(value for index, value in enumerate(input_list) if index != omit_index) 
+  set_is_one_item_and_true = (len(set_from_input_list) == 1) and (set_from_input_list.pop() == True)
+  return set_is_one_item_and_true
+
+
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
@@ -94,38 +103,26 @@ if __name__ == "__main__":
 
       # simply require the flag when you fill the hist
       # e z p z :^)
-      truth_L1_array = [L1ElePt > L1Cut_ElePt, L1Jet1Pt > L1Cut_Jet1Pt, L1Jet2Pt > L1Cut_Jet2Pt, L1Mjj > L1Cut_Mjj]
+      L1Cuts_PassList = [L1ElePt > L1Cut_ElePt, \
+                         L1Jet1Pt > L1Cut_Jet1Pt, L1Jet2Pt > L1Cut_Jet2Pt, \
+                         L1Mjj > L1Cut_Mjj]
 
-      L1Cut_NoEle = truth_L1_array[1] and truth_L1_array[2] and truth_L1_array[3]
-      L1Cut_NoJet1 = truth_L1_array[0] and truth_L1_array[2] and truth_L1_array[3]
-      L1Cut_NoJet2 = truth_L1_array[0] and truth_L1_array[1] and truth_L1_array[3]
-      L1Cut_NoMjj = truth_L1_array[0] and truth_L1_array[1] and truth_L1_array[2]
-      L1Cut_All = truth_L1_array[0] and truth_L1_array[1] and truth_L1_array[2] and truth_L1_array[3]
+      L1Cut_NoEle  = check_cuts(L1Cuts_PassList, 0)
+      L1Cut_NoJet1 = check_cuts(L1Cuts_PassList, 1)
+      L1Cut_NoJet2 = check_cuts(L1Cuts_PassList, 2)
+      L1Cut_NoMjj  = check_cuts(L1Cuts_PassList, 3)
+      L1Cut_All    = check_cuts(L1Cuts_PassList)
 
-      # 1 | 0 1 1 1
-      # 1 | 1 0 1 1
-      # 1 | 1 1 0 1
-      # 1 | 1 1 1 0
-      # 1 | 1 1 1 1
-      
+      OffCuts_PassList = [OffElePt > OffCut_ElePt, OffTauPt > OffCut_TauPt, \
+                          OffJet1Pt > OffCut_Jet1Pt, OffJet2Pt > OffCut_Jet2Pt, \
+                          OffMjj > OffCut_Mjj]
 
-      # how to make five different selections on five criteria NOT by hand
-      # maybe start with three
-      # [VarA > CutA, VarB > CutB, VarC > CutC] # boolean value, True if VarA > CutA, else False
-      # [PassNotA, PassNotB, PassNotC] # boolean value, PassNotA == True if VarB > CutB and VarC > CutC
-      # for i in len(PassCutContainer):
-      #   PassCut = 
-
-
-      truth_Off_array = [OffElePt > OffCut_ElePt, OffTauPt > OffCut_TauPt, \
-                         OffJet1Pt > OffCut_Jet1Pt, OffJet2Pt > OffCut_Jet2Pt, OffMjj > OffCut_Mjj]
-
-      OffCut_NoEle  = truth_Off_array[1] and truth_Off_array[2] and truth_Off_array[3] and truth_Off_array[4]
-      OffCut_NoTau  = truth_Off_array[0] and truth_Off_array[2] and truth_Off_array[3] and truth_Off_array[4]
-      OffCut_NoJet1 = truth_Off_array[0] and truth_Off_array[1] and truth_Off_array[3] and truth_Off_array[4]
-      OffCut_NoJet2 = truth_Off_array[0] and truth_Off_array[1] and truth_Off_array[2] and truth_Off_array[4]
-      OffCut_NoMjj  = truth_Off_array[0] and truth_Off_array[1] and truth_Off_array[2] and truth_Off_array[3]
-      OffCut_All    = truth_Off_array[0] and truth_Off_array[1] and truth_Off_array[2] and truth_Off_array[3] and truth_Off_array[4]
+      OffCut_NoEle  = check_cuts(OffCuts_PassList, 0)
+      OffCut_NoTau  = check_cuts(OffCuts_PassList, 1)
+      OffCut_NoJet1 = check_cuts(OffCuts_PassList, 2)
+      OffCut_NoJet2 = check_cuts(OffCuts_PassList, 3)
+      OffCut_NoMjj  = check_cuts(OffCuts_PassList, 4)
+      OffCut_All    = check_cuts(OffCuts_PassList)
 
       debug = False
       if debug == True:
@@ -133,11 +130,11 @@ if __name__ == "__main__":
         print("L1 info")
         print(f"{L1ElePt:6.2f}, {L1Jet1Pt:6.2f}, {L1Jet2Pt:6.2f}, {L1Mjj:6.2f}")
         print(f"{L1Cut_NoEle:6}, {L1Cut_NoJet1:6}, {L1Cut_NoJet2:6}, {L1Cut_NoMjj:6}, {L1Cut_All:6}")
-        print(truth_L1_array)
+        print(L1Cuts_PassList)
         print("Off. info")
         print(f"{OffElePt:6.2f}, {OffTauPt:6.2f}, {OffJet1Pt:6.2f}, {OffJet2Pt:6.2f}, {OffMjj:6.2f}")
         print(f"{OffCut_NoEle:6}, {OffCut_NoTau:6}, {OffCut_NoJet1:6}, {OffCut_NoJet2:6}, {OffCut_NoMjj:6}, {OffCut_All:6}")
-        print(truth_Off_array)
+        print(OffCuts_PassList)
         print(f"Match L1 Off {MatchL1Off}")
 
 
