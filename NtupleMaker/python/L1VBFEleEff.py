@@ -12,19 +12,49 @@ ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 # usage: python3 L1VBFEleEff.py -i ../../../samples/VBFE_CorrectEleIsoAndNewFilter.root -L 6 -o Tight_30_320_10_corrected.root 
 
 def match_L1_to_Offline(L1Ele, L1Jet1, L1Jet2, OffEle, OffJet1, OffJet2):
-  """ Use dR cone to match preselected L1 objects to Offline objects and return True.
+  """ Use dR cone to match preselected L1 objects to preselected Offline objects and return True.
       Return false if not all L1 objects can be matched."""
-  matchL1Off = False
+  match = False
 
   matchL1OffJetsNormal = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet1) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet2) < 0.5)
   matchL1OffJetsSwapped = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet2) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet1) < 0.5)
   matchL1OffJets = matchL1OffJetsNormal or matchL1OffJetsSwapped
   matchL1OffEle = (ROOT.TLorentzVector.DeltaR(OffEle, L1Ele) < 0.5)
 
-  matchL1Off = matchL1OffJets and matchL1OffEle
+  match = matchL1OffJets and matchL1OffEle
 
-  return matchL1Off
+  return match
 
+
+def match_Offline_to_L1(L1Eles, L1Jets, OffEle, OffJet1, OffJet2):
+  """ Use dR cone to match preselected Offline objects to any available L1 object and return True.
+      Return False if not all L1 objects can be matched.
+      Also returns two lists of matched objects
+  """
+  match = False
+
+  L1Jet1Index, L1Jet2Index, dummyL1Mjj = highestMjjPair(L1Jets)
+
+  matchJet = [i for i in range(len(L1Jets))
+           if (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
+               ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5) ]
+
+  #lengthMatchJet = len(matchJet)
+  #if (lengthMatchJet == 2):
+  #  L1Jet1Index
+
+  if (len(matchJet) >= 2):
+    print("*"*10)
+    print(f"matchJet: {matchJet}")
+    print(f"jet idxs: {L1Jet1Index, L1Jet2Index}")
+
+  matchEle = [i for i in range(len(L1Eles))
+           if ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) < 0.5 ]
+
+  if (L1Jet1Index in matchJet and L1Jet2Index in matchJet and len(matchEle) >= 1): match = True
+
+  return match
+ 
 
 def highestMjjPair(inObjs):
   '''
@@ -43,8 +73,8 @@ def highestMjjPair(inObjs):
 
   mjj = 0 
   mjjTemp = 0
-  leadingJetIndex = -1
-  subleadingJetIndex = -1
+  leadingJetIndex = 999#-1
+  subleadingJetIndex = 999#-1
 
   for j in range(nObjs):
     for k in range(nObjs):
@@ -412,57 +442,37 @@ if __name__ == "__main__":
       sizeL1Eles = len(L1Eles)
       # fill L1 branches regardless of cuts or matching (applied later)
 
-      if (sizeL1Jets < 2 or sizeL1Eles < 1): continue # effectively requires L1 objects as was done at start of loop, set a flag not to match instead
+      # effectively requires L1 objects as was done at start of loop, set a flag not to match instead
+      # check object sizes before matching
 
-      L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
-      L1Jet1 = L1Jets[L1Jet1Index]
-      L1Jet2 = L1Jets[L1Jet2Index]
-      L1Ele = L1Eles[0]
+      matchL1Off = False
+      tryToMatch = False
+      if (sizeL1Jets >= 2 and sizeL1Eles >= 1): tryToMatch = True 
 
-      matchL1Off = match_L1_to_Offline(L1Ele, L1Jet1, L1Jet2, OffEle, OffJet1, OffJet2)
+      if (tryToMatch == True):
+        L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+        L1Jet1 = L1Jets[L1Jet1Index]
+        L1Jet2 = L1Jets[L1Jet2Index]
+        L1Ele = L1Eles[0]
+
+      #matchL1Off = match_L1_to_Offline(L1Ele, L1Jet1, L1Jet2, OffEle, OffJet1, OffJet2)
+
+      matchL1Off = match_Offline_to_L1(L1Eles, L1Jets, OffEle, OffJet1, OffJet2)
+
+      #if (matchL1Off):
+      #  L1Jet1 = L1Jets[matchL1OffJet[0]]
+      #  L1Jet2 = L1Jets[matchL1OffJet[1]]
+      #  L1Ele = L1Eles[matchL1OffEle[0]]
 
       # writing branch info
+
+      outMatchL1Off[0] = matchL1Off
+
       outL1ElePt[0] = L1Ele.Pt()
       outL1Jet1Pt[0] = L1Jet1.Pt()
       outL1Jet2Pt[0] = L1Jet2.Pt()
       outL1Mjj[0] = L1Mjj
 
-      outMatchL1Off[0] = matchL1Off
-
-      #matchL1Off = 0
-      #if (sizeL1Jets >=2 and sizeL1Eles >= 1):
-      #  L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
-      #  L1Jet1 = L1Jets[L1Jet1Index]
-      #  L1Jet2 = L1Jets[L1Jet2Index]
-      #  L1Ele = L1Eles[0]
-
-      #  outL1ElePt[0] = L1Ele.Pt()
-      #  outL1Jet1Pt[0] = L1Jet1.Pt()
-      #  outL1Jet2Pt[0] = L1Jet2.Pt()
-      #  outL1Mjj[0] = L1Mjj
-
-      #  matchL1OffJet = [i for i in range(sizeL1Jets) 
-      #          if (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
-      #              ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5 ) ]
-      #  matchL1OffEle = [i for i in range(sizeL1Eles) 
-      #          if ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) < 0.5 ] 
-
-      #  if (L1Jet1Index in matchL1OffJet and L1Jet2Index in matchL1OffJet
-      #      and len(matchL1OffEle) >= 1): matchL1Off = 1
-
-        # fill L1 branches regardless of kinem cuts (applied later)
-      #  outMatchL1Off[0] = matchL1Off
-      #  if (matchL1Off):
-      #    L1Jet1 = L1Jets[matchL1OffJet[0]]
-      #    L1Jet2 = L1Jets[matchL1OffJet[1]]
-      #    L1Ele = L1Eles[matchL1OffEle[0]]
-
-      #    outMatchedL1ElePt[0] = L1Ele.Pt()
-      #    outMatchedL1Jet1Pt[0] = L1Jet1.Pt()
-      #    outMatchedL1Jet2Pt[0] = L1Jet2.Pt()
-      #    outMatchedL1Mjj[0] = L1Mjj
-
-      # end filling of L1s
       outOffElePt[0] = OffEle.Pt()
       outOffTauPt[0] = OffTau.Pt()
       outOffJet1Pt[0] = OffJet1.Pt()
