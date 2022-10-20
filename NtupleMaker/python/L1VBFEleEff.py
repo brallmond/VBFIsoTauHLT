@@ -47,16 +47,8 @@ def highestMjjPair(inObjs):
 def fillWithTVecs(branchPt, branchEta, branchPhi, branchEnergy, arrayIDs=None):
   '''
   Takes in four kinematic branch names
-  Returns an array of TLorentzVector objects filled with the kinematic info
-
-    Parameters:
-      branchPt -
-      branchEta -
-      branchPhi -
-      branchEnergy -
-
-    Return:
-      outputTVecs - 
+  Returns an array of TLorentzVector objects filled with the kinematic info.
+  Optionally skips members of the input branches if present in 'arrayIDs'.
   '''
   if arrayIDs is None:
     arrayIDs = range(len(branchPt))
@@ -306,19 +298,18 @@ if __name__ == "__main__":
   # Ele
   OffElePtToPass = L1ElePtToPass + 2
 
-  TallyVBFEle = 0
-  TallyEleTau = 0
-  TallySingleEle = 0
-  TallyEleTauAndSingleEle = 0
-  TallyEleTauOrSingleEle = 0
-  TallyTripleOr = 0
+  if (L1IndexToTest == 6): 
+    print("\nL1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+  else:
+    print("\nL1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
 
   TotalEntries = tree.GetEntries()
   for entry in range(TotalEntries):
     tree.GetEntry(entry)
 
-    # check if event passes L1 or HLT and has minimum object requirements
-    basicReqs = ((passL1[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
+    # requiring events to pass your L1 biases your selection, fine for gain study, not fine for eff study
+    #basicReqs = ((passL1[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
+    basicReqs = ((OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
 
     if basicReqs:
       # make and fill containers with TLorentzVectors
@@ -349,6 +340,7 @@ if __name__ == "__main__":
       sizeOffTaus = len(OffTaus)
       if (sizeOffTaus < 1): continue
 
+      # consider selecting tau based on isolation, not pt
       # remove any jets from container that is overlapped with the leading tau 
       OffJets = [OffJets[i] for i in range(sizeOffJets) if ROOT.TLorentzVector.DeltaR(OffTaus[0], OffJets[i]) >= 0.5]
       sizeOffJets = len(OffJets)
@@ -398,12 +390,6 @@ if __name__ == "__main__":
       OffJet2 = OffJets[OffJet2Index]
       if (ROOT.TLorentzVector.DeltaR(OffJet1, OffJet2) < 0.5): continue
  
-      # we now have quality objects at L1 and Offline
-
-      # now, we have to artificially restrict the objects entering from
-      # the baseline L1 by cutting on the L1 object kinematics. 
-      # so, first thing we do is set a flag for events that pass
-
       # fill L1 objects and get the highestMjjPair of jets
       # the L1 trigger will always pick the highestMjjPair
       # so we pick that as well and hope it matches the offline objects
@@ -477,12 +463,6 @@ if __name__ == "__main__":
       outOffMjj[0] = OffMjj
 
       outtree.Fill()
-
-
-  if (L1IndexToTest == 6): 
-    print("\nL1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
-  else:
-    print("\nL1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
 
   outtree.Write()
   outFile.Close()
