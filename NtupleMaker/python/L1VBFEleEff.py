@@ -39,6 +39,9 @@ def match_Offline_to_L1(L1Eles, L1Jets, OffEle, OffJet1, OffJet2):
            if (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
                ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5) ]
 
+  matchJet1 = [ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) for i in range(len(L1Jets))]
+  print(matchJet1)
+
   #lengthMatchJet = len(matchJet)
   #if (lengthMatchJet == 2):
   #  L1Jet1Index
