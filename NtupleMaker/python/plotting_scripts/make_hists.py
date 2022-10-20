@@ -17,6 +17,7 @@ if __name__ == "__main__":
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
     parser.add_argument('--aux_label', '-a', default="", help='prepending label for out filename')
     parser.add_argument('--L1_seed', '-s', required=True, action='store', help='select one of three predefined L1 seeds')
+    parser.add_argument('--out_file', '-o', required=True, action='store', help='output file name')
 
     args = parser.parse_args()
     in_file = args.in_file
@@ -69,6 +70,7 @@ if __name__ == "__main__":
     L1Cut_ElePt                 = possible_L1Cuts[L1_seed_index][2]
     L1Cuts = [L1Cut_ElePt, L1Cut_Jet1Pt, L1Cut_Jet2Pt, L1Cut_Mjj]
     print(f"L1Cuts: {L1Cuts}")
+    file_label_L1Cut = "_".join(["",str(L1Cut_Jet1Pt), str(L1Cut_Mjj), str(L1Cut_ElePt)])
 
     OffCut_ElePt = L1Cut_ElePt + 1 + 1
     OffCut_TauPt = 30
@@ -157,9 +159,7 @@ if __name__ == "__main__":
         
 
     # end for-loop, write hists to new file
-    strip_in_file = in_file.replace("../","").replace("data/","")
-    out_file_name = args.aux_label + "hists_" + strip_in_file
-    out_file = ROOT.TFile.Open(out_file_name, "RECREATE")
+    out_file = ROOT.TFile.Open(args.out_file, "RECREATE")
     h_L1ElePt.Write()
     h_L1Jet1Pt.Write()
     h_L1Jet2Pt.Write()
