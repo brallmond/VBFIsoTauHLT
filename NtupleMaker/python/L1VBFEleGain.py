@@ -1,74 +1,14 @@
 # Braden Allmond, August 10th 2022, KSU
 
 from array import array
+from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, highestMjjPair
 import ROOT
 import argparse
 import sys
-import numpy as np
-import matplotlib.pyplot as plt
 
 ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
 # usage: python3 L1VBFEleGain.py -i ../../../samples/VBFE_CorrectEleIsoAndNewFilter.root -L 6
-
-def highestMjjPair(inObjs):
-  '''
-  Takes in an array of TLorentzVector objects
-  Returns the array indices of the highest mjj pair of objects and the mjj
-    
-    Parameters:
-      inObjs - an array of TLorentzVectors
-
-    Returns:
-      leadingJetIndex - the array index of the higher pt jet in the mjj pair
-      subleadingJetIndex - the array index of the lower pt jet in the mjj pair
-      mjj - the dijet mass of the highest mjj pair of the inObjs
-  '''
-  nObjs = len(inObjs) 
-
-  mjj = 0 
-  mjjTemp = 0
-  leadingJetIndex = -1
-  subleadingJetIndex = -1
-
-  for j in range(nObjs):
-    for k in range(nObjs):
-      if (k > j):
-        tempJet1 = inObjs[j]
-        tempJet2 = inObjs[k]
-        mjjTemp = (tempJet1 + tempJet2).M()
-        if (mjjTemp > mjj):
-          mjj = mjjTemp
-          leadingJetIndex = j
-          subleadingJetIndex = k
-
-  return leadingJetIndex, subleadingJetIndex, mjj
-
-def fillWithTVecs(branchPt, branchEta, branchPhi, branchEnergy, arrayIDs=None):
-  '''
-  Takes in four kinematic branch names
-  Returns an array of TLorentzVector objects filled with the kinematic info
-
-    Parameters:
-      branchPt -
-      branchEta -
-      branchPhi -
-      branchEnergy -
-
-    Return:
-      outputTVecs - 
-  '''
-  if arrayIDs is None:
-    arrayIDs = range(len(branchPt))
-
-  outputTVecs = []
-  for i in arrayIDs:
-    tempVec = ROOT.TLorentzVector()
-    tempVec.SetPtEtaPhiE(branchPt[i], branchEta[i], branchPhi[i], branchEnergy[i])
-    #print(branchPt[i], branchEta[i], branchPhi[i], branchEnergy[i])
-    outputTVecs.append(tempVec)
-  return outputTVecs
-
 
 if __name__ == "__main__":
 
@@ -375,16 +315,11 @@ if __name__ == "__main__":
       if (ROOT.TLorentzVector.DeltaR(OffJet1, OffJet2) < 0.5): continue
  
 
-      # fill L1 objects and get the highestMjjPair of jets
-      # the L1 trigger will always pick the highestMjjPair
-      # so we pick that as well and hope it matches the offline objects
       L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
       sizeL1Jets = len(L1Jets)
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
 
-      # pick the L1 objects that the L1 algos will pick (highest pt, mjj)
-      # then see if they match the offline objects you picked
       matchL1Off = False
       if (sizeL1Jets >= 2 and sizeL1Eles >= 1): 
       
@@ -467,13 +402,8 @@ if __name__ == "__main__":
 
       # we now have quality objects at L1 and Offline which are matched
 
-      # we are testing what L1 at a given rate gives us the highest efficiency
-      # how is efficiency defined?
-      # unsure, let's see first highest gain.
-      # to do this, we have a baseline L1 and matched offline objects
-      # now, we have to artificially restrict the objects entering from
-      # the baseline L1 by cutting on the L1 object kinematics. 
-      # so, first thing we do is set a flag for events that pass
+      # restrict the objects entering from the baseline L1 by cutting on the L1 object kinematics. 
+      # first set a flag for events that pass
       
       passVBFEleL1Restrictions = False
       # L1 Kinematic Restrictions
