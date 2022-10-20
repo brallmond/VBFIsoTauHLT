@@ -1,128 +1,14 @@
 # Braden Allmond, August 10th 2022, KSU
 
 from array import array
+from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, highestMjjPair
 import ROOT
 import argparse
 import sys
-import numpy as np
-import matplotlib.pyplot as plt
 
 ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
 # usage: python3 L1VBFEleEff.py -i ../../../samples/VBFE_CorrectEleIsoAndNewFilter.root -L 6 -o Tight_30_320_10_corrected.root 
-
-def match_L1_to_Offline(L1Ele, L1Jet1, L1Jet2, OffEle, OffJet1, OffJet2):
-  """ Use dR cone to match preselected L1 objects to preselected Offline objects and return True.
-      Return false if not all L1 objects can be matched."""
-  match = False
-
-  matchL1OffJetsNormal = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet1) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet2) < 0.5)
-  matchL1OffJetsSwapped = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet2) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet1) < 0.5)
-  matchL1OffJets = matchL1OffJetsNormal or matchL1OffJetsSwapped
-  matchL1OffEle = (ROOT.TLorentzVector.DeltaR(OffEle, L1Ele) < 0.5)
-
-  match = matchL1OffJets and matchL1OffEle
-
-  return match
-
-
-def match_Offline_to_L1(L1Eles, L1Jets, OffEle, OffJet1, OffJet2):
-  """ Use dR cone to match preselected Offline objects to any available L1 object and return True.
-      Return False if not all L1 objects can be matched.
-      Also returns L1Indices, which are 999 if not matched to an Offline object
-  """
-  match = False
-
-  #L1Jet1Index, L1Jet2Index, dummyL1Mjj = highestMjjPair(L1Jets)
-
-  #matchJet = [i for i in range(len(L1Jets))
-  #         if (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
-  #             ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5) ]
-
-  listOffJet1dRs = []
-  listOffJet2dRs = []
-  for i in range(len(L1Jets)):
-    OffJet1dR = ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i])
-    listOffJet1dRs.append(OffJet1dR)
-
-    OffJet2dR = ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i])
-    listOffJet2dRs.append(OffJet2dR)
-
-  L1Jet1Index = L1Jet2Index = 999
-  if (len(listOffJet1dRs) >= 1 and len(listOffJet2dRs) >= 1):
-    minListOffJet1dRs = min(listOffJet1dRs)
-    minListOffJet2dRs = min(listOffJet2dRs)
-
-    if minListOffJet1dRs < 0.5:
-      L1Jet1Index = listOffJet1dRs.index(minListOffJet1dRs)
-    if minListOffJet2dRs < 0.5:
-      L1Jet2Index = listOffJet2dRs.index(minListOffJet2dRs)
-
-  L1EleIndex = 999
-  listOffEledRs = [ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) for i in range(len(L1Eles))]
-  if (len(listOffEledRs) >= 1):
-    minListOffEledRs = min(listOffEledRs) # variable names are a mess here
-    if (minListOffEledRs < 0.5):
-      L1EleIndex = listOffEledRs.index(minListOffEledRs)
-
-  #if (L1Jet1Index in matchJet and L1Jet2Index in matchJet and len(matchEle) >= 1): match = True
-  if (L1Jet1Index != 999 and L1Jet2Index != 999 and L1EleIndex != 999): match = True
-
-  L1Indices = [L1EleIndex, L1Jet1Index, L1Jet2Index]
-
-  return match, L1Indices
- 
-
-def highestMjjPair(inObjs):
-  '''
-  Takes in an array of TLorentzVector objects
-  Returns the array indices of the highest mjj pair of objects and the mjj
-    
-    Parameters:
-      inObjs - an array of TLorentzVectors
-
-    Returns:
-      leadingJetIndex - the array index of the higher pt jet in the mjj pair
-      subleadingJetIndex - the array index of the lower pt jet in the mjj pair
-      mjj - the dijet mass of the highest mjj pair of the inObjs
-  '''
-  nObjs = len(inObjs) 
-
-  mjj = 0 
-  mjjTemp = 0
-  leadingJetIndex = 999#-1
-  subleadingJetIndex = 999#-1
-
-  for j in range(nObjs):
-    for k in range(nObjs):
-      if (k > j):
-        tempJet1 = inObjs[j]
-        tempJet2 = inObjs[k]
-        mjjTemp = (tempJet1 + tempJet2).M()
-        if (mjjTemp > mjj):
-          mjj = mjjTemp
-          leadingJetIndex = j
-          subleadingJetIndex = k
-
-  return leadingJetIndex, subleadingJetIndex, mjj
-
-def fillWithTVecs(branchPt, branchEta, branchPhi, branchEnergy, arrayIDs=None):
-  '''
-  Takes in four kinematic branch names
-  Returns an array of TLorentzVector objects filled with the kinematic info.
-  Optionally skips members of the input branches if present in 'arrayIDs'.
-  '''
-  if arrayIDs is None:
-    arrayIDs = range(len(branchPt))
-
-  outputTVecs = []
-  for i in arrayIDs:
-    tempVec = ROOT.TLorentzVector()
-    tempVec.SetPtEtaPhiE(branchPt[i], branchEta[i], branchPhi[i], branchEnergy[i])
-    #print(branchPt[i], branchEta[i], branchPhi[i], branchEnergy[i])
-    outputTVecs.append(tempVec)
-  return outputTVecs
-
 
 if __name__ == "__main__":
 
@@ -449,19 +335,14 @@ if __name__ == "__main__":
       OffJet1 = OffJets[OffJet1Index]
       OffJet2 = OffJets[OffJet2Index]
       if (ROOT.TLorentzVector.DeltaR(OffJet1, OffJet2) < 0.5): continue
- 
-      # fill L1 objects and get the highestMjjPair of jets
-      # the L1 trigger will always pick the highestMjjPair
-      # so we pick that as well and hope it matches the offline objects
+
+      # get L1 objects 
       L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
       sizeL1Jets = len(L1Jets)
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
-      # fill L1 branches regardless of cuts or matching (applied later)
 
-      # effectively requires L1 objects as was done at start of loop, set a flag not to match instead
       # check object sizes before matching
-
       matchL1Off = False
       tryToMatch = False
       if (sizeL1Jets >= 2 and sizeL1Eles >= 1): tryToMatch = True 
@@ -472,12 +353,15 @@ if __name__ == "__main__":
         L1Jet1 = L1Jets[L1Jet1Index]
         L1Jet2 = L1Jets[L1Jet2Index]
 
-      #matchL1Off = match_L1_to_Offline(L1Ele, L1Jet1, L1Jet2, OffEle, OffJet1, OffJet2)
-
-      matchL1Off, L1Indices = match_Offline_to_L1(L1Eles, L1Jets, OffEle, OffJet1, OffJet2)
+      # switch to match the right way (from Offline to L1) or wrong way (from L1 to Offline)
+      match_right_way = True
+      if (match_right_way == False):
+        matchL1Off = match_L1_to_Offline(L1Ele, L1Jet1, L1Jet2, OffEle, OffJet1, OffJet2)
+      else:
+        matchL1Off, L1Indices = match_Offline_to_L1(L1Eles, L1Jets, OffEle, OffJet1, OffJet2)
 
       reassignL1 = True
-      if (matchL1Off == True and reassignL1 == True):
+      if (matchL1Off == True and reassignL1 == True and match_right_way == True):
         L1Ele  = L1Eles[L1Indices[0]]
         L1Jet1 = L1Jets[L1Indices[1]]
         L1Jet2 = L1Jets[L1Indices[2]]
