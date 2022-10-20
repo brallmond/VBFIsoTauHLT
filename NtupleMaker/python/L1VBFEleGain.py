@@ -451,21 +451,24 @@ if __name__ == "__main__":
 
       if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
 
+  text_L1_Jet = "Total counts for L1_VBF_DoubleJets" + str(L1JetPtToPass) + "_Mass_Min" + str(L1JetMjjToPass)
   if (L1IndexToTest == 6): 
-    print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+    text_L1_EG = "_IsoEG" + str(L1ElePtToPass)
   else:
-    print("\nTotal counts for L1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+    text_L1_EG = "_LooseIsoEG" + str(L1ElePtToPass)
+  #print(f"\nTotal counts for L1_VBF_DoubleJets{L1JetPtToPass}_Mass_Min{L1JetMjjToPass}_IsoEG{L1ElePtToPass}")
+  print(text_L1_Jet + text_L1_EG)
 
   # formatting a table to print instead of free-form printing
   labels = ["SingleEle", "EleTau", "OR", "AND"]
-  print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
+  print(f"{labels[0]:<10} {labels[1]:<9} {labels[2]:<9} {labels[3]:<9}")
   values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
-  print("{0:<10} {1:<9} {2:<9} {3:<9}".format(values[0], values[1], values[2], values[3]))
+  print(f"{values[0]:<10} {values[1]:<9} {values[2]:<9} {values[3]:<9}")
 
   UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
   Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
   labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
-  print("{0:<10} {1:<9} {2:<9} {3:<9}".format(labels[0], labels[1], labels[2], labels[3]))
+  print(f"{labels[0]:<10} {labels[1]:<9} {labels[2]:<9} {labels[3]:<9}")
   values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
-  print("{0:<10} {1:<9} {2:<9} {3:<.1f}%".format(values[0], values[1], values[2], values[3]))
+  print(f"{values[0]:<10} {values[1]:<9} {values[2]:<9} {values[3]:<.1f}%")
 
