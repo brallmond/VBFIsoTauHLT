@@ -178,4 +178,4 @@ if __name__ == "__main__":
     h_mOffJet1Pt.Write()
     h_mOffJet2Pt.Write()
     h_mOffMjj.Write()
-    print(f"Histograms written to {out_file_name}")
+    print(f"Histograms written to {out_file}")
