@@ -231,6 +231,8 @@ if __name__ == "__main__":
 
     # check if event passes L1 or HLT and has minimum object requirements
     basicReqs = ((passL1[0] or passEleTauHLT[0] or passSingleEleHLT[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
+    #basicReqs = ((passL1[0] or passEleTauHLT[0] or passSingleEleHLT[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
+    #basicReqs = ((OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
 
     if basicReqs:
       # make and fill containers with TLorentzVectors

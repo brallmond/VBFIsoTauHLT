@@ -245,10 +245,12 @@ if __name__ == "__main__":
   # Ele
   OffElePtToPass = L1ElePtToPass + 2
 
-  if (L1IndexToTest == 6): 
-    print("\nL1_VBF_DoubleJets{0}_Mass_Min{1}_IsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
-  else:
-    print("\nL1_VBF_DoubleJets{0}_Mass_Min{1}_LooseIsoEG{2}".format(L1JetPtToPass, L1JetMjjToPass, L1ElePtToPass))
+  TallyVBFEle = 0
+  TallyEleTau = 0
+  TallySingleEle = 0
+  TallyEleTauAndSingleEle = 0
+  TallyEleTauOrSingleEle = 0
+  TallyTripleOr = 0
 
   TotalEntries = tree.GetEntries()
   for entry in range(TotalEntries):
@@ -384,6 +386,92 @@ if __name__ == "__main__":
       outOffMjj[0] = OffMjj
 
       outtree.Fill()
+
+      # EleTau HLT Matching
+      EleTauHLTTaus = fillWithTVecs(EleTauFinalFilterTau_pt, EleTauFinalFilterTau_eta, \
+                                EleTauFinalFilterTau_phi, EleTauFinalFilterTau_energy)
+      sizeEleTauHLTTaus = len(EleTauHLTTaus)
+      matchEleTauHLTOffTau = [i for i in range(sizeEleTauHLTTaus) 
+                     if ROOT.TLorentzVector.DeltaR(OffTau, EleTauHLTTaus[i]) < 0.5]
+
+      EleTauHLTEles = fillWithTVecs(EleTauFinalFilterEle_pt, EleTauFinalFilterEle_eta, \
+                                EleTauFinalFilterEle_phi, EleTauFinalFilterEle_energy)
+      sizeEleTauHLTEles = len(EleTauHLTEles)
+      matchEleTauHLTOffEle = [i for i in range(sizeEleTauHLTEles) 
+                     if ROOT.TLorentzVector.DeltaR(OffEle, EleTauHLTEles[i]) < 0.5]
+
+      passEleTauHLTOffMatching = False
+      if ( (len(matchEleTauHLTOffTau) > 0) and (len(matchEleTauHLTOffEle) > 0) ): passEleTauHLTOffMatching = True
+
+      # SingleEle HLT Matching
+      SingleEleHLTEles = fillWithTVecs(SingleEleFinalFilter_pt, SingleEleFinalFilter_eta, \
+                                   SingleEleFinalFilter_phi, SingleEleFinalFilter_energy)
+      sizeSingleEleHLTEles = len(SingleEleHLTEles)
+      matchSingleEleHLTOffEle = [i for i in range(sizeSingleEleHLTEles) 
+                              if ROOT.TLorentzVector.DeltaR(OffEle, SingleEleHLTEles[i]) < 0.5]
+      passSingleEleHLTOffMatching = False
+      if (len(matchSingleEleHLTOffEle) > 0): passSingleEleHLTOffMatching = True
+      # end matching
+
+      passVBFEleL1Restrictions = False
+      if (matchL1Off):
+        if (L1Jet1.Pt()  >= L1JetPtToPass 
+         and L1Jet2.Pt() >= L1JetPtToPass 
+         and L1Mjj       >= L1JetMjjToPass 
+         and L1Ele.Pt()  >= L1ElePtToPass): passVBFEleL1Restrictions = True
+
+      passVBFEleOffCuts = False
+      if (OffJet1.Pt()  >= OffJetPtToPass
+       and OffJet2.Pt() >= OffJetPtToPass
+       and OffMjj       >= OffJetMjjToPass
+       and OffTau.Pt()  >= OffTauPtToPass
+       and OffEle.Pt()  >= OffElePtToPass): passVBFEleOffCuts = True
+
+      passEleTauOffCuts = False
+      if (OffJet1.Pt() >= 30
+       and OffJet2.Pt() >= 30
+       and OffMjj >= 300
+       and OffTau.Pt() >= 30
+       and OffEle.Pt() >= 25): passEleTauOffCuts = True
+
+      passSingleEleOffCuts = (passEleTauOffCuts and OffEle.Pt() >= 33)
+
+      # now tally it up
+      GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
+      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
+      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts
+
+      # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
+      if (GoodVBFEle): TallyVBFEle += 1
+      if (GoodEleTau): TallyEleTau += 1
+      if (GoodSingleEle): TallySingleEle += 1
+
+      if (GoodEleTau or GoodSingleEle): TallyEleTauOrSingleEle += 1
+      if (GoodEleTau and GoodSingleEle): TallyEleTauAndSingleEle += 1
+
+      if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
+
+  # print output
+  print(f"match right way (Offline to L1): {match_right_way}")
+  text_L1_Jet = "Total counts for L1_VBF_DoubleJets" + str(L1JetPtToPass) + "_Mass_Min" + str(L1JetMjjToPass)
+  if (L1IndexToTest == 6): 
+    text_L1_EG = "_IsoEG" + str(L1ElePtToPass)
+  else:
+    text_L1_EG = "_LooseIsoEG" + str(L1ElePtToPass)
+  print(text_L1_Jet + text_L1_EG)
+
+  # formatting a table to print instead of free-form printing
+  labels = ["SingleEle", "EleTau", "OR", "AND"]
+  print(f"{labels[0]:<10} {labels[1]:<9} {labels[2]:<9} {labels[3]:<9}")
+  values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
+  print(f"{values[0]:<10} {values[1]:<9} {values[2]:<9} {values[3]:<9}")
+
+  UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
+  Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
+  labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
+  print(f"{labels[0]:<10} {labels[1]:<9} {labels[2]:<9} {labels[3]:<9}")
+  values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
+  print(f"{values[0]:<10} {values[1]:<9} {values[2]:<9} {values[3]:<.1f}%")
 
   outtree.Write()
   outFile.Close()
