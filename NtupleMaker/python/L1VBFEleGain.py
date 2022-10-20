@@ -320,62 +320,33 @@ if __name__ == "__main__":
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
 
+      # check object sizes before matching
       matchL1Off = False
-      if (sizeL1Jets >= 2 and sizeL1Eles >= 1): 
-      
+      tryToMatch = False
+      if (sizeL1Jets >= 2 and sizeL1Eles >= 1): tryToMatch = True 
+
+      if (tryToMatch == True):
+        L1Ele = L1Eles[0]
         L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
         L1Jet1 = L1Jets[L1Jet1Index]
         L1Jet2 = L1Jets[L1Jet2Index]
-        L1Ele = L1Eles[0]
 
-        matchL1OffJetsNormal = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet1) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet2) < 0.5)
-        matchL1OffJetsSwapped = (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jet2) < 0.5 and ROOT.TLorentzVector.DeltaR(OffJet2, L1Jet1) < 0.5)
-        matchL1OffJets = matchL1OffJetsNormal or matchL1OffJetsSwapped
-        matchL1OffEle = (ROOT.TLorentzVector.DeltaR(OffEle, L1Ele) < 0.5)
+      # switch to match the right way (from Offline to L1) or wrong way (from L1 to Offline)
+      match_right_way = True
+      if (match_right_way == False):
+        matchL1Off = match_L1_to_Offline(L1Ele, L1Jet1, L1Jet2, OffEle, OffJet1, OffJet2)
+      else:
+        matchL1Off, L1Indices = match_Offline_to_L1(L1Eles, L1Jets, OffEle, OffJet1, OffJet2)
 
-        matchL1Off = matchL1OffJets and matchL1OffEle
+      reassignL1 = True
+      if (matchL1Off == True and reassignL1 == True and match_right_way == True):
+        L1Ele  = L1Eles[L1Indices[0]]
+        L1Jet1 = L1Jets[L1Indices[1]]
+        L1Jet2 = L1Jets[L1Indices[2]]
+        L1Mjj = (L1Jet1 + L1Jet2).M()
 
-      # this block of code biases your selection
 
-      ####################################################################
-
-      #if (sizeL1Jets >= 2 and sizeL1Eles >= 1):
-      #  L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
-      #  matchL1OffJet = [i for i in range(sizeL1Jets) 
-      #          if (ROOT.TLorentzVector.DeltaR(OffJet1, L1Jets[i]) < 0.5 or
-      #              ROOT.TLorentzVector.DeltaR(OffJet2, L1Jets[i]) < 0.5 ) ]
-      #  matchL1OffEle = [i for i in range(sizeL1Eles) 
-      #          if ROOT.TLorentzVector.DeltaR(OffEle, L1Eles[i]) < 0.5 ] 
-
-      #  if (L1Jet1Index in matchL1OffJet and L1Jet2Index in matchL1OffJet
-      #      and len(matchL1OffEle) >= 1): matchL1Off = True
-
-      #if (matchL1Off):
-        # use this instead of L1Jet1/2Index directly (output is the same)
-      #  L1Jet1 = L1Jets[matchL1OffJet[0]]
-      #  L1Jet2 = L1Jets[matchL1OffJet[1]]
-      #  L1Ele = L1Eles[matchL1OffEle[0]]
-
-      ####################################################################
-
-      # side-analysis, see how often we get the wrong objects.
-      # a very detailed analysis of this would benefit algorithm construction
-      # not sure i'm the person to do it though
-      #if ( (len(matchL1OffJet) >= 2) and (len(matchL1OffEle) >= 1) ):
-        #L1LeadingJetIndex, L1SubleadingJetIndex, L1Mjj = highestMjjPair(L1Jets)
-        
-        #if ((L1LeadingJetIndex != matchL1OffJet[0]) or (L1SubleadingJetIndex != matchL1OffJet[1])): 
-          #print("Not L1 highest pT pair")
-          #print("L1 Mjj = {}, Offline Mjj = {}, OffMjj - L1Mjj = {}".format(L1Mjj, OffMjj, OffMjj - L1Mjj))
-          #print("iEntry {}".format(entry))
-          #print(L1LeadingJetIndex, L1SubleadingJetIndex)
-          #print(matchL1OffJet)
-
-      # check that HLT objects can be matched to offline
-      # should be MORE L1 objects that match than HLT objects from another trigger
-      # the HLT objects can match different objects than the ones the L1s match
-
-      # Ele Tau Matching
+      # EleTau Matching
       EleTauHLTTaus = fillWithTVecs(EleTauFinalFilterTau_pt, EleTauFinalFilterTau_eta, \
                                 EleTauFinalFilterTau_phi, EleTauFinalFilterTau_energy)
       sizeEleTauHLTTaus = len(EleTauHLTTaus)
@@ -399,33 +370,23 @@ if __name__ == "__main__":
                               if ROOT.TLorentzVector.DeltaR(OffEle, SingleEleHLTEles[i]) < 0.5]
       passSingleEleHLTOffMatching = False
       if (len(matchSingleEleHLTOffEle) > 0): passSingleEleHLTOffMatching = True
-
-      # we now have quality objects at L1 and Offline which are matched
+      # end matching
 
       # restrict the objects entering from the baseline L1 by cutting on the L1 object kinematics. 
-      # first set a flag for events that pass
-      
       passVBFEleL1Restrictions = False
-      # L1 Kinematic Restrictions
       if (matchL1Off):
-        if (L1Jet1.Pt() >= L1JetPtToPass 
+        if (L1Jet1.Pt()  >= L1JetPtToPass 
          and L1Jet2.Pt() >= L1JetPtToPass 
-         and L1Mjj >= L1JetMjjToPass 
-         and L1Ele.Pt() >= L1ElePtToPass): passVBFEleL1Restrictions = True
+         and L1Mjj       >= L1JetMjjToPass 
+         and L1Ele.Pt()  >= L1ElePtToPass): passVBFEleL1Restrictions = True
 
       passVBFEleOffCuts = False
-      # next, set a flag for events that pass
-      # Offline Cuts
-      if (OffJet1.Pt() >= OffJetPtToPass
+      if (OffJet1.Pt()  >= OffJetPtToPass
        and OffJet2.Pt() >= OffJetPtToPass
-       and OffMjj >= OffJetMjjToPass
-       and OffTau.Pt() >= OffTauPtToPass
-       and OffEle.Pt() >= OffElePtToPass): passVBFEleOffCuts = True
+       and OffMjj       >= OffJetMjjToPass
+       and OffTau.Pt()  >= OffTauPtToPass
+       and OffEle.Pt()  >= OffElePtToPass): passVBFEleOffCuts = True
 
-      # that's all for the simulated L1
-      # now we see how many events pass the EleTauHLT and offline cuts
-      # we do this specifically because we assumed some heavy overlap
-     
       passEleTauOffCuts = False
       if (OffJet1.Pt() >= 30
        and OffJet2.Pt() >= 30
@@ -434,7 +395,6 @@ if __name__ == "__main__":
        and OffEle.Pt() >= 25): passEleTauOffCuts = True
 
       passSingleEleOffCuts = (passEleTauOffCuts and OffEle.Pt() >= 33)
-
 
       # now tally it up
       GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
@@ -451,12 +411,13 @@ if __name__ == "__main__":
 
       if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
 
+  # print output
+  print(f"match right way (Offline to L1): {match_right_way}")
   text_L1_Jet = "Total counts for L1_VBF_DoubleJets" + str(L1JetPtToPass) + "_Mass_Min" + str(L1JetMjjToPass)
   if (L1IndexToTest == 6): 
     text_L1_EG = "_IsoEG" + str(L1ElePtToPass)
   else:
     text_L1_EG = "_LooseIsoEG" + str(L1ElePtToPass)
-  #print(f"\nTotal counts for L1_VBF_DoubleJets{L1JetPtToPass}_Mass_Min{L1JetMjjToPass}_IsoEG{L1ElePtToPass}")
   print(text_L1_Jet + text_L1_EG)
 
   # formatting a table to print instead of free-form printing
