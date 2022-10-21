@@ -7,6 +7,16 @@ import array
 from make_plots import set_style, double_canvas
 #ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
+def rebin_hist_to_int_range(hist):
+  """make histogram with same contents and errors as input, but integer bins for labeling purposes"""
+  nBins_hist = hist.GetNbinsX()
+  int_rebin_hist = ROOT.TH1F("", "", nBins_hist+1, 0, nBins_hist+1)
+  for i in range(1, nBins_hist+1+1):
+    int_rebin_hist.Fill(i, hist.GetBinContent(i))
+    int_rebin_hist.SetBinError(i, hist.GetBinError(i))
+  return int_rebin_hist
+
+
 def make_comparison_plot(in_file_one: 'str', in_file_two: 'str', in_file_three: 'str', in_file_four: 'str',
     var: 'str', label_one: 'str', label_two: 'str', label_three: 'str', label_four: 'str') -> 'None':
     """Create and save comparison of loose/tight efficiency plot"""
@@ -48,59 +58,50 @@ def make_comparison_plot(in_file_one: 'str', in_file_two: 'str', in_file_three: 
     #ROOT.gPad.SetLogx()
     h_one.Draw("HIST, PE")
 
-    nBins_h_one = h_one.GetNbinsX()
-    h_int_one_rebin  = ROOT.TH1F("integer rebin of h_one",  "", nBins_h_one+1, 0, nBins_h_one+1)
-    for i in range(1, nBins_h_one+1+1): #range does not include it's last value, 0 bin is underflow, nbins+1 is overflow
-      #print(h_one.GetBinContent(i), h_one.GetBin(i), h_one.GetBinLowEdge(i))
-      h_int_one_rebin.Fill(i, h_one.GetBinContent(i))
-      h_int_one_rebin.SetBinError(i, h_one.GetBinError(i))
-
     set_style(h_two, 2, 25)
     h_two.Draw("SAME, PE")
-
-    nBins_h_two = h_two.GetNbinsX()
-    h_int_two_rebin  = ROOT.TH1F("integer rebin of h_two",  "", nBins_h_two+1, 0, nBins_h_two+1)
-    for i in range(1, nBins_h_two+1+1): #range does not include it's last value, 0 bin is underflow, nbins+1 is overflow
-      #print(h_two.GetBinContent(i), h_two.GetBin(i), h_two.GetBinLowEdge(i))
-      h_int_two_rebin.Fill(i, h_two.GetBinContent(i))
-      h_int_two_rebin.SetBinError(i, h_two.GetBinError(i))
 
     set_style(h_three, 3, 26)
     h_three.Draw("SAME, PE")
 
-    nBins_h_three = h_three.GetNbinsX()
-    h_int_three_rebin  = ROOT.TH1F("integer rebin of h_three",  "", nBins_h_three+1, 0, nBins_h_three+1)
-    for i in range(1, nBins_h_three+1+1): #range does not include it's last value, 0 bin is underflow, nbins+1 is overflow
-      #print(h_three.GetBinContent(i), h_three.GetBin(i), h_three.GetBinLowEdge(i))
-      h_int_three_rebin.Fill(i, h_three.GetBinContent(i))
-      h_int_three_rebin.SetBinError(i, h_three.GetBinError(i))
-
     set_style(h_four, 1, 1)
     h_four.Draw("SAME, PE")
 
-    nBins_h_four = h_four.GetNbinsX()
-    h_int_four_rebin  = ROOT.TH1F("integer rebin of h_four",  "", nBins_h_four+1, 0, nBins_h_four+1)
-    for i in range(1, nBins_h_four+1+1): #range does not include it's last value, 0 bin is underflow, nbins+1 is overflow
-      #print(h_four.GetBinContent(i), h_four.GetBin(i), h_four.GetBinLowEdge(i))
-      h_int_four_rebin.Fill(i, h_four.GetBinContent(i))
-      h_int_four_rebin.SetBinError(i, h_four.GetBinError(i))
-
-
     # add legend to left plot
-    leg = ROOT.TLegend(0.55, 0.67, 0.9, 0.9)
-    leg.SetTextSize(0.025)
-    leg.AddEntry(h_one, label_one)
-    leg.AddEntry(h_two, label_two)
-    leg.AddEntry(h_three, label_three)
-    leg.AddEntry(h_four, label_four)
-    leg.Draw()
+    leg_left = ROOT.TLegend(0.55, 0.67, 0.9, 0.9)
+    leg_left.SetTextSize(0.025)
+    leg_left.AddEntry(h_one, label_one)
+    leg_left.AddEntry(h_two, label_two)
+    leg_left.AddEntry(h_three, label_three)
+    leg_left.AddEntry(h_four, label_four)
+    leg_left.Draw()
 
     can.cd(2)
-    # draw the rebinned guys
+    # draw the rebinned hists
+    h_int_one_rebin = rebin_hist_to_int_range(h_one)
+    set_style(h_int_one_rebin, 4, 4)
+    h_int_one_rebin.GetYaxis().SetRangeUser(0, 1.5)
     h_int_one_rebin.Draw("HIST, PE")
+    
+    h_int_two_rebin = rebin_hist_to_int_range(h_two)
+    set_style(h_int_two_rebin, 2, 25)
     h_int_two_rebin.Draw("SAME, PE")
+
+    h_int_three_rebin = rebin_hist_to_int_range(h_three)
+    set_style(h_int_three_rebin, 3, 26)
     h_int_three_rebin.Draw("SAME, PE")
+
+    h_int_four_rebin = rebin_hist_to_int_range(h_four)
+    set_style(h_int_four_rebin, 1, 1)
     h_int_four_rebin.Draw("SAME, PE")
+
+    leg_right = ROOT.TLegend(0.12, 0.67, 0.4, 0.9)
+    leg_right.SetTextSize(0.025)
+    leg_right.AddEntry(h_int_one_rebin, label_one)
+    leg_right.AddEntry(h_int_two_rebin, label_two)
+    leg_right.AddEntry(h_int_three_rebin, label_three)
+    leg_right.AddEntry(h_int_four_rebin, label_four)
+    leg_right.Draw()
 
     can.SaveAs("compare_"+var+".png")
     #input() # preserve graph display until user input
