@@ -35,36 +35,35 @@ if __name__ == "__main__":
     
     # branches are methods of tree object in pyroot
  
-    nBins_pT = 200
-    xlow_pT = 0
-    xhigh_pT = 400
-    nBins_mjj = 300
-    xlow_mjj = 0
-    xhigh_mjj = 3000   
+    ele_dict  = {"nBins" : 260, "xhigh" : 260}
+    tau_dict  = {"nBins" : 160, "xhigh" : 320}
+    jet1_dict = {"nBins" : 300, "xhigh" : 600}
+    jet2_dict = {"nBins" : 100, "xhigh" : 200}
+    mjj_dict  = {"nBins" : 700, "xhigh" : 7000}
 
-    h_L1ElePt  = ROOT.TH1F("L1ElePt",  "", nBins_pT, xlow_pT, xhigh_pT)
-    h_L1TauPt  = ROOT.TH1F("L1TauPt",  "", nBins_pT, xlow_pT, xhigh_pT)
-    h_L1Jet1Pt = ROOT.TH1F("L1Jet1Pt", "", nBins_pT, xlow_pT, xhigh_pT)
-    h_L1Jet2Pt = ROOT.TH1F("L1Jet2Pt", "", nBins_pT, xlow_pT, xhigh_pT)
-    h_L1Mjj    = ROOT.TH1F("L1Mjj",    "", nBins_mjj, xlow_mjj, xhigh_mjj)
+    h_L1ElePt  = ROOT.TH1F("L1ElePt",  "", ele_dict["nBins"], 0, ele_dict["xhigh"])
+    h_L1TauPt  = ROOT.TH1F("L1TauPt",  "", tau_dict["nBins"], 0, tau_dict["xhigh"])
+    h_L1Jet1Pt = ROOT.TH1F("L1Jet1Pt", "", jet1_dict["nBins"], 0, jet1_dict["xhigh"])
+    h_L1Jet2Pt = ROOT.TH1F("L1Jet2Pt", "", jet2_dict["nBins"], 0, jet2_dict["xhigh"])
+    h_L1Mjj    = ROOT.TH1F("L1Mjj",    "", mjj_dict["nBins"], 0, mjj_dict["xhigh"])
 
-    h_mL1TauPt = ROOT.TH1F("mL1TauPt",   "", nBins_pT, xlow_pT, xhigh_pT)
-    h_mL1ElePt = ROOT.TH1F("mL1ElePt",   "", nBins_pT, xlow_pT, xhigh_pT)
-    h_mL1Jet1Pt = ROOT.TH1F("mL1Jet1Pt", "", nBins_pT, xlow_pT, xhigh_pT)
-    h_mL1Jet2Pt = ROOT.TH1F("mL1Jet2Pt", "", nBins_pT, xlow_pT, xhigh_pT)
-    h_mL1Mjj = ROOT.TH1F("mL1Mjj",       "", nBins_mjj, xlow_mjj, xhigh_mjj)
+    h_mL1ElePt  = ROOT.TH1F("mL1ElePt",   "", ele_dict["nBins"], 0, ele_dict["xhigh"])
+    h_mL1TauPt  = ROOT.TH1F("mL1TauPt",   "", tau_dict["nBins"], 0, tau_dict["xhigh"])
+    h_mL1Jet1Pt = ROOT.TH1F("mL1Jet1Pt", "", jet1_dict["nBins"], 0, jet1_dict["xhigh"])
+    h_mL1Jet2Pt = ROOT.TH1F("mL1Jet2Pt", "", jet2_dict["nBins"], 0, jet2_dict["xhigh"])
+    h_mL1Mjj    = ROOT.TH1F("mL1Mjj",       "", mjj_dict["nBins"], 0, mjj_dict["xhigh"])
 
-    h_OffElePt = ROOT.TH1F("ElePt",   "", nBins_pT, xlow_pT, xhigh_pT)
-    h_OffTauPt = ROOT.TH1F("TauPt",   "", nBins_pT, xlow_pT, xhigh_pT)
-    h_OffJet1Pt = ROOT.TH1F("Jet1Pt", "", nBins_pT, xlow_pT, xhigh_pT)
-    h_OffJet2Pt = ROOT.TH1F("Jet2Pt", "", nBins_pT, xlow_pT, xhigh_pT)
-    h_OffMjj = ROOT.TH1F("Mjj",       "", nBins_mjj, xlow_mjj, xhigh_mjj)
+    h_OffElePt  = ROOT.TH1F("ElePt",   "", ele_dict["nBins"], 0, ele_dict["xhigh"])
+    h_OffTauPt  = ROOT.TH1F("TauPt",   "", tau_dict["nBins"], 0, tau_dict["xhigh"])
+    h_OffJet1Pt = ROOT.TH1F("Jet1Pt", "", jet1_dict["nBins"], 0, jet1_dict["xhigh"])
+    h_OffJet2Pt = ROOT.TH1F("Jet2Pt", "", jet2_dict["nBins"], 0, jet2_dict["xhigh"])
+    h_OffMjj    = ROOT.TH1F("Mjj",       "", mjj_dict["nBins"], 0, mjj_dict["xhigh"])
 
-    h_mOffTauPt = ROOT.TH1F("mTauPt",   "", nBins_pT, xlow_pT, xhigh_pT)
-    h_mOffElePt = ROOT.TH1F("mElePt",   "", nBins_pT, xlow_pT, xhigh_pT)
-    h_mOffJet1Pt = ROOT.TH1F("mJet1Pt", "", nBins_pT, xlow_pT, xhigh_pT)
-    h_mOffJet2Pt = ROOT.TH1F("mJet2Pt", "", nBins_pT, xlow_pT, xhigh_pT)
-    h_mOffMjj = ROOT.TH1F("mMjj",       "", nBins_mjj, xlow_mjj, xhigh_mjj)
+    h_mOffElePt  = ROOT.TH1F("mElePt",   "", ele_dict["nBins"], 0, ele_dict["xhigh"])
+    h_mOffTauPt  = ROOT.TH1F("mTauPt",   "", tau_dict["nBins"], 0, tau_dict["xhigh"])
+    h_mOffJet1Pt = ROOT.TH1F("mJet1Pt", "", jet1_dict["nBins"], 0, jet1_dict["xhigh"])
+    h_mOffJet2Pt = ROOT.TH1F("mJet2Pt", "", jet2_dict["nBins"], 0, jet2_dict["xhigh"])
+    h_mOffMjj    = ROOT.TH1F("mMjj",       "", mjj_dict["nBins"], 0, mjj_dict["xhigh"])
 
     # make cut criteria
     possible_L1Cuts = [ [30, 320, 10],

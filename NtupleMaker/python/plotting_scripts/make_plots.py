@@ -10,7 +10,8 @@ XAXIS_LABEL_INDEX = 1
 L1_RE_BINS_INDEX = 2
 OFF_RE_BINS_INDEX = 3
 
-ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
+DEBUG = False
+if DEBUG == False : ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
 def set_style(in_hist: ROOT.TH1F, line_color: int, marker_style: int, marker_color: int=1) -> None:
     """Set the style of a histogram (as a function since this is done often)"""
@@ -142,6 +143,7 @@ def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
     # save plots
     out_png_name = in_file.replace(".root","") + "_" + hist_var + ".png"
     can.SaveAs(out_png_name)
+    if DEBUG == True: input()
 
     # write ratio hist and rebinned ratio hist to new file
     strip_in_file = in_file.replace("../","").replace("data/","")
@@ -171,7 +173,6 @@ if __name__ == "__main__":
     if (L1 == True):
       variables = variables[1::] # remove TauPt
 
-    DEBUG = False
     if DEBUG == True: variables = ["ElePt"]
 
     for var in variables:
