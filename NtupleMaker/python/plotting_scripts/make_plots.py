@@ -35,6 +35,24 @@ def set_labels(hist: ROOT.TH1F, hist_title: str, hist_yaxis: str, hist_xaxis: st
     hist.GetXaxis().SetTitle(hist_xaxis)
 
 
+def double_canvas():
+  """ make two drawing pads on one canvas"""
+
+  can = ROOT.TCanvas("can", "", 1100, 600)
+  can.SetMargin(0.0, 0.0, 0.0, 0.0)
+  can.Divide(2)
+  split = 0.5
+  can.cd(1)
+  ROOT.gPad.SetPad('pad1', 'pad1', 0.05, 0.0, split, 1.0)
+  ROOT.gPad.SetLeftMargin(0.12) # prevents yaxis label from being overlapped
+  ROOT.gPad.SetFillColor(0)
+  can.cd(2)
+  ROOT.gPad.SetPad('pad2', 'pad2', split, 0.0, 1.0, 1.0)
+  ROOT.gPad.SetLeftMargin(0.12)
+  ROOT.gPad.SetFillColor(0)
+  return can
+
+
 def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
     """
     Create and save pT/mjj plots and efficiency plots side-by-side.
@@ -46,19 +64,7 @@ def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
     :return: Nothing, but produce and save a nice plot on the way there :)
     """
 
-    # make two drawing pads on one canvas
-    can = ROOT.TCanvas("can", "", 1100, 600)
-    can.SetMargin(0.0, 0.0, 0.0, 0.0)
-    can.Divide(2)
-    split = 0.5
-    can.cd(1)
-    ROOT.gPad.SetPad('pad1', 'pad1', 0.05, 0.0, split, 1.0)
-    ROOT.gPad.SetLeftMargin(0.12) # prevents yaxis label from being overlapped
-    ROOT.gPad.SetFillColor(0)
-    can.cd(2)
-    ROOT.gPad.SetPad('pad2', 'pad2', split, 0.0, 1.0, 1.0)
-    ROOT.gPad.SetLeftMargin(0.12)
-    ROOT.gPad.SetFillColor(0)
+    can = double_canvas()
 
     ROOT.gStyle.SetOptStat(0)
     ROOT.TH1.SetDefaultSumw2()
@@ -104,7 +110,7 @@ def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
     h_Num.Draw("SAME, PE")
 
     # add legend to left plot
-    leg_left = ROOT.TLegend(0.55, 0.67, 0.9, 0.9)
+    leg_left = ROOT.TLegend(0.55, 0.82, 0.9, 0.9)
     leg_left.SetTextSize(0.025)
     leg_left.AddEntry(h_Den, leg_label)
     leg_left.AddEntry(h_Num, leg_label_m)
@@ -134,7 +140,7 @@ def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
     h_rebin_ratio.SetDirectory(0)
 
     # add legend to right plot
-    leg_right = ROOT.TLegend(0.12, 0.67, 0.4, 0.9)
+    leg_right = ROOT.TLegend(0.12, 0.82, 0.4, 0.9)
     leg_right.SetTextSize(0.025)
     leg_right.AddEntry(h_ratio, "Efficiency")
     leg_right.AddEntry(h_rebin_ratio, "Rebinned")
