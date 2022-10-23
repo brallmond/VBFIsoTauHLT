@@ -84,6 +84,8 @@ if __name__ == "__main__":
     OffCut_Mjj = L1Cut_Mjj + 50  
     OffCuts = [OffCut_ElePt, OffCut_TauPt, OffCut_Jet1Pt, OffCut_Jet2Pt, OffCut_Mjj]
     print(f"OffCuts: {OffCuts}")
+    TighterOffCuts = [OffCut_ElePt+4, OffCut_TauPt+10, OffCut_Jet1Pt+10, OffCut_Jet2Pt+10, OffCut_Mjj+100]
+
 
     nEntries = tree.GetEntries()
     for i in range(0, nEntries):
