@@ -105,9 +105,10 @@ if __name__ == "__main__":
 
       # simply require the flag when you fill the hist
       # e z p z :^)
-      L1Cuts_PassList = [L1ElePt > L1Cut_ElePt, \
-                         L1Jet1Pt > L1Cut_Jet1Pt, L1Jet2Pt > L1Cut_Jet2Pt, \
-                         L1Mjj > L1Cut_Mjj]
+      L1Cuts_PassList = [L1ElePt  > L1Cuts[0], \
+                         L1Jet1Pt > L1Cuts[1], \
+                         L1Jet2Pt > L1Cuts[2], \
+                         L1Mjj    > L1Cuts[3] ]
 
       L1Cut_NoEle  = check_cuts(L1Cuts_PassList, 0)
       L1Cut_NoJet1 = check_cuts(L1Cuts_PassList, 1)
@@ -115,9 +116,11 @@ if __name__ == "__main__":
       L1Cut_NoMjj  = check_cuts(L1Cuts_PassList, 3)
       L1Cut_All    = check_cuts(L1Cuts_PassList)
 
-      OffCuts_PassList = [OffElePt > OffCut_ElePt, OffTauPt > OffCut_TauPt, \
-                          OffJet1Pt > OffCut_Jet1Pt, OffJet2Pt > OffCut_Jet2Pt, \
-                          OffMjj > OffCut_Mjj]
+      OffCuts_PassList = [OffElePt  > OffCuts[0], \
+                          OffTauPt  > OffCuts[1], \
+                          OffJet1Pt > OffCuts[2], \
+                          OffJet2Pt > OffCuts[3], \
+                          OffMjj    > OffCuts[4] ]
 
       OffCut_NoEle  = check_cuts(OffCuts_PassList, 0)
       OffCut_NoTau  = check_cuts(OffCuts_PassList, 1)
