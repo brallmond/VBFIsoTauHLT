@@ -1,5 +1,6 @@
 import ROOT
 
+from var_configs_dictionary import var_configs
 #ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
 def check_cuts(input_list: list, omit_index: int=-1) -> bool: # python does not have arrays
@@ -35,11 +36,11 @@ if __name__ == "__main__":
     
     # branches are methods of tree object in pyroot
  
-    ele_dict  = {"nBins" : 260, "xhigh" : 260}
-    tau_dict  = {"nBins" : 160, "xhigh" : 320}
-    jet1_dict = {"nBins" : 300, "xhigh" : 600}
-    jet2_dict = {"nBins" : 100, "xhigh" : 200}
-    mjj_dict  = {"nBins" : 700, "xhigh" : 7000}
+    ele_dict  = {"nBins" : 130, "xhigh" : 260}
+    tau_dict  = {"nBins" : 80, "xhigh" : 320}
+    jet1_dict = {"nBins" : 150, "xhigh" : 600}
+    jet2_dict = {"nBins" : 50, "xhigh" : 200}
+    mjj_dict  = {"nBins" : 175, "xhigh" : 7000}
 
     h_L1ElePt  = ROOT.TH1F("L1ElePt",  "", ele_dict["nBins"], 0, ele_dict["xhigh"])
     h_L1TauPt  = ROOT.TH1F("L1TauPt",  "", tau_dict["nBins"], 0, tau_dict["xhigh"])
@@ -53,13 +54,16 @@ if __name__ == "__main__":
     h_mL1Jet2Pt = ROOT.TH1F("mL1Jet2Pt", "", jet2_dict["nBins"], 0, jet2_dict["xhigh"])
     h_mL1Mjj    = ROOT.TH1F("mL1Mjj",       "", mjj_dict["nBins"], 0, mjj_dict["xhigh"])
 
+    xbins_Off = var_configs["ElePt"][3]
     h_OffElePt  = ROOT.TH1F("ElePt",   "", ele_dict["nBins"], 0, ele_dict["xhigh"])
+    #h_OffElePt  = ROOT.TH1F("ElePt",   "", len(xbins_Off)-1, xbins_Off)
     h_OffTauPt  = ROOT.TH1F("TauPt",   "", tau_dict["nBins"], 0, tau_dict["xhigh"])
     h_OffJet1Pt = ROOT.TH1F("Jet1Pt", "", jet1_dict["nBins"], 0, jet1_dict["xhigh"])
     h_OffJet2Pt = ROOT.TH1F("Jet2Pt", "", jet2_dict["nBins"], 0, jet2_dict["xhigh"])
     h_OffMjj    = ROOT.TH1F("Mjj",       "", mjj_dict["nBins"], 0, mjj_dict["xhigh"])
 
     h_mOffElePt  = ROOT.TH1F("mElePt",   "", ele_dict["nBins"], 0, ele_dict["xhigh"])
+    #h_mOffElePt  = ROOT.TH1F("mElePt",   "", len(xbins_Off)-1, xbins_Off)
     h_mOffTauPt  = ROOT.TH1F("mTauPt",   "", tau_dict["nBins"], 0, tau_dict["xhigh"])
     h_mOffJet1Pt = ROOT.TH1F("mJet1Pt", "", jet1_dict["nBins"], 0, jet1_dict["xhigh"])
     h_mOffJet2Pt = ROOT.TH1F("mJet2Pt", "", jet2_dict["nBins"], 0, jet2_dict["xhigh"])
@@ -84,7 +88,7 @@ if __name__ == "__main__":
     OffCut_Mjj = L1Cut_Mjj + 50  
     OffCuts = [OffCut_ElePt, OffCut_TauPt, OffCut_Jet1Pt, OffCut_Jet2Pt, OffCut_Mjj]
     print(f"OffCuts: {OffCuts}")
-    TighterOffCuts = [OffCut_ElePt+4, OffCut_TauPt+10, OffCut_Jet1Pt+10, OffCut_Jet2Pt+10, OffCut_Mjj+100]
+    TighterOffCuts = [OffCut_ElePt+5, OffCut_TauPt+15, OffCut_Jet1Pt+20, OffCut_Jet2Pt+20, OffCut_Mjj+200]
 
 
     nEntries = tree.GetEntries()
@@ -116,11 +120,11 @@ if __name__ == "__main__":
       L1Cut_NoMjj  = check_cuts(L1Cuts_PassList, 3)
       L1Cut_All    = check_cuts(L1Cuts_PassList)
 
-      OffCuts_PassList = [OffElePt  > OffCuts[0], \
-                          OffTauPt  > OffCuts[1], \
-                          OffJet1Pt > OffCuts[2], \
-                          OffJet2Pt > OffCuts[3], \
-                          OffMjj    > OffCuts[4] ]
+      OffCuts_PassList = [OffElePt  > TighterOffCuts[0], \
+                          OffTauPt  > TighterOffCuts[1], \
+                          OffJet1Pt > TighterOffCuts[2], \
+                          OffJet2Pt > TighterOffCuts[3], \
+                          OffMjj    > TighterOffCuts[4] ]
 
       OffCut_NoEle  = check_cuts(OffCuts_PassList, 0)
       OffCut_NoTau  = check_cuts(OffCuts_PassList, 1)

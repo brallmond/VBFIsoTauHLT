@@ -73,67 +73,68 @@ def make_plot(in_file: 'str', var: 'str', L1: 'bool') -> 'None':
 
     # get left plot
     can.cd(1)
+
     # make labels for later use
-    leg_label = "Offline"
-    leg_label_m = "Offline (matching L1)"
+    den_legend_label = "Offline"
+    num_legend_label = "(L1 + Offline + matching)"
     # set title, axis label, and rebinning (from config file)
     title = "Num. and Denom. Plots "
-    xaxis_label = ""
     title += var_configs[var][TITLE_INDEX]
-    xaxis_label += var_configs[var][XAXIS_LABEL_INDEX]
+
+    xaxis_label = var_configs[var][XAXIS_LABEL_INDEX]
     xbins_L1  = var_configs[var][L1_RE_BINS_INDEX]
     xbins_Off = var_configs[var][OFF_RE_BINS_INDEX]
+
     # construct hist name from input var
     hist_var = var
     xbins = xbins_Off
     if (L1 == True):
       hist_var = "L1" + var
-      leg_label = "L1"
-      leg_label_m = "L1 (matching Off.)"
       xbins = xbins_L1
-    m_hist_var = "m" + hist_var
+
+    m_hist_var = "m" + hist_var #originally the m meant matching, but now it just corresponds to the numerator
 
     # get histograms from file
-    h_Den = new_file.Get(hist_var)
-    h_Den.SetDirectory(0) # keeps open after file close
-    h_Num = new_file.Get(m_hist_var)
-    h_Num.SetDirectory(0)
+    h_den = new_file.Get(hist_var)
+    h_den.SetDirectory(0) # keeps open after file close
+    h_num = new_file.Get(m_hist_var)
+    h_num.SetDirectory(0)
     new_file.Close()
 
     # set styles and labels
-    set_style(h_Den, 4, 4)
-    set_labels(h_Den, title, "Events", xaxis_label)
-    h_Den.Draw("HIST, PE")
+    set_style(h_den, 4, 4)
+    set_labels(h_den, title, "Events", xaxis_label)
+    h_den.Draw("HIST, PE")
 
-    set_style(h_Num, 3, 26)
-    set_labels(h_Num, title, "Events", xaxis_label)
-    h_Num.Draw("SAME, PE")
+    set_style(h_num, 3, 26)
+    set_labels(h_num, title, "Events", xaxis_label)
+    h_num.Draw("SAME, PE")
 
     # add legend to left plot
     leg_left = ROOT.TLegend(0.55, 0.82, 0.9, 0.9)
     leg_left.SetTextSize(0.025)
-    leg_left.AddEntry(h_Den, leg_label)
-    leg_left.AddEntry(h_Num, leg_label_m)
+    leg_left.AddEntry(h_den, den_legend_label)
+    leg_left.AddEntry(h_num, num_legend_label)
     leg_left.Draw()
 
     can.cd(2) # switch to right plot
 
     # make and draw ratio plot
-    h_ratio = h_Num.Clone()
-    h_ratio.Divide(h_Den)
+    h_ratio = h_num.Clone()
+    h_ratio.Divide(h_den)
     set_style(h_ratio, 1, 25)
-    ratio_title = leg_label_m + " / " + leg_label
+    ratio_title = num_legend_label + " / " + den_legend_label
     set_labels(h_ratio, ratio_title, "Efficiency", xaxis_label)
     h_ratio.GetYaxis().SetRangeUser(0.0, 1.5)
     h_ratio.Draw("HIST, PE")
     h_ratio.SetDirectory(0)
 
     # make and draw rebinned ratio
-    h_rebin_Num = h_Num.Rebin(len(xbins)-1, "h_rebin_Num", xbins) 
-    h_rebin_Den = h_Den.Rebin(len(xbins)-1, "h_rebin_Den", xbins)
+    h_rebin_num = h_num.Rebin(len(xbins)-1, "h_rebin_num", xbins) 
+    h_rebin_den = h_den.Rebin(len(xbins)-1, "h_rebin_den", xbins)
 
-    h_rebin_ratio = h_rebin_Num.Clone()
-    h_rebin_ratio.Divide(h_rebin_Den)
+    h_rebin_ratio = h_rebin_num.Clone()
+    h_rebin_ratio.Divide(h_rebin_den)
     set_style(h_rebin_ratio, 2, 25)
     set_labels(h_rebin_ratio, ratio_title, "Efficiency", xaxis_label)
     h_rebin_ratio.Draw("SAME, PE")
