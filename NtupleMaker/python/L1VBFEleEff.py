@@ -238,12 +238,12 @@ if __name__ == "__main__":
   # the offline cuts are applied to the offline objects
   # they are a flat increase of L1 kinem cuts
   # Jet
-  OffJetPtToPass = L1JetPtToPass + 10
-  OffJetMjjToPass = L1JetMjjToPass + 50
+  OffJetPtToPass = L1JetPtToPass + 10 + 10
+  OffJetMjjToPass = L1JetMjjToPass + 50 + 150
   # Tau
-  OffTauPtToPass = 30
+  OffTauPtToPass = 30 + 150
   # Ele
-  OffElePtToPass = L1ElePtToPass + 2
+  OffElePtToPass = L1ElePtToPass + 1 + 1 + 3
 
   TallyVBFEle = 0
   TallyEleTau = 0
@@ -421,6 +421,7 @@ if __name__ == "__main__":
          and L1Ele.Pt()  >= L1ElePtToPass): passVBFEleL1Restrictions = True
 
       passVBFEleOffCuts = False
+      #TighterOffCuts = [OffCut_ElePt+5, OffCut_TauPt+15, OffCut_Jet1Pt+20, OffCut_Jet2Pt+20, OffCut_Mjj+200]
       if (OffJet1.Pt()  >= OffJetPtToPass
        and OffJet2.Pt() >= OffJetPtToPass
        and OffMjj       >= OffJetMjjToPass

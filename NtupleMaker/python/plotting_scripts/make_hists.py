@@ -82,13 +82,12 @@ if __name__ == "__main__":
     print(f"L1Cuts: {L1Cuts}")
     file_label_L1Cut = "_".join(["",str(L1Cut_Jet1Pt), str(L1Cut_Mjj), str(L1Cut_ElePt)])
 
-    OffCut_ElePt = L1Cut_ElePt + 1 + 1
-    OffCut_TauPt = 30
-    OffCut_Jet1Pt = OffCut_Jet2Pt = L1Cut_Jet1Pt + 10
-    OffCut_Mjj = L1Cut_Mjj + 50  
+    OffCut_ElePt = L1Cut_ElePt + 1 + 1 + 3
+    OffCut_TauPt = 30 + 15
+    OffCut_Jet1Pt = OffCut_Jet2Pt = L1Cut_Jet1Pt + 10 + 10
+    OffCut_Mjj = L1Cut_Mjj + 50 + 150
     OffCuts = [OffCut_ElePt, OffCut_TauPt, OffCut_Jet1Pt, OffCut_Jet2Pt, OffCut_Mjj]
     print(f"OffCuts: {OffCuts}")
-    TighterOffCuts = [OffCut_ElePt+5, OffCut_TauPt+15, OffCut_Jet1Pt+20, OffCut_Jet2Pt+20, OffCut_Mjj+200]
 
 
     nEntries = tree.GetEntries()
@@ -120,11 +119,11 @@ if __name__ == "__main__":
       L1Cut_NoMjj  = check_cuts(L1Cuts_PassList, 3)
       L1Cut_All    = check_cuts(L1Cuts_PassList)
 
-      OffCuts_PassList = [OffElePt  > TighterOffCuts[0], \
-                          OffTauPt  > TighterOffCuts[1], \
-                          OffJet1Pt > TighterOffCuts[2], \
-                          OffJet2Pt > TighterOffCuts[3], \
-                          OffMjj    > TighterOffCuts[4] ]
+      OffCuts_PassList = [OffElePt  > OffCuts[0], \
+                          OffTauPt  > OffCuts[1], \
+                          OffJet1Pt > OffCuts[2], \
+                          OffJet2Pt > OffCuts[3], \
+                          OffMjj    > OffCuts[4] ]
 
       OffCut_NoEle  = check_cuts(OffCuts_PassList, 0)
       OffCut_NoTau  = check_cuts(OffCuts_PassList, 1)
