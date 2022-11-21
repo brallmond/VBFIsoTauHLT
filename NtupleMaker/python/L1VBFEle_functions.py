@@ -113,4 +113,21 @@ def fillWithTVecs(branchPt, branchEta, branchPhi, branchEnergy, arrayIDs=None):
     outputTVecs.append(tempVec)
   return outputTVecs
 
+def fillWithTVecsNoEnergyBranch(branchPt, branchEta, branchPhi, arrayIDs=None):
+  '''
+  Takes in four kinematic branch names
+  Returns an array of TLorentzVector objects filled with the kinematic info.
+  Optionally skips members of the input branches if present in 'arrayIDs'.
+  '''
+  if arrayIDs is None:
+    arrayIDs = range(len(branchPt))
+
+  outputTVecs = []
+  for i in arrayIDs:
+    tempVec = ROOT.TLorentzVector()
+    tempVec.SetPtEtaPhiM(branchPt[i], branchEta[i], branchPhi[i], 0)
+    #print(branchPt[i], branchEta[i], branchPhi[i])
+    outputTVecs.append(tempVec)
+  return outputTVecs
+
 

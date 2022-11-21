@@ -344,6 +344,12 @@ if __name__ == "__main__":
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
 
+      if sizeL1Eles > 1:
+        otherL1Eles = fillWithTVecsNoEnergyBranch(L1ElePt, L1EleEta, L1ElePhi)
+        inv_mass_with_energy_branch = (L1Eles[0]).M()
+        inv_mass_without_energy_branch = (otherL1Eles[0]).M()
+        print(f"compare inv mass: {inv_mass_with_energy_branch} {inv_mass_without_energy_branch}")
+
       # check object sizes before matching
       matchL1Off = False
       tryToMatch = False
