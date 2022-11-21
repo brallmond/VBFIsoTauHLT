@@ -43,6 +43,7 @@ process.demo = cms.EDAnalyzer('NtupleMaker'
      , rhoLabel = cms.untracked.InputTag(\"fixedGridRhoFastjetAll\")
      , tauSrc = cms.untracked.InputTag(\"slimmedTausNewID\")
      , electronSrc = cms.untracked.InputTag(\"slimmedElectrons\")
+     , muonSrc = cms.untracked.InputTag(\"slimmedMuons\")
      , ak4JetSrc = cms.untracked.InputTag(\"slimmedJets\")
 )
 
