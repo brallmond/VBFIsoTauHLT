@@ -1,7 +1,7 @@
 # Braden Allmond, August 10th 2022, KSU
 
 from array import array
-from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, highestMjjPair
+from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair
 import ROOT
 import argparse
 import sys
@@ -356,12 +356,6 @@ if __name__ == "__main__":
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
 
-      if sizeL1Eles > 1:
-        otherL1Eles = fillWithTVecsNoEnergyBranch(L1ElePt, L1EleEta, L1ElePhi)
-        inv_mass_with_energy_branch = (L1Eles[0]).M()
-        inv_mass_without_energy_branch = (otherL1Eles[0]).M()
-        print(f"compare inv mass: {inv_mass_with_energy_branch} {inv_mass_without_energy_branch}")
-
       # check object sizes before matching
       matchL1Off = False
       tryToMatch = False
@@ -372,6 +366,15 @@ if __name__ == "__main__":
         L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
         L1Jet1 = L1Jets[L1Jet1Index]
         L1Jet2 = L1Jets[L1Jet2Index]
+
+      ### comparing filling TVecs with/without an energy branch ###
+
+      #  otherL1Jets = fillWithTVecsNoEnergyBranch(L1JetPt, L1JetEta, L1JetPhi)
+      #  _, _, otherL1Mjj = highestMjjPair(otherL1Jets)
+      #  print(f"compare mjj: {L1Mjj:.1f}  {otherL1Mjj:.1f}  {L1Mjj-otherL1Mjj:.1f}")
+
+      ### for Electron L1s, not having an energy branch could, in principle, affect the matching
+      ### but right now we just care about the rate so the energy branch will have no effect
 
       # switch to match the right way (from Offline to L1) or wrong way (from L1 to Offline)
       match_right_way = True
