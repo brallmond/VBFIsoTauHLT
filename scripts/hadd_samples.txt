@@ -1,0 +1,30 @@
+If you're adding a lot of samples together, script it. Start by making a file with your directories.
+
+for i in {0..8}; do echo -n "/store/user/ballmond/EphemeralZeroBias$i/crab_EraF2022_EZB$i/"; eosls /store/user/ballmond/EphemeralZeroBias$i/crab_EraF2022_EZB$i/; done
+
+Either copy and paste the output or pipe it to a file.
+
+Now hadd each sample individually (usually each sample will have two directories, one 0000 and one 0001)
+
+Here's the command to execute, except it just echos expressions instead of actually hadding the samples.
+
+i=0;
+for line in `cat temp.txt`; 
+do i=$(($i+1)); 
+echo $i; 
+echo $line/0000; 
+echo $line/0001; 
+sample=EZB${i}_2022F;
+echo ${sample}.root ${sample}_0000.root ${sample}_0001.root; done
+
+Here's the command to execute when you're satisfied your expressions are correct.
+
+i=0;
+for line in `cat temp.txt`;
+do i=$(($i+1));
+sample=EZB${i}_2022F
+hadd ${sample}_0000.root `xrdfsls -u $line/0000 | grep '\.root'`;
+hadd ${sample}_0001.root `xrdfsls -u $line/0001 | grep '\.root'`;
+hadd ${sample}.root ${sample}_0000.root ${sample}_0001.root;
+rm ${sample}_0000.root ${sample}_0001.root;
+done

@@ -54,9 +54,9 @@ if __name__ == "__main__":
   outtree.Branch("MatchL1Off", outMatchL1Off, 'matched/I')
 
   L1IndexToTest = int(args.L1IndexToTest)
-  if ((not (0 <= L1IndexToTest <= 7)) or not isinstance(L1IndexToTest, int)):
-    print("need an int from 0 to 6")
-    sys.exit()
+  #if ((not (0 <= L1IndexToTest <= 7)) or not isinstance(L1IndexToTest, int)):
+  #  print("need an int from 0 to 6")
+  #  sys.exit()
 
   # hell to read but
   # defining a variable/object handle 
@@ -66,7 +66,10 @@ if __name__ == "__main__":
 
   # L1
 
-  if (L1IndexToTest == 6):
+  #print("does this work? pre event loop")
+  #print(tree.passhltL1VBFElectron)
+
+  if (L1IndexToTest == 6 or L1IndexToTest == 7 or L1IndexToTest == 8):
     passL1 = array('i', [0])
     tree.SetBranchAddress("passhltL1VBFElectron", passL1)
     L1JetPt = ROOT.std.vector('float')()
@@ -226,10 +229,13 @@ if __name__ == "__main__":
                [36, 440, 14],
                # Iso
                [30, 320, 10],
+               [30, 380, 10],
+               [30, 440, 10],
                # Loose Iso
                [30, 320, 10]]
 
   L1Cuts = L1sToTest[L1IndexToTest] #defined by argparse
+  print("L1Cuts: [jets, mjj, elePt] ", L1Cuts)
   # Jet
   L1JetPtToPass = L1Cuts[0]
   L1JetMjjToPass = L1Cuts[1]
@@ -238,12 +244,14 @@ if __name__ == "__main__":
   # the offline cuts are applied to the offline objects
   # they are a flat increase of L1 kinem cuts
   # Jet
-  OffJetPtToPass = L1JetPtToPass + 10 + 10
-  OffJetMjjToPass = L1JetMjjToPass + 50 + 150
+  OffJetPtToPass = L1JetPtToPass +20#+ 10 #+ 10
+  OffJetMjjToPass = L1JetMjjToPass +200 #+ 50 #+ 150
   # Tau
-  OffTauPtToPass = 30 + 150
+  OffTauPtToPass = 30 +15 #+ 150
   # Ele
-  OffElePtToPass = L1ElePtToPass + 1 + 1 + 3
+  OffElePtToPass = L1ElePtToPass +5 #+ 1 + 1 #+ 3
+  OffCuts = [OffJetPtToPass, OffJetMjjToPass, OffElePtToPass, OffTauPtToPass]
+  print("OffCuts: [jets, mjj, elePt, tauPt] ", OffCuts)
 
   TallyVBFEle = 0
   TallyEleTau = 0
@@ -255,6 +263,10 @@ if __name__ == "__main__":
   TotalEntries = tree.GetEntries()
   for entry in range(TotalEntries):
     tree.GetEntry(entry)
+    #print("in the event loop")
+    #print(tree.passhltL1VBFElectron)
+    #print(tree.jetID)
+    #print(OffJetID)
 
     # requiring events to pass your L1 biases your selection, fine for gain study, not fine for eff study
     #basicReqs = ((passL1[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
@@ -427,7 +439,6 @@ if __name__ == "__main__":
          and L1Ele.Pt()  >= L1ElePtToPass): passVBFEleL1Restrictions = True
 
       passVBFEleOffCuts = False
-      #TighterOffCuts = [OffCut_ElePt+5, OffCut_TauPt+15, OffCut_Jet1Pt+20, OffCut_Jet2Pt+20, OffCut_Mjj+200]
       if (OffJet1.Pt()  >= OffJetPtToPass
        and OffJet2.Pt() >= OffJetPtToPass
        and OffMjj       >= OffJetMjjToPass
@@ -445,8 +456,8 @@ if __name__ == "__main__":
 
       # now tally it up
       GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
-      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts
-      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts
+      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts and passEleTauHLT
+      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts and passSingleEleHLT
 
       # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
       if (GoodVBFEle): TallyVBFEle += 1
