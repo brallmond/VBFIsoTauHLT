@@ -1,4 +1,4 @@
-hltGetConfiguration /users/ballmond/12_4_0_X/DevGRunV67/V2 \
+hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTs/V2 \
 --data --globaltag 124X_dataRun3_HLT_forTSG_newJECs_v1 \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1,\
