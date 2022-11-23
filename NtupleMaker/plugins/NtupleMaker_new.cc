@@ -61,22 +61,58 @@ NtupleMaker::~NtupleMaker(){
 //destructor
 }
 
+bool DEBUG = false;
 void NtupleMaker::analyze(const edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
 
     //std::cout << "############## NEW EVENT! #################" << std::endl;
-    if(fillingTriggers) fillTriggers(iEvent);
-    if(fillingL1sFromHLT) fillL1sFromHLT(iEvent);
-    if(fillingHLTFinalDecision) fillHLTFinalDecision(iEvent);
-    if(fillingEventInfo) fillEventInfo(iEvent);
-    if(fillingL1Primitives) fillL1Taus(iEvent);
-    if(fillingL1Primitives) fillL1Jets(iEvent);
-    if(fillingL1Primitives) fillL1Electrons(iEvent);
-    if(fillingL1Primitives) fillL1Muons(iEvent);
-    if(fillingTaus) fillTaus(iEvent);
-    if(fillingJets) fillJets(iEvent, iSetup);
-    if(fillingElectrons) fillElectrons(iEvent);
-    if(fillingMuons) fillMuons(iEvent);
+    if(fillingTriggers) {
+      if (DEBUG) std::cout << "try to fill triggers" << std::endl;
+      fillTriggers(iEvent);}
+
+    if(fillingL1sFromHLT) {
+      if (DEBUG) std::cout << "try to fill L1s from HLT" << std::endl;
+      fillL1sFromHLT(iEvent);}
+
+    if(fillingHLTFinalDecision) {
+      if (DEBUG) std::cout << "try to fill HLT final decision" << std::endl;
+      fillHLTFinalDecision(iEvent, DEBUG);}
+
+    if(fillingEventInfo) {
+      if (DEBUG) std::cout << "try to fill event info" << std::endl;
+      fillEventInfo(iEvent);}
+
+    if(fillingL1Primitives) {
+      if (DEBUG) std::cout << "try to fill L1 taus" << std::endl;
+      fillL1Taus(iEvent);}
+
+    if(fillingL1Primitives) {
+      if (DEBUG) std::cout << "try to fill L1 jets" << std::endl;
+      fillL1Jets(iEvent);}
+
+    if(fillingL1Primitives) {
+      if (DEBUG) std::cout << "try to fill L1 electrons" << std::endl;
+      fillL1Electrons(iEvent);}
+
+    if(fillingL1Primitives) {
+      if (DEBUG) std::cout << "try to fill L1 muons" << std::endl;
+      fillL1Muons(iEvent);}
+
+    if(fillingTaus) {
+      if (DEBUG) std::cout << "try to fill offline taus" << std::endl;
+      fillTaus(iEvent);}
+
+    if(fillingJets) {
+      if (DEBUG) std::cout << "try to fill offline jets" << std::endl;
+      fillJets(iEvent, iSetup);}
+ 
+    if(fillingElectrons) {
+      if (DEBUG) std::cout << "try to fill offline electrons" << std::endl;
+      fillElectrons(iEvent);}
+
+    if(fillingMuons) {
+      if (DEBUG) std::cout << "try to fill offline muons" << std::endl;
+      fillMuons(iEvent);}
 
     tree_->Fill();
 }

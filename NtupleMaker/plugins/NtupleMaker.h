@@ -87,7 +87,7 @@ class NtupleMaker : public edm::one::EDAnalyzer<edm::one::SharedResources> {
 
 	void fillTriggers(const edm::Event&);
         void fillL1sFromHLT(const edm::Event&);
-        void fillHLTFinalDecision(const edm::Event&);
+        void fillHLTFinalDecision(const edm::Event&, bool);
 	void fillEventInfo(const edm::Event&);
 	void fillL1Taus(const edm::Event&);
 	void fillL1Jets(const edm::Event&);

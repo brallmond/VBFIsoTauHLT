@@ -33,7 +33,6 @@ vector<float> hltL1VBFElectronLoose_jEta;
 vector<float> hltL1VBFElectronLoose_jPhi;
 vector<float> hltL1VBFElectronLoose_jEnergy;
 
-int passhltL1EGOR;
 
 //hltL1sDoubleTauBigOR
 int 		passhltL1sDoubleTauBigOR;
@@ -84,8 +83,6 @@ vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEnergy;
 void NtupleMaker::branchesL1sFromHLT(TTree* tree){
 
     tree->Branch("nEvents", &nEvents);
-
-    tree->Branch("passhltL1EGOR", &passhltL1EGOR);
 
     tree->Branch("passhltL1VBFElectron", &passhltL1VBFElectron);
     tree->Branch("hltL1VBFElectron_ePt", &hltL1VBFElectron_ePt);
@@ -155,10 +152,12 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     // "vids" and available RefVec classes defined here
     // https://github.com/cms-sw/cmssw/blob/8b101cb0f00c4a961bc4a6d49512ef0335486f40/DataFormats/HLTReco/interface/TriggerRefsCollections.h
 
+
     // spliting objects at L1 using TriggerEventWithRefs
     edm::Handle<trigger::TriggerEventWithRefs> triggerEventWithRefsHandle_;
     iEvent.getByToken(triggerEventWithRefsToken_, triggerEventWithRefsHandle_);
     const unsigned int filterIndex(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFDiJetIsoTau", "", "MYOTHERHLT")));
+
 
     //making jet object and filling vector
     l1t::JetVectorRef jetCandRefVec;
@@ -181,6 +180,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
         }
     }
 
+
     //making tau object and filling vector
     l1t::TauVectorRef tauCandRefVec;
     trigger::Vids tvids;
@@ -201,6 +201,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
    	    hltL1VBFDiJetIsoTau_tauEnergy.push_back(tauCandRefVec[i]->energy());
 	}
     }
+
 
     // same for UpperControl L1
 
@@ -242,6 +243,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
       }
     }
 
+
     // Also for VBF + Electron
     const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectron", "", "MYOTHERHLT")));
 
@@ -280,6 +282,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
         hltL1VBFElectron_jEnergy.push_back(VBFElectronJetRefVec[i]->energy());
       }
     }
+
   
     // again for VBF + Loose Electron
     const unsigned int VBFElectronL1LooseFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronLoose", "", "MYOTHERHLT")));
@@ -319,6 +322,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
         hltL1VBFElectronLoose_jEnergy.push_back(VBFLooseElectronJetRefVec[i]->energy());
       }
     }
+
 
     nEvents = 0;
 

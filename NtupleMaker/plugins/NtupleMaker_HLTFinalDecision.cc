@@ -53,7 +53,7 @@ void NtupleMaker::branchesHLTFinalDecision(TTree* tree){
     tree->Branch("pass2Tau1JetHigherHLT", &pass2Tau1JetHigherHLT);
 }
 
-void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent){
+void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
 
     using namespace edm;
 
@@ -63,40 +63,48 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent){
     iEvent.getByToken(triggerResultToken_, triggerResults);
     const edm::TriggerNames triggerNames_ = iEvent.triggerNames(*triggerResults);
 
-    
+
     // Signal HLTs
     passDeepDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(
-                       "HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1"));
+                       "HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v2"));
     passEleTauHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                 "HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v1"));
+                 "HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v3"));
     passSingleEleHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                     "HLT_Ele32_WPTight_Gsf_v15"));
+                     "HLT_Ele32_WPTight_Gsf_v17"));
     passVBF2DTHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                  "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1"));
+                  "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v2"));
     passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                        "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1"));
+                        "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v3"));
     passDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                            "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1"));
+                            "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v2"));
+
+    if (DEBUG) std::cout << "filled signal HLTs" << std::endl;
 
     // Monitoring/Control HLTs
     passIsoMu24eta2p1HLT = triggerResults->accept(triggerNames_.triggerIndex(
-                         "HLT_IsoMu24_eta2p1_v15"));
+                         "HLT_IsoMu24_eta2p1_v17"));
     passUpperControlHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                        "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1"));
+                        "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v2"));
     passLowerControlHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                        "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1"));
+                        "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v2"));
     passDiTauControlHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                        "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1"));
+                        "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v3"));
+
+    if (DEBUG) std::cout << "filled monitoring HLTs" << std::endl;
 
     // adhoc HLTs
     passHLTDummyL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1_v1"));
     passHLTDummyL1Loose = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1Loose_v1"));
     passHLTDummyEGORL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyEGORL1_v1"));
 
+    if (DEBUG) std::cout << "filled dummy HLTs" << std::endl;
+
     // Jaime's HLTs
     pass2Tau1JetHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                    "HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v1"));
+                    "HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v2"));
     pass2Tau1JetHigherHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                          "HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v1"));
+                          "HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v2"));
+
+    if (DEBUG) std::cout << "filled Jaime's triggers" << std::endl;
 
 }
