@@ -27,3 +27,7 @@ HLTAnalyzerEndpath \
 
 --input root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/2E066536-5CF2-B340-A73B-209640F29FF6.root \
 --l1-emulator Full
+# remove customise line for 2022
+# make separate menu for 2022 and revert this to 2018 sample
+# swap out xml to correct one
+# change globaltag to 124X_dataRun3_HLT_v4

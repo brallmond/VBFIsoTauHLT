@@ -24,8 +24,12 @@ if __name__ == "__main__":
 
     #h_nEGs     = ROOT.TH1F("nEGs", "", 10, 0, 10)
 
+    looseiso_counter = 0
+    tightiso_counter = 0
+
     nEntries = tree.GetEntries()
-    for i in range(0, 10):
+    print(nEntries)
+    for i in range(nEntries):
       tree.GetEntry(i)
 
       #nEGs = tree.nEGs # not working
@@ -36,19 +40,48 @@ if __name__ == "__main__":
       # https://github.com/cms-sw/cmssw/blob/065028f82b4451e7bd244b4c348eb0723cd5e568/L1Trigger/L1TNtuples/interface/L1AnalysisL1UpgradeDataFormat.h
 
       nEGs  = len(tree.egEt)
-      branch_egEt  = tree.egEt
-      branch_egEta = tree.egEta
-      branch_egPhi = tree.egPhi
-      branch_egIso = tree.egIso
-      L1EGs = fillWithTVecsNoEnergyBranch(branch_egEt, branch_egEta, branch_egPhi)
+      branch_eg_Et  = tree.egEt
+      branch_eg_Eta = tree.egEta
+      branch_eg_Phi = tree.egPhi
+      branch_eg_Iso = tree.egIso #either 0 or 3, taking 0 to be loose and 3 to be tight
+
+      pass_eg_Et  = [branch_eg_Et[i] for i in range(nEGs) if branch_eg_Et[i] >= 10]
+      pass_eg_Eta = [branch_eg_Eta[i] for i in range(nEGs) if abs(branch_eg_Eta[i]) <= 2.1]
+
+      pass_filter_egs = list(set(pass_eg_Et) & set(pass_eg_Eta))
+      if ( len(pass_filter_egs) == 0 ): continue
+
+      L1EGs = fillWithTVecsNoEnergyBranch(branch_eg_Et, branch_eg_Eta, branch_eg_Phi, pass_filter_egs)
+      n_good_egs = len(L1EGs)
 
       nJets = len(tree.jetEt)
-      branch_jetEt  = tree.jetEt
-      branch_jetEta = tree.jetEta 
-      branch_jetPhi = tree.jetPhi
-      L1Jets = fillWithTVecsNoEnergyBranch(branch_jetEt, branch_jetEta, branch_jetPhi)
-      
-      print(i, len(L1EGs), len(L1Jets))
+      branch_jet_Et  = tree.jetEt
+      branch_jet_Eta = tree.jetEta 
+      branch_jet_Phi = tree.jetPhi
+
+      pass_jet_Et  = [branch_jet_Et[i] for i in range(nJets) if branch_jet_Et[i] >= 30]
+      pass_jet_Eta = [branch_jet_Et[i] for i in range(nJets) if abs(branch_jet_Eta[i]) <= 4.7]
+
+      pass_filter_jets = list(set(pass_jet_Et) & set(pass_jet_Eta))
+      if ( len(pass_filter_jets) == 0): continue
+
+      L1Jets = fillWithTVecsNoEnergyBranch(branch_jet_Et, branch_jet_Eta, branch_jet_Phi, pass_filter_jets)
+      n_good_jets = len(L1Jets)
+
+      if (n_good_jets >= 2 and n_good_egs >= 1):
+
+        print("Good EGs")
+        for i in range(n_good_egs):
+          print(L1EGs[i].Pt())  
+
+        print("Good Jets")
+        for i in range(n_good_jets):
+          print(L1Jets[i].Pt())
+
+        L1_j1_index, L1_j1_index, L1Mjj = highestMjjPair(L1Jets)
+        j1_Et = branch_jet_Et[L1_j1_index]
+        j2_Et = branch_jet_Et[L1_j2_index]
+        el_Et = branch_eg_Et[0]
 
 
       #h_nEGs.Fill(nEGs)
