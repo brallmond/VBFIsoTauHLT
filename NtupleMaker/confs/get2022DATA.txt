@@ -22,6 +22,6 @@ HLTAnalyzerEndpath \
 --process MYOTHERHLT --max-events 100 \
 --l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_3_0_edited.xml \
 --input root://cms-xrd-global.cern.ch//store/data/Run2022F/EphemeralZeroBias7/RAW/v1/000/360/486/00000/07335105-a55d-47da-98e0-a7f793a43902.root \
-> hlt2022DataDummyL1EGOR_testnamesnoversions.py
+> hlt2022DataDummyL1EGOR.py
 
 --l1-emulator Full
