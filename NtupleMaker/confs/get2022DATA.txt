@@ -1,0 +1,27 @@
+hltGetConfiguration /users/ballmond/12_4_0_X/DevGRunV67/V2 \
+--data --globaltag 124X_dataRun3_HLT_forTSG_newJECs_v1 \
+--path HLTriggerFirstPath,\
+HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v1,\
+HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v1,\
+HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v1,\
+HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v1,\
+HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v1,\
+HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v1,\
+HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v1,\
+HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v1,\
+HLT_IsoMu24_eta2p1_v15,\
+HLT_Ele32_WPTight_Gsf_v15,\
+HLT_DummyL1_v1,\
+HLT_DummyL1Loose_v1,\
+HLT_DummyEGORL1_v1,\
+HLTriggerFinalPath,\
+HLTAnalyzerEndpath \
+--eras Run3 --unprescale --output none \
+--process MYOTHERHLT --max-events 10 \
+--l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_3_0_edited.xml \
+--input root://cms-xrd-global.cern.ch//store/data/Run2022F/EphemeralZeroBias7/RAW/v1/000/360/486/00000/07335105-a55d-47da-98e0-a7f793a43902.root \
+> hlt2022DataDummyL1EGOR.py
+
+--l1-emulator Full
