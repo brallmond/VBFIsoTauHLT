@@ -3,3 +3,7 @@ ssh -4 -f -N -D 1080 ballmond@lxplus.cern.ch
 cd ~/hlt-confdb
 ant clean
 ./start
+
+# use Run3 Offline
+# password: cms100kHz
+
