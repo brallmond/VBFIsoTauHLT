@@ -1,4 +1,10 @@
-#stripped down crab submit file...
+import CRABClient
+# may be necessary to do this first: source /cvmfs/cms.cern.ch/common/crab-setup.sh
+
+# using crabapi/multicrab submission
+# https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRABClientLibraryAPI
+# bottom of this twiki describes using multicrab,
+# https://twiki.cern.ch/twiki/bin/view/CMSPublic/CRAB3AdvancedTutorial
 
 from CRABClient.UserUtilities import config
 config = config()
@@ -6,7 +12,7 @@ config = config()
 config.General.workArea = 'test'
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'hltDummyL1EGOR.py'
+config.JobType.psetName = 'hlt2022DataDummyL1EGOR.py'
 
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
@@ -15,27 +21,25 @@ config.Data.outLFNDirBase = '/store/user/ballmond'
 
 config.Data.ignoreLocality = True
 config.Site.whitelist = ['T2_CH_CSCS','T1_US_FNAL', 'T2_FR_GRIF_LLR', 'T2_HU_Budapest', 'T3_US_FNALLPC', 'T2_CH_CERN', 'T2_BE_UCL', 'T2_DE_RWTH', 'T2_FR_IPHC', 'T2_IN_TIFR', 'T2_IT_Pisa', 'T2_UK_London_IC', 'T2_US_Wisconsin', 'T2_IT_Rome', 'T2_EE_Estonia', 'T2_UK_SGrid_RALPP']
-#config.Site.whitelist = ['T3_US_FNALLPC'] #use if submit user-data
 config.JobType.maxJobRuntimeMin = 2000
 config.JobType.maxMemoryMB = 4000
-config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_2_0_edited.xml']
+#config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_2_0_edited.xml']
+config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_3_0_edited.xml']
 
-#config.Data.runRange = '325022'
-#config.Data.runRange = '324747'
-#config.Data.runRange = '324237,324970,324980,325022'
-#config.Data.runRange = '321755,323725,323755,323790,323841,323940,323976,323978,324021,324077,324201,324237,324245,324293,324315,324420,324747,324785,324835,324897,324970,324980,324997,325022,325057,325097-325099'
-#config.Data.runRange = '323755'
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
-config.General.requestName = 'EraF2022_EZB8'
+i=8
+config.General.requestName = f'EraF2022_EZB{i}_updated_conf'
+config.Data.inputDataset   = f'/EphemeralZeroBias{i}/Run2022F-v1/RAW'
 
-config.Data.inputDataset = '/EphemeralZeroBias8/Run2022F-v1/RAW'
-
+# lines particular to user submission
+# a good coder would make a separate conf or a simple if statement.
+#config.Site.whitelist = ['T3_US_FNALLPC'] #use if submit user-data
+#config.Data.runRange = '323755'
 #config.Data.userInputFiles = ['/store/user/ballmond/EZBUpsL1sAllRunsMerged/EZB1UpsL1sAllRuns.root']
 #config.Data.outputPrimaryDataset = 'EZB1_L1UpsRun324747'
 
-#Santeri recommended Summer samples
 
     #VBF
 #the AOD with the premix is the MiniAOD's parent dataset, so this should be fine
