@@ -1,0 +1,4 @@
+# ssh -4 -X -Y ballmond@lxplus.cern.ch
+# python3 -m venv tme  
+# . tme/bin/activate
+# tm-editor

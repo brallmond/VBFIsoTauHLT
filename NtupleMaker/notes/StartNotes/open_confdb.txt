@@ -1,0 +1,5 @@
+Do this from local (i.e. your home directory, not lxplus)
+ssh -4 -f -N -D 1080 ballmond@lxplus.cern.ch
+cd ~/hlt-confdb
+ant clean
+./start
