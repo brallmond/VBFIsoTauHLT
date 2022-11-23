@@ -19,7 +19,7 @@ HLT_DummyEGORL1_v1,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output none \
---process MYOTHERHLT --max-events -1 \
+--process MYOTHERHLT --max-events 100 \
 --customise HLTrigger/Configuration/customizeHLTforCMSSW.customiseFor2018Input \
 --l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_2_0_edited.xml \
 --input root://cms-xrd-global.cern.ch//store/data/Run2018D/EphemeralHLTPhysics1/RAW/v1/000/323/775/00000/2E066536-5CF2-B340-A73B-209640F29FF6.root \
