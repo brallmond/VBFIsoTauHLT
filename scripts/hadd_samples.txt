@@ -8,7 +8,7 @@ Now hadd each sample individually (usually each sample will have two directories
 
 Here's the command to execute, except it just echos expressions instead of actually hadding the samples.
 
-i=0;
+i=-1;
 for line in `cat temp.txt`; 
 do i=$(($i+1)); 
 echo $i; 
@@ -19,7 +19,7 @@ echo ${sample}.root ${sample}_0000.root ${sample}_0001.root; done
 
 Here's the command to execute when you're satisfied your expressions are correct.
 
-i=0;
+i=-1;
 for line in `cat temp.txt`;
 do i=$(($i+1));
 sample=EZB${i}_2022F

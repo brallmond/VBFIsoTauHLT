@@ -7,8 +7,8 @@ import sys
 import numpy as np
 import matplotlib.pyplot as plt
 
-# usage: python3 CountVBFElectron.py *.root
-# or     python3 CountVBFElectron.py ../../../samples/EZBs/*.root
+# usage: python3 2018 CountVBFElectron.py *.root
+
 # prints all event numbers and events passing a particular HLT
 # intended for use in easily finding rate of L1/HLT on EZB dataset
 # should take between 5 and 10 minutes to run
@@ -17,9 +17,10 @@ ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
 files = sys.argv # all input arguments in an array
 files.pop(0) # remove first arg which is always the name of the executed script
+YEAR = files.pop(0) # first arg must be year, either 2018 or 2022
 
 
-def tallyPassL1s(nEvents, passDummyL1, passDummyL1Loose, passDummyL1ORDiJetSeeds, passDummyL1LooseORDiJetSeeds, passDummyL1OREGORL1s, passDummyL1LooseOREGORL1s, passDiJetSeeds, passEGORL1, passTripleOR, passTripleLooseOR, passOverlapOR):
+def tallyPassL1s(nEvents, nBunches, scaling, passDummyL1, passDummyL1Loose, passDummyL1ORDiJetSeeds, passDummyL1LooseORDiJetSeeds, passDummyL1OREGORL1s, passDummyL1LooseOREGORL1s, passDiJetSeeds, passEGORL1, passTripleOR, passTripleLooseOR, passOverlapOR):
   print("Input Files")
   for f in files:
     print(f)
@@ -27,7 +28,6 @@ def tallyPassL1s(nEvents, passDummyL1, passDummyL1Loose, passDummyL1ORDiJetSeeds
     inFile = ROOT.TFile.Open(inFileName,"READ")
     tree = inFile.Get("demo/vbf")
      
-
     nEvents += tree.Draw("nEvents", "nEvents>0", "goff")
     passDummyL1 += tree.Draw("nEvents", "passhltL1VBFElectron>0", "goff")
     passDummyL1Loose += tree.Draw("nEvents", "passhltL1VBFElectronLoose>0", "goff")
@@ -76,9 +76,11 @@ def tallyPassL1s(nEvents, passDummyL1, passDummyL1Loose, passDummyL1ORDiJetSeeds
   print("nBunches*rev.freq. = {} Hz".format(constFactor))
   rateFactor = constFactor/nEvents
   print("Rate Factor = nBunches*rev.freq./nEvents = {:.3f}".format(rateFactor))
-  print("Rate = Rate Factor * #Events Passing")
+  scaledRateFactor = rateFactor*scaling
+  print("Scaled Rate Factor = {:.3f}".format(scaledRateFactor))
+  print("Scaled Rate = Scaled Rate Factor * #Events Passing")
 
-  return rateFactor
+  return scaledRateFactor
 
 def plotVariable():
 
@@ -116,9 +118,6 @@ def calcMjjAndJetIndices(inputJets):
     leadingJetPt = inputTJets[leadingJet].Pt()
     subleadingJetPt = inputTJets[subleadingJet].Pt()
 
-
-#passL1 = array('i', [0])
-#tree.SetBranchAddress("passhltL1VBFElectronLoose", passL1)
 
 def varyL1(electronScanRange_, jetScanRange_, mjjScanRange_, weight_, looseTrue):
 
@@ -291,23 +290,27 @@ if __name__ == "__main__":
   passTripleLooseOR = 0
   passOverlapOR = 0
 
-  nBunches = 2736
+  EZBinfo = {"2018" : [2736, 2.0/1.6],
+             "2022" : [2450, 2.0/1.8]}
+
+  nBunches = EZBinfo[YEAR][0] #2736 #2450 for 2022 EZB
   revfreq = 11245.6 # Hz
   constFactor = nBunches*revfreq
+  scaling = EZBinfo[YEAR][1] #2.0/1.6 #2.0/1.8 for 2022 EZB
+
+  print(YEAR, nBunches, scaling)
 
   testRate = True
   rateFactor = 0
   if (testRate):
-    rateFactor = tallyPassL1s(nEvents, passDummyL1, passDummyL1Loose, passDummyL1ORDiJetSeeds, passDummyL1LooseORDiJetSeeds, passDummyL1OREGORL1s, passDummyL1LooseOREGORL1s, passDiJetSeeds, passEGORL1, passTripleOR, passTripleLooseOR, passOverlapOR)
-    print(rateFactor)
+    rateFactor = tallyPassL1s(nEvents, nBunches, scaling, passDummyL1, passDummyL1Loose, passDummyL1ORDiJetSeeds, passDummyL1LooseORDiJetSeeds, passDummyL1OREGORL1s, passDummyL1LooseOREGORL1s, passDiJetSeeds, passEGORL1, passTripleOR, passTripleLooseOR, passOverlapOR)
 
   electronScanRange = np.linspace(10.,14.,3)
   jetScanRange = np.linspace(30.,50.,11)
   mjjScanRange = np.linspace(300.,500.,11)
 
-  useLooseIso = False
+  useLooseIso = True
   gridOutTotal, gridOutOvRm = varyL1(electronScanRange, jetScanRange, mjjScanRange, rateFactor, useLooseIso)
-  #eLazyOut, mjjLazyOut = varyL1(electronScanRange, jetScanRange, mjjScanRange, rateFactor, useLooseIso)
 
   plot = True
   if (plot):
