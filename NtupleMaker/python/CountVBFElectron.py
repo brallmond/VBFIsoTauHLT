@@ -18,6 +18,7 @@ ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 files = sys.argv # all input arguments in an array
 files.pop(0) # remove first arg which is always the name of the executed script
 YEAR = files.pop(0) # first arg must be year, either 2018 or 2022
+USELOOSEISO = files.pop(0) # sceond arg must be ture or false, true uses loose iso
 
 
 def tallyPassL1s(nEvents, nBunches, scaling, passDummyL1, passDummyL1Loose, passDummyL1ORDiJetSeeds, passDummyL1LooseORDiJetSeeds, passDummyL1OREGORL1s, passDummyL1LooseOREGORL1s, passDiJetSeeds, passEGORL1, passTripleOR, passTripleLooseOR, passOverlapOR):
@@ -291,12 +292,13 @@ if __name__ == "__main__":
   passOverlapOR = 0
 
   EZBinfo = {"2018" : [2736, 2.0/1.6],
-             "2022" : [2450, 2.0/1.8]}
+             "2022E" : [2448, 2.0/1.3],
+             "2022F" : [2450, 2.0/1.8]}
 
-  nBunches = EZBinfo[YEAR][0] #2736 #2450 for 2022 EZB
+  nBunches = EZBinfo[YEAR][0]
   revfreq = 11245.6 # Hz
   constFactor = nBunches*revfreq
-  scaling = EZBinfo[YEAR][1] #2.0/1.6 #2.0/1.8 for 2022 EZB
+  scaling = EZBinfo[YEAR][1]
 
   print(YEAR, nBunches, scaling)
 
@@ -309,7 +311,13 @@ if __name__ == "__main__":
   jetScanRange = np.linspace(30.,50.,11)
   mjjScanRange = np.linspace(300.,500.,11)
 
-  useLooseIso = True
+  if (USELOOSEISO == "True"): USELOOSEISO = True
+  elif (USELOOSEISO == "False"): USELOOSEISO = False
+  else: 
+    print("second argument must be True or False. Exiting...")
+    sys.exit()
+
+  useLooseIso = USELOOSEISO
   gridOutTotal, gridOutOvRm = varyL1(electronScanRange, jetScanRange, mjjScanRange, rateFactor, useLooseIso)
 
   plot = True
