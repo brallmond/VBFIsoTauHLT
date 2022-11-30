@@ -1,6 +1,6 @@
 If you're adding a lot of samples together, script it. Start by making a file with your directories.
 
-for i in {0..8}; do echo -n "/store/user/ballmond/EphemeralZeroBias$i/crab_EraE2022_EZB${i}_updated_conf/"; eosls /store/user/ballmond/EphemeralZeroBias${i}/crab_EraE2022_EZB${i}_updated_conf/; done
+for i in {0..8}; do echo -n "/store/user/ballmond/EphemeralZeroBias$i/crab_EraE2022_EZB${i}_updated_conf/" >> temp.txt; eosls /store/user/ballmond/EphemeralZeroBias${i}/crab_EraE2022_EZB${i}_updated_conf/ >> temp.txt; done
 
 
 Either copy and paste the output or pipe it to a file.
