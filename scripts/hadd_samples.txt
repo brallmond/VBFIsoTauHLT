@@ -29,3 +29,15 @@ hadd ${sample}_0001.root `xrdfsls -u $line/0001 | grep '\.root'`;
 hadd ${sample}.root ${sample}_0000.root ${sample}_0001.root;
 rm ${sample}_0000.root ${sample}_0001.root;
 done
+
+Here's the same command, but in the case that only 0000 directories are available
+i=-1;
+for line in `cat temp.txt`;
+do i=$(($i+1));
+sample=EZB${i}_2022E
+hadd ${sample}.root `xrdfsls -u $line/0000 | grep '\.root'`;
+done
+
+
+
+
