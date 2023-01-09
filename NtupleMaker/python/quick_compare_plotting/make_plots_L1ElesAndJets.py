@@ -10,7 +10,7 @@ XAXIS_LABEL_INDEX = 1
 L1_RE_BINS_INDEX = 2
 OFF_RE_BINS_INDEX = 3
 
-DEBUG = True
+DEBUG = False
 if DEBUG == False : ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
 def set_style(in_hist: ROOT.TH1F, line_color: int, marker_style: int, marker_color: int=1) -> None:
@@ -35,18 +35,9 @@ def set_labels(hist: ROOT.TH1F, hist_title: str, hist_yaxis: str, hist_xaxis: st
     hist.GetXaxis().SetTitle(hist_xaxis)
 
 
-def single_canvas():
-  """ make a single canvas """
-  can = ROOT.TCanvas("can", "", 800, 600)
-  can.SetMargin(0.0, 0.0, 0.0, 0.0)
-  ROOT.gPad.SetLeftMargin(0.12)
-  ROOT.gPad.SetFillColor(0)
-  return can
-
-
 def make_plot(in_file_one: 'str', label_one: 'str', in_file_two: 'str', label_two: 'str', var: 'str') -> 'None':
 
-  can = single_canvas()
+  can = ROOT.TCanvas("can", "", 800, 600)
 
   ROOT.gStyle.SetOptStat(0)
   ROOT.TH1.SetDefaultSumw2()
@@ -60,7 +51,6 @@ def make_plot(in_file_one: 'str', label_one: 'str', in_file_two: 'str', label_tw
   # construct hist name from input var
   hist_var = "L1" + var
   xbins = xbins_L1
-
 
   # get histograms from file
   file_one = ROOT.TFile.Open(in_file_one, "READ") 
