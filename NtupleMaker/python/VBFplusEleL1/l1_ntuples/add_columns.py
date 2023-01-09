@@ -1,3 +1,9 @@
+### processes a file that looks like this
+# 3000 : 30 : 1.0%
+# 2000 : 40 : 2.0%
+# 1000 : 2  : 0.2%
+###
+
 file_name = 'l1_event_counts.txt'
 with open(file_name, encoding='utf-8') as data_file:
   processed_values = []
