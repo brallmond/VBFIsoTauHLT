@@ -7,8 +7,6 @@ if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
-    parser.add_argument('--aux_label', '-a', default="", help='prepending label for out filename')
-    #parser.add_argument('--L1_seed', '-s', required=True, action='store', help='select one of three predefined L1 seeds')
     parser.add_argument('--out_file', '-o', required=True, action='store', help='output file name')
 
     args = parser.parse_args()
