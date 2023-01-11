@@ -13,3 +13,4 @@
 /eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/elfontan/condor/run360820_EphZB2022_test8b4e/109.root
 /eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/elfontan/condor/run360820_EphZB2022_test8b4e/11.root
 /eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/elfontan/condor/run360820_EphZB2022_test8b4e/110.root
+/eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/elfontan/condor/run360820_EphZB2022_test8b4e/111.root

@@ -18,7 +18,7 @@ vim some_file.txt
 
 Then run your python file over each input file like this, piping the output to some text file.
 
-i=0; for line in `cat 2018or2022filelist.txt`; do python3 l1ntuple_count_jets_and_eles.py -i $line -o out_$i.root >> outfile.txt; i=$((i+1)); done
+i=0; for line in `cat 2018or2022filelist.txt`; do python3 l1ntuple_count_jets_and_eles.py -i $line -o out_$i.root; i=$((i+1)); done
 
 Finally, hadd the files into one
 
