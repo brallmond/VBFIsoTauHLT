@@ -4,12 +4,6 @@ from array import array
 
 #ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
-# run 322079
-# 2018 source : /eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/TEAshiftNtuples/ZeroBias2018D-week36-l1t-integration-v100p0-CMSSW-10_2_1/ZeroBias/crab_ZeroBias2018D-week36-l1t-integration-v100p0-CMSSW-10_2_1__322079_ZeroBias_Run2018D-v1/180908_184351/0000/
-
-# run 360820
-# 2022 source : /eos/cms/store/group/dpg_trigger/comm_trigger/L1Trigger/elfontan/condor/run360820_EphZB2022_test8b4e/
-
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
@@ -44,10 +38,10 @@ if __name__ == "__main__":
 
     nViable = 0
     nEntries = tree.GetEntries()
-    #print("el pt, j1 pt, j2 pt, mjj")
     for i in range(nEntries):
-    #for i in range(20000):
       tree.GetEntry(i)
+
+      if i%100 == 0: print(f"Event number: {i}")
 
       #nEGs = tree.nEGs # not working
       # type UShort_t
