@@ -36,8 +36,8 @@ if __name__ == "__main__":
     h_L1Mjj    = ROOT.TH1F("L1Mjj",    "", mjj_dict["nBins"], 0, mjj_dict["xhigh"])
 
     nEntries = tree.GetEntries()
-    #for i in range(0, nEntries):
-    for i in range(0, 100):
+    for i in range(0, nEntries):
+    #for i in range(0, 100):
       tree.GetEntry(i)
 
       L1EleEt   = tree.L1EleEt
@@ -52,7 +52,7 @@ if __name__ == "__main__":
       L1Mjj     = tree.L1Mjj
       h_L1Mjj.Fill(L1Mjj)
 
-      debug = True
+      debug = False
       if debug == True:
         print("#"*40)
         print("L1 info")
