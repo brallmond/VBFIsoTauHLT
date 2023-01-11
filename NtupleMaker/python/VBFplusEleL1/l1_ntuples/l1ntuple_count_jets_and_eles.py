@@ -38,7 +38,8 @@ if __name__ == "__main__":
 
     nViable = 0
     nEntries = tree.GetEntries()
-    for i in range(nEntries):
+    #for i in range(nEntries):
+    for i in range(7800,nEntries):
       tree.GetEntry(i)
 
       if i%100 == 0: print(f"Event number: {i}")
@@ -86,6 +87,7 @@ if __name__ == "__main__":
         j1_index = 0
         if (n_good_jets >= 2):
           j1_index, j2_index, mjj = highestMjjPair(L1Jets)
+          if (j1_index == 999 or j2_index == 999): continue
           j1_Et = L1Jets[j1_index].Pt()
           j2_Et = L1Jets[j2_index].Pt()
           out_mjj[0] = mjj
