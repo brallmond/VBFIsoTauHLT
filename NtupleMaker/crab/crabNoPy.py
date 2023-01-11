@@ -12,7 +12,7 @@ config = config()
 config.General.workArea = 'test'
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'hlt2022DataDummyL1EGOR.py'
+config.JobType.psetName = 'hlt2022Data_NoJECGT.py'
 
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
@@ -29,8 +29,8 @@ config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_3_0_edited.xml']
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
-i=8
-config.General.requestName = f'EraF2022_EZB{i}_updated_conf'
+i=9
+config.General.requestName = f'EraF2022_EZB{i}_NoJECGT'
 config.Data.inputDataset   = f'/EphemeralZeroBias{i}/Run2022F-v1/RAW'
 
 # lines particular to user submission
