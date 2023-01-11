@@ -25,10 +25,10 @@ if __name__ == "__main__":
     
     # branches are methods of tree object in pyroot
  
-    ele_dict  = {"nBins" : 130, "xhigh" : 260}
-    jet1_dict = {"nBins" : 150, "xhigh" : 600}
-    jet2_dict = {"nBins" : 50, "xhigh" : 200}
-    mjj_dict  = {"nBins" : 175, "xhigh" : 7000}
+    ele_dict  = {"nBins" : 25, "xhigh" : 25} #260}
+    jet1_dict = {"nBins" : 75, "xhigh" : 150} #600}
+    jet2_dict = {"nBins" : 60, "xhigh" : 60} #200}
+    mjj_dict  = {"nBins" : 200, "xhigh" : 2000} #7000}
 
     h_L1EleEt  = ROOT.TH1F("L1EleEt",  "", ele_dict["nBins"], 0, ele_dict["xhigh"])
     h_L1Jet1Et = ROOT.TH1F("L1Jet1Et", "", jet1_dict["nBins"], 0, jet1_dict["xhigh"])

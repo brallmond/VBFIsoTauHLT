@@ -21,6 +21,9 @@ def set_style(in_hist: ROOT.TH1F, line_color: int, marker_style: int, marker_col
     For markers,   4,     25,       26 is
               circle, square, triangle
     """
+    color_dict = {"black" : 1, "red" : 2, "green" : 3, "blue" : 4}
+    marker_dict = {"circle" : 4, "square" : 25, "triangle" : 26}
+
     # set marker_color and line_color the same
     marker_color = line_color
     in_hist.SetLineColor(line_color)
@@ -68,7 +71,7 @@ def make_plot(in_file_one: 'str', label_one: 'str', in_file_two: 'str', label_tw
   set_labels(h_one, title, "Events", xaxis_label)
   h_one.Draw("HIST, PE")
 
-  set_style(h_two, 3, 26)
+  set_style(h_two, 1, 26)
   set_labels(h_two, title, "Events", xaxis_label)
   h_two.Draw("SAME, PE")
 
