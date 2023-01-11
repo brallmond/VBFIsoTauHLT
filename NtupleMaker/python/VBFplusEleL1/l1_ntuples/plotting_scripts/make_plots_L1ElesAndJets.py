@@ -75,6 +75,9 @@ def make_plot(in_file_one: 'str', label_one: 'str', in_file_two: 'str', label_tw
   set_labels(h_two, title, "Events", xaxis_label)
   h_two.Draw("SAME, PE")
 
+  if var == "EleEt":
+    h_one.SetAxisRange(0, 18000, "Y")
+
   # add legend to left plot
   leg = ROOT.TLegend(0.55, 0.82, 0.9, 0.9)
   leg.SetTextSize(0.025)

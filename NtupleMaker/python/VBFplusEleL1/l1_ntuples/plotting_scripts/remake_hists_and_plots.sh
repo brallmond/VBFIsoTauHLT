@@ -1,7 +1,7 @@
 #!/bin/sh
 
-INPUT2022=30k_2022_l1skim.root
-INPUT2018=20k_2018_l1skim.root
+INPUT2022=2022_l1skim.root
+INPUT2018=2018_l1skim.root
 
 python3 make_hists_L1ElesAndJets.py -i $INPUT2022 -o hists_2022.root
 python3 make_hists_L1ElesAndJets.py -i $INPUT2018 -o hists_2018.root
