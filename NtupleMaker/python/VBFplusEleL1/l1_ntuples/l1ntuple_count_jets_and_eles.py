@@ -69,7 +69,6 @@ if __name__ == "__main__":
       pass_eg_Iso = [i for i in range(nEGs) if branch_eg_Iso[i] == iso_value]
 
       pass_filter_egs = list(set(pass_eg_Et) & set(pass_eg_Eta) & set(pass_eg_Iso))
-      if ( len(pass_filter_egs) == 0 ): continue
 
       L1EGs = fillWithTVecsNoEnergyBranch(branch_eg_Et, branch_eg_Eta, branch_eg_Phi, pass_filter_egs)
       n_good_egs = len(L1EGs)
@@ -83,20 +82,27 @@ if __name__ == "__main__":
       pass_jet_Eta = [i for i in range(nJets) if abs(branch_jet_Eta[i]) <= 4.7]
 
       pass_filter_jets = list(set(pass_jet_Et) & set(pass_jet_Eta))
-      if ( len(pass_filter_jets) == 0): continue
 
       L1Jets = fillWithTVecsNoEnergyBranch(branch_jet_Et, branch_jet_Eta, branch_jet_Phi, pass_filter_jets)
       n_good_jets = len(L1Jets)
 
+      # initialize variables to non-physical values
+      el_Et = j1_Et = j2_Et = mjj = -999
+
       if (n_good_jets >= 1 or n_good_egs >= 1):
         nViable += 1
 
-        j1_index = 0
         if (n_good_jets >= 2):
           j1_index, j2_index, mjj = highestMjjPair(L1Jets)
-          if (j1_index == 999 or j2_index == 999): continue
-          j1_Et = L1Jets[j1_index].Pt()
-          j2_Et = L1Jets[j2_index].Pt()
+          if (j1_index == 999 or j2_index == 999): 
+            j1_index = 0
+            j2_index = 1
+            j1_Et = L1Jets[j1_index].Pt()
+            j2_Et = L1Jets[j2_index].Pt()
+            mjj = (L1Jets[j1_index] + L1Jets[j2_index]).M()
+          else:
+            j1_Et = L1Jets[j1_index].Pt()
+            j2_Et = L1Jets[j2_index].Pt()
           out_mjj[0] = mjj
 
           # assign leading jet based on Et (which is equivalent to pT at L1)
@@ -107,21 +113,21 @@ if __name__ == "__main__":
             j2_Et = L1Jets[j2_index].Pt()
             out_j2_Et[0]  = j2_Et
 
-        j1_Et = L1Jets[j1_index].Pt()
-        out_j1_Et[0]  = j1_Et
+        if (n_good_jets == 1):
+          j1_index = 0
+          j1_Et = L1Jets[j1_index].Pt()
+          out_j1_Et[0]  = j1_Et
         
         if (n_good_egs >= 1):  
-          el_Et = L1EGs[0].Pt() # it's very rare (if not unobserved) to have more than one good L1 EG
+          el_Et = L1EGs[0].Pt() # assuming the leading one is the best
           el_Iso = branch_eg_Iso[pass_filter_egs[0]]
           out_el_Et[0]  = el_Et
           out_el_Iso[0] = el_Iso
 
-      #print(f"{i} el pt {el_Et:.2f} j1 pt {j1_Et:.2f}")
+      #print(f"{i} : good EGs = {n_good_egs} , good jets = {n_good_jets} : el pt {el_Et:.2f} j1 pt {j1_Et:.2f}")
 
       out_tree.Fill()
 
-      #else:
-      #  continue
 
     # nEntries, nViable, %
     print(f"{nEntries} : {nViable} : {nViable*100/nEntries:.3f}%")
