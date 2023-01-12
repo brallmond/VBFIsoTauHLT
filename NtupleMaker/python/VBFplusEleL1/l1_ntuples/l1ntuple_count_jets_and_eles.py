@@ -36,10 +36,17 @@ if __name__ == "__main__":
     out_tree.Branch("L1Jet2Et", out_j2_Et, 'pt/F')
     out_tree.Branch("L1Mjj", out_mjj, 'mjj/F')
 
+    # iso_value <= 3 allows any iso value, i think == 0 is just tight iso, also ==0 and <= 0 are equivalent as iso_values are never negative
+    # iso_value == 3, any thing passing iso
+    # iso_value == 0, events passing tight iso
+    # iso_value cannot be negative
+    # events passing tighter iso (iso_value=0) are a subset of events passing any iso (iso_value=3)
+    iso_value = 0
+    print(f"YOUR ISO VALUE IS {iso_value}, MAKE SURE THAT'S CORRECT")
+
     nViable = 0
     nEntries = tree.GetEntries()
-    #for i in range(nEntries):
-    for i in range(7800,nEntries):
+    for i in range(nEntries):
       tree.GetEntry(i)
 
       if i%100 == 0: print(f"Event number: {i}")
@@ -55,11 +62,11 @@ if __name__ == "__main__":
       branch_eg_Et  = tree.egEt
       branch_eg_Eta = tree.egEta
       branch_eg_Phi = tree.egPhi
-      branch_eg_Iso = tree.egIso #either 0 or 3, taking 0 to be loose and 3 to be tight
+      branch_eg_Iso = tree.egIso
 
       pass_eg_Et  = [i for i in range(nEGs) if branch_eg_Et[i] >= 2]
       pass_eg_Eta = [i for i in range(nEGs) if abs(branch_eg_Eta[i]) <= 2.1]
-      pass_eg_Iso = [i for i in range(nEGs) if branch_eg_Iso[i] <= 3] #fewer events pass 0 than 3, so zero might be tight iso
+      pass_eg_Iso = [i for i in range(nEGs) if branch_eg_Iso[i] == iso_value]
 
       pass_filter_egs = list(set(pass_eg_Et) & set(pass_eg_Eta) & set(pass_eg_Iso))
       if ( len(pass_filter_egs) == 0 ): continue
