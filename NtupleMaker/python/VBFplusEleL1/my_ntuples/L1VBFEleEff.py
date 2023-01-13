@@ -17,6 +17,8 @@ if __name__ == "__main__":
                     help='the input .root file\'s name')
   parser.add_argument('-L', '--L1IndexToTest', dest='L1IndexToTest', action='store',
                     help='the L1 being tested')
+  parser.add_argument('-s', '--L1LooseOrTightIso', dest='L1LooseOrTightIso', action='store',
+                    help='the iso you would like to use (loose or tight)')
   parser.add_argument('-o', '--output_name', dest='output_name', action='store',
                     help='name of your output file')
   args = parser.parse_args()
@@ -24,10 +26,51 @@ if __name__ == "__main__":
   inFile = ROOT.TFile.Open(args.inFilename,"READ")
   tree = inFile.Get("demo/vbf")
 
-  print(f"Output file name: {args.output_name}")
   ROOT.TH1.SetDefaultSumw2()
 
-  outFile = ROOT.TFile.Open(args.output_name, "RECREATE")
+  L1IndexToTest = int(args.L1IndexToTest)
+  L1LooseOrTightIso = (args.L1LooseOrTightIso).lower()
+
+  # L1 and Offline cuts are just integers so we define them outside the event loop
+              # pt  mjj  ele pt    
+  L1sToTest = [[38, 460, 12], #1
+               [40, 460, 12], #2
+               [42, 460, 12], #3
+               [32, 440, 14], #4
+               [34, 440, 14], #5
+               [36, 440, 14], #6
+               # Iso
+               [30, 320, 10], #7
+               [30, 380, 10], #8
+               [30, 440, 10], #9
+               # to be tested
+               [45, 500, 12], #10
+               [30, 500, 14], #11
+               [35, 500, 14], #12
+               [40, 500, 14], #13
+               [45, 500, 14], #14
+               [50, 500, 14], #15
+               ]
+
+  L1Cuts = L1sToTest[L1IndexToTest] #defined by argparse
+  print("L1 Cuts: [jets, mjj, elePt] ", L1Cuts)
+  # Jet
+  L1JetPtToPass = L1Cuts[0]
+  L1JetMjjToPass = L1Cuts[1]
+  # Ele
+  L1ElePtToPass = L1Cuts[2]
+
+  text_L1_Jet = "Total counts for L1_VBF_DoubleJets" + str(L1JetPtToPass) + "_Mass_Min" + str(L1JetMjjToPass)
+  if (L1LooseOrTightIso == "tight"): 
+    text_L1_EG = "_IsoEG" + str(L1ElePtToPass)
+  else:
+    text_L1_EG = "_LooseIsoEG" + str(L1ElePtToPass)
+
+  output_name = "L1_VBF_DoubleJets"+str(L1JetPtToPass) + "_Mass_Min" + str(L1JetMjjToPass) + text_L1_EG + ".root"
+
+  print(f"Output file name: {output_name}")
+
+  outFile = ROOT.TFile.Open(output_name, "RECREATE")
   outtree = ROOT.TTree("outtree", "skimmed event data")
 
   outL1ElePt = array('f', [0.])
@@ -53,10 +96,9 @@ if __name__ == "__main__":
   outMatchL1Off = array('i', [0])
   outtree.Branch("MatchL1Off", outMatchL1Off, 'matched/I')
 
-  L1IndexToTest = int(args.L1IndexToTest)
-  #if ((not (0 <= L1IndexToTest <= 7)) or not isinstance(L1IndexToTest, int)):
-  #  print("need an int from 0 to 6")
-  #  sys.exit()
+  if (L1LooseOrTightIso != "loose" and L1LooseOrTightIso != "tight"):
+    print(f"argument L1LooseOrTightIso must be 'loose' or 'tight', given {L1LooseOrTightIso}")
+    sys.exit()
 
   # hell to read but
   # defining a variable/object handle 
@@ -65,11 +107,8 @@ if __name__ == "__main__":
   #   tree.SetBranchAddress("branchOfObjInTree", objHandle)
 
   # L1
-
-  #print("does this work? pre event loop")
-  #print(tree.passhltL1VBFElectron)
-
-  if (L1IndexToTest == 6 or L1IndexToTest == 7 or L1IndexToTest == 8):
+  #if (L1IndexToTest == 6 or L1IndexToTest == 7 or L1IndexToTest == 8):
+  if (L1LooseOrTightIso == "tight"):
     passL1 = array('i', [0])
     tree.SetBranchAddress("passhltL1VBFElectron", passL1)
     L1JetPt = ROOT.std.vector('float')()
@@ -219,39 +258,18 @@ if __name__ == "__main__":
   OffEleID = ROOT.std.vector('int')()
   tree.SetBranchAddress("eleIDMVANoIsowp90", OffEleID)
 
-  # L1 and Offline cuts are just integers so we define them outside the event loop
-              # pt  mjj  ele pt    
-  L1sToTest = [[38, 460, 12],
-               [40, 460, 12],
-               [42, 460, 12],
-               [32, 440, 14],
-               [34, 440, 14],
-               [36, 440, 14],
-               # Iso
-               [30, 320, 10],
-               [30, 380, 10],
-               [30, 440, 10],
-               # Loose Iso
-               [30, 320, 10]]
 
-  L1Cuts = L1sToTest[L1IndexToTest] #defined by argparse
-  print("L1Cuts: [jets, mjj, elePt] ", L1Cuts)
-  # Jet
-  L1JetPtToPass = L1Cuts[0]
-  L1JetMjjToPass = L1Cuts[1]
-  # Ele
-  L1ElePtToPass = L1Cuts[2]
   # the offline cuts are applied to the offline objects
   # they are a flat increase of L1 kinem cuts
   # Jet
-  OffJetPtToPass = L1JetPtToPass +20#+ 10 #+ 10
-  OffJetMjjToPass = L1JetMjjToPass +200 #+ 50 #+ 150
+  OffJetPtToPass = L1JetPtToPass + 15#+ 10 #+ 10
+  OffJetMjjToPass = L1JetMjjToPass + 100 #+ 50 #+ 150
   # Tau
-  OffTauPtToPass = 30 +15 #+ 150
+  OffTauPtToPass = 30 #+ 150
   # Ele
-  OffElePtToPass = L1ElePtToPass +5 #+ 1 + 1 #+ 3
+  OffElePtToPass = L1ElePtToPass + 3 #+ 1 + 1 #+ 3
   OffCuts = [OffJetPtToPass, OffJetMjjToPass, OffElePtToPass, OffTauPtToPass]
-  print("OffCuts: [jets, mjj, elePt, tauPt] ", OffCuts)
+  print("Off Cuts: [jets, mjj, elePt, tauPt] ", OffCuts)
 
   TallyVBFEle = 0
   TallyEleTau = 0
@@ -263,10 +281,6 @@ if __name__ == "__main__":
   TotalEntries = tree.GetEntries()
   for entry in range(TotalEntries):
     tree.GetEntry(entry)
-    #print("in the event loop")
-    #print(tree.passhltL1VBFElectron)
-    #print(tree.jetID)
-    #print(OffJetID)
 
     # requiring events to pass your L1 biases your selection, fine for gain study, not fine for eff study
     #basicReqs = ((passL1[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
@@ -474,13 +488,7 @@ if __name__ == "__main__":
 
   # print output
   print(f"match right way (Offline to L1): {match_right_way}")
-  text_L1_Jet = "Total counts for L1_VBF_DoubleJets" + str(L1JetPtToPass) + "_Mass_Min" + str(L1JetMjjToPass)
-  if (L1IndexToTest == 6): 
-    text_L1_EG = "_IsoEG" + str(L1ElePtToPass)
-  else:
-    text_L1_EG = "_LooseIsoEG" + str(L1ElePtToPass)
-  print(text_L1_Jet + text_L1_EG)
-
+  
   # formatting a table to print instead of free-form printing
   labels = ["SingleEle", "EleTau", "OR", "AND"]
   print(f"{labels[0]:<10} {labels[1]:<9} {labels[2]:<9} {labels[3]:<9}")
