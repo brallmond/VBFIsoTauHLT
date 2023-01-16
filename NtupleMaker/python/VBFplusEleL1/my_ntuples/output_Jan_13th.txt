@@ -1,0 +1,109 @@
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [45, 500, 12]
+Output file name: L1_VBF_DoubleJets45_Mass_Min500_IsoEG12.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [60, 600, 15, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+538        1305      169       14.9%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [45, 500, 12]
+Output file name: L1_VBF_DoubleJets45_Mass_Min500_LooseIsoEG12.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [60, 600, 15, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+590        1339      203       17.9%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [30, 500, 14]
+Output file name: L1_VBF_DoubleJets30_Mass_Min500_IsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+743        1346      210       18.5%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [30, 500, 14]
+Output file name: L1_VBF_DoubleJets30_Mass_Min500_LooseIsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+809        1387      251       22.1%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [35, 500, 14]
+Output file name: L1_VBF_DoubleJets35_Mass_Min500_IsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [50, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+650        1311      175       15.4%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [35, 500, 14]
+Output file name: L1_VBF_DoubleJets35_Mass_Min500_LooseIsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [50, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+709        1349      213       18.8%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [40, 500, 14]
+Output file name: L1_VBF_DoubleJets40_Mass_Min500_IsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [55, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+582        1287      151       13.3%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [40, 500, 14]
+Output file name: L1_VBF_DoubleJets40_Mass_Min500_LooseIsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [55, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+633        1319      183       16.1%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [45, 500, 14]
+Output file name: L1_VBF_DoubleJets45_Mass_Min500_IsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [60, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+502        1269      133       11.7%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [45, 500, 14]
+Output file name: L1_VBF_DoubleJets45_Mass_Min500_LooseIsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [60, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+546        1295      159       14.0%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [50, 500, 14]
+Output file name: L1_VBF_DoubleJets50_Mass_Min500_IsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [65, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+441        1248      112       9.9%
+#####################################################
+L1 Cuts: [jets, mjj, elePt]  [50, 500, 14]
+Output file name: L1_VBF_DoubleJets50_Mass_Min500_LooseIsoEG14.root
+Off Cuts: [jets, mjj, elePt, tauPt]  [65, 600, 17, 30]
+match right way (Offline to L1): True
+SingleEle  EleTau    OR        AND      
+880        960       1136      704      
+VBF+Ele    TripleOR  Unique    Gain     
+482        1273      137       12.1%
+#####################################################
