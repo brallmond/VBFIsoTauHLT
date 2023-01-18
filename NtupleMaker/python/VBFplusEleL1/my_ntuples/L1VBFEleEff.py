@@ -8,7 +8,11 @@ import sys
 
 ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
-# usage: python3 L1VBFEleEff.py -i ../../../../../samples/VBFE_CorrectEleIsoAndNewFilter.root -L 6 -s Tight
+# usage:
+# gain/efficiency mode
+# python3 L1VBFEleEff.py -i ../../../../../samples/VBFE_wMuTauFilters.root -r n -s tight -L 0
+# rate mode
+# python3 L1VBFEleEff.py -i ../../../../../samples/EZBs/EZB_2018/EZB1_EGOR.root -r y -s tight -L 0
 
 if __name__ == "__main__":
 
@@ -53,11 +57,16 @@ if __name__ == "__main__":
   match_right_way = True # used for a matching study, left hardcoded assuming the study won't need to be repeated
   L1LooseOrTightIso = (args.L1LooseOrTightIso).lower()
 
-  rateStudy = ('y' in args.rateStudy.lower())
+  #rateStudy = ('y' in args.rateStudy.lower())
+  rateStudyString = args.rateStudy.upper()
+  isValidString = (rateStudyString == "2018B" or  rateStudyString == "2018O" or rateStudyString == "2022E")
+  notRateStudy = 'NOTRATE' in rateStudyString
+  rateStudy = not notRateStudy and isValidString # "not not" is the same as "is"
   if (rateStudy):
-    print("L1IndexToTest set to zero for rate study!")
+    print("\033[31m" + "This IS a rate study. L1IndexToTest has been set to zero !" + "\033[0m")
     L1IndexToTest = 0;
   else:
+    print("\033[31m" + "This is NOT a rate study. Make sure you're using an MC sample!" + "\033[0m")
     L1IndexToTest = int(args.L1IndexToTest)
 
   L1Cuts = L1sToTest[L1IndexToTest] #defined by argparse
@@ -118,6 +127,18 @@ if __name__ == "__main__":
   lumiSectionCounter = 0
   tree.SetBranchAddress("runNumber", runNumber)
   tree.SetBranchAddress("lumiBlock", lumiSection)
+
+  rateDictionary = {
+    "NOTRATE" :    {"runNumber" : -999, "minLS" : -999, "maxLS" : -999},
+    #"2018B" : {"runNumber" : 323755, "minLS1" : 38, "maxLS1" : 81, "minLS2" :  84, "maxLS2" : 171},
+    "2018O" : {"runNumber" : 323755, "minLS" : 52, "maxLS" : 152}, # L ~ 1.79
+    "2022E" : {"runNumber" : 359871, "minLS" : 1,  "maxLS" : 100}, # L ~ 1.84 
+  }
+
+  goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
+  minLS = rateDictionary[rateStudyString]["minLS"]
+  maxLS = rateDictionary[rateStudyString]["maxLS"]
+  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}]")
 
   # L1
   #if (L1IndexToTest == 6 or L1IndexToTest == 7 or L1IndexToTest == 8):
@@ -295,13 +316,18 @@ if __name__ == "__main__":
     tree.GetEntry(entry)
 
     # if rate study
-    runNumberTest = runNumber[0]
-    print(runNumberTest)
-    continue
-    #lumiBlock = 
+    runNumberValue = str(runNumber[0])
+    lumiSectionValue = lumiSection[0]
+
+    goodLumi = lumiSectionValue >= minLS and lumiSectionValue <= maxLS
+    if (runNumberValue == goodRunNumber and goodLumi):
     #if runNumber and lumiBlock
     # fill tree
     # continue to next event
+      lumiSectionCounter += 1
+
+    #print(runNumberValue, lumiSectionValue)
+    continue
 
     # requiring events to pass your L1 biases your selection, fine for gain study, not fine for eff study
     #basicReqs = ((passL1[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
@@ -508,6 +534,8 @@ if __name__ == "__main__":
 
   # print output
   print(f"match right way (Offline to L1): {match_right_way}")
+
+  print(f"LS Count: {lumiSectionCounter}")
   
   # formatting a table to print instead of free-form printing
   labels = ["SingleEle", "EleTau", "OR", "AND"]
