@@ -259,19 +259,6 @@ def varyL1(electronScanRange_, jetScanRange_, mjjScanRange_, weight_, looseTrue)
   print("Sanity check, nEvents passing OR of other VBF L1s: {}".format(countPassOtherVBFOR))
   print("Sanity check, nEvents passing OR of other EG L1s:  {}".format(countPassEGORL1))
 
-  #neweLazyPt = []
-  #for i in range(len(eLazyPt)):
-    #if (mjjLazy[i]>300):
-      #neweLazyPt.append(eLazyPt[i])
-
-  #lazy = True
-  #if (lazy):
-    #fig, ax = plt.subplots()
-    #ax.plot(eLazyPt, mjjLazy)
-    #ax.plot(electronScanRange, eLazyPt)
-    #ax.hist(neweLazyPt, 20)
-    #plt.show()
-
  
 
   return gridTotal, gridOverlap
@@ -375,30 +362,4 @@ if __name__ == "__main__":
     plt.show()
 
    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

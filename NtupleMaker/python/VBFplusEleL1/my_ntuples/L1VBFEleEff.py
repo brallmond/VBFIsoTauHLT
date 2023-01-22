@@ -10,9 +10,9 @@ ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
 # usage:
 # gain/efficiency mode
-# python3 L1VBFEleEff.py -i ../../../../../samples/VBFE_wMuTauFilters.root -r n -s tight -L 0
-# rate mode
-# python3 L1VBFEleEff.py -i ../../../../../samples/EZBs/EZB_2018/EZB1_EGOR.root -r y -s tight -L 0
+# python3 L1VBFEleEff.py -i ../../../../../samples/VBFE_wMuTauFilters.root -r NOTRATE -s tight -L 0
+# rate mode (for multifile, replace with *.root in preferred directory)
+# python3 L1VBFEleEff.py -i ../../../../../samples/EZBs/EZB_2018/EZB1_EGOR.root -r 2018O -s tight -L 0
 
 if __name__ == "__main__":
 
@@ -80,7 +80,14 @@ if __name__ == "__main__":
   else:
     text_L1_EG = "_LooseIsoEG" + str(L1ElePtToPass)
 
-  output_name = "L1_VBF_DoubleJets" + str(L1JetPtToPass) + "_Mass_Min" + str(L1JetMjjToPass) + text_L1_EG + ".root"
+  # read input file name and prepend to output name
+  split_inFilename = str(args.inFilename).split('/')
+  dataset_inFilename = split_inFilename[-2]
+  file_inFilename = split_inFilename[-1].replace('.root','')
+
+  output_name_part_1 = dataset_inFilename + "_" + file_inFilename + "L1_VBF_DoubleJets" + str(L1JetPtToPass) 
+  output_name_part_2 = "_Mass_Min" + str(L1JetMjjToPass) + text_L1_EG + ".root"
+  output_name = output_name_part_1 + output_name_part_2
   print(f"Total counts for {output_name}")
 
   # declare outtree name and branches
@@ -95,6 +102,15 @@ if __name__ == "__main__":
   outtree.Branch("L1Jet1Pt", outL1Jet1Pt, 'pt/F')
   outtree.Branch("L1Jet2Pt", outL1Jet2Pt, 'pt/F')
   outtree.Branch("L1Mjj", outL1Mjj, 'mjj/F')
+
+  outPassL1VBFDiJetEG = array('i', [0])
+  outPassL1VBFDiJetOR = array('i', [0])
+  outPassL1VBFDiJetIsoTau = array('i', [0])
+  outPassDummyEGORL1 = array('i', [0])
+  outtree.Branch("passL1VBFDiJetEG", outPassL1VBFDiJetEG, 'pass/I')
+  outtree.Branch("passL1VBFDiJetOR", outPassL1VBFDiJetOR, 'pass/I')
+  outtree.Branch("passL1VBFDiJetIsoTau", outPassL1VBFDiJetIsoTau, 'pass/I')
+  outtree.Branch("passDummyEGORL1", outPassDummyEGORL1, 'pass/I')
 
   outOffElePt = array('f', [0.])
   outOffTauPt = array('f', [0.])
@@ -124,15 +140,15 @@ if __name__ == "__main__":
   # Rate
   runNumber = array('i', [0])
   lumiSection = array('i', [0])
-  lumiSectionCounter = 0
   tree.SetBranchAddress("runNumber", runNumber)
   tree.SetBranchAddress("lumiBlock", lumiSection)
+  viableEventCounter = 0
 
   rateDictionary = {
-    "NOTRATE" :    {"runNumber" : -999, "minLS" : -999, "maxLS" : -999},
-    #"2018B" : {"runNumber" : 323755, "minLS1" : 38, "maxLS1" : 81, "minLS2" :  84, "maxLS2" : 171},
-    "2018O" : {"runNumber" : 323755, "minLS" : 52, "maxLS" : 152}, # L ~ 1.79
-    "2022E" : {"runNumber" : 359871, "minLS" : 1,  "maxLS" : 100}, # L ~ 1.84 
+    "NOTRATE" : {"nBunches" : -999, "runNumber" : -999, "minLS" : -999, "maxLS" : -999},
+    #"2018B"  : {"runNumber" : 323755, "minLS1" : 38, "maxLS1" : 81, "minLS2" :  84, "maxLS2" : 171},
+    "2018O"   : {"nBunches" : 2544, "runNumber" : 323755, "minLS" : 52, "maxLS" : 152}, # L ~ 1.79
+    "2022E"   : {"nBunches" : 2448, "runNumber" : 359871, "minLS" : 1,  "maxLS" : 100}, # L ~ 1.84 
   }
 
   goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
@@ -141,7 +157,6 @@ if __name__ == "__main__":
   print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}]")
 
   # L1
-  #if (L1IndexToTest == 6 or L1IndexToTest == 7 or L1IndexToTest == 8):
   if (L1LooseOrTightIso == "tight"):
     passL1 = array('i', [0])
     tree.SetBranchAddress("passhltL1VBFElectron", passL1)
@@ -181,6 +196,18 @@ if __name__ == "__main__":
     tree.SetBranchAddress("hltL1VBFElectronLoose_eEta", L1EleEta)
     tree.SetBranchAddress("hltL1VBFElectronLoose_ePhi", L1ElePhi)
     tree.SetBranchAddress("hltL1VBFElectronLoose_eEnergy", L1EleEnergy)
+
+  # L1 overlaps
+  passL1VBFDiJetOR = array('i', [0])
+  passL1VBFDiJetIsoTau = array('i', [0])
+  passDummyEGORL1 = array('i', [0])
+  tree.SetBranchAddress("passhltL1VBFDiJetOR", passL1VBFDiJetOR)
+  tree.SetBranchAddress("passhltL1VBFDiJetIsoTau", passL1VBFDiJetIsoTau)
+  tree.SetBranchAddress("passHLTDummyEGORL1", passDummyEGORL1)
+
+  existingVBFOR = 0 # L1VBFDiJet, L1VBFDiJetIsoTau
+  tripleOR = 0      # L1VBFDiJet, L1VBFDiJetIsoTau, DummyEGORL1
+  quadOR = 0        # above plus L1 of interest
 
   is2022 = False
   if (is2022): 
@@ -315,18 +342,49 @@ if __name__ == "__main__":
   #for entry in range(100):
     tree.GetEntry(entry)
 
-    # if rate study
-    runNumberValue = str(runNumber[0])
+    # for rate study
+    runNumberValue = runNumber[0]
+    if runNumberValue != goodRunNumber: continue
+
     lumiSectionValue = lumiSection[0]
-
     goodLumi = lumiSectionValue >= minLS and lumiSectionValue <= maxLS
-    if (runNumberValue == goodRunNumber and goodLumi):
-    #if runNumber and lumiBlock
-    # fill tree
-    # continue to next event
-      lumiSectionCounter += 1
+    if not goodLumi: continue
 
-    #print(runNumberValue, lumiSectionValue)
+    if (runNumberValue == goodRunNumber and goodLumi):
+      viableEventCounter += 1
+
+      # get L1 objects 
+      L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
+      sizeL1Jets = len(L1Jets)
+      L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
+      sizeL1Eles = len(L1Eles)
+
+      outPassL1VBFDiJetEG[0] = passL1[0]
+      outPassL1VBFDiJetOR[0] = passL1VBFDiJetOR[0]
+      outPassL1VBFDiJetIsoTau[0] = passL1VBFDiJetIsoTau[0]
+      outPassDummyEGORL1[0] = passDummyEGORL1[0]
+
+      # if objects available, set and fill branches
+      if (sizeL1Jets >= 2 and sizeL1Eles >= 1 and passL1[0]):
+        L1Ele = L1Eles[0]
+        L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+        L1Jet1 = L1Jets[L1Jet1Index]
+        L1Jet2 = L1Jets[L1Jet2Index]
+
+        outL1ElePt[0] = L1Ele.Pt()
+        outL1Jet1Pt[0] = L1Jet1.Pt()
+        outL1Jet2Pt[0] = L1Jet2.Pt()
+        outL1Mjj[0] = L1Mjj
+
+        #print(sizeL1Jets, sizeL1Eles, L1Ele.Pt(), L1Jet1.Pt(), L1Jet2.Pt(), L1Mjj)
+      else:
+        outL1ElePt[0] = -999
+        outL1Jet1Pt[0] = -999
+        outL1Jet2Pt[0] = -999
+        outL1Mjj[0] = -999
+      
+      outtree.Fill()
+
     continue
 
     # requiring events to pass your L1 biases your selection, fine for gain study, not fine for eff study
@@ -533,9 +591,10 @@ if __name__ == "__main__":
       if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
 
   # print output
+
   print(f"match right way (Offline to L1): {match_right_way}")
 
-  print(f"LS Count: {lumiSectionCounter}")
+  print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
   
   # formatting a table to print instead of free-form printing
   labels = ["SingleEle", "EleTau", "OR", "AND"]
