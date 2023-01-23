@@ -1,7 +1,7 @@
 # Braden Allmond, August 10th 2022, KSU
 
 from array import array
-from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair
+from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair, print_formatted_labels_and_values
 import ROOT
 import argparse
 import sys
@@ -57,7 +57,6 @@ if __name__ == "__main__":
   match_right_way = True # used for a matching study, left hardcoded assuming the study won't need to be repeated
   L1LooseOrTightIso = (args.L1LooseOrTightIso).lower()
 
-  #rateStudy = ('y' in args.rateStudy.lower())
   rateStudyString = args.rateStudy.upper()
   isValidString = (rateStudyString == "2018B" or  rateStudyString == "2018O" or rateStudyString == "2022E")
   notRateStudy = 'NOTRATE' in rateStudyString
@@ -147,8 +146,8 @@ if __name__ == "__main__":
   rateDictionary = {
     "NOTRATE" : {"nBunches" : -999, "runNumber" : -999, "minLS" : -999, "maxLS" : -999},
     #"2018B"  : {"runNumber" : 323755, "minLS1" : 38, "maxLS1" : 81, "minLS2" :  84, "maxLS2" : 171},
-    "2018O"   : {"nBunches" : 2544, "runNumber" : 323755, "minLS" : 52, "maxLS" : 152}, # L ~ 1.79
-    "2022E"   : {"nBunches" : 2448, "runNumber" : 359871, "minLS" : 1,  "maxLS" : 100}, # L ~ 1.84 
+    "2018O"   : {"nBunches" : 2544, "runNumber" : 323755, "minLS" : 52, "maxLS" : 152, "approxLumi" : 1.79},
+    "2022E"   : {"nBunches" : 2448, "runNumber" : 359871, "minLS" : 1,  "maxLS" : 100, "approxLumi" : 1.84},
   }
 
   goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
@@ -205,9 +204,14 @@ if __name__ == "__main__":
   tree.SetBranchAddress("passhltL1VBFDiJetIsoTau", passL1VBFDiJetIsoTau)
   tree.SetBranchAddress("passHLTDummyEGORL1", passDummyEGORL1)
 
-  existingVBFOR = 0 # L1VBFDiJet, L1VBFDiJetIsoTau
-  tripleOR = 0      # L1VBFDiJet, L1VBFDiJetIsoTau, DummyEGORL1
-  quadOR = 0        # above plus L1 of interest
+  TallyL1VBFDiJetEG = 0
+  TallyL1VBFDiJetOR = 0
+  TallyL1VBFDiJetIsoTau = 0
+  TallyDummyEGORL1 = 0
+
+  TallyL1VBFDiJetIncORIsoTau = 0
+  TallyNotL1VBFEG = 0 # any L1 not VBFDiJet
+  TallyQuadOR = 0 # all four
 
   is2022 = False
   if (is2022): 
@@ -359,10 +363,25 @@ if __name__ == "__main__":
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
 
-      outPassL1VBFDiJetEG[0] = passL1[0]
-      outPassL1VBFDiJetOR[0] = passL1VBFDiJetOR[0]
-      outPassL1VBFDiJetIsoTau[0] = passL1VBFDiJetIsoTau[0]
-      outPassDummyEGORL1[0] = passDummyEGORL1[0]
+      BoolPassL1VBFDiJetEG = passL1[0]
+      BoolPassL1VBFDiJetOR = passL1VBFDiJetOR[0]
+      BoolPassL1VBFDiJetIsoTau = passL1VBFDiJetIsoTau[0]
+      BoolPassDummyEGORL1 = passDummyEGORL1[0]
+
+      outPassL1VBFDiJetEG[0] = BoolPassL1VBFDiJetEG
+      outPassL1VBFDiJetOR[0] = BoolPassL1VBFDiJetOR
+      outPassL1VBFDiJetIsoTau[0] = BoolPassL1VBFDiJetIsoTau
+      outPassDummyEGORL1[0] = BoolPassDummyEGORL1
+
+      if (BoolPassL1VBFDiJetEG): TallyL1VBFDiJetEG += 1
+      if (BoolPassL1VBFDiJetOR): TallyL1VBFDiJetOR += 1
+      if (BoolPassL1VBFDiJetIsoTau): TallyL1VBFDiJetIsoTau += 1
+      if (BoolPassDummyEGORL1): TallyDummyEGORL1 += 1
+
+      BoolExistingVBFOR = BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau
+      if (BoolExistingVBFOR): TallyL1VBFDiJetIncORIsoTau += 1
+      if (BoolExistingVBFOR or BoolPassDummyEGORL1): TallyNotL1VBFEG += 1 
+      if (BoolExistingVBFOR or BoolPassDummyEGORL1 or BoolPassL1VBFDiJetEG): TallyQuadOR += 1
 
       # if objects available, set and fill branches
       if (sizeL1Jets >= 2 and sizeL1Eles >= 1 and passL1[0]):
@@ -591,26 +610,45 @@ if __name__ == "__main__":
       if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
 
   # print output
-
-  print(f"match right way (Offline to L1): {match_right_way}")
-
   print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
-  
-  # formatting a table to print instead of free-form printing
-  labels = ["SingleEle", "EleTau", "OR", "AND"]
-  print(f"{labels[0]:<10} {labels[1]:<9} {labels[2]:<9} {labels[3]:<9}")
-  values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
-  print(f"{values[0]:<10} {values[1]:<9} {values[2]:<9} {values[3]:<9}")
 
-  UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
-  if (TallyEleTauOrSingleEle != 0):
-    Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
-  else:
-    Gain = -999
-  labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
-  print(f"{labels[0]:<10} {labels[1]:<9} {labels[2]:<9} {labels[3]:<9}")
-  values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
-  print(f"{values[0]:<10} {values[1]:<9} {values[2]:<9} {values[3]:<.1f}%")
+
+  if (rateStudy):
+    labels = ["VBF+Ele","VBF+IsoTau", "VBF Inc", "L1 EGs"] 
+    values = [TallyL1VBFDiJetEG, TallyL1VBFDiJetOR, TallyL1VBFDiJetIsoTau, TallyDummyEGORL1]
+    print_formatted_labels_and_values(labels, values)
+
+    labels = ["VBF Inc OR IsoTau", "Any Except L1VBFEG", "Any L1", "Unique L1VBFEG"]
+    uniqueL1VBFEG = TallyQuadOR - TallyNotL1VBFEG
+    values = [TallyL1VBFDiJetIncORIsoTau, TallyNotL1VBFEG, TallyQuadOR, uniqueL1VBFEG]
+    print_formatted_labels_and_values(labels, values, double_space=True)
+
+    # print rate info and unpure/pure rate
+    lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
+    rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
+    rate_factor = rate_factor / viableEventCounter
+    print("#"*40)
+    print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
+    print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
+    print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
+
+
+  if (not rateStudy):
+    print(f"match right way (Offline to L1): {match_right_way}")
+
+    # formatting a table to print instead of free-form printing
+    labels = ["SingleEle", "EleTau", "OR", "AND"]
+    values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
+    print_formatted_labels_and_values(labels, values)
+
+    UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
+    if (TallyEleTauOrSingleEle != 0):
+      Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
+    else:
+      Gain = -999
+    labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
+    values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
+    print_formatted_labels_and_values(labels, values)
 
   outtree.Write()
   outFile.Close()
