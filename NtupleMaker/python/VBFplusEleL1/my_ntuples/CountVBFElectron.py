@@ -356,8 +356,6 @@ if __name__ == "__main__":
       if (i == 1 or i == 2 or i == 4 or i == 5):
         ax.get_yaxis().set_visible(False)
        
-  
-  
     plt.savefig('output.pdf')
     plt.show()
 

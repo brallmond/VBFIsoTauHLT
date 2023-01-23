@@ -11,8 +11,10 @@ ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 # usage:
 # gain/efficiency mode
 # python3 L1VBFEleEff.py -i ../../../../../samples/VBFE_wMuTauFilters.root -r NOTRATE -s tight -L 0
-# rate mode (for multifile, replace with *.root in preferred directory)
+# rate mode
 # python3 L1VBFEleEff.py -i ../../../../../samples/EZBs/EZB_2018/EZB1_EGOR.root -r 2018O -s tight -L 0
+# multifile
+# for line in `cat rate_files.txt`; do echo $line; python3 L1VBFEleEff.py -i $line -r 2018O -s tight -L 0 >> rate_total_output.txt; done
 
 if __name__ == "__main__":
 
