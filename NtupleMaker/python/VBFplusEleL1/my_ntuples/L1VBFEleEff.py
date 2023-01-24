@@ -628,11 +628,14 @@ if __name__ == "__main__":
     # print rate info and unpure/pure rate
     lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
     rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
-    rate_factor = rate_factor / viableEventCounter
-    print("#"*40)
-    print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
-    print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
-    print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
+    if (viableEventCounter <= 0):
+      print("\033\[31m" + "No viable events" + "\033\[0m")
+    else: 
+      rate_factor = rate_factor / viableEventCounter
+      print("#"*40)
+      print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
+      print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
+      print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
 
 
   if (not rateStudy):
