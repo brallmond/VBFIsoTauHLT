@@ -1,13 +1,14 @@
 import ROOT
 from L1VBFEle_functions import print_formatted_labels_and_values
+from rateDictionary import rateDictionary
 import numpy as np
 import matplotlib.pyplot as plt
+
 
 if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
-    #parser.add_argument('--out_file', '-o', required=True, action='store', help='output file name')
 
     args = parser.parse_args()
     in_file = args.in_file
@@ -34,20 +35,29 @@ if __name__ == "__main__":
     gridTotal = np.zeros((3,11,11))
     gridOverlap = np.zeros((3,11,11))
 
-    weight = 1 #define from rate values
+    if ("2018" in in_file): 
+      rateStudyString = "2018O"
+    #elif ("2022E" in in_file or "2022_E" in in_file):
+    elif ("2022" in in_file): 
+      rateStudyString = "2022E"
+    else:
+      print("Change in-filename to contain 2018 or 2022E, reflecting the sample it was made from.")
 
-    rateDictionary = {
-      "NOTRATE" : {"nBunches" : -999, "runNumber" : -999, "minLS" : -999, "maxLS" : -999},
-      "2018O"   : {"nBunches" : 2544, "runNumber" : 323755, "minLS" : 52, "maxLS" : 152, "approxLumi" : 1.79},
-      "2022E"   : {"nBunches" : 2448, "runNumber" : 359871, "minLS" : 1,  "maxLS" : 100, "approxLumi" : 1.84},
-    }
-
-    rateStudyString = "2018O"
 
     nEntries = tree.GetEntries()
     viableEventCounter = nEntries
+
+    # print rate info and unpure/pure rate
+    lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
+    rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
+    rate_factor = rate_factor / viableEventCounter
+    print("#"*40)
+    print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
+    print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
+
+    weight = rate_factor
+
     for i in range(0, nEntries):
-    #for i in range(0, 100):
       tree.GetEntry(i)
 
       BoolPassL1VBFDiJetEG = tree.passL1VBFDiJetEG
@@ -76,11 +86,6 @@ if __name__ == "__main__":
           for jetIndex, jetEntry in enumerate(jetScanRange):
             for mjjIndex, mjjEntry in enumerate(mjjScanRange):
 
-                #if not ((electronPt >= eleEntry) and (leadingJetPt >= jetEntry and subleadingJetPt >= jetEntry) and (mjj >= mjjEntry)):
-                  #print("[{:.1f},{:.1f},{:.1f},{:.1f}]".format(leadingJetPt,subleadingJetPt,mjj,electronPt))
-                  #print(sizeTJets)
-                #countPassLowestL1 += 1
-
               if ((L1ElePt >= eleEntry) and (L1Jet1Pt >= jetEntry and L1Jet2Pt >= jetEntry) and (L1Mjj >= mjjEntry)):
                 gridTotal[eleIndex, jetIndex, mjjIndex] += weight
                 gridOverlap[eleIndex, jetIndex, mjjIndex] += weight
@@ -103,18 +108,8 @@ if __name__ == "__main__":
     uniqueL1VBFEG = TallyQuadOR - TallyNotL1VBFEG
     values = [TallyL1VBFDiJetIncORIsoTau, TallyNotL1VBFEG, TallyQuadOR, uniqueL1VBFEG]
     print_formatted_labels_and_values(labels, values, double_space=True)
-
-    # print rate info and unpure/pure rate
-    lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
-    rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
-    rate_factor = rate_factor / viableEventCounter
-    print("#"*40)
-    print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
-    print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
     print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
 
-    #plot = True
-    #if (plot):
     intJetPt = [int(i) for i in jetScanRange]
     intMjj = [int(i) for i in mjjScanRange]
   
@@ -123,7 +118,24 @@ if __name__ == "__main__":
   
     fig, axes = plt.subplots(2, 3)
     fig.set_size_inches(10.5, 10.5)
-  
+
+    # title formatting
+    loose_or_tight = "Neither"
+    if ("LOOSE" in in_file.upper()):
+      loose_or_tight = "Loose"
+    elif ("TIGHT" in in_file.upper()):
+      loose_or_tight = "Tight"
+    else:
+      print("Change in-filename to contain tight or loose, reflecting the sample it was made from.")
+    L1_String = "L1_VBF_DoubleJetXX_ Mass_MinYYY_" + loose_or_tight + "IsoEGZZ"
+    RunData_String = "Using run# " + str(rateDictionary[rateStudyString]["runNumber"]) + ", LS " \
+                    + str(rateDictionary[rateStudyString]["minLS"]) + "-" + str(rateDictionary[rateStudyString]["maxLS"])
+    rate_factor = str(rate_factor)[0:4] 
+    fig.suptitle("Rate Scan in kHz of " + L1_String + '\n' 
+               + RunData_String  + '\n'
+               + "Rate factor: " + rate_factor + "Hz per Event")
+
+    # plot formatting 
     for i, ax in enumerate(axes.flat):
  
       if (i == 0 or i == 1 or i == 2):
@@ -140,9 +152,8 @@ if __name__ == "__main__":
           label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=6)
 
-
       if (i == 2):
-        ax.text(1.05, 0.55, "Total", transform=ax.transAxes, fontsize=12,
+        ax.text(1.05, 0.55, "Total Rate", transform=ax.transAxes, fontsize=12,
           rotation=-90)
 
       if (i == 5):
@@ -161,7 +172,8 @@ if __name__ == "__main__":
       if (i == 1 or i == 2 or i == 4 or i == 5):
         ax.get_yaxis().set_visible(False)
 
-    plt.savefig('output.pdf')
+    out_file = in_file.replace('.root','.pdf')
+    plt.savefig(out_file)
     plt.show()
 
  

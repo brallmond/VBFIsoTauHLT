@@ -2,6 +2,7 @@
 
 from array import array
 from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair, print_formatted_labels_and_values
+from rateDictionary import rateDictionary
 import ROOT
 import argparse
 import sys
@@ -144,13 +145,6 @@ if __name__ == "__main__":
   tree.SetBranchAddress("runNumber", runNumber)
   tree.SetBranchAddress("lumiBlock", lumiSection)
   viableEventCounter = 0
-
-  rateDictionary = {
-    "NOTRATE" : {"nBunches" : -999, "runNumber" : -999, "minLS" : -999, "maxLS" : -999},
-    #"2018B"  : {"runNumber" : 323755, "minLS1" : 38, "maxLS1" : 81, "minLS2" :  84, "maxLS2" : 171},
-    "2018O"   : {"nBunches" : 2544, "runNumber" : 323755, "minLS" : 52, "maxLS" : 152, "approxLumi" : 1.79},
-    "2022E"   : {"nBunches" : 2448, "runNumber" : 359871, "minLS" : 1,  "maxLS" : 100, "approxLumi" : 1.84},
-  }
 
   goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
   minLS = rateDictionary[rateStudyString]["minLS"]
