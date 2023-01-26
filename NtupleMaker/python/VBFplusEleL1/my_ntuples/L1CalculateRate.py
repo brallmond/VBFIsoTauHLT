@@ -9,6 +9,8 @@ if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
+    parser.add_argument('--ignore_rate_factor', '-E', required=False, action='store', default="False",\
+                        help='ignore rate_factor weight? default false, if true, count events')
 
     args = parser.parse_args()
     in_file = args.in_file
@@ -37,25 +39,28 @@ if __name__ == "__main__":
 
     if ("2018" in in_file): 
       rateStudyString = "2018O"
-    #elif ("2022E" in in_file or "2022_E" in in_file):
-    elif ("2022" in in_file): 
+    elif ("2022E" in in_file or "2022_E" in in_file):
       rateStudyString = "2022E"
+    elif ("2022F" in in_file or "2022_F" in in_file):
+      rateStudyString = "2022F"
     else:
       print("Change in-filename to contain 2018 or 2022E, reflecting the sample it was made from.")
 
 
     nEntries = tree.GetEntries()
-    viableEventCounter = nEntries
 
     # print rate info and unpure/pure rate
     lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
     rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
-    rate_factor = rate_factor / viableEventCounter
+    rate_factor = rate_factor / nEntries
     print("#"*40)
     print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
     print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
 
     weight = rate_factor
+    ignore_rate_factor = "y" in args.ignore_rate_factor.lower()
+    if (ignore_rate_factor):
+      weight = 1
 
     for i in range(0, nEntries):
       tree.GetEntry(i)
@@ -119,7 +124,7 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(2, 3)
     fig.set_size_inches(10.5, 10.5)
 
-    # title formatting
+    # title formattin
     loose_or_tight = "Neither"
     if ("LOOSE" in in_file.upper()):
       loose_or_tight = "Loose"
@@ -128,8 +133,15 @@ if __name__ == "__main__":
     else:
       print("Change in-filename to contain tight or loose, reflecting the sample it was made from.")
     L1_String = "L1_VBF_DoubleJetXX_ Mass_MinYYY_" + loose_or_tight + "IsoEGZZ"
-    RunData_String = "Using run# " + str(rateDictionary[rateStudyString]["runNumber"]) + ", LS " \
-                    + str(rateDictionary[rateStudyString]["minLS"]) + "-" + str(rateDictionary[rateStudyString]["maxLS"])
+    year = "EZB "
+    if ("2018" in rateStudyString):
+      year += str(2018)
+    else:
+      year += rateStudyString
+
+    RunData_String = year + ": Using run# " + str(rateDictionary[rateStudyString]["runNumber"]) + ", LS " \
+                    + str(rateDictionary[rateStudyString]["minLS"]) + "-" + str(rateDictionary[rateStudyString]["maxLS"])\
+                    + ", nEvents in skim = " + str(nEntries)
     rate_factor = str(rate_factor)[0:4] 
     fig.suptitle("Rate Scan in kHz of " + L1_String + '\n' 
                + RunData_String  + '\n'
@@ -140,14 +152,14 @@ if __name__ == "__main__":
  
       if (i == 0 or i == 1 or i == 2):
         im = ax.imshow(gridTotal[i], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
-        ax.set_title("electronPt >= " + str(2*(i)+10), fontsize=8)
+        ax.set_title("electronPt ≥ " + str(2*(i)+10), fontsize=8)
         for (n,m),label in np.ndenumerate(gridTotal[i]):
           label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=6)
 
       if (i == 3 or i == 4 or i == 5):
         im = ax.imshow(gridOverlap[i-3], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
-        ax.set_xlabel('jetPt >=')
+        ax.set_xlabel('jetPt ≥')
         for (n,m),label in np.ndenumerate(gridOverlap[i-3]):
           label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=6)
@@ -160,7 +172,7 @@ if __name__ == "__main__":
         ax.text(1.05, 0.25, "Pure Rate", transform=ax.transAxes, fontsize=12,
           rotation=-90)
 
-      ax.set_ylabel('mjj >=')
+      ax.set_ylabel('mjj ≥')
   
       start, end = ax.get_xlim()
   
