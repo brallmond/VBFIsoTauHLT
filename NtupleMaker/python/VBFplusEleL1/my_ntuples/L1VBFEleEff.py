@@ -61,7 +61,7 @@ if __name__ == "__main__":
   L1LooseOrTightIso = (args.L1LooseOrTightIso).lower()
 
   rateStudyString = args.rateStudy.upper()
-  isValidString = (rateStudyString == "2018B" or  rateStudyString == "2018O" or rateStudyString == "2022E")
+  isValidString = (rateStudyString == "2018O" or rateStudyString == "2022E" or rateStudyString == "2022F")
   notRateStudy = 'NOTRATE' in rateStudyString
   rateStudy = not notRateStudy and isValidString # "not not" is the same as "is"
   if (rateStudy):
