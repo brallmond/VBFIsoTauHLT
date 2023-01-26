@@ -1,14 +1,21 @@
 # Braden Allmond, August 10th 2022, KSU
 
 from array import array
-from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair
+from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair, print_formatted_labels_and_values
+from rateDictionary import rateDictionary
 import ROOT
 import argparse
 import sys
 
 ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 
-# usage: python3 L1VBFEleEff.py -i ../../../../../samples/VBFE_CorrectEleIsoAndNewFilter.root -L 6 -o Tight_30_320_10_corrected.root 
+# usage:
+# gain/efficiency mode
+# python3 L1VBFEleEff.py -i ../../../../../samples/VBFE_wMuTauFilters.root -r NOTRATE -s tight -L 0
+# rate mode
+# python3 L1VBFEleEff.py -i ../../../../../samples/EZBs/EZB_2018/EZB1_EGOR.root -r 2018O -s tight -L 0
+# multifile
+# for line in `cat rate_files.txt`; do echo $line; python3 L1VBFEleEff.py -i $line -r 2018O -s tight -L 0 >> rate_total_output.txt; done
 
 if __name__ == "__main__":
 
@@ -17,17 +24,76 @@ if __name__ == "__main__":
                     help='the input .root file\'s name')
   parser.add_argument('-L', '--L1IndexToTest', dest='L1IndexToTest', action='store',
                     help='the L1 being tested')
-  parser.add_argument('-o', '--output_name', dest='output_name', action='store',
-                    help='name of your output file')
+  parser.add_argument('-s', '--L1LooseOrTightIso', dest='L1LooseOrTightIso', action='store',
+                    help='the iso you would like to use (loose or tight)')
+  parser.add_argument('-r', '--rateStudy', dest='rateStudy', action='store',
+                    help='is this a rate study (yes or no)')
   args = parser.parse_args()
 
   inFile = ROOT.TFile.Open(args.inFilename,"READ")
   tree = inFile.Get("demo/vbf")
 
-  print(f"Output file name: {args.output_name}")
   ROOT.TH1.SetDefaultSumw2()
 
-  outFile = ROOT.TFile.Open(args.output_name, "RECREATE")
+  # L1 and Offline cuts are just integers so we define them outside the event loop
+              # pt  mjj  ele pt    
+  L1sToTest = [[30, 300, 10], #0, for rate studies
+               [38, 460, 12], #1
+               [40, 460, 12], #2
+               [42, 460, 12], #3
+               [32, 440, 14], #4
+               [34, 440, 14], #5
+               [36, 440, 14], #6
+               # Iso
+               [30, 320, 10], #7
+               [30, 380, 10], #8
+               [30, 440, 10], #9
+               # to be tested
+               [45, 500, 12], #10
+               [30, 500, 14], #11
+               [35, 500, 14], #12
+               [40, 500, 14], #13
+               [45, 500, 14], #14
+               [50, 500, 14], #15
+               ]
+
+  match_right_way = True # used for a matching study, left hardcoded assuming the study won't need to be repeated
+  L1LooseOrTightIso = (args.L1LooseOrTightIso).lower()
+
+  rateStudyString = args.rateStudy.upper()
+  isValidString = (rateStudyString == "2018O" or rateStudyString == "2022E" or rateStudyString == "2022F")
+  notRateStudy = 'NOTRATE' in rateStudyString
+  rateStudy = not notRateStudy and isValidString # "not not" is the same as "is"
+  if (rateStudy):
+    print("\033[31m" + "This IS a rate study. L1IndexToTest has been set to zero !" + "\033[0m")
+    L1IndexToTest = 0;
+  else:
+    print("\033[31m" + "This is NOT a rate study. Make sure you're using an MC sample!" + "\033[0m")
+    L1IndexToTest = int(args.L1IndexToTest)
+
+  L1Cuts = L1sToTest[L1IndexToTest] #defined by argparse
+  print("L1 Cuts: [jets, mjj, elePt] ", L1Cuts)
+  L1JetPtToPass =  L1Cuts[0]
+  L1JetMjjToPass = L1Cuts[1]
+  L1ElePtToPass =  L1Cuts[2]
+
+  if (L1LooseOrTightIso == "tight"): 
+    text_L1_EG = "_IsoEG" + str(L1ElePtToPass)
+  else:
+    text_L1_EG = "_LooseIsoEG" + str(L1ElePtToPass)
+
+  # read input file name and prepend to output name
+  split_inFilename = str(args.inFilename).split('/')
+  dataset_inFilename = split_inFilename[-2]
+  file_inFilename = split_inFilename[-1].replace('.root','')
+
+  output_name_part_1 = dataset_inFilename + "_" + file_inFilename + "L1_VBF_DoubleJets" + str(L1JetPtToPass) 
+  output_name_part_2 = "_Mass_Min" + str(L1JetMjjToPass) + text_L1_EG + ".root"
+  output_name = output_name_part_1 + output_name_part_2
+  print(f"Total counts for {output_name}")
+
+  # declare outtree name and branches
+  outFile = ROOT.TFile.Open(output_name, "RECREATE")
   outtree = ROOT.TTree("outtree", "skimmed event data")
 
   outL1ElePt = array('f', [0.])
@@ -38,6 +104,15 @@ if __name__ == "__main__":
   outtree.Branch("L1Jet1Pt", outL1Jet1Pt, 'pt/F')
   outtree.Branch("L1Jet2Pt", outL1Jet2Pt, 'pt/F')
   outtree.Branch("L1Mjj", outL1Mjj, 'mjj/F')
+
+  outPassL1VBFDiJetEG = array('i', [0])
+  outPassL1VBFDiJetOR = array('i', [0])
+  outPassL1VBFDiJetIsoTau = array('i', [0])
+  outPassDummyEGORL1 = array('i', [0])
+  outtree.Branch("passL1VBFDiJetEG", outPassL1VBFDiJetEG, 'pass/I')
+  outtree.Branch("passL1VBFDiJetOR", outPassL1VBFDiJetOR, 'pass/I')
+  outtree.Branch("passL1VBFDiJetIsoTau", outPassL1VBFDiJetIsoTau, 'pass/I')
+  outtree.Branch("passDummyEGORL1", outPassDummyEGORL1, 'pass/I')
 
   outOffElePt = array('f', [0.])
   outOffTauPt = array('f', [0.])
@@ -53,10 +128,10 @@ if __name__ == "__main__":
   outMatchL1Off = array('i', [0])
   outtree.Branch("MatchL1Off", outMatchL1Off, 'matched/I')
 
-  L1IndexToTest = int(args.L1IndexToTest)
-  #if ((not (0 <= L1IndexToTest <= 7)) or not isinstance(L1IndexToTest, int)):
-  #  print("need an int from 0 to 6")
-  #  sys.exit()
+  # error handling for using loose or tight iso branches
+  if (L1LooseOrTightIso != "loose" and L1LooseOrTightIso != "tight"):
+    print(f"argument L1LooseOrTightIso must be 'loose' or 'tight', given {L1LooseOrTightIso}")
+    sys.exit()
 
   # hell to read but
   # defining a variable/object handle 
@@ -64,194 +139,196 @@ if __name__ == "__main__":
   # and then linking that object handle to an available branch in the event tree
   #   tree.SetBranchAddress("branchOfObjInTree", objHandle)
 
+  # Rate
+  runNumber = array('i', [0])
+  lumiSection = array('i', [0])
+  tree.SetBranchAddress("runNumber", runNumber)
+  tree.SetBranchAddress("lumiBlock", lumiSection)
+  viableEventCounter = 0
+
+  goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
+  minLS = rateDictionary[rateStudyString]["minLS"]
+  maxLS = rateDictionary[rateStudyString]["maxLS"]
+  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}]")
+
   # L1
-
-  #print("does this work? pre event loop")
-  #print(tree.passhltL1VBFElectron)
-
-  if (L1IndexToTest == 6 or L1IndexToTest == 7 or L1IndexToTest == 8):
+  if (L1LooseOrTightIso == "tight"):
     passL1 = array('i', [0])
     tree.SetBranchAddress("passhltL1VBFElectron", passL1)
     L1JetPt = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectron_jPt", L1JetPt)
     L1JetEta = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectron_jEta", L1JetEta)
     L1JetPhi = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectron_jPhi", L1JetPhi)
     L1JetEnergy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("hltL1VBFElectron_jPt", L1JetPt)
+    tree.SetBranchAddress("hltL1VBFElectron_jEta", L1JetEta)
+    tree.SetBranchAddress("hltL1VBFElectron_jPhi", L1JetPhi)
     tree.SetBranchAddress("hltL1VBFElectron_jEnergy", L1JetEnergy)
     L1ElePt = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectron_ePt", L1ElePt)
     L1EleEta = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectron_eEta", L1EleEta)
     L1ElePhi = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectron_ePhi", L1ElePhi)
     L1EleEnergy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("hltL1VBFElectron_ePt", L1ElePt)
+    tree.SetBranchAddress("hltL1VBFElectron_eEta", L1EleEta)
+    tree.SetBranchAddress("hltL1VBFElectron_ePhi", L1ElePhi)
     tree.SetBranchAddress("hltL1VBFElectron_eEnergy", L1EleEnergy)
  
   else:
     passL1 = array('i', [0])
     tree.SetBranchAddress("passhltL1VBFElectronLoose", passL1)
     L1JetPt = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectronLoose_jPt", L1JetPt)
     L1JetEta = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectronLoose_jEta", L1JetEta)
     L1JetPhi = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectronLoose_jPhi", L1JetPhi)
     L1JetEnergy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("hltL1VBFElectronLoose_jPt", L1JetPt)
+    tree.SetBranchAddress("hltL1VBFElectronLoose_jEta", L1JetEta)
+    tree.SetBranchAddress("hltL1VBFElectronLoose_jPhi", L1JetPhi)
     tree.SetBranchAddress("hltL1VBFElectronLoose_jEnergy", L1JetEnergy)
     L1ElePt = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectronLoose_ePt", L1ElePt)
     L1EleEta = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectronLoose_eEta", L1EleEta)
     L1ElePhi = ROOT.std.vector('float')()
-    tree.SetBranchAddress("hltL1VBFElectronLoose_ePhi", L1ElePhi)
     L1EleEnergy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("hltL1VBFElectronLoose_ePt", L1ElePt)
+    tree.SetBranchAddress("hltL1VBFElectronLoose_eEta", L1EleEta)
+    tree.SetBranchAddress("hltL1VBFElectronLoose_ePhi", L1ElePhi)
     tree.SetBranchAddress("hltL1VBFElectronLoose_eEnergy", L1EleEnergy)
-   
-  # HLT Filter Matching
-  # EleTau
-  PassEleTauFinalFilterTau = array('i', [0])
-  tree.SetBranchAddress("passEleTauFinalFilterTau", PassEleTauFinalFilterTau)
-  EleTauFinalFilterTau_pt = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauFinalFilterTau_pt", EleTauFinalFilterTau_pt)
-  EleTauFinalFilterTau_eta = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauFinalFilterTau_eta", EleTauFinalFilterTau_eta)
-  EleTauFinalFilterTau_phi = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauFinalFilterTau_phi", EleTauFinalFilterTau_phi)
-  EleTauFinalFilterTau_energy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauFinalFilterTau_energy", EleTauFinalFilterTau_energy)
-  PassEleTauFinalFilterEle = array('i', [0])
-  tree.SetBranchAddress("passEleTauFinalFilterEle", PassEleTauFinalFilterEle)
-  EleTauFinalFilterEle_pt = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauFinalFilterEle_pt", EleTauFinalFilterEle_pt)
-  EleTauFinalFilterEle_eta = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauFinalFilterEle_eta", EleTauFinalFilterEle_eta)
-  EleTauFinalFilterEle_phi = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauFinalFilterEle_phi", EleTauFinalFilterEle_phi)
-  EleTauFinalFilterEle_energy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("EleTauFinalFilterEle_energy", EleTauFinalFilterEle_energy)
 
-  # SingleTau
-  PassSingleEleFinalFilter = array('i', [0])
-  tree.SetBranchAddress("passSingleEleFinalFilter", PassSingleEleFinalFilter)
-  SingleEleFinalFilter_pt = ROOT.std.vector('float')()
-  tree.SetBranchAddress("SingleEleFinalFilter_pt", SingleEleFinalFilter_pt)
-  SingleEleFinalFilter_eta = ROOT.std.vector('float')()
-  tree.SetBranchAddress("SingleEleFinalFilter_eta", SingleEleFinalFilter_eta)
-  SingleEleFinalFilter_phi = ROOT.std.vector('float')()
-  tree.SetBranchAddress("SingleEleFinalFilter_phi", SingleEleFinalFilter_phi)
-  SingleEleFinalFilter_energy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("SingleEleFinalFilter_energy", SingleEleFinalFilter_energy)
+  # L1 overlaps
+  passL1VBFDiJetOR = array('i', [0])
+  passL1VBFDiJetIsoTau = array('i', [0])
+  passDummyEGORL1 = array('i', [0])
+  tree.SetBranchAddress("passhltL1VBFDiJetOR", passL1VBFDiJetOR)
+  tree.SetBranchAddress("passhltL1VBFDiJetIsoTau", passL1VBFDiJetIsoTau)
+  tree.SetBranchAddress("passHLTDummyEGORL1", passDummyEGORL1)
+
+  TallyL1VBFDiJetEG = 0
+  TallyL1VBFDiJetOR = 0
+  TallyL1VBFDiJetIsoTau = 0
+  TallyDummyEGORL1 = 0
+
+  TallyL1VBFDiJetIncORIsoTau = 0
+  TallyNotL1VBFEG = 0 # any L1 not VBFDiJet
+  TallyQuadOR = 0 # all four
+
+  is2022 = False
+  if (is2022): 
+    # HLT Filter Matching
+    # EleTau
+    PassEleTauFinalFilterTau = array('i', [0])
+    tree.SetBranchAddress("passEleTauFinalFilterTau", PassEleTauFinalFilterTau)
+    EleTauFinalFilterTau_pt = ROOT.std.vector('float')()
+    EleTauFinalFilterTau_eta = ROOT.std.vector('float')()
+    EleTauFinalFilterTau_phi = ROOT.std.vector('float')()
+    EleTauFinalFilterTau_energy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("EleTauFinalFilterTau_pt", EleTauFinalFilterTau_pt)
+    tree.SetBranchAddress("EleTauFinalFilterTau_eta", EleTauFinalFilterTau_eta)
+    tree.SetBranchAddress("EleTauFinalFilterTau_phi", EleTauFinalFilterTau_phi)
+    tree.SetBranchAddress("EleTauFinalFilterTau_energy", EleTauFinalFilterTau_energy)
+    PassEleTauFinalFilterEle = array('i', [0])
+    tree.SetBranchAddress("passEleTauFinalFilterEle", PassEleTauFinalFilterEle)
+    EleTauFinalFilterEle_pt = ROOT.std.vector('float')()
+    EleTauFinalFilterEle_eta = ROOT.std.vector('float')()
+    EleTauFinalFilterEle_phi = ROOT.std.vector('float')()
+    EleTauFinalFilterEle_energy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("EleTauFinalFilterEle_pt", EleTauFinalFilterEle_pt)
+    tree.SetBranchAddress("EleTauFinalFilterEle_eta", EleTauFinalFilterEle_eta)
+    tree.SetBranchAddress("EleTauFinalFilterEle_phi", EleTauFinalFilterEle_phi)
+    tree.SetBranchAddress("EleTauFinalFilterEle_energy", EleTauFinalFilterEle_energy)
   
-
-  # HLT Final Decisions
-  passEleTauHLT = array('i', [0])
-  tree.SetBranchAddress("passEleTauHLT", passEleTauHLT)
-  passSingleEleHLT = array('i', [0])
-  tree.SetBranchAddress("passSingleEleHLT", passSingleEleHLT)
+    # SingleTau
+    PassSingleEleFinalFilter = array('i', [0])
+    tree.SetBranchAddress("passSingleEleFinalFilter", PassSingleEleFinalFilter)
+    SingleEleFinalFilter_pt = ROOT.std.vector('float')()
+    SingleEleFinalFilter_eta = ROOT.std.vector('float')()
+    SingleEleFinalFilter_phi = ROOT.std.vector('float')()
+    SingleEleFinalFilter_energy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("SingleEleFinalFilter_pt", SingleEleFinalFilter_pt)
+    tree.SetBranchAddress("SingleEleFinalFilter_eta", SingleEleFinalFilter_eta)
+    tree.SetBranchAddress("SingleEleFinalFilter_phi", SingleEleFinalFilter_phi)
+    tree.SetBranchAddress("SingleEleFinalFilter_energy", SingleEleFinalFilter_energy)
+  
+    # HLT Final Decisions
+    passEleTauHLT = array('i', [0])
+    tree.SetBranchAddress("passEleTauHLT", passEleTauHLT)
+    passSingleEleHLT = array('i', [0])
+    tree.SetBranchAddress("passSingleEleHLT", passSingleEleHLT)
 
   # Offline kinems
-  ##Taus
-  OffnTaus = array('i', [0])
-  tree.SetBranchAddress("nTau", OffnTaus)
-  OffTauCh = ROOT.std.vector('float')()
-  tree.SetBranchAddress("tauCharge", OffTauCh)
-  OffTauPt = ROOT.std.vector('float')()
-  tree.SetBranchAddress("tauPt", OffTauPt)
-  OffTauEta = ROOT.std.vector('float')()
-  tree.SetBranchAddress("tauEta", OffTauEta)
-  OffTauPhi = ROOT.std.vector('float')()
-  tree.SetBranchAddress("tauPhi", OffTauPhi)
-  OffTauEnergy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("tauEnergy", OffTauEnergy)
-  ##Jets
-  OffnJets = array('i', [0])
-  tree.SetBranchAddress("nJet", OffnJets)
-  OffJetPt = ROOT.std.vector('float')()
-  tree.SetBranchAddress("jetPt", OffJetPt)
-  OffJetEta = ROOT.std.vector('float')()
-  tree.SetBranchAddress("jetEta", OffJetEta)
-  OffJetPhi = ROOT.std.vector('float')()
-  tree.SetBranchAddress("jetPhi", OffJetPhi)
-  OffJetEnergy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("jetEnergy", OffJetEnergy)
-  ##Electrons
-  OffnEles = array('i', [0])
-  tree.SetBranchAddress("nEle", OffnEles)
-  OffEleCh = ROOT.std.vector('float')()
-  tree.SetBranchAddress("eleCharge", OffEleCh)
-  OffElePt = ROOT.std.vector('float')()
-  tree.SetBranchAddress("elePt", OffElePt)
-  OffEleEta = ROOT.std.vector('float')()
-  tree.SetBranchAddress("eleEta", OffEleEta)
-  OffElePhi = ROOT.std.vector('float')()
-  tree.SetBranchAddress("elePhi", OffElePhi)
-  OffEleEnergy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("eleEnergy", OffEleEnergy)
+  if (not rateStudy):
+    ##Taus
+    OffnTaus = array('i', [0])
+    OffTauCh = ROOT.std.vector('float')()
+    OffTauPt = ROOT.std.vector('float')()
+    OffTauEta = ROOT.std.vector('float')()
+    OffTauPhi = ROOT.std.vector('float')()
+    OffTauEnergy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("nTau", OffnTaus)
+    tree.SetBranchAddress("tauCharge", OffTauCh)
+    tree.SetBranchAddress("tauPt", OffTauPt)
+    tree.SetBranchAddress("tauEta", OffTauEta)
+    tree.SetBranchAddress("tauPhi", OffTauPhi)
+    tree.SetBranchAddress("tauEnergy", OffTauEnergy)
+    ##Jets
+    OffnJets = array('i', [0])
+    OffJetPt = ROOT.std.vector('float')()
+    OffJetEta = ROOT.std.vector('float')()
+    OffJetPhi = ROOT.std.vector('float')()
+    OffJetEnergy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("nJet", OffnJets)
+    tree.SetBranchAddress("jetPt", OffJetPt)
+    tree.SetBranchAddress("jetEta", OffJetEta)
+    tree.SetBranchAddress("jetPhi", OffJetPhi)
+    tree.SetBranchAddress("jetEnergy", OffJetEnergy)
+    ##Electrons
+    OffnEles = array('i', [0])
+    OffEleCh = ROOT.std.vector('float')()
+    OffElePt = ROOT.std.vector('float')()
+    OffEleEta = ROOT.std.vector('float')()
+    OffElePhi = ROOT.std.vector('float')()
+    OffEleEnergy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("nEle", OffnEles)
+    tree.SetBranchAddress("eleCharge", OffEleCh)
+    tree.SetBranchAddress("elePt", OffElePt)
+    tree.SetBranchAddress("eleEta", OffEleEta)
+    tree.SetBranchAddress("elePhi", OffElePhi)
+    tree.SetBranchAddress("eleEnergy", OffEleEnergy)
+  
+    OffElePFChIso = ROOT.std.vector('float')()
+    OffElePFPUIso = ROOT.std.vector('float')()
+    OffElePFNeuIso = ROOT.std.vector('float')()
+    OffElePFPhoIso = ROOT.std.vector('float')()
+    tree.SetBranchAddress("elePFPUIso", OffElePFPUIso)
+    tree.SetBranchAddress("elePFChIso", OffElePFChIso)
+    tree.SetBranchAddress("elePFNeuIso", OffElePFNeuIso)
+    tree.SetBranchAddress("elePFPhoIso", OffElePFPhoIso)
+  
+    # Offline Ids
+    OffTauIDvsJet = ROOT.std.vector('bool')()
+    OffTauIDvsEle = ROOT.std.vector('bool')()
+    OffTauIDvsMuon = ROOT.std.vector('bool')()
+    tree.SetBranchAddress("tauByMediumDeepTau2017v2p1VSjet", OffTauIDvsJet)
+    tree.SetBranchAddress("tauByTightDeepTau2017v2p1VSe", OffTauIDvsEle)
+    tree.SetBranchAddress("tauByVLooseDeepTau2017v2p1VSmu", OffTauIDvsMuon)
 
-  OffElePFChIso = ROOT.std.vector('float')()
-  tree.SetBranchAddress("elePFChIso", OffElePFChIso)
-  OffElePFPUIso = ROOT.std.vector('float')()
-  tree.SetBranchAddress("elePFPUIso", OffElePFPUIso)
-  OffElePFNeuIso = ROOT.std.vector('float')()
-  tree.SetBranchAddress("elePFNeuIso", OffElePFNeuIso)
-  OffElePFPhoIso = ROOT.std.vector('float')()
-  tree.SetBranchAddress("elePFPhoIso", OffElePFPhoIso)
+    OffJetPFLooseID = ROOT.std.vector('bool')()
+    OffJetID = ROOT.std.vector('int')()
+    OffJetPUID = ROOT.std.vector('float')()
+    OffJetPUFullID = ROOT.std.vector('int')()
+    tree.SetBranchAddress("jetPFLooseId", OffJetPFLooseID)
+    tree.SetBranchAddress("jetID", OffJetID)
+    tree.SetBranchAddress("jetPUID", OffJetPUID)
+    tree.SetBranchAddress("jetPUFullID", OffJetPUFullID)
 
-  # Offline Ids
-  OffTauIDvsJet = ROOT.std.vector('bool')()
-  tree.SetBranchAddress("tauByMediumDeepTau2017v2p1VSjet", OffTauIDvsJet)
-  OffTauIDvsEle = ROOT.std.vector('bool')()
-  tree.SetBranchAddress("tauByTightDeepTau2017v2p1VSe", OffTauIDvsEle)
-  OffTauIDvsMuon = ROOT.std.vector('bool')()
-  tree.SetBranchAddress("tauByVLooseDeepTau2017v2p1VSmu", OffTauIDvsMuon)
+    OffEleID = ROOT.std.vector('int')()
+    tree.SetBranchAddress("eleIDMVANoIsowp90", OffEleID)
 
-  OffJetPFLooseID = ROOT.std.vector('bool')()
-  tree.SetBranchAddress("jetPFLooseId", OffJetPFLooseID)
-  OffJetID = ROOT.std.vector('int')()
-  tree.SetBranchAddress("jetID", OffJetID)
-  OffJetPUID = ROOT.std.vector('float')()
-  tree.SetBranchAddress("jetPUID", OffJetPUID)
-  OffJetPUFullID = ROOT.std.vector('int')()
-  tree.SetBranchAddress("jetPUFullID", OffJetPUFullID)
-
-  OffEleID = ROOT.std.vector('int')()
-  tree.SetBranchAddress("eleIDMVANoIsowp90", OffEleID)
-
-  # L1 and Offline cuts are just integers so we define them outside the event loop
-              # pt  mjj  ele pt    
-  L1sToTest = [[38, 460, 12],
-               [40, 460, 12],
-               [42, 460, 12],
-               [32, 440, 14],
-               [34, 440, 14],
-               [36, 440, 14],
-               # Iso
-               [30, 320, 10],
-               [30, 380, 10],
-               [30, 440, 10],
-               # Loose Iso
-               [30, 320, 10]]
-
-  L1Cuts = L1sToTest[L1IndexToTest] #defined by argparse
-  print("L1Cuts: [jets, mjj, elePt] ", L1Cuts)
-  # Jet
-  L1JetPtToPass = L1Cuts[0]
-  L1JetMjjToPass = L1Cuts[1]
-  # Ele
-  L1ElePtToPass = L1Cuts[2]
   # the offline cuts are applied to the offline objects
   # they are a flat increase of L1 kinem cuts
-  # Jet
-  OffJetPtToPass = L1JetPtToPass +20#+ 10 #+ 10
-  OffJetMjjToPass = L1JetMjjToPass +200 #+ 50 #+ 150
-  # Tau
-  OffTauPtToPass = 30 +15 #+ 150
-  # Ele
-  OffElePtToPass = L1ElePtToPass +5 #+ 1 + 1 #+ 3
+  OffJetPtToPass = L1JetPtToPass + 15
+  OffJetMjjToPass = L1JetMjjToPass + 100
+  OffTauPtToPass = 30 
+  OffElePtToPass = L1ElePtToPass + 3 
   OffCuts = [OffJetPtToPass, OffJetMjjToPass, OffElePtToPass, OffTauPtToPass]
-  print("OffCuts: [jets, mjj, elePt, tauPt] ", OffCuts)
+  print("Off Cuts: [jets, mjj, elePt, tauPt] ", OffCuts)
 
   TallyVBFEle = 0
   TallyEleTau = 0
@@ -262,15 +339,72 @@ if __name__ == "__main__":
 
   TotalEntries = tree.GetEntries()
   for entry in range(TotalEntries):
+  #for entry in range(100):
     tree.GetEntry(entry)
-    #print("in the event loop")
-    #print(tree.passhltL1VBFElectron)
-    #print(tree.jetID)
-    #print(OffJetID)
+
+    # for rate study
+    runNumberValue = runNumber[0]
+    if runNumberValue != goodRunNumber: continue
+
+    lumiSectionValue = lumiSection[0]
+    goodLumi = lumiSectionValue >= minLS and lumiSectionValue <= maxLS
+    if not goodLumi: continue
+
+    if (runNumberValue == goodRunNumber and goodLumi):
+      viableEventCounter += 1
+
+      # get L1 objects 
+      L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
+      sizeL1Jets = len(L1Jets)
+      L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
+      sizeL1Eles = len(L1Eles)
+
+      BoolPassL1VBFDiJetEG = passL1[0]
+      BoolPassL1VBFDiJetOR = passL1VBFDiJetOR[0]
+      BoolPassL1VBFDiJetIsoTau = passL1VBFDiJetIsoTau[0]
+      BoolPassDummyEGORL1 = passDummyEGORL1[0]
+
+      outPassL1VBFDiJetEG[0] = BoolPassL1VBFDiJetEG
+      outPassL1VBFDiJetOR[0] = BoolPassL1VBFDiJetOR
+      outPassL1VBFDiJetIsoTau[0] = BoolPassL1VBFDiJetIsoTau
+      outPassDummyEGORL1[0] = BoolPassDummyEGORL1
+
+      if (BoolPassL1VBFDiJetEG): TallyL1VBFDiJetEG += 1
+      if (BoolPassL1VBFDiJetOR): TallyL1VBFDiJetOR += 1
+      if (BoolPassL1VBFDiJetIsoTau): TallyL1VBFDiJetIsoTau += 1
+      if (BoolPassDummyEGORL1): TallyDummyEGORL1 += 1
+
+      BoolExistingVBFOR = BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau
+      if (BoolExistingVBFOR): TallyL1VBFDiJetIncORIsoTau += 1
+      if (BoolExistingVBFOR or BoolPassDummyEGORL1): TallyNotL1VBFEG += 1 
+      if (BoolExistingVBFOR or BoolPassDummyEGORL1 or BoolPassL1VBFDiJetEG): TallyQuadOR += 1
+
+      # if objects available, set and fill branches
+      if (sizeL1Jets >= 2 and sizeL1Eles >= 1 and passL1[0]):
+        L1Ele = L1Eles[0]
+        L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+        L1Jet1 = L1Jets[L1Jet1Index]
+        L1Jet2 = L1Jets[L1Jet2Index]
+
+        outL1ElePt[0] = L1Ele.Pt()
+        outL1Jet1Pt[0] = L1Jet1.Pt()
+        outL1Jet2Pt[0] = L1Jet2.Pt()
+        outL1Mjj[0] = L1Mjj
+
+        #print(sizeL1Jets, sizeL1Eles, L1Ele.Pt(), L1Jet1.Pt(), L1Jet2.Pt(), L1Mjj)
+      else:
+        outL1ElePt[0] = -999
+        outL1Jet1Pt[0] = -999
+        outL1Jet2Pt[0] = -999
+        outL1Mjj[0] = -999
+      
+      outtree.Fill()
+
+    continue
 
     # requiring events to pass your L1 biases your selection, fine for gain study, not fine for eff study
     #basicReqs = ((passL1[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
-    basicReqs = ((OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
+    basicReqs = ( not rateStudy and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
 
     if basicReqs:
       # make and fill containers with TLorentzVectors
@@ -377,7 +511,6 @@ if __name__ == "__main__":
       ### but right now we just care about the rate so the energy branch will have no effect
 
       # switch to match the right way (from Offline to L1) or wrong way (from L1 to Offline)
-      match_right_way = True
       if (match_right_way == False):
         matchL1Off = match_L1_to_Offline(L1Ele, L1Jet1, L1Jet2, OffEle, OffJet1, OffJet2)
       else:
@@ -473,26 +606,48 @@ if __name__ == "__main__":
       if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
 
   # print output
-  print(f"match right way (Offline to L1): {match_right_way}")
-  text_L1_Jet = "Total counts for L1_VBF_DoubleJets" + str(L1JetPtToPass) + "_Mass_Min" + str(L1JetMjjToPass)
-  if (L1IndexToTest == 6): 
-    text_L1_EG = "_IsoEG" + str(L1ElePtToPass)
-  else:
-    text_L1_EG = "_LooseIsoEG" + str(L1ElePtToPass)
-  print(text_L1_Jet + text_L1_EG)
+  print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
 
-  # formatting a table to print instead of free-form printing
-  labels = ["SingleEle", "EleTau", "OR", "AND"]
-  print(f"{labels[0]:<10} {labels[1]:<9} {labels[2]:<9} {labels[3]:<9}")
-  values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
-  print(f"{values[0]:<10} {values[1]:<9} {values[2]:<9} {values[3]:<9}")
 
-  UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
-  Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
-  labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
-  print(f"{labels[0]:<10} {labels[1]:<9} {labels[2]:<9} {labels[3]:<9}")
-  values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
-  print(f"{values[0]:<10} {values[1]:<9} {values[2]:<9} {values[3]:<.1f}%")
+  if (rateStudy):
+    labels = ["VBF+Ele","VBF+IsoTau", "VBF Inc", "L1 EGs"] 
+    values = [TallyL1VBFDiJetEG, TallyL1VBFDiJetOR, TallyL1VBFDiJetIsoTau, TallyDummyEGORL1]
+    print_formatted_labels_and_values(labels, values)
+
+    labels = ["VBF Inc OR IsoTau", "Any Except L1VBFEG", "Any L1", "Unique L1VBFEG"]
+    uniqueL1VBFEG = TallyQuadOR - TallyNotL1VBFEG
+    values = [TallyL1VBFDiJetIncORIsoTau, TallyNotL1VBFEG, TallyQuadOR, uniqueL1VBFEG]
+    print_formatted_labels_and_values(labels, values, double_space=True)
+
+    # print rate info and unpure/pure rate
+    lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
+    rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
+    if (viableEventCounter <= 0):
+      print("\033\[31m" + "No viable events" + "\033\[0m")
+    else: 
+      rate_factor = rate_factor / viableEventCounter
+      print("#"*40)
+      print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
+      print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
+      print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
+
+
+  if (not rateStudy):
+    print(f"match right way (Offline to L1): {match_right_way}")
+
+    # formatting a table to print instead of free-form printing
+    labels = ["SingleEle", "EleTau", "OR", "AND"]
+    values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
+    print_formatted_labels_and_values(labels, values)
+
+    UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
+    if (TallyEleTauOrSingleEle != 0):
+      Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
+    else:
+      Gain = -999
+    labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
+    values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
+    print_formatted_labels_and_values(labels, values)
 
   outtree.Write()
   outFile.Close()

@@ -1,0 +1,8 @@
+../../../../../samples/EZBs/EZB_2018/EZB1_EGOR.root
+../../../../../samples/EZBs/EZB_2018/EZB2_EGOR.root
+../../../../../samples/EZBs/EZB_2018/EZB3_EGOR.root
+../../../../../samples/EZBs/EZB_2018/EZB4_EGOR.root
+../../../../../samples/EZBs/EZB_2018/EZB5_EGOR.root
+../../../../../samples/EZBs/EZB_2018/EZB6_EGOR.root
+../../../../../samples/EZBs/EZB_2018/EZB7_EGOR.root
+../../../../../samples/EZBs/EZB_2018/EZB8_EGOR.root
