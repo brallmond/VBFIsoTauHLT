@@ -1,5 +1,5 @@
 hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTs/V2 \
---data --globaltag 124X_dataRun3_HLT_v4 \
+--data --globaltag 124X_dataRun3_HLT_v7 \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v*,\
 HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v*,\
@@ -21,8 +21,8 @@ HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output none \
 --process MYOTHERHLT --max-events 100 \
 --l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_3_0_edited.xml \
---input root://cms-xrd-global.cern.ch//store/data/Run2022F/EphemeralZeroBias7/RAW/v1/000/360/486/00000/07335105-a55d-47da-98e0-a7f793a43902.root \
-> hlt2022Data_NoJECGT.py
+--input root://cms-xrd-global.cern.ch//store/data/Run2022G/EphemeralZeroBias0/RAW/v1/000/362/437/00000/084e3abe-2c7b-4bb4-ace9-5328f9f47707.root \
+> hlt2022Data_EZB_G.py
 
 --l1-emulator Full
 --data --globaltag 124X_dataRun3_HLT_forTSG_newJECs_v1 \
