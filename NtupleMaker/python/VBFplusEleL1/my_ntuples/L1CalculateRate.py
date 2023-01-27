@@ -43,6 +43,10 @@ if __name__ == "__main__":
       rateStudyString = "2022E"
     elif ("2022F" in in_file or "2022_F" in in_file):
       rateStudyString = "2022F"
+    elif ("PU70" in in_file):
+      rateStudyString = "2022G_PU70"
+    elif ("PU60" in in_file):
+      rateStudyString = "2022G_PU60"
     else:
       print("Change in-filename to contain 2018 or 2022E, reflecting the sample it was made from.")
 
