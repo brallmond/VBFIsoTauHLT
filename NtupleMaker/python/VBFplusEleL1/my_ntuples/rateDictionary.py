@@ -4,4 +4,6 @@ rateDictionary = {
       "2022E"   : {"nBunches" : 2448, "runNumber" : 359871, "minLS" : 35,  "maxLS" : 59, "approxLumi" : 1.84},
       #"2022E"   : {"nBunches" : 2448, "runNumber" : 359661, "minLS" : 56,  "maxLS" : 196, "approxLumi" : 0.565},
       "2022F"   : {"nBunches" : 2450, "runNumber" : 361468, "minLS" : 148,  "maxLS" : 292, "approxLumi" : 1.84},
+      "2022G_PU70"   : {"nBunches" : 2450, "runNumber" : 362439, "minLS" : 1,  "maxLS" : 101, "approxLumi" : 2.4},
+      "2022G_PU60"   : {"nBunches" : 2450, "runNumber" : 362616, "minLS" : 1,  "maxLS" : 101, "approxLumi" : 2.00},
 }
