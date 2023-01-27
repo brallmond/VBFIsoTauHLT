@@ -13,9 +13,13 @@ These three repos were used in the past for various activities (see `NtupleMaker
 
 ## use an edited L1 menu with conf file
 In /src/ do the following
+
 `git cms-addpkg L1Trigger/L1TGlobal`
+
 `mkdir L1Trigger/L1TGlobal/data/Luminosity/startup`
+
 `cp <L1 Menu> L1Trigger/L1TGlobal/data/Luminosity/startup`
+
 
 
 Build everything by running the following command in src.
