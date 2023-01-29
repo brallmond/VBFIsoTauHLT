@@ -127,6 +127,9 @@ vector<float> MuTauForDiTauFinalFilterOverlap_eta;
 vector<float> MuTauForDiTauFinalFilterOverlap_phi;
 vector<float> MuTauForDiTauFinalFilterOverlap_energy;
 
+// TODO add Jaime HLT final filters
+//      add Inclusive DiJet HLT final filters
+
 void NtupleMaker::branchesTriggers(TTree* tree){
 
     //DiTau
