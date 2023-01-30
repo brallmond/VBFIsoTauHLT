@@ -28,6 +28,8 @@ if __name__ == "__main__":
                     help='the iso you would like to use (loose or tight)')
   parser.add_argument('-r', '--rateStudy', dest='rateStudy', action='store',
                     help='is this a rate study (yes or no)')
+  parser.add_argument('-D', '--DiJetORCut', dest='DiJetOR_35or45', action='store',
+                    help='the cut to use for the jets in the L1DiJetOR, 35 or 45')
   args = parser.parse_args()
 
   inFile = ROOT.TFile.Open(args.inFilename,"READ")
@@ -196,6 +198,27 @@ if __name__ == "__main__":
 
   # L1 overlaps
   passL1VBFDiJetOR = array('i', [0])
+  tree.SetBranchAddress("passhltL1VBFDiJetOR", passL1VBFDiJetOR)
+  L1VBFDiJetOR_pt = ROOT.std.vector('float')()
+  L1VBFDiJetOR_eta = ROOT.std.vector('float')()
+  L1VBFDiJetOR_phi = ROOT.std.vector('float')()
+  L1VBFDiJetOR_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("hltL1VBFDiJetOR_pt", L1VBFDiJetOR_pt)
+  tree.SetBranchAddress("hltL1VBFDiJetOR_eta", L1VBFDiJetOR_eta)
+  tree.SetBranchAddress("hltL1VBFDiJetOR_phi", L1VBFDiJetOR_phi)
+  tree.SetBranchAddress("hltL1VBFDiJetOR_energy", L1VBFDiJetOR_energy)
+
+  DiJetOR_35or45 = args.DiJetOR_35or45
+  if ("35" in DiJetOR_35or45):
+    DoubleJetCut = 35
+    ThirdJetCut = 110
+  elif ("45" in DiJetOR_35or45):
+    DoubleJetCut = 45
+    ThirdJetCut = 120 
+  else:
+    print("Please input 35 or 45 for the DiJetOR cut. Exiting...")
+    sys.exit()
+
   passL1VBFDiJetIsoTau = array('i', [0])
   passDummyEGORL1 = array('i', [0])
   tree.SetBranchAddress("passhltL1VBFDiJetOR", passL1VBFDiJetOR)
@@ -364,9 +387,25 @@ if __name__ == "__main__":
         sizeL1Eles = len(L1Eles)
   
         BoolPassL1VBFDiJetEG = passL1[0]
-        BoolPassL1VBFDiJetOR = passL1VBFDiJetOR[0]
         BoolPassL1VBFDiJetIsoTau = passL1VBFDiJetIsoTau[0]
         BoolPassDummyEGORL1 = passDummyEGORL1[0]
+
+        # emulated L1 DiJet OR
+        BoolPassL1VBFDiJetOR = passL1VBFDiJetOR[0]
+        #BoolPassL1VBFDiJetOR = 0 # override to get baseline with 90_30 30 L1
+        if (BoolPassL1VBFDiJetOR):
+          L1VBFDiJetORJets = fillWithTVecs(L1VBFDiJetOR_pt, L1VBFDiJetOR_eta,\
+                                           L1VBFDiJetOR_phi, L1VBFDiJetOR_energy)
+          L1DiJetORJet1Index, L1DiJetORJet2Index, L1DiJetORMjj = highestMjjPair(L1VBFDiJetORJets)
+          if (L1DiJetORJet1Index != 0 and L1DiJetORJet2Index != 0):
+            L1DiJetORJet3 = L1VBFDiJetORJets[0]
+            #print("third jet pt: ", L1DiJetORJet3.Pt())
+            if (L1DiJetORJet3.Pt() < ThirdJetCut):
+              BoolPassL1VBFDiJetOR = 0
+          L1DiJetORJet1 = L1VBFDiJetORJets[L1DiJetORJet1Index]
+          L1DiJetORJet2 = L1VBFDiJetORJets[L1DiJetORJet2Index]
+          if (L1DiJetORJet1.Pt() < DoubleJetCut or L1DiJetORJet2.Pt() < DoubleJetCut):# or L1DiJetORMjj < 620)
+            BoolPassL1VBFDiJetOR = 0
   
         outPassL1VBFDiJetEG[0] = BoolPassL1VBFDiJetEG
         outPassL1VBFDiJetOR[0] = BoolPassL1VBFDiJetOR
