@@ -90,10 +90,11 @@ if __name__ == "__main__":
   split_inFilename = str(args.inFilename).split('/')
   dataset_inFilename = split_inFilename[-2]
   file_inFilename = split_inFilename[-1].replace('.root','')
+  L1DiJetORCut_inFilename = "L1DiJetOR"+str(args.L1DiJetOR_35or45)+"_"
 
   output_name_part_1 = dataset_inFilename + "_" + file_inFilename + "L1_VBF_DoubleJets" + str(L1JetPtToPass) 
   output_name_part_2 = "_Mass_Min" + str(L1JetMjjToPass) + text_L1_EG + ".root"
-  output_name = output_name_part_1 + output_name_part_2
+  output_name = L1DiJetORCut_inFilename + output_name_part_1 + output_name_part_2
   print(f"Total counts for {output_name}")
 
   # declare outtree name and branches
