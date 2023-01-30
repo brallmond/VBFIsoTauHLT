@@ -26,6 +26,10 @@ if __name__ == "__main__":
                     help='the L1 being tested')
   parser.add_argument('-r', '--rateStudy', dest='rateStudy', action='store',
                     help='is this a rate study (yes or no)')
+  parser.add_argument('-DT', '--L1DiTauCut', dest='L1DiTauCut', default=34, action='store',
+                    help='set the L1DiTauCut (default 34 for Runs after Era E)')
+  parser.add_argument('-DJ', '--L1DiJetORCut', dest='L1DiJetOR_35or45', action='store',
+                    help='the cut to use for the jets in the L1DiJetOR, 35 or 45')
   args = parser.parse_args()
 
   inFile = ROOT.TFile.Open(args.inFilename,"READ")
@@ -69,10 +73,13 @@ if __name__ == "__main__":
   split_inFilename = str(args.inFilename).split('/')
   dataset_inFilename = split_inFilename[-2]
   file_inFilename = split_inFilename[-1].replace('.root','')
+  L1DiTauCut_inFilename = "L1DiTau"+str(args.L1DiTauCut)+"_"
+  L1DiJetORCut_inFilename = "L1DiJetOR"+str(args.L1DiJetOR_35or45)+"_"
 
+  output_name_part_0 = L1DiTauCut_inFilename + L1DiJetORCut_inFilename
   output_name_part_1 = dataset_inFilename + "_" + file_inFilename + "L1_VBF_DoubleJets" + str(L1JetPtToPass) 
   output_name_part_2 = "_Mass_Min" + str(L1JetMjjToPass) + text_L1_IsoTau + ".root"
-  output_name = output_name_part_1 + output_name_part_2
+  output_name = output_name_part_0 + output_name_part_1 + output_name_part_2
   print(f"Total counts for {output_name}")
 
   # declare outtree name and branches
@@ -163,14 +170,35 @@ if __name__ == "__main__":
 
   # L1 overlaps
   passL1VBFDiJetOR = array('i', [0])
-  passDummyEGORL1 = array('i', [0])
   tree.SetBranchAddress("passhltL1VBFDiJetOR", passL1VBFDiJetOR)
+  L1VBFDiJetOR_pt = ROOT.std.vector('float')()
+  L1VBFDiJetOR_eta = ROOT.std.vector('float')()
+  L1VBFDiJetOR_phi = ROOT.std.vector('float')()
+  L1VBFDiJetOR_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("hltL1VBFDiJetOR_pt", L1VBFDiJetOR_pt)
+  tree.SetBranchAddress("hltL1VBFDiJetOR_eta", L1VBFDiJetOR_eta)
+  tree.SetBranchAddress("hltL1VBFDiJetOR_phi", L1VBFDiJetOR_phi)
+  tree.SetBranchAddress("hltL1VBFDiJetOR_energy", L1VBFDiJetOR_energy)
+
+  DiJetOR_35or45 = args.L1DiJetOR_35or45
+  if ("35" in DiJetOR_35or45):
+    DoubleJetCut = 35
+    ThirdJetCut = 110
+  elif ("45" in DiJetOR_35or45):
+    DoubleJetCut = 45
+    ThirdJetCut = 120
+  else:
+    print("Please input 35 or 45 for the DiJetOR cut. Exiting...")
+    sys.exit() 
+
+  passDummyEGORL1 = array('i', [0])
   tree.SetBranchAddress("passHLTDummyEGORL1", passDummyEGORL1)
 
   passL1DiTau = array('i', [0])
   tree.SetBranchAddress("passhltL1sDoubleTauBigOR", passL1DiTau)
   L1DiTau_pt = ROOT.std.vector('float')()
   tree.SetBranchAddress("hltL1sDoubleTauBigOR_pt", L1DiTau_pt)
+  L1DiTauCut = args.L1DiTauCut
 
   TallyL1VBFDiJetEG = 0
   TallyL1VBFDiJetOR = 0
@@ -373,7 +401,6 @@ if __name__ == "__main__":
 
   TotalEntries = tree.GetEntries()
   for entry in range(TotalEntries):
-  #for entry in range(100):
     tree.GetEntry(entry)
 
     if (rateStudy):
@@ -395,9 +422,28 @@ if __name__ == "__main__":
         sizeL1IsoTaus = len(L1IsoTaus)
   
         BoolPassL1VBFDiJetIsoTau = passL1VBFDiJetIsoTau[0]
-        BoolPassL1VBFDiJetOR = passL1VBFDiJetOR[0]
         BoolPassDummyEGORL1 = passDummyEGORL1[0]
+
+        # emulated L1 DiJet OR
+        BoolPassL1VBFDiJetOR = passL1VBFDiJetOR[0]
+        if (BoolPassL1VBFDiJetOR):
+          L1VBFDiJetORJets = fillWithTVecs(L1VBFDiJetOR_pt, L1VBFDiJetOR_eta,\
+                                           L1VBFDiJetOR_phi, L1VBFDiJetOR_energy)
+          L1DiJetORJet1Index, L1DiJetORJet2Index, L1DiJetORMjj = highestMjjPair(L1VBFDiJetORJets)
+          if (L1DiJetORJet1Index != 0 and L1DiJetORJet2Index != 0):
+            L1DiJetORJet3 = L1VBFDiJetORJets[0]
+            if (L1DiJetORJet3.Pt() < ThirdJetCut):
+              BoolPassL1VBFDiJetOR = 0
+          L1DiJetORJet1 = L1VBFDiJetORJets[L1DiJetORJet1Index] 
+          L1DiJetORJet2 = L1VBFDiJetORJets[L1DiJetORJet2Index] 
+          if (L1DiJetORJet1.Pt() < DoubleJetCut or L1DiJetORJet2.Pt() < DoubleJetCut):# or L1DiJetORMjj < 620)
+            BoolPassL1VBFDiJetOR = 0
+
+        # emulated L1 DiTau
         BoolPassL1DiTau = passL1DiTau[0]
+        if (BoolPassL1DiTau and runNumberValue >= 360486):
+          if (L1DiTau_pt[0] < L1DiTauCut or L1DiTau_pt[1] < L1DiTauCut):
+            BoolPassL1DiTau = 0
   
         outPassL1VBFDiJetIsoTau[0] = BoolPassL1VBFDiJetIsoTau
         outPassL1VBFDiJetOR[0] = BoolPassL1VBFDiJetOR
@@ -438,9 +484,9 @@ if __name__ == "__main__":
         
         # after L1 do HLT
         # for each Bool, and with pass artificial L1 when enabled..
-        BoolPassVBFDiTauHLT = passVBFDiTauHLT[0] 
-        BoolPassInclusiveVBFHLT = passInclusiveVBFHLT[0] 
-        BoolPassDiTauHLT = passDiTauHLT[0]
+        BoolPassVBFDiTauHLT = passVBFDiTauHLT[0] and BoolPassL1VBFDiJetIsoTau
+        BoolPassInclusiveVBFHLT = passInclusiveVBFHLT[0] and BoolPassL1VBFDiJetOR
+        BoolPassDiTauHLT = passDiTauHLT[0] and BoolPassL1DiTau
 
         outPassVBFDiTauHLT[0] = BoolPassVBFDiTauHLT
         outPassInclusiveVBFHLT[0] = BoolPassInclusiveVBFHLT
