@@ -15,7 +15,7 @@ ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 # rate mode
 # python3 L1VBFEleEff.py -i ../../../../../samples/EZBs/EZB_2018/EZB1_EGOR.root -r 2018O -s tight -L 0
 # multifile
-# for line in `cat rate_files.txt`; do echo $line; python3 L1VBFEleEff.py -i $line -r 2018O -s tight -L 0 >> rate_total_output.txt; done
+# for line in `cat rate_files.txt`; do echo $line; python3 L1VBFIsoTauEff.py -i $line -r 2022G_PU60 -DT 34 -DJ 35 >> rate_total_output.txt; done
 
 if __name__ == "__main__":
 
@@ -198,7 +198,7 @@ if __name__ == "__main__":
   tree.SetBranchAddress("passhltL1sDoubleTauBigOR", passL1DiTau)
   L1DiTau_pt = ROOT.std.vector('float')()
   tree.SetBranchAddress("hltL1sDoubleTauBigOR_pt", L1DiTau_pt)
-  L1DiTauCut = args.L1DiTauCut
+  L1DiTauCut = float(args.L1DiTauCut)
 
   TallyL1VBFDiJetEG = 0
   TallyL1VBFDiJetOR = 0

@@ -15,7 +15,7 @@ ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 # rate mode
 # python3 L1VBFEleEff.py -i ../../../../../samples/EZBs/EZB_2018/EZB1_EGOR.root -r 2018O -s tight -L 0
 # multifile
-# for line in `cat rate_files.txt`; do echo $line; python3 L1VBFEleEff.py -i $line -r 2018O -s tight -L 0 >> rate_total_output.txt; done
+# for line in `cat rate_files.txt`; do echo $line; python3 L1VBFEleEff.py -i $line -r 2022G_PU6O -s tight -L 0 -DJ 35 >> rate_total_output.txt; done
 
 if __name__ == "__main__":
 
@@ -28,7 +28,7 @@ if __name__ == "__main__":
                     help='the iso you would like to use (loose or tight)')
   parser.add_argument('-r', '--rateStudy', dest='rateStudy', action='store',
                     help='is this a rate study (yes or no)')
-  parser.add_argument('-D', '--DiJetORCut', dest='DiJetOR_35or45', action='store',
+  parser.add_argument('-DJ', '--L1DiJetORCut', dest='L1DiJetOR_35or45', action='store',
                     help='the cut to use for the jets in the L1DiJetOR, 35 or 45')
   args = parser.parse_args()
 
@@ -209,7 +209,7 @@ if __name__ == "__main__":
   tree.SetBranchAddress("hltL1VBFDiJetOR_phi", L1VBFDiJetOR_phi)
   tree.SetBranchAddress("hltL1VBFDiJetOR_energy", L1VBFDiJetOR_energy)
 
-  DiJetOR_35or45 = args.DiJetOR_35or45
+  DiJetOR_35or45 = args.L1DiJetOR_35or45
   if ("35" in DiJetOR_35or45):
     DoubleJetCut = 35
     ThirdJetCut = 110
