@@ -131,10 +131,13 @@ def fillWithTVecsNoEnergyBranch(branchPt, branchEta, branchPhi, arrayIDs=None):
   return outputTVecs
 
 
-def print_formatted_labels_and_values(labels: list, values: list, double_space: bool=False, five_values: bool=False):
+def print_formatted_labels_and_values(labels: list, values: list, double_space: bool=False, five_values: bool=False,\
+                                      three_values: bool=False):
     print("#"*40)
-
-    if five_values:
+    if three_values:
+        print(f"{labels[0]:<10} : {labels[1]:<10} : {labels[2]:<10}")
+        print(f"{values[0]:<10} : {values[1]:<10} : {values[2]:<10}")
+    elif five_values:
         print(f"{labels[0]:<10} : {labels[1]:<10} : {labels[2]:<10} : {labels[3]:<10} : {labels[4]: <20}")
         print(f"{values[0]:<10} : {values[1]:<10} : {values[2]:<10} : {values[3]:<10} : {values[4]: <20}")
     elif double_space:

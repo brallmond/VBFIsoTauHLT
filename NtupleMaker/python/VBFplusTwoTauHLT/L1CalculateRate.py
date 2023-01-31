@@ -20,25 +20,25 @@ if __name__ == "__main__":
     new_file = ROOT.TFile.Open(in_file, "READ") 
     tree = new_file.Get("outtree")
 
-    TallyL1VBFDiJetEG = 0
     TallyL1VBFDiJetOR = 0
     TallyL1VBFDiJetIsoTau = 0
-    TallyDummyEGORL1 = 0
+    TallyL1DiTau = 0
 
     TallyPassLowestL1 = 0
     TallyL1VBFDiJetIncORIsoTau = 0
-    TallyNotL1VBFEG = 0
-    TallyQuadOR = 0
-    
-    electronBins = 3
-    mjjBins = 11
-    jetBins = 11
-    electronScanRange = np.linspace(10.,14., electronBins)
-    mjjScanRange = np.linspace(300.,500., mjjBins)
-    jetScanRange = np.linspace(30.,50., jetBins)
+    TallyL1VBFDiJetIncORDiTau = 0
+    TallyL1DiTauORIsoTau = 0
+    TallyTripleOR = 0
 
-    gridTotal = np.zeros((electronBins, mjjBins, jetBins))
-    gridOverlap = np.zeros((electronBins, mjjBins, jetBins))
+    isoTauBins = 3
+    mjjBins = 4
+    jetBins = 11
+    isoTauScanRange = np.linspace(45.,55., isoTauBins)
+    mjjScanRange = np.linspace(450.,600., mjjBins)
+    jetScanRange = np.linspace(35.,55., jetBins)
+
+    gridTotal = np.zeros((isoTauBins, mjjBins, jetBins))
+    gridOverlap = np.zeros((isoTauBins, mjjBins, jetBins))
 
     if ("2018" in in_file): 
       rateStudyString = "2018O"
@@ -72,58 +72,75 @@ if __name__ == "__main__":
     for i in range(0, nEntries):
       tree.GetEntry(i)
 
-      BoolPassL1VBFDiJetEG = tree.passL1VBFDiJetEG
       BoolPassL1VBFDiJetOR = tree.passL1VBFDiJetOR
       BoolPassL1VBFDiJetIsoTau = tree.passL1VBFDiJetIsoTau
-      BoolPassDummyEGORL1  = tree.passDummyEGORL1
+      BoolPassL1DiTau = tree.passL1DiTau
 
-      if (BoolPassL1VBFDiJetEG): TallyL1VBFDiJetEG += 1
-      if (BoolPassL1VBFDiJetOR): TallyL1VBFDiJetOR += 1
       if (BoolPassL1VBFDiJetIsoTau): TallyL1VBFDiJetIsoTau += 1
-      if (BoolPassDummyEGORL1): TallyDummyEGORL1 += 1
+      if (BoolPassL1VBFDiJetOR): TallyL1VBFDiJetOR += 1
+      if (BoolPassL1DiTau): TallyL1DiTau += 1
 
-      BoolExistingVBFOR = BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau
-      if (BoolExistingVBFOR): TallyL1VBFDiJetIncORIsoTau += 1
-      BoolPassAnyOther = BoolExistingVBFOR or BoolPassDummyEGORL1
-      if (BoolPassAnyOther): TallyNotL1VBFEG += 1 
-      if (BoolPassAnyOther or BoolPassL1VBFDiJetEG): TallyQuadOR += 1
+      if (BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau): TallyL1VBFDiJetIncORIsoTau += 1
+      if (BoolPassL1VBFDiJetOR or BoolPassL1DiTau): TallyL1VBFDiJetIncORDiTau += 1
+      if (BoolPassL1VBFDiJetIsoTau or BoolPassL1DiTau): TallyL1DiTauORIsoTau += 1
 
-      if (BoolPassL1VBFDiJetEG):
-        L1ElePt   = tree.L1ElePt
+
+      if (BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau or BoolPassL1DiTau): TallyTripleOR += 1
+
+      if (BoolPassL1VBFDiJetIsoTau):
+        L1IsoTauPt   = tree.L1IsoTauPt
         L1Jet1Pt  = tree.L1Jet1Pt
         L1Jet2Pt  = tree.L1Jet2Pt
         L1Mjj     = tree.L1Mjj
 
-        for eleIndex, eleEntry in enumerate(electronScanRange):
+        for tauIndex, tauEntry in enumerate(isoTauScanRange):
           for mjjIndex, mjjEntry in enumerate(mjjScanRange):
             for jetIndex, jetEntry in enumerate(jetScanRange):
 
-              if ((L1ElePt >= eleEntry) and (L1Jet1Pt >= jetEntry and L1Jet2Pt >= jetEntry) and (L1Mjj >= mjjEntry)):
-                gridTotal[eleIndex, mjjIndex, jetIndex] += weight
-                gridOverlap[eleIndex, mjjIndex, jetIndex] += weight
+              if ((L1IsoTauPt >= tauEntry) and (L1Jet1Pt >= jetEntry and L1Jet2Pt >= jetEntry) and (L1Mjj >= mjjEntry)):
+                gridTotal[tauIndex, mjjIndex, jetIndex] += weight
+                gridOverlap[tauIndex, mjjIndex, jetIndex] += weight
 
-                if (L1ElePt >= 10 and L1Jet1Pt >= 30 and L1Jet2Pt >= 30 and L1Mjj >= 300):
+                if (L1IsoTauPt >= 45 and L1Jet1Pt >= 35 and L1Jet2Pt >= 35 and L1Mjj >= 450):
                   TallyPassLowestL1 += 1
 
-                if (BoolPassAnyOther):
-                  gridOverlap[eleIndex, mjjIndex, jetIndex] -= weight
+                #if (BoolPassAnyOther):
+                if (BoolPassL1VBFDiJetOR or BoolPassL1DiTau):
+                  gridOverlap[tauIndex, mjjIndex, jetIndex] -= weight
 
 
     print(f"Sanity Check, Lowest L1 Tally : {TallyPassLowestL1}")
 
-    # print output
-    labels = ["VBF+Ele","VBF+IsoTau", "VBF Inc", "L1 EGs"] 
-    values = [TallyL1VBFDiJetEG, TallyL1VBFDiJetOR, TallyL1VBFDiJetIsoTau, TallyDummyEGORL1]
-    print_formatted_labels_and_values(labels, values)
+    # L1 Single Counts
+    print("-------------L1!---------------")
+    labels_single = ["VBF+IsoTau", "VBF Inc", "DiTau"] 
+    values = [TallyL1VBFDiJetIsoTau, TallyL1VBFDiJetOR, TallyL1DiTau]
+    print_formatted_labels_and_values(labels_single, values, three_values=True)
 
-    labels = ["VBF Inc OR IsoTau", "Any Except L1VBFEG", "Any L1", "Unique L1VBFEG"]
-    uniqueL1VBFEG = TallyQuadOR - TallyNotL1VBFEG
-    values = [TallyL1VBFDiJetIncORIsoTau, TallyNotL1VBFEG, TallyQuadOR, uniqueL1VBFEG]
-    print_formatted_labels_and_values(labels, values, double_space=True)
-    print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
+    # L1 ORs and Unique
+    labels_OR = ["VBF Inc OR IsoTau", "VBF Inc OR DiTau", "VBF Iso Tau OR DiTau", "TripleOR", "Unique IsoTau"]
+    uniqueL1VBFIsoTau = TallyTripleOR - TallyL1VBFDiJetIncORDiTau
+    values = [TallyL1VBFDiJetIncORIsoTau, TallyL1VBFDiJetIncORDiTau, TallyL1DiTauORIsoTau, TallyTripleOR, uniqueL1VBFIsoTau]
+    print_formatted_labels_and_values(labels_OR, values, double_space=True, five_values=True)
+
+    # print rate info and unpure/pure rate
+    lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
+    rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
+    if (nEntries <= 0):
+      print("\033\[31m" + "No viable events" + "\033\[0m")
+    else: 
+      rate_factor = rate_factor / nEntries
+      print("#"*40)
+      print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
+      print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
+      print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetIsoTau},  PURE rate = {rate_factor * uniqueL1VBFIsoTau}")
+
 
     intJetPt = [int(i) for i in jetScanRange]
     intMjj = [int(i) for i in mjjScanRange]
+
+    print(intJetPt)
+    print(intMjj)
   
     gridmax = np.max(gridTotal)
     gridmax = gridmax*1.2
@@ -131,15 +148,8 @@ if __name__ == "__main__":
     fig, axes = plt.subplots(2, 3)
     fig.set_size_inches(10.5, 10.5)
 
-    # title formattin
-    loose_or_tight = "Neither"
-    if ("LOOSE" in in_file.upper()):
-      loose_or_tight = "Loose"
-    elif ("TIGHT" in in_file.upper()):
-      loose_or_tight = "Tight"
-    else:
-      print("Change in-filename to contain tight or loose, reflecting the sample it was made from.")
-    L1_String = "L1_VBF_DoubleJetXX_ Mass_MinYYY_" + loose_or_tight + "IsoEGZZ"
+    # title formatting
+    L1_String = "L1_DoubleJetXX_ Mass_MinYYY_IsoTauZZ"
     year = "EZB "
     if ("2018" in rateStudyString):
       year += str(2018)
@@ -159,7 +169,7 @@ if __name__ == "__main__":
  
       if (i == 0 or i == 1 or i == 2):
         im = ax.imshow(gridTotal[i], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
-        ax.set_title("electronPt ≥ " + str(2*(i)+10), fontsize=8)
+        ax.set_title("isoTauPt ≥ " + str(5*(i)+45), fontsize=8)
         for (n,m),label in np.ndenumerate(gridTotal[i]):
           label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=6)
