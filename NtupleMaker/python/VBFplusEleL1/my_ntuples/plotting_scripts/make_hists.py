@@ -92,10 +92,10 @@ if __name__ == "__main__":
     print(f"L1Cuts: {L1Cuts}")
     file_label_L1Cut = "_".join(["",str(L1Cut_Jet1Pt), str(L1Cut_Mjj), str(L1Cut_ElePt)])
 
-    OffCut_ElePt = L1Cut_ElePt + 1 + 1 + 3
-    OffCut_TauPt = 30 + 15
-    OffCut_Jet1Pt = OffCut_Jet2Pt = L1Cut_Jet1Pt + 10 + 10
-    OffCut_Mjj = L1Cut_Mjj + 50 + 150
+    OffCut_ElePt = L1Cut_ElePt + 3 #1 + 1 + 3
+    OffCut_TauPt = 30 #+ 15
+    OffCut_Jet1Pt = OffCut_Jet2Pt = L1Cut_Jet1Pt + 15 #10 + 10
+    OffCut_Mjj = L1Cut_Mjj + 100 #50 + 150
     OffCuts = [OffCut_ElePt, OffCut_TauPt, OffCut_Jet1Pt, OffCut_Jet2Pt, OffCut_Mjj]
     print(f"OffCuts: {OffCuts}")
 
