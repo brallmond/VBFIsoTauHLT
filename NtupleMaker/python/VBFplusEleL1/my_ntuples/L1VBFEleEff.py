@@ -26,9 +26,9 @@ if __name__ == "__main__":
                     help='the L1 being tested')
   parser.add_argument('-s', '--L1LooseOrTightIso', dest='L1LooseOrTightIso', action='store',
                     help='the iso you would like to use (loose or tight)')
-  parser.add_argument('-r', '--rateStudy', dest='rateStudy', action='store',
-                    help='is this a rate study (yes or no)')
-  parser.add_argument('-DJ', '--L1DiJetORCut', dest='L1DiJetOR_35or45', action='store',
+  parser.add_argument('-r', '--rateStudy', dest='rateStudy', default="NOTRATE", action='store',
+                    help='specify rate study tag (see rateDictionary.py)')
+  parser.add_argument('-DJ', '--L1DiJetORCut', dest='L1DiJetOR_35or45', default="35", action='store',
                     help='the cut to use for the jets in the L1DiJetOR, 35 or 45')
   args = parser.parse_args()
 
@@ -41,23 +41,11 @@ if __name__ == "__main__":
               # pt  mjj  ele pt    
   L1sToTest = [[30, 300, 10], #0, for rate studies
                [30, 500, 10],
-               [35, 500, 10],
-               [40, 500, 10],
-               [45, 500, 10],
-               [50, 500, 10],
-
-               [30, 450, 14],
-               [30, 500, 14],
-               [30, 550, 14],
-               [35, 450, 10], # rate too high
-               [35, 450, 12],
-               [35, 450, 14],
-               [35, 500, 10],
+               [30, 500, 12],
                [35, 500, 12],
-               [35, 500, 14],
-               [40, 500, 10],
                [40, 500, 12],
-               [40, 500, 14],
+               [45, 500, 12],
+               [50, 500, 12],
                ]
 
   match_right_way = True # used for a matching study, left hardcoded assuming the study won't need to be repeated
@@ -118,6 +106,13 @@ if __name__ == "__main__":
   outtree.Branch("passL1VBFDiJetOR", outPassL1VBFDiJetOR, 'pass/I')
   outtree.Branch("passL1VBFDiJetIsoTau", outPassL1VBFDiJetIsoTau, 'pass/I')
   outtree.Branch("passDummyEGORL1", outPassDummyEGORL1, 'pass/I')
+
+  outPassVBFEleTauOff = array('i', [0])
+  outPassEleTauOff = array('i', [0])
+  outPassSingleEleOff = array('i', [0])
+  outtree.Branch("passVBFEleTauOff", outPassVBFEleTauOff, 'pass/I')
+  outtree.Branch("passEleTauOff", outPassEleTauOff, 'pass/I')
+  outtree.Branch("passSingleEleOff", outPassSingleEleOff, 'pass/I')
 
   outOffElePt = array('f', [0.])
   outOffTauPt = array('f', [0.])
@@ -584,7 +579,6 @@ if __name__ == "__main__":
       outOffJet2Pt[0] = OffJet2.Pt()
       outOffMjj[0] = OffMjj
 
-      outtree.Fill()
 
       # EleTau HLT Matching
       EleTauHLTTaus = fillWithTVecs(EleTauFinalFilterTau_pt, EleTauFinalFilterTau_eta, \
@@ -637,8 +631,14 @@ if __name__ == "__main__":
 
       # now tally it up
       GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
-      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts and passEleTauHLT
-      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts and passSingleEleHLT
+      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts and passEleTauHLT[0]
+      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts and passSingleEleHLT[0]
+
+      outPassVBFEleTauOff[0] = GoodVBFEle
+      outPassEleTauOff[0] = GoodEleTau
+      outPassSingleEleOff[0] = GoodSingleEle
+
+      outtree.Fill()
 
       # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
       if (GoodVBFEle): TallyVBFEle += 1
