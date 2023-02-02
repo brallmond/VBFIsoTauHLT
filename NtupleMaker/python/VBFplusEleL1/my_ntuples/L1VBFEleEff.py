@@ -149,7 +149,8 @@ if __name__ == "__main__":
   goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
   minLS = rateDictionary[rateStudyString]["minLS"]
   maxLS = rateDictionary[rateStudyString]["maxLS"]
-  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}]")
+  badLS = rateDictionary[rateStudyString]["badLS"]
+  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}], Bad LS = {badLS}")
 
   # L1
   if (L1LooseOrTightIso == "tight"):
@@ -370,7 +371,10 @@ if __name__ == "__main__":
       if runNumberValue != goodRunNumber: continue
 
       lumiSectionValue = lumiSection[0]
-      goodLumi = lumiSectionValue >= minLS and lumiSectionValue <= maxLS
+      withinLumiRange = lumiSectionValue >= minLS and lumiSectionValue <= maxLS
+      notBadLS = lumiSectionValue not in badLS
+      goodLumi = withinLumiRange and notBadLS
+
       if not goodLumi: continue
 
       if (runNumberValue == goodRunNumber and goodLumi):
