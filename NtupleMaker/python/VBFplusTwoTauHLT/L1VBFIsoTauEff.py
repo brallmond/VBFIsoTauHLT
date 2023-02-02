@@ -145,7 +145,8 @@ if __name__ == "__main__":
   goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
   minLS = rateDictionary[rateStudyString]["minLS"]
   maxLS = rateDictionary[rateStudyString]["maxLS"]
-  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}]")
+  badLS = rateDictionary[rateStudyString]["badLS"]
+  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}], Bad LS = {badLS}")
 
   # L1
   passL1VBFDiJetIsoTau = array('i', [0])
@@ -379,10 +380,9 @@ if __name__ == "__main__":
   #OffTau1PtToPass = L1IsoTauPtToPass + 30 #path already has an HLT, should design to that, not the L1
   #OffTau2PtToPass = L1IsoTauPtToPass + 30 
 
-  #TODO check these values
-  OffJetPtToPass = 50
+  OffJetPtToPass = 45
   OffJetMjjToPass = 600
-  OffTau1PtToPass = 45 
+  OffTau1PtToPass = 50 
   OffTau2PtToPass = 25
   OffCuts = [OffJetPtToPass, OffJetMjjToPass, OffTau1PtToPass, OffTau2PtToPass]
   print("Off Cuts: [jets, mjj, Tau1Pt, Tau2Pt] ", OffCuts)
@@ -413,7 +413,10 @@ if __name__ == "__main__":
       if runNumberValue != goodRunNumber: continue
   
       lumiSectionValue = lumiSection[0]
-      goodLumi = lumiSectionValue >= minLS and lumiSectionValue <= maxLS
+      withinLumiRange = lumiSectionValue >= minLS and lumiSectionValue <= maxLS
+      notBadLS = lumiSectionValue not in badLS
+      goodLumi = withinLumiRange and notBadLS
+
       if not goodLumi: continue
   
       if (runNumberValue == goodRunNumber and goodLumi):
@@ -453,7 +456,7 @@ if __name__ == "__main__":
         outPassL1VBFDiJetOR[0] = BoolPassL1VBFDiJetOR
         outPassDummyEGORL1[0] = BoolPassDummyEGORL1
         outPassL1DiTau[0] = BoolPassL1DiTau
-        # TODO, try 32, 34, 35, 36 cases of DiTau L1
+        # TODO,  34, 35, 36 cases of DiTau L1
   
         if (BoolPassL1VBFDiJetIsoTau): TallyL1VBFDiJetIsoTau += 1
         if (BoolPassL1VBFDiJetOR): TallyL1VBFDiJetOR += 1
