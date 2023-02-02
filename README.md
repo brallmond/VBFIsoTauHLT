@@ -16,7 +16,7 @@ In /src/ do the following
 
 `git cms-addpkg L1Trigger/L1TGlobal`
 
-`mkdir L1Trigger/L1TGlobal/data/Luminosity/startup`
+`mkdir -p L1Trigger/L1TGlobal/data/Luminosity/startup`
 
 `cp <L1 Menu> L1Trigger/L1TGlobal/data/Luminosity/startup`
 
