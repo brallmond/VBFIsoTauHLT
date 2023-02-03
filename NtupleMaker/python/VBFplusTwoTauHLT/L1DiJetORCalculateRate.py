@@ -30,15 +30,16 @@ if __name__ == "__main__":
     TallyL1DiTauORIsoTau = 0
     TallyTripleOR = 0
 
-    isoTauBins = 3
-    mjjBins = 4
-    jetBins = 11
-    isoTauScanRange = np.linspace(45.,55., isoTauBins)
-    mjjScanRange = np.linspace(450.,600., mjjBins)
-    jetScanRange = np.linspace(35.,55., jetBins)
+    mjjBins = 5
+    jet1Bins = 8
+    jet2Bins = 8
+    mjjScanRange = np.linspace(620., 700, mjjBins)
+    #jet1ScanRange = np.linspace(35.,70., jet1Bins)
+    jet1ScanRange = np.linspace(110.,145., jet1Bins)
+    jet2ScanRange = np.linspace(35.,70., jet2Bins)
 
-    gridTotal = np.zeros((isoTauBins, mjjBins, jetBins))
-    gridOverlap = np.zeros((isoTauBins, mjjBins, jetBins))
+    gridTotal = np.zeros((mjjBins, jet1Bins, jet2Bins))
+    gridOverlap = np.zeros((mjjBins, jet1Bins, jet2Bins))
 
     if ("2018" in in_file): 
       rateStudyString = "2018O"
@@ -69,6 +70,8 @@ if __name__ == "__main__":
     if (ignore_rate_factor):
       weight = 1
 
+    L1DiJetORJet3PtCut = 110
+
     for i in range(0, nEntries):
       tree.GetEntry(i)
 
@@ -87,26 +90,27 @@ if __name__ == "__main__":
 
       if (BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau or BoolPassL1DiTau): TallyTripleOR += 1
 
-      if (BoolPassL1VBFDiJetIsoTau):
-        L1IsoTauPt   = tree.L1IsoTauPt
-        L1Jet1Pt  = tree.L1Jet1Pt
-        L1Jet2Pt  = tree.L1Jet2Pt
-        L1Mjj     = tree.L1Mjj
-        if (L1IsoTauPt >= 45 and L1Jet1Pt >= 35 and L1Jet2Pt >= 35 and L1Mjj >= 450):
-          TallyPassLowestL1 += 1
+      if (BoolPassL1VBFDiJetOR):
+        L1DiJetORJet1Pt  = tree.L1DiJetORJet1
+        L1DiJetORJet2Pt  = tree.L1DiJetORJet2
+        L1DiJetORJet3Pt  = tree.L1DiJetORJet3
+        L1DiJetORMjj     = tree.L1DiJetORMjj
 
-        for tauIndex, tauEntry in enumerate(isoTauScanRange):
-          for mjjIndex, mjjEntry in enumerate(mjjScanRange):
-            for jetIndex, jetEntry in enumerate(jetScanRange):
+        for mjjIndex, mjjEntry in enumerate(mjjScanRange):
+          for jet1Index, jet1Entry in enumerate(jet1ScanRange):
+            for jet2Index, jet2Entry in enumerate(jet2ScanRange):
 
-              if ((L1IsoTauPt >= tauEntry) and (L1Jet1Pt >= jetEntry and L1Jet2Pt >= jetEntry) and (L1Mjj >= mjjEntry)):
-                gridTotal[tauIndex, mjjIndex, jetIndex] += weight
-                gridOverlap[tauIndex, mjjIndex, jetIndex] += weight
+              if ( (L1DiJetORJet1Pt >= jet1Entry and L1DiJetORJet2Pt >= jet2Entry) \
+                  and (L1DiJetORMjj >= mjjEntry) \
+                  and (L1DiJetORJet3Pt == -999 or L1DiJetORJet3Pt >= L1DiJetORJet3PtCut)):
+                gridTotal[mjjIndex, jet1Index, jet2Index] += weight
+                gridOverlap[mjjIndex, jet1Index, jet2Index] += weight
 
+                if (L1DiJetORJet1Pt >= 110 and L1DiJetORJet2Pt >= 35 and L1DiJetORMjj >= 620):
+                  TallyPassLowestL1 += 1
 
-                #if (BoolPassAnyOther):
-                if (BoolPassL1VBFDiJetOR or BoolPassL1DiTau):
-                  gridOverlap[tauIndex, mjjIndex, jetIndex] -= weight
+                if (BoolPassL1VBFDiJetIsoTau or BoolPassL1DiTau):
+                  gridOverlap[mjjIndex, jet1Index, jet2Index] -= weight
 
 
     print(f"Sanity Check, Lowest L1 Tally : {TallyPassLowestL1}")
@@ -119,8 +123,9 @@ if __name__ == "__main__":
 
     # L1 ORs and Unique
     labels_OR = ["VBF Inc OR IsoTau", "VBF Inc OR DiTau", "VBF Iso Tau OR DiTau", "TripleOR", "Unique IsoTau"]
-    uniqueL1VBFIsoTau = TallyTripleOR - TallyL1VBFDiJetIncORDiTau
-    values = [TallyL1VBFDiJetIncORIsoTau, TallyL1VBFDiJetIncORDiTau, TallyL1DiTauORIsoTau, TallyTripleOR, uniqueL1VBFIsoTau]
+    uniqueL1VBFDiJetOR = TallyTripleOR - TallyL1DiTauORIsoTau
+    values = [TallyL1VBFDiJetIncORIsoTau, TallyL1VBFDiJetIncORDiTau, TallyL1DiTauORIsoTau, \
+              TallyTripleOR, uniqueL1VBFDiJetOR]
     print_formatted_labels_and_values(labels_OR, values, double_space=True, five_values=True)
 
     # print rate info and unpure/pure rate
@@ -133,23 +138,23 @@ if __name__ == "__main__":
       print("#"*40)
       print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
       print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
-      print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetIsoTau},  PURE rate = {rate_factor * uniqueL1VBFIsoTau}")
+      print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetOR},  PURE rate = {rate_factor * uniqueL1VBFDiJetOR}")
 
 
-    intJetPt = [int(i) for i in jetScanRange]
-    intMjj = [int(i) for i in mjjScanRange]
+    intJet1Pt = [int(i) for i in jet1ScanRange]
+    intJet2Pt = [int(i) for i in jet2ScanRange]
 
-    print(intJetPt)
-    print(intMjj)
+    print(intJet1Pt)
+    print(intJet2Pt)
   
     gridmax = np.max(gridTotal)
     gridmax = gridmax*1.2
   
-    fig, axes = plt.subplots(2, 3)
+    fig, axes = plt.subplots(2, 5)
     fig.set_size_inches(10.5, 10.5)
 
     # title formatting
-    L1_String = "L1_DoubleJetXX_ Mass_MinYYY_IsoTauZZ"
+    L1_String = "L1_DoubleJetXX/YY_ Mass_MinZZZ"
     year = "EZB "
     if ("2018" in rateStudyString):
       year += str(2018)
@@ -167,9 +172,9 @@ if __name__ == "__main__":
     # plot formatting 
     for i, ax in enumerate(axes.flat):
  
-      if (i == 0 or i == 1 or i == 2):
+      if (i <= 4):
         im = ax.imshow(gridTotal[i], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
-        ax.set_title("isoTauPt ≥ " + str(5*(i)+45), fontsize=8)
+        ax.set_title("mjj ≥ " + str(20*(i)+620), fontsize=8)
         for (n,m),label in np.ndenumerate(gridTotal[i]):
           if (ignore_rate_factor):
             label = "{:.0f}".format(label)
@@ -177,35 +182,35 @@ if __name__ == "__main__":
             label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=8)
 
-      if (i == 3 or i == 4 or i == 5):
-        im = ax.imshow(gridOverlap[i-3], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
-        ax.set_xlabel('jetPt ≥')
-        for (n,m),label in np.ndenumerate(gridOverlap[i-3]):
+      if (i > 4):
+        im = ax.imshow(gridOverlap[i-5], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
+        ax.set_xlabel('jet1Pt ≥')
+        for (n,m),label in np.ndenumerate(gridOverlap[i-5]):
           if (ignore_rate_factor):
             label = "{:.0f}".format(label)
           else:
             label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=8)
 
-      if (i == 2):
+      if (i == 4):
         ax.text(1.05, 0.55, "Total Rate", transform=ax.transAxes, fontsize=12,
           rotation=-90)
 
-      if (i == 5):
+      if (i == 9):
         ax.text(1.05, 0.25, "Pure Rate", transform=ax.transAxes, fontsize=12,
           rotation=-90)
 
-      ax.set_ylabel('mjj ≥')
+      ax.set_ylabel('jet2 ≥')
   
       startx, endx = ax.get_xlim()
       starty, endy = ax.get_ylim()
   
       ax.xaxis.set_ticks(np.arange(startx+0.5, endx, 1))
-      ax.xaxis.set_ticklabels(intJetPt)
+      ax.xaxis.set_ticklabels(intJet1Pt)
       ax.yaxis.set_ticks(np.arange(starty+0.5, endy, 1))
-      ax.yaxis.set_ticklabels(intMjj)
+      ax.yaxis.set_ticklabels(intJet2Pt)
 
-      if (i == 1 or i == 2 or i == 4 or i == 5):
+      if (i != 0 and i != 5):
         ax.get_yaxis().set_visible(False)
 
     out_file = in_file.replace('.root','.pdf')

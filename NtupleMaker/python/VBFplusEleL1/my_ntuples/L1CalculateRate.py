@@ -93,6 +93,8 @@ if __name__ == "__main__":
         L1Jet1Pt  = tree.L1Jet1Pt
         L1Jet2Pt  = tree.L1Jet2Pt
         L1Mjj     = tree.L1Mjj
+        if (L1ElePt >= 10 and L1Jet1Pt >= 30 and L1Jet2Pt >= 30 and L1Mjj >= 300):
+          TallyPassLowestL1 += 1
 
         for eleIndex, eleEntry in enumerate(electronScanRange):
           for mjjIndex, mjjEntry in enumerate(mjjScanRange):
@@ -101,9 +103,6 @@ if __name__ == "__main__":
               if ((L1ElePt >= eleEntry) and (L1Jet1Pt >= jetEntry and L1Jet2Pt >= jetEntry) and (L1Mjj >= mjjEntry)):
                 gridTotal[eleIndex, mjjIndex, jetIndex] += weight
                 gridOverlap[eleIndex, mjjIndex, jetIndex] += weight
-
-                if (L1ElePt >= 10 and L1Jet1Pt >= 30 and L1Jet2Pt >= 30 and L1Mjj >= 300):
-                  TallyPassLowestL1 += 1
 
                 if (BoolPassAnyOther):
                   gridOverlap[eleIndex, mjjIndex, jetIndex] -= weight
@@ -161,14 +160,20 @@ if __name__ == "__main__":
         im = ax.imshow(gridTotal[i], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
         ax.set_title("electronPt ≥ " + str(2*(i)+10), fontsize=8)
         for (n,m),label in np.ndenumerate(gridTotal[i]):
-          label = "{:.1f}".format(label/1000.)
+          if (ignore_rate_factor):
+            label = "{:.0f}".format(label)
+          else:
+            label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=6)
 
       if (i == 3 or i == 4 or i == 5):
         im = ax.imshow(gridOverlap[i-3], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
         ax.set_xlabel('jetPt ≥')
         for (n,m),label in np.ndenumerate(gridOverlap[i-3]):
-          label = "{:.1f}".format(label/1000.)
+          if (ignore_rate_factor):
+            label = "{:.0f}".format(label)
+          else:
+            label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=6)
 
       if (i == 2):
