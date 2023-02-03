@@ -34,9 +34,11 @@ if __name__ == "__main__":
     jet1Bins = 8
     jet2Bins = 8
     mjjScanRange = np.linspace(620., 700, mjjBins)
+    jet1ScanRange = np.linspace(45.,70., jet1Bins)
     #jet1ScanRange = np.linspace(35.,70., jet1Bins)
-    jet1ScanRange = np.linspace(110.,145., jet1Bins)
-    jet2ScanRange = np.linspace(35.,70., jet2Bins)
+    #jet1ScanRange = np.linspace(110.,145., jet1Bins)
+    #jet2ScanRange = np.linspace(35.,70., jet2Bins)
+    jet2ScanRange = np.linspace(45.,70., jet2Bins)
 
     gridTotal = np.zeros((mjjBins, jet1Bins, jet2Bins))
     gridOverlap = np.zeros((mjjBins, jet1Bins, jet2Bins))
@@ -70,7 +72,8 @@ if __name__ == "__main__":
     if (ignore_rate_factor):
       weight = 1
 
-    L1DiJetORJet3PtCut = 110
+    #L1DiJetORJet3PtCut = 110
+    L1DiJetORJet3PtCut = 120
 
     for i in range(0, nEntries):
       tree.GetEntry(i)
@@ -95,19 +98,22 @@ if __name__ == "__main__":
         L1DiJetORJet2Pt  = tree.L1DiJetORJet2
         L1DiJetORJet3Pt  = tree.L1DiJetORJet3
         L1DiJetORMjj     = tree.L1DiJetORMjj
+        if ( ( (L1DiJetORJet1Pt >= 110 and L1DiJetORJet2Pt >= 35 and L1DiJetORJet3Pt == -999) or
+             (L1DiJetORJet1Pt >= 35 and L1DiJetORJet2Pt >= 35 and L1DiJetORJet3Pt >= L1DiJetORJet3PtCut) )
+             and L1DiJetORMjj >= 620):
+          TallyPassLowestL1 += 1
 
         for mjjIndex, mjjEntry in enumerate(mjjScanRange):
           for jet1Index, jet1Entry in enumerate(jet1ScanRange):
             for jet2Index, jet2Entry in enumerate(jet2ScanRange):
+              if jet1Entry > jet2Entry:
+                continue
 
-              if ( (L1DiJetORJet1Pt >= jet1Entry and L1DiJetORJet2Pt >= jet2Entry) \
-                  and (L1DiJetORMjj >= mjjEntry) \
-                  and (L1DiJetORJet3Pt == -999 or L1DiJetORJet3Pt >= L1DiJetORJet3PtCut)):
+              if ( ( (L1DiJetORJet1Pt >= (jet1Entry+75) and L1DiJetORJet2Pt >= jet2Entry and L1DiJetORJet3Pt == -999) \
+                  or (L1DiJetORJet1Pt >= jet1Entry and L1DiJetORJet2Pt >= jet2Entry and L1DiJetORJet3Pt >= L1DiJetORJet3PtCut) )
+                  and L1DiJetORMjj >= mjjEntry ):
                 gridTotal[mjjIndex, jet1Index, jet2Index] += weight
                 gridOverlap[mjjIndex, jet1Index, jet2Index] += weight
-
-                if (L1DiJetORJet1Pt >= 110 and L1DiJetORJet2Pt >= 35 and L1DiJetORMjj >= 620):
-                  TallyPassLowestL1 += 1
 
                 if (BoolPassL1VBFDiJetIsoTau or BoolPassL1DiTau):
                   gridOverlap[mjjIndex, jet1Index, jet2Index] -= weight
