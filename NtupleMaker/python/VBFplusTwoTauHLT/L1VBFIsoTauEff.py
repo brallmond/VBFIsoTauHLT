@@ -95,6 +95,15 @@ if __name__ == "__main__":
   outtree.Branch("L1Jet2Pt", outL1Jet2Pt, 'pt/F')
   outtree.Branch("L1Mjj", outL1Mjj, 'mjj/F')
 
+  outL1DiJetORJet1 = array('f', [0.])
+  outL1DiJetORJet2 = array('f', [0.])
+  outL1DiJetORJet3 = array('f', [0.])
+  outL1DiJetORMjj = array('f', [0.])
+  outtree.Branch("L1DiJetORJet1", outL1DiJetORJet1, 'pt/F')
+  outtree.Branch("L1DiJetORJet2", outL1DiJetORJet2, 'pt/F')
+  outtree.Branch("L1DiJetORJet3", outL1DiJetORJet3, 'pt/F')
+  outtree.Branch("L1DiJetORMjj", outL1DiJetORMjj, 'mjj/F')
+
   outPassL1VBFDiJetEG = array('i', [0])
   outPassL1VBFDiJetOR = array('i', [0])
   outPassL1VBFDiJetIsoTau = array('i', [0])
@@ -184,10 +193,10 @@ if __name__ == "__main__":
   DiJetOR_35or45 = args.L1DiJetOR_35or45
   if ("35" in DiJetOR_35or45):
     DoubleJetCut = 35
-    ThirdJetCut = 110
+    LeadingL1JetCut = 110
   elif ("45" in DiJetOR_35or45):
     DoubleJetCut = 45
-    ThirdJetCut = 120
+    LeadingL1JetCut = 120
   else:
     print("Please input 35 or 45 for the DiJetOR cut. Exiting...")
     sys.exit() 
@@ -260,25 +269,26 @@ if __name__ == "__main__":
     passSingleEleHLT = array('i', [0])
     tree.SetBranchAddress("passSingleEleHLT", passSingleEleHLT)
 
-  # DiJetIsoTau HLT
   passVBFDiTauHLT = array('i', [0])
   tree.SetBranchAddress("passVBF2DTHLT", passVBFDiTauHLT)
-  VBFDiTauFinalJetFilter_pt = ROOT.std.vector('float')()
-  VBFDiTauFinalJetFilter_eta = ROOT.std.vector('float')()
-  VBFDiTauFinalJetFilter_phi = ROOT.std.vector('float')()
-  VBFDiTauFinalJetFilter_energy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_pt", VBFDiTauFinalJetFilter_pt)
-  tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_eta", VBFDiTauFinalJetFilter_eta)
-  tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_phi", VBFDiTauFinalJetFilter_phi) 
-  tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_energy", VBFDiTauFinalJetFilter_energy)
-  VBFDiTauFinalTauFilter_pt = ROOT.std.vector('float')()
-  VBFDiTauFinalTauFilter_eta = ROOT.std.vector('float')()
-  VBFDiTauFinalTauFilter_phi = ROOT.std.vector('float')()
-  VBFDiTauFinalTauFilter_energy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_pt", VBFDiTauFinalTauFilter_pt)
-  tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_eta", VBFDiTauFinalTauFilter_eta)
-  tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_phi", VBFDiTauFinalTauFilter_phi)
-  tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_energy", VBFDiTauFinalTauFilter_energy)
+  if (is2022):
+    # DiJetIsoTau HLT
+    VBFDiTauFinalJetFilter_pt = ROOT.std.vector('float')()
+    VBFDiTauFinalJetFilter_eta = ROOT.std.vector('float')()
+    VBFDiTauFinalJetFilter_phi = ROOT.std.vector('float')()
+    VBFDiTauFinalJetFilter_energy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_pt", VBFDiTauFinalJetFilter_pt)
+    tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_eta", VBFDiTauFinalJetFilter_eta)
+    tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_phi", VBFDiTauFinalJetFilter_phi) 
+    tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_energy", VBFDiTauFinalJetFilter_energy)
+    VBFDiTauFinalTauFilter_pt = ROOT.std.vector('float')()
+    VBFDiTauFinalTauFilter_eta = ROOT.std.vector('float')()
+    VBFDiTauFinalTauFilter_phi = ROOT.std.vector('float')()
+    VBFDiTauFinalTauFilter_energy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_pt", VBFDiTauFinalTauFilter_pt)
+    tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_eta", VBFDiTauFinalTauFilter_eta)
+    tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_phi", VBFDiTauFinalTauFilter_phi)
+    tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_energy", VBFDiTauFinalTauFilter_energy)
 
   # shouldn't be important, but here are the filter names for the seeded L1 tau
   #VBF2DTL1MatchedTauFinalFilter_pt
@@ -290,17 +300,18 @@ if __name__ == "__main__":
   passInclusiveVBFHLT = array('i', [0])
   tree.SetBranchAddress("passDeepInclusiveVBFHLT", passInclusiveVBFHLT)
 
-  # DiTau HLT
   passDiTauHLT = array('i', [0])
   tree.SetBranchAddress("passDeepDiTau35HLT", passDiTauHLT)
-  DiTauFinalFilter_pt = ROOT.std.vector('float')()
-  DiTauFinalFilter_eta = ROOT.std.vector('float')()
-  DiTauFinalFilter_phi = ROOT.std.vector('float')()
-  DiTauFinalFilter_energy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("DiTauFinalFilter_pt", DiTauFinalFilter_pt)
-  tree.SetBranchAddress("DiTauFinalFilter_eta", DiTauFinalFilter_eta)
-  tree.SetBranchAddress("DiTauFinalFilter_phi", DiTauFinalFilter_phi)
-  tree.SetBranchAddress("DiTauFinalFilter_energy", DiTauFinalFilter_energy)
+  # DiTau HLT
+  if (is2022):
+    DiTauFinalFilter_pt = ROOT.std.vector('float')()
+    DiTauFinalFilter_eta = ROOT.std.vector('float')()
+    DiTauFinalFilter_phi = ROOT.std.vector('float')()
+    DiTauFinalFilter_energy = ROOT.std.vector('float')()
+    tree.SetBranchAddress("DiTauFinalFilter_pt", DiTauFinalFilter_pt)
+    tree.SetBranchAddress("DiTauFinalFilter_eta", DiTauFinalFilter_eta)
+    tree.SetBranchAddress("DiTauFinalFilter_phi", DiTauFinalFilter_phi)
+    tree.SetBranchAddress("DiTauFinalFilter_energy", DiTauFinalFilter_energy)
 
 
   # Offline kinems
@@ -437,14 +448,29 @@ if __name__ == "__main__":
           L1VBFDiJetORJets = fillWithTVecs(L1VBFDiJetOR_pt, L1VBFDiJetOR_eta,\
                                            L1VBFDiJetOR_phi, L1VBFDiJetOR_energy)
           L1DiJetORJet1Index, L1DiJetORJet2Index, L1DiJetORMjj = highestMjjPair(L1VBFDiJetORJets)
+          outL1DiJetORJet3[0] = -999.
+          L1DiJetORJet3PT = -999.
           if (L1DiJetORJet1Index != 0 and L1DiJetORJet2Index != 0):
             L1DiJetORJet3 = L1VBFDiJetORJets[0]
-            if (L1DiJetORJet3.Pt() < ThirdJetCut):
+            L1DiJetORJet3PT = L1DiJetORJet3.Pt()
+            outL1DiJetORJet3[0] = L1DiJetORJet3PT
+            if (L1DiJetORJet3PT < LeadingL1JetCut):
               BoolPassL1VBFDiJetOR = 0
           L1DiJetORJet1 = L1VBFDiJetORJets[L1DiJetORJet1Index] 
           L1DiJetORJet2 = L1VBFDiJetORJets[L1DiJetORJet2Index] 
-          if (L1DiJetORJet1.Pt() < DoubleJetCut or L1DiJetORJet2.Pt() < DoubleJetCut):# or L1DiJetORMjj < 620)
-            BoolPassL1VBFDiJetOR = 0
+
+          L1DiJetORJet1PT = L1DiJetORJet1.Pt()
+          L1DiJetORJet2PT = L1DiJetORJet2.Pt()
+          outL1DiJetORJet1[0] = L1DiJetORJet1PT
+          outL1DiJetORJet2[0] = L1DiJetORJet2PT
+          outL1DiJetORMjj[0] = L1DiJetORMjj
+
+          passing_ = L1DiJetORMjj >= 620 \
+                 and ((L1DiJetORJet1PT >= DoubleJetCut and L1DiJetORJet2PT >= DoubleJetCut and L1DiJetORJet3PT >= LeadingL1JetCut)\
+                 or (L1DiJetORJet1PT >= LeadingL1JetCut and L1DiJetORJet2PT >= DoubleJetCut and L1DiJetORJet3PT == -999.) )
+          #print(passing_)
+         
+          BoolPassL1VBFDiJetOR = passing_
 
         # emulated L1 DiTau
         BoolPassL1DiTau = passL1DiTau[0]
@@ -702,14 +728,19 @@ if __name__ == "__main__":
         L1VBFDiJetORJets = fillWithTVecs(L1VBFDiJetOR_pt, L1VBFDiJetOR_eta,\
                                          L1VBFDiJetOR_phi, L1VBFDiJetOR_energy)
         L1DiJetORJet1Index, L1DiJetORJet2Index, L1DiJetORMjj = highestMjjPair(L1VBFDiJetORJets)
+        outL1DiJetORJet3[0] = -999.
         if (L1DiJetORJet1Index != 0 and L1DiJetORJet2Index != 0):
           L1DiJetORJet3 = L1VBFDiJetORJets[0]
-          if (L1DiJetORJet3.Pt() < ThirdJetCut):
+          if (L1DiJetORJet3.Pt() < LeadingL1JetCut):
             BoolPassL1VBFDiJetOR = 0
         L1DiJetORJet1 = L1VBFDiJetORJets[L1DiJetORJet1Index]
         L1DiJetORJet2 = L1VBFDiJetORJets[L1DiJetORJet2Index]
-        if (L1DiJetORJet1.Pt() < DoubleJetCut or L1DiJetORJet2.Pt() < DoubleJetCut):# or L1DiJetORMjj < 620)
-          BoolPassL1VBFDiJetOR = 0  
+        if ( L1DiJetORMjj < 620 \
+           or not (L1DiJetORJet1PT >= DoubleJetCut and L1DiJetORJet2PT >= DoubleJetCut and L1DiJetORJet3PT >= LeadingL1JetCut)\
+           or not (L1DiJetORJet1PT >= LeadingL1JetCut and L1DiJetORJet2PT >= DoubleJetCut and L1DiJetORJet3PT == -999) ):
+          BoolPassL1VBFDiJetOR = 0
+        #if (L1DiJetORJet1.Pt() < DoubleJetCut or L1DiJetORJet2.Pt() < DoubleJetCut):# or L1DiJetORMjj < 620)
+          #BoolPassL1VBFDiJetOR = 0  
           #TallyL1VBFDiJetOR += 1
       
       passInclusiveVBFOffCuts = False
