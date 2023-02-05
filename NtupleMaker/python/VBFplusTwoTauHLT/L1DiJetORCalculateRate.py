@@ -30,18 +30,21 @@ if __name__ == "__main__":
     TallyL1DiTauORIsoTau = 0
     TallyTripleOR = 0
 
-    mjjBins = 5
-    jet1Bins = 8
+    thirdJetBins = 2
+    jet1Bins = 20
     jet2Bins = 8
-    mjjScanRange = np.linspace(620., 700, mjjBins)
-    jet1ScanRange = np.linspace(45.,70., jet1Bins)
+    thirdJetScanRange = np.linspace(110., 120, thirdJetBins)
+    #mjjScanRange = np.linspace(620., 700, thirdJetBins)
+    jet1ScanRange = np.linspace(35.,130., jet1Bins)
+    jet2ScanRange = np.linspace(35.,70., jet2Bins)
     #jet1ScanRange = np.linspace(35.,70., jet1Bins)
     #jet1ScanRange = np.linspace(110.,145., jet1Bins)
     #jet2ScanRange = np.linspace(35.,70., jet2Bins)
-    jet2ScanRange = np.linspace(45.,70., jet2Bins)
 
-    gridTotal = np.zeros((mjjBins, jet1Bins, jet2Bins))
-    gridOverlap = np.zeros((mjjBins, jet1Bins, jet2Bins))
+    #gridTotal = np.zeros((thirdJetBins, jet1Bins, jet2Bins))
+    gridTotal = np.zeros((thirdJetBins, jet2Bins, jet1Bins))
+    #gridOverlap = np.zeros((thirdJetBins, jet1Bins, jet2Bins))
+    gridOverlap = np.zeros((thirdJetBins, jet2Bins, jet1Bins))
 
     if ("2018" in in_file): 
       rateStudyString = "2018O"
@@ -72,8 +75,7 @@ if __name__ == "__main__":
     if (ignore_rate_factor):
       weight = 1
 
-    #L1DiJetORJet3PtCut = 110
-    L1DiJetORJet3PtCut = 120
+    L1DiJetORJet3PtCut = 110
 
     for i in range(0, nEntries):
       tree.GetEntry(i)
@@ -99,24 +101,24 @@ if __name__ == "__main__":
         L1DiJetORJet3Pt  = tree.L1DiJetORJet3
         L1DiJetORMjj     = tree.L1DiJetORMjj
         if ( ( (L1DiJetORJet1Pt >= 110 and L1DiJetORJet2Pt >= 35 and L1DiJetORJet3Pt == -999) or
-             (L1DiJetORJet1Pt >= 35 and L1DiJetORJet2Pt >= 35 and L1DiJetORJet3Pt >= L1DiJetORJet3PtCut) )
+             (L1DiJetORJet1Pt >= 35 and L1DiJetORJet2Pt >= 35 and L1DiJetORJet3Pt >= 110) )
              and L1DiJetORMjj >= 620):
           TallyPassLowestL1 += 1
 
-        for mjjIndex, mjjEntry in enumerate(mjjScanRange):
-          for jet1Index, jet1Entry in enumerate(jet1ScanRange):
-            for jet2Index, jet2Entry in enumerate(jet2ScanRange):
-              if jet1Entry > jet2Entry:
+        for thirdJetIndex, thirdJetEntry in enumerate(thirdJetScanRange):
+          for jet2Index, jet2Entry in enumerate(jet2ScanRange):
+            for jet1Index, jet1Entry in enumerate(jet1ScanRange):
+              if jet2Entry > jet1Entry:
                 continue
 
-              if ( ( (L1DiJetORJet1Pt >= (jet1Entry+75) and L1DiJetORJet2Pt >= jet2Entry and L1DiJetORJet3Pt == -999) \
-                  or (L1DiJetORJet1Pt >= jet1Entry and L1DiJetORJet2Pt >= jet2Entry and L1DiJetORJet3Pt >= L1DiJetORJet3PtCut) )
-                  and L1DiJetORMjj >= mjjEntry ):
-                gridTotal[mjjIndex, jet1Index, jet2Index] += weight
-                gridOverlap[mjjIndex, jet1Index, jet2Index] += weight
+              if ( ( (L1DiJetORJet1Pt >= jet1Entry and L1DiJetORJet2Pt >= jet2Entry and L1DiJetORJet3Pt == -999) \
+                  or (L1DiJetORJet1Pt >= jet1Entry and L1DiJetORJet2Pt >= jet2Entry and L1DiJetORJet3Pt >= thirdJetEntry) )
+                  and L1DiJetORMjj >= 620 ):
+                gridTotal[thirdJetIndex, jet2Index, jet1Index] += weight
+                gridOverlap[thirdJetIndex, jet2Index, jet1Index] += weight
 
                 if (BoolPassL1VBFDiJetIsoTau or BoolPassL1DiTau):
-                  gridOverlap[mjjIndex, jet1Index, jet2Index] -= weight
+                  gridOverlap[thirdJetIndex, jet2Index, jet1Index] -= weight
 
 
     print(f"Sanity Check, Lowest L1 Tally : {TallyPassLowestL1}")
@@ -156,11 +158,11 @@ if __name__ == "__main__":
     gridmax = np.max(gridTotal)
     gridmax = gridmax*1.2
   
-    fig, axes = plt.subplots(2, 5)
+    fig, axes = plt.subplots(2, 2)
     fig.set_size_inches(10.5, 10.5)
 
     # title formatting
-    L1_String = "L1_DoubleJetXX/YY_ Mass_MinZZZ"
+    L1_String = "L1_DoubleJet_ZZZ_YY_DoubleJetXY_Mass_Min620"
     year = "EZB "
     if ("2018" in rateStudyString):
       year += str(2018)
@@ -178,9 +180,9 @@ if __name__ == "__main__":
     # plot formatting 
     for i, ax in enumerate(axes.flat):
  
-      if (i <= 4):
+      if (i <= 1):
         im = ax.imshow(gridTotal[i], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
-        ax.set_title("mjj ≥ " + str(20*(i)+620), fontsize=8)
+        ax.set_title("jet1or3 ≥ " + str(10*(i)+110), fontsize=8)
         for (n,m),label in np.ndenumerate(gridTotal[i]):
           if (ignore_rate_factor):
             label = "{:.0f}".format(label)
@@ -188,35 +190,35 @@ if __name__ == "__main__":
             label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=8)
 
-      if (i > 4):
-        im = ax.imshow(gridOverlap[i-5], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
+      if (i > 1):
+        im = ax.imshow(gridOverlap[i-2], vmin=0, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
         ax.set_xlabel('jet1Pt ≥')
-        for (n,m),label in np.ndenumerate(gridOverlap[i-5]):
+        for (n,m),label in np.ndenumerate(gridOverlap[i-2]):
           if (ignore_rate_factor):
             label = "{:.0f}".format(label)
           else:
             label = "{:.1f}".format(label/1000.)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=8)
 
-      if (i == 4):
+      if (i == 1):
         ax.text(1.05, 0.55, "Total Rate", transform=ax.transAxes, fontsize=12,
           rotation=-90)
 
-      if (i == 9):
+      if (i == 3):
         ax.text(1.05, 0.25, "Pure Rate", transform=ax.transAxes, fontsize=12,
           rotation=-90)
 
       ax.set_ylabel('jet2 ≥')
   
       startx, endx = ax.get_xlim()
-      starty, endy = ax.get_ylim()
-  
       ax.xaxis.set_ticks(np.arange(startx+0.5, endx, 1))
       ax.xaxis.set_ticklabels(intJet1Pt)
+
+      starty, endy = ax.get_ylim()
       ax.yaxis.set_ticks(np.arange(starty+0.5, endy, 1))
       ax.yaxis.set_ticklabels(intJet2Pt)
 
-      if (i != 0 and i != 5):
+      if (i != 0 and i != 2):
         ax.get_yaxis().set_visible(False)
 
     out_file = in_file.replace('.root','.pdf')
