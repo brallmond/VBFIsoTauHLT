@@ -36,12 +36,8 @@ if __name__ == "__main__":
     jet1Bins = 20
     jet2Bins = 8
     thirdJetScanRange = np.linspace(110., 120, thirdJetBins)
-    #mjjScanRange = np.linspace(620., 700, thirdJetBins)
     jet1ScanRange = np.linspace(35.,130., jet1Bins)
     jet2ScanRange = np.linspace(35.,70., jet2Bins)
-    #jet1ScanRange = np.linspace(35.,70., jet1Bins)
-    #jet1ScanRange = np.linspace(110.,145., jet1Bins)
-    #jet2ScanRange = np.linspace(35.,70., jet2Bins)
 
     #gridTotal = np.zeros((thirdJetBins, jet1Bins, jet2Bins))
     gridTotal = np.zeros((thirdJetBins, jet2Bins, jet1Bins))
@@ -215,7 +211,7 @@ if __name__ == "__main__":
         ax.text(1.05, 0.25, "Pure Rate", transform=ax.transAxes, fontsize=12,
           rotation=-90)
 
-      ax.set_ylabel('jet2 ≥')
+      ax.set_ylabel('jet2Pt ≥')
   
       startx, endx = ax.get_xlim()
       ax.xaxis.set_ticks(np.arange(startx+0.5, endx, 1))

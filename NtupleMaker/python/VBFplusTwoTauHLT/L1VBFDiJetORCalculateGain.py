@@ -44,14 +44,14 @@ if __name__ == "__main__":
     TallyInclusiveVBFORDiTauOff = 0
     TallyTripleOROff = 0
 
-    isoTauBins = 3
-    mjjBins = 4
-    jetBins = 11
-    isoTauScanRange = np.linspace(45.,55., isoTauBins)
-    mjjScanRange = np.linspace(450.,600., mjjBins)
-    jetScanRange = np.linspace(35.,55., jetBins)
+    thirdJetBins = 2
+    jet1Bins = 20
+    jet2Bins = 8
+    thirdJetScanRange = np.linspace(110., 120, thirdJetBins)
+    jet1ScanRange = np.linspace(35.,130., jet1Bins)
+    jet2ScanRange = np.linspace(35.,70., jet2Bins)
 
-    grid = np.zeros((isoTauBins, mjjBins, jetBins))
+    grid = np.zeros((thirdJetBins, jet2Bins, jet1Bins))
 
     nEntries = tree.GetEntries()
 
@@ -110,57 +110,64 @@ if __name__ == "__main__":
                  TallyTripleOROff, TallyTripleOROff - TallyInclusiveVBFORDiTauOff]
 
       if ("B" in args.metric.upper()):
-        ORtoPass = BoolPassVBFDiTauOff or BoolPassDiTauOff
+        ORtoPass = BoolPassInclusiveVBFOff or BoolPassDiTauOff
       else:
         ORtoPass = BoolPassVBFDiTauOff or BoolPassInclusiveVBFOff or BoolPassDiTauOff
       if (ORtoPass):
-        L1IsoTauPt = tree.L1IsoTauPt
-        L1Jet1Pt   = tree.L1Jet1Pt
-        L1Jet2Pt   = tree.L1Jet2Pt
-        L1Mjj      = tree.L1Mjj
+        L1Jet1Pt   = tree.L1DiJetORJet1
+        L1Jet2Pt   = tree.L1DiJetORJet2
+        L1Jet3Pt   = tree.L1DiJetORJet3
+        L1Mjj      = tree.L1DiJetORMjj
+
         OffTau1Pt  = tree.OffTau1Pt
         OffTau2Pt  = tree.OffTau2Pt
         OffJet1Pt  = tree.OffJet1Pt
         OffJet2Pt  = tree.OffJet2Pt
         OffMjj     = tree.OffMjj
 
-        for tauIndex, tauEntry in enumerate(isoTauScanRange):
-          for mjjIndex, mjjEntry in enumerate(mjjScanRange):
-            for jetIndex, jetEntry in enumerate(jetScanRange):
+        for thirdJetIndex, thirdJetEntry in enumerate(thirdJetScanRange):
+          for jet2Index, jet2Entry in enumerate(jet2ScanRange):
+            for jet1Index, jet1Entry in enumerate(jet1ScanRange):
+              if jet2Entry > jet1Entry:
+                continue
 
-              PassL1Kinems = ((L1IsoTauPt >= tauEntry) \
-                         and (L1Jet1Pt >= jetEntry and L1Jet2Pt >= jetEntry) \
-                         and (L1Mjj >= mjjEntry))
-              PassOffKinems = (OffJet1Pt >= 45 and OffJet2Pt >= 45 \
-                         and OffTau1Pt >= 50 and OffTau2Pt >= 25 \
-                         and OffMjj >= 600)
+              PassL1Kinems = ( ( (L1Jet1Pt >= jet1Entry and L1Jet2Pt >= jet2Entry and L1Jet3Pt == -999) \
+                         or (L1Jet1Pt >= jet1Entry and L1Jet2Pt >= jet2Entry and L1Jet3Pt >= thirdJetEntry)) \
+                         and L1Mjj >= 620)
+
+              PassOffKinems = (OffJet1Pt >= 120 and OffJet2Pt >= 40 \
+                         and OffTau1Pt >= 25 and OffTau2Pt >= 25 \
+                         and OffMjj >= 700)
 
 
-              PassOtherTriggers = BoolPassInclusiveVBFOff or BoolPassDiTauOff
+              PassOtherTriggers = BoolPassVBFDiTauOff or BoolPassDiTauOff
               if ((PassL1Kinems and PassOffKinems) or PassOtherTriggers):
-                grid[tauIndex, mjjIndex, jetIndex] += weight
+                grid[thirdJetIndex, jet2Index, jet1Index] += weight
 
 
-    intJetPt = [int(i) for i in jetScanRange]
-    intMjj = [int(i) for i in mjjScanRange]
+    intJet1Pt = [int(i) for i in jet1ScanRange]
+    intJet2Pt = [int(i) for i in jet2ScanRange]
 
     gridMetricAorB = ((grid/TallyDiTauOff) - 1)*100
-    gridMetricC = ((grid/TallyInclusiveVBFORDiTauOff) - 1)*100
+    gridMetricC = ((grid/TallyVBFDiTauORDiTauOff) - 1)*100
 
     if ("A" in args.metric.upper() or "B" in args.metric.upper()):
       grid = gridMetricAorB
     if ("C" in args.metric.upper()):
       grid = gridMetricC
 
-    gridmin = np.min(grid)
-    gridmax = np.max(grid)
+    grid[grid == -100.0] = 0
+    masked_grid = np.ma.masked_equal(grid, 0, copy=False)
+
+    gridmin = np.min(masked_grid)
+    gridmax = np.max(masked_grid)
     gridmax = gridmax*1.05
   
-    fig, axes = plt.subplots(1, 3)
+    fig, axes = plt.subplots(1, 2)
     fig.set_size_inches(10.5, 10.5)
 
     # title formatting
-    L1_String = "L1_DoubleJetXX_ Mass_MinYYY_IsoTauZZ"
+    L1_String = "L1_DoubleJet_ZZZ_YY_DoubleJetXY_Mass_Min620"
     fig.suptitle("Gain " + L1_String)
 
     # plot formatting 
@@ -168,21 +175,21 @@ if __name__ == "__main__":
  
       if (i == 0 or i == 1 or i == 2):
         im = ax.imshow(grid[i], vmin=gridmin, vmax=gridmax, cmap='copper', interpolation='nearest', origin='lower')
-        ax.set_title("isoTauPt ≥ " + str(5*(i)+45), fontsize=8)
-        ax.set_xlabel('jetPt ≥') 
+        ax.set_title("jet1or3 ≥ " + str(10*i+110), fontsize=8)
+        ax.set_xlabel('jet1Pt ≥') 
         for (n,m),label in np.ndenumerate(grid[i]):
           label = "{:.1f}".format(label)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=8)
 
-      ax.set_ylabel('mjj ≥')
+      ax.set_ylabel('jet2Pt ≥')
   
       startx, endx = ax.get_xlim()
       starty, endy = ax.get_ylim()
   
       ax.xaxis.set_ticks(np.arange(startx+0.5, endx, 1))
-      ax.xaxis.set_ticklabels(intJetPt)
+      ax.xaxis.set_ticklabels(intJet1Pt)
       ax.yaxis.set_ticks(np.arange(starty+0.5, endy, 1))
-      ax.yaxis.set_ticklabels(intMjj)
+      ax.yaxis.set_ticklabels(intJet2Pt)
 
     if (i != 0):
       ax.get_yaxis().set_visible(False)
