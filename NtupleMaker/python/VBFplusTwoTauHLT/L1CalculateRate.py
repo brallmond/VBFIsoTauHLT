@@ -11,6 +11,10 @@ if __name__ == "__main__":
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
     parser.add_argument('--ignore_rate_factor', '-E', required=False, action='store', default="False",\
                         help='ignore rate_factor weight? default false, if true, count events')
+    parser.add_argument('--scaling', '-s', required=False, action='store', default="True",\
+                        help='set your output to be unscaled, default is scaled to 2E34')
+
+
 
     args = parser.parse_args()
     in_file = args.in_file
@@ -57,7 +61,12 @@ if __name__ == "__main__":
     nEntries = tree.GetEntries()
 
     # print rate info and unpure/pure rate
-    lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
+    ignore_scaling = "n" in args.scaling.lower()
+    if (ignore_scaling):
+      scaling_numerator = rateDictionary[rateStudyString]["approxLumi"]
+    else:
+      scaling_numerator = 2.
+    lumiScaling = scaling_numerator / rateDictionary[rateStudyString]["approxLumi"]
     rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
     rate_factor = rate_factor / nEntries
     print("#"*40)
