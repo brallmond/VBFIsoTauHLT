@@ -106,6 +106,11 @@ if __name__ == "__main__":
   outtree.Branch("L1DiJetORJet3", outL1DiJetORJet3, 'pt/F')
   outtree.Branch("L1DiJetORMjj", outL1DiJetORMjj, 'mjj/F')
 
+  outL1DiTau1_pt = array('f', [0.])
+  outL1DiTau2_pt = array('f', [0.])
+  outtree.Branch("L1DiTau1_pt", outL1DiTau1_pt, 'pt/F')
+  outtree.Branch("L1DiTau2_pt", outL1DiTau2_pt, 'pt/F')
+
   outPassL1VBFDiJetEG = array('i', [0])
   outPassL1VBFDiJetOR = array('i', [0])
   outPassL1VBFDiJetIsoTau = array('i', [0])
@@ -205,6 +210,7 @@ if __name__ == "__main__":
   tree.SetBranchAddress("hltL1VBFDiJetOR_phi", L1VBFDiJetOR_phi)
   tree.SetBranchAddress("hltL1VBFDiJetOR_energy", L1VBFDiJetOR_energy)
 
+
   DiJetOR_35or45 = args.L1DiJetOR_35or45
   if ("35" in DiJetOR_35or45):
     DoubleJetCut = 35
@@ -221,6 +227,8 @@ if __name__ == "__main__":
 
   passL1DiTau = array('i', [0])
   tree.SetBranchAddress("passhltL1sDoubleTauBigOR", passL1DiTau)
+
+
   L1DiTau_pt = ROOT.std.vector('float')()
   tree.SetBranchAddress("hltL1sDoubleTauBigOR_pt", L1DiTau_pt)
   L1DiTauCut = float(args.L1DiTauCut)
@@ -493,7 +501,11 @@ if __name__ == "__main__":
         # emulated L1 DiTau
         BoolPassL1DiTau = passL1DiTau[0]
         if (BoolPassL1DiTau and runNumberValue >= 360486):
-          if (L1DiTau_pt[0] < L1DiTauCut or L1DiTau_pt[1] < L1DiTauCut):
+          L1DiTau1_pt = L1DiTau_pt[0]
+          L1DiTau2_pt = L1DiTau_pt[1]
+          outL1DiTau1_pt[0] = L1DiTau1_pt
+          outL1DiTau2_pt[0] = L1DiTau2_pt
+          if (L1DiTau1_pt < L1DiTauCut or L1DiTau2_pt < L1DiTauCut):
             BoolPassL1DiTau = 0
   
         outPassL1VBFDiJetIsoTau[0] = BoolPassL1VBFDiJetIsoTau
@@ -737,7 +749,11 @@ if __name__ == "__main__":
       # DiTau
       BoolPassL1DiTau = passL1DiTau[0]
       if (BoolPassL1DiTau):
-        if (L1DiTau_pt[0] < L1DiTauCut or L1DiTau_pt[1] < L1DiTauCut):
+        L1DiTau1_pt = L1DiTau_pt[0]
+        L1DiTau2_pt = L1DiTau_pt[1]
+        outL1DiTau1_pt[0] = L1DiTau1_pt
+        outL1DiTau2_pt[0] = L1DiTau2_pt
+        if (L1DiTau1_pt < L1DiTauCut or L1DiTau2_pt < L1DiTauCut):
           BoolPassL1DiTau = 0
 
       passDiTauOffCuts = False
