@@ -10,6 +10,12 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
     parser.add_argument('--metric', '-m', required=True, action='store', help='define gain metric')
+    parser.add_argument('-DT', '--L1DiTauCut', dest='L1DiTauCut', default=34, action='store',
+                        help='set the L1DiTauCut (default 34 for Runs after Era E)')
+    parser.add_argument('-HI', '--higher_VBFDiJetOR', dest='higher_VBFDiJetOR', default='n', action='store',
+                        help='emulate the higher L1VBFDiJetOR (default no)')
+
+
 
     args = parser.parse_args()
     in_file = args.in_file
@@ -55,6 +61,16 @@ if __name__ == "__main__":
 
     nEntries = tree.GetEntries()
 
+    L1DiTauCut = float(args.L1DiTauCut)
+
+    emulate_higher_VBFDiJetOR = "y" in args.higher_VBFDiJetOR
+    if (emulate_higher_VBFDiJetOR):
+      DoubleJetCut = 45
+      LeadingL1JetCut = 120
+    else:
+      DoubleJetCut = 35
+      LeadingL1JetCut = 110
+
     weight = 1
 
     for i in range(0, nEntries):
@@ -62,7 +78,18 @@ if __name__ == "__main__":
 
       BoolPassL1VBFDiJetIsoTau = tree.passL1VBFDiJetIsoTau
       BoolPassL1VBFDiJetOR = tree.passL1VBFDiJetOR
+      if (BoolPassL1VBFDiJetOR):
+        passing_ = tree.L1DiJetORMjj >= 620 \
+               and ( (tree.L1DiJetORJet1 >= DoubleJetCut and tree.L1DiJetORJet2 >= DoubleJetCut \
+               and tree.L1DiJetORJet3 >= LeadingL1JetCut)\
+               or (tree.L1DiJetORJet1 >= LeadingL1JetCut and tree.L1DiJetORJet2 >= DoubleJetCut \
+               and tree.L1DiJetORJet3 == -999.) )
+        BoolPassL1VBFDiJetOR = passing_
+
       BoolPassL1DiTau = tree.passL1DiTau
+      if (BoolPassL1DiTau):
+        if (tree.L1DiTau1_pt < L1DiTauCut or tree.L1DiTau2_pt < L1DiTauCut):
+          BoolPassL1DiTau = 0
 
       if (BoolPassL1VBFDiJetIsoTau): TallyL1VBFDiJetIsoTau += 1
       if (BoolPassL1VBFDiJetOR): TallyL1VBFDiJetOR += 1

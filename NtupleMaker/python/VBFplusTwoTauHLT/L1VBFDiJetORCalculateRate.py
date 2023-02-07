@@ -13,6 +13,10 @@ if __name__ == "__main__":
                         help='ignore rate_factor weight? default false, if true, count events')
     parser.add_argument('--scaling', '-s', required=False, action='store', default="True",\
                         help='set your output to be unscaled, default is scaled to 2E34')
+    parser.add_argument('-DT', '--L1DiTauCut', dest='L1DiTauCut', default=34, action='store',\
+                        help='set the L1DiTauCut (default 34 for Runs after Era E)')
+    parser.add_argument('-HI', '--higher_L1VBFIsoTau', dest='higher_L1VBFIsoTau', default='n', action='store',\
+                        help='set the L1VBFIsoTau to a higher set of cuts (default no)')
 
     args = parser.parse_args()
     in_file = args.in_file
@@ -36,16 +40,10 @@ if __name__ == "__main__":
     jet1Bins = 20
     jet2Bins = 8
     thirdJetScanRange = np.linspace(110., 120, thirdJetBins)
-    #mjjScanRange = np.linspace(620., 700, thirdJetBins)
     jet1ScanRange = np.linspace(35.,130., jet1Bins)
     jet2ScanRange = np.linspace(35.,70., jet2Bins)
-    #jet1ScanRange = np.linspace(35.,70., jet1Bins)
-    #jet1ScanRange = np.linspace(110.,145., jet1Bins)
-    #jet2ScanRange = np.linspace(35.,70., jet2Bins)
 
-    #gridTotal = np.zeros((thirdJetBins, jet1Bins, jet2Bins))
     gridTotal = np.zeros((thirdJetBins, jet2Bins, jet1Bins))
-    #gridOverlap = np.zeros((thirdJetBins, jet1Bins, jet2Bins))
     gridOverlap = np.zeros((thirdJetBins, jet2Bins, jet1Bins))
 
     if ("2018" in in_file): 
@@ -63,6 +61,8 @@ if __name__ == "__main__":
 
 
     nEntries = tree.GetEntries()
+
+    L1DiTauCut = float(args.L1DiTauCut)
 
     # print rate info and unpure/pure rate
     ignore_scaling = "n" in args.scaling.lower()
@@ -82,14 +82,30 @@ if __name__ == "__main__":
     if (ignore_rate_factor):
       weight = 1
 
-    L1DiJetORJet3PtCut = 110
+    emulate_higher_L1VBFIsoTau = "y" in args.higher_L1VBFIsoTau.lower()
+    if (emulate_higher_L1VBFIsoTau):
+      L1IsoTauCut = 45
+      L1MjjCut = 450
+      L1JetPtCut = 45
+    else:
+      L1IsoTauCut = 45
+      L1MjjCut = 450
+      L1JetPtCut = 35
 
     for i in range(0, nEntries):
       tree.GetEntry(i)
 
       BoolPassL1VBFDiJetOR = tree.passL1VBFDiJetOR
       BoolPassL1VBFDiJetIsoTau = tree.passL1VBFDiJetIsoTau
+      if (BoolPassL1VBFDiJetIsoTau):
+        if (tree.L1IsoTauPt < L1IsoTauCut or tree.L1Mjj < L1MjjCut \
+           or tree.L1Jet1Pt < L1JetPtCut or tree.L1Jet2Pt < L1JetPtCut):
+          BoolPassL1VBFDiJetIsoTau = 0
+
       BoolPassL1DiTau = tree.passL1DiTau
+      if (BoolPassL1DiTau):
+        if (tree.L1DiTau1_pt < L1DiTauCut or tree.L1DiTau2_pt < L1DiTauCut):
+          BoolPassL1DiTau = 0 
 
       if (BoolPassL1VBFDiJetIsoTau): TallyL1VBFDiJetIsoTau += 1
       if (BoolPassL1VBFDiJetOR): TallyL1VBFDiJetOR += 1
@@ -215,7 +231,7 @@ if __name__ == "__main__":
         ax.text(1.05, 0.25, "Pure Rate", transform=ax.transAxes, fontsize=12,
           rotation=-90)
 
-      ax.set_ylabel('jet2 ≥')
+      ax.set_ylabel('jet2Pt ≥')
   
       startx, endx = ax.get_xlim()
       ax.xaxis.set_ticks(np.arange(startx+0.5, endx, 1))
