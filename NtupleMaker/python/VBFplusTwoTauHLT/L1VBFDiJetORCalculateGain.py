@@ -100,7 +100,7 @@ if __name__ == "__main__":
       if (BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau or BoolPassL1DiTau): TallyTripleOR += 1
       L1_Tallies = [TallyL1VBFDiJetIsoTau, TallyL1VBFDiJetOR, TallyL1DiTau, \
                  TallyL1VBFDiJetIncORIsoTau, TallyL1DiTauORIsoTau, TallyL1VBFDiJetIncORDiTau, \
-                 TallyTripleOR, TallyTripleOR - TallyL1VBFDiJetIncORDiTau]
+                 TallyTripleOR, TallyTripleOR - TallyL1DiTauORIsoTau]
 
       BoolPassVBFDiTauHLT = tree.passVBFDiTauHLT and BoolPassL1VBFDiJetIsoTau
       BoolPassInclusiveVBFHLT = tree.passInclusiveVBFHLT and BoolPassL1VBFDiJetOR
@@ -115,7 +115,7 @@ if __name__ == "__main__":
       if (BoolPassVBFDiTauHLT or BoolPassInclusiveVBFHLT or BoolPassDiTauHLT): TallyTripleORHLT += 1
       HLT_Tallies = [TallyVBFDiTauHLT, TallyInclusiveVBFHLT, TallyDiTauHLT, \
                  TallyVBFDiTauORInclusiveVBFHLT, TallyVBFDiTauORDiTauHLT, TallyInclusiveVBFORDiTauHLT, \
-                 TallyTripleORHLT, TallyTripleORHLT - TallyInclusiveVBFORDiTauHLT]
+                 TallyTripleORHLT, TallyTripleORHLT - TallyVBFDiTauORDiTauHLT]
 
       BoolMatchVBFDiTauHLTOff = tree.matchVBFDiTauOff
       BoolMatchDiTauHLTOff = tree.matchDiTauOff 
@@ -134,9 +134,10 @@ if __name__ == "__main__":
       if (BoolPassVBFDiTauOff or BoolPassInclusiveVBFOff or BoolPassDiTauOff): TallyTripleOROff += 1
       Off_Tallies = [TallyVBFDiTauOff, TallyInclusiveVBFOff, TallyDiTauOff, \
                  TallyVBFDiTauORInclusiveVBFOff, TallyVBFDiTauORDiTauOff, TallyInclusiveVBFORDiTauOff, \
-                 TallyTripleOROff, TallyTripleOROff - TallyInclusiveVBFORDiTauOff]
+                 TallyTripleOROff, TallyTripleOROff - TallyVBFDiTauORDiTauOff]
 
-      if ("B" in args.metric.upper()):
+      metric = args.metric.upper()
+      if ("B" in metric):
         ORtoPass = BoolPassInclusiveVBFOff or BoolPassDiTauOff
       else:
         ORtoPass = BoolPassVBFDiTauOff or BoolPassInclusiveVBFOff or BoolPassDiTauOff
@@ -178,12 +179,16 @@ if __name__ == "__main__":
     gridMetricAorB = ((grid/TallyDiTauOff) - 1)*100
     gridMetricC = ((grid/TallyVBFDiTauORDiTauOff) - 1)*100
 
-    if ("A" in args.metric.upper() or "B" in args.metric.upper()):
+    if ("A" in metric or "B" in metric):
       grid = gridMetricAorB
-    if ("C" in args.metric.upper()):
+    if ("C" in metric):
       grid = gridMetricC
+    if ("TRIPLE" in metric):
+      pass # grid is not modified
+    if ("UNIQUE" in metric):
+      grid -= TallyVBFDiTauORDiTauOff
 
-    grid[grid == -100.0] = 0
+    grid[grid < 0] = 0
     masked_grid = np.ma.masked_equal(grid, 0, copy=False)
 
     gridmin = np.min(masked_grid)
@@ -205,7 +210,10 @@ if __name__ == "__main__":
         ax.set_title("jet1or3 ≥ " + str(10*i+110), fontsize=8)
         ax.set_xlabel('jet1Pt ≥') 
         for (n,m),label in np.ndenumerate(grid[i]):
-          label = "{:.1f}".format(label)
+          if ("UNIQUE" in metric or "TRIPLE" in metric):
+            label = "{:.0f}".format(label)
+          else:
+            label = "{:.1f}".format(label)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=8)
 
       ax.set_ylabel('jet2Pt ≥')
@@ -220,6 +228,13 @@ if __name__ == "__main__":
 
     if (i != 0):
       ax.get_yaxis().set_visible(False)
+
+    labels = ["VBFDiTau (1)", "VBFDijet (2)", "DiTau (3)", "1OR2", "1OR3", "2OR3", "TripleOR", "UniqueVBFDiJetOR"]
+    header = ["Label", "L1", "HLT", "Offline"]
+    print(f"{header[0]:17}, {header[1]:7}, {header[2]:7}, {header[3]:7}")
+    print("-"*40)
+    for index, label in enumerate(labels):
+      print(f"{label:17}, {L1_Tallies[index]:7}, {HLT_Tallies[index]:7}, {Off_Tallies[index]:7}")
 
     out_file = in_file.replace('.root','.pdf')
     plt.savefig(out_file)

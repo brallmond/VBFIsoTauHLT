@@ -136,7 +136,8 @@ if __name__ == "__main__":
                  TallyVBFDiTauORInclusiveVBFOff, TallyVBFDiTauORDiTauOff, TallyInclusiveVBFORDiTauOff, \
                  TallyTripleOROff, TallyTripleOROff - TallyInclusiveVBFORDiTauOff]
 
-      if ("B" in args.metric.upper()):
+      metric = args.metric.upper()
+      if ("B" in metric):
         ORtoPass = BoolPassVBFDiTauOff or BoolPassDiTauOff
       else:
         ORtoPass = BoolPassVBFDiTauOff or BoolPassInclusiveVBFOff or BoolPassDiTauOff
@@ -174,10 +175,14 @@ if __name__ == "__main__":
     gridMetricAorB = ((grid/TallyDiTauOff) - 1)*100
     gridMetricC = ((grid/TallyInclusiveVBFORDiTauOff) - 1)*100
 
-    if ("A" in args.metric.upper() or "B" in args.metric.upper()):
+    if ("A" in metric or "B" in metric):
       grid = gridMetricAorB
-    if ("C" in args.metric.upper()):
+    if ("C" in metric):
       grid = gridMetricC
+    if ("TRIPLE" in metric):
+      pass # grid is not modified
+    if ("UNIQUE" in metric):
+      grid -= TallyInclusiveVBFORDiTauOff
 
     gridmin = np.min(grid)
     gridmax = np.max(grid)
@@ -198,7 +203,10 @@ if __name__ == "__main__":
         ax.set_title("isoTauPt ≥ " + str(5*(i)+45), fontsize=8)
         ax.set_xlabel('jetPt ≥') 
         for (n,m),label in np.ndenumerate(grid[i]):
-          label = "{:.1f}".format(label)
+          if ("UNIQUE" in metric or "TRIPLE" in metric):
+            label = "{:.0f}".format(label)
+          else:
+            label = "{:.1f}".format(label)
           ax.text(m, n, label,ha='center',va='center', color='white', fontsize=8)
 
       ax.set_ylabel('mjj ≥')
@@ -214,9 +222,17 @@ if __name__ == "__main__":
     if (i != 0):
       ax.get_yaxis().set_visible(False)
 
+    labels = ["VBFDiTau (1)", "VBFDijet (2)", "DiTau (3)", "1OR2", "1OR3", "2OR3", "TripleOR", "UniqueIsoTau"]
+    header = ["Label", "L1", "HLT", "Offline"]
+    print(f"{header[0]:15}, {header[1]:7}, {header[2]:7}, {header[3]:7}")
+    print("-"*40)
+    for index, label in enumerate(labels):
+      print(f"{label:15}, {L1_Tallies[index]:7}, {HLT_Tallies[index]:7}, {Off_Tallies[index]:7}")
+
     out_file = in_file.replace('.root','.pdf')
     plt.savefig(out_file)
     plt.tight_layout()
     plt.show()
 
  
+           

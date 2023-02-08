@@ -19,8 +19,8 @@ if __name__ == "__main__":
     tree = new_file.Get("outtree")
 
     electronBins = 3
-    mjjBins = 11
-    jetBins = 11
+    mjjBins = 6
+    jetBins = 6
 
     OffEleInc = 3
     OffMjjInc = 100

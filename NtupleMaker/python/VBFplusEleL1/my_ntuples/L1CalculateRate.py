@@ -11,6 +11,9 @@ if __name__ == "__main__":
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
     parser.add_argument('--ignore_rate_factor', '-E', required=False, action='store', default="False",\
                         help='ignore rate_factor weight? default false, if true, count events')
+    parser.add_argument('--scaling', '-s', required=False, action='store', default="True",\
+                        help='set your output to be unscaled, default is scaled to 2E34')
+  
 
     args = parser.parse_args()
     in_file = args.in_file
@@ -20,19 +23,21 @@ if __name__ == "__main__":
     new_file = ROOT.TFile.Open(in_file, "READ") 
     tree = new_file.Get("outtree")
 
+    TallyPassLowestL1 = 0
+
     TallyL1VBFDiJetEG = 0
     TallyL1VBFDiJetOR = 0
     TallyL1VBFDiJetIsoTau = 0
     TallyDummyEGORL1 = 0
 
-    TallyPassLowestL1 = 0
-    TallyL1VBFDiJetIncORIsoTau = 0
+    TallyL1VBFDiJetORVBFIsoTau = 0
     TallyNotL1VBFEG = 0
+    TallyTripleVBFOR = 0
     TallyQuadOR = 0
     
     electronBins = 3
-    mjjBins = 11
-    jetBins = 11
+    mjjBins = 5
+    jetBins = 5
     electronScanRange = np.linspace(10.,14., electronBins)
     mjjScanRange = np.linspace(300.,500., mjjBins)
     jetScanRange = np.linspace(30.,50., jetBins)
@@ -53,11 +58,15 @@ if __name__ == "__main__":
     else:
       print("Change in-filename to contain 2018 or 2022E, reflecting the sample it was made from.")
 
-
     nEntries = tree.GetEntries()
 
     # print rate info and unpure/pure rate
-    lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
+    ignore_scaling = "n" in args.scaling.lower()
+    if (ignore_scaling):
+      scaling_numerator = rateDictionary[rateStudyString]["approxLumi"]
+    else:
+      scaling_numerator = 2.
+    lumiScaling = scaling_numerator / rateDictionary[rateStudyString]["approxLumi"]
     rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
     rate_factor = rate_factor / nEntries
     print("#"*40)
@@ -69,12 +78,32 @@ if __name__ == "__main__":
     if (ignore_rate_factor):
       weight = 1
 
+    DoubleJetCut = 35
+    LeadingL1JetCut = 110
+
+    L1IsoTauCut = 45
+    L1JetPtCut = 35
+    L1MjjCut = 450
+
     for i in range(0, nEntries):
       tree.GetEntry(i)
 
       BoolPassL1VBFDiJetEG = tree.passL1VBFDiJetEG
       BoolPassL1VBFDiJetOR = tree.passL1VBFDiJetOR
+      if (BoolPassL1VBFDiJetOR):
+        passing_ = tree.L1DiJetORMjj >= 620 \
+               and ( (tree.L1DiJetORJet1 >= DoubleJetCut and tree.L1DiJetORJet2 >= DoubleJetCut \
+               and tree.L1DiJetORJet3 >= LeadingL1JetCut)\
+               or (tree.L1DiJetORJet1 >= LeadingL1JetCut and tree.L1DiJetORJet2 >= DoubleJetCut \
+               and tree.L1DiJetORJet3 == -999.) )
+        BoolPassL1VBFDiJetOR = passing_
+
       BoolPassL1VBFDiJetIsoTau = tree.passL1VBFDiJetIsoTau
+      if (BoolPassL1VBFDiJetIsoTau):
+        if (tree.L1IsoTau_TauPt < L1IsoTauCut or tree.L1IsoTau_Mjj < L1MjjCut \
+           or tree.L1IsoTau_Jet1Pt < L1JetPtCut or tree.L1IsoTau_Jet2Pt < L1JetPtCut):
+          BoolPassL1VBFDiJetIsoTau = 0
+
       BoolPassDummyEGORL1  = tree.passDummyEGORL1
 
       if (BoolPassL1VBFDiJetEG): TallyL1VBFDiJetEG += 1
@@ -83,10 +112,12 @@ if __name__ == "__main__":
       if (BoolPassDummyEGORL1): TallyDummyEGORL1 += 1
 
       BoolExistingVBFOR = BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau
-      if (BoolExistingVBFOR): TallyL1VBFDiJetIncORIsoTau += 1
+      if (BoolExistingVBFOR): TallyL1VBFDiJetORVBFIsoTau += 1
+      if (BoolExistingVBFOR or BoolPassL1VBFDiJetEG): TallyTripleVBFOR += 1
       BoolPassAnyOther = BoolExistingVBFOR or BoolPassDummyEGORL1
       if (BoolPassAnyOther): TallyNotL1VBFEG += 1 
       if (BoolPassAnyOther or BoolPassL1VBFDiJetEG): TallyQuadOR += 1
+
 
       if (BoolPassL1VBFDiJetEG):
         L1ElePt   = tree.L1ElePt
@@ -95,6 +126,7 @@ if __name__ == "__main__":
         L1Mjj     = tree.L1Mjj
         if (L1ElePt >= 10 and L1Jet1Pt >= 30 and L1Jet2Pt >= 30 and L1Mjj >= 300):
           TallyPassLowestL1 += 1
+             
 
         for eleIndex, eleEntry in enumerate(electronScanRange):
           for mjjIndex, mjjEntry in enumerate(mjjScanRange):
@@ -109,16 +141,15 @@ if __name__ == "__main__":
 
 
     print(f"Sanity Check, Lowest L1 Tally : {TallyPassLowestL1}")
+    labels = ["VBF+Ele", "VBFDiJetOR", "VBFIsoTau", "DummyEGL1", \
+              "VBFDiJetORVBFDiTau", "NotVBFEG", "VBFTripleOR", "QuadOR", "UniqueVBFEle"]
 
-    # print output
-    labels = ["VBF+Ele","VBF+IsoTau", "VBF Inc", "L1 EGs"] 
-    values = [TallyL1VBFDiJetEG, TallyL1VBFDiJetOR, TallyL1VBFDiJetIsoTau, TallyDummyEGORL1]
-    print_formatted_labels_and_values(labels, values)
+    L1_Tallies = [TallyL1VBFDiJetEG, TallyL1VBFDiJetOR, TallyL1VBFDiJetIsoTau, TallyDummyEGORL1,\
+                  TallyL1VBFDiJetORVBFIsoTau, TallyNotL1VBFEG, TallyTripleVBFOR, TallyQuadOR, \
+                  TallyQuadOR - TallyNotL1VBFEG]
 
-    labels = ["VBF Inc OR IsoTau", "Any Except L1VBFEG", "Any L1", "Unique L1VBFEG"]
-    uniqueL1VBFEG = TallyQuadOR - TallyNotL1VBFEG
-    values = [TallyL1VBFDiJetIncORIsoTau, TallyNotL1VBFEG, TallyQuadOR, uniqueL1VBFEG]
-    print_formatted_labels_and_values(labels, values, double_space=True)
+    uniqueL1VBFEG = L1_Tallies[-1]
+
     print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
 
     intJetPt = [int(i) for i in jetScanRange]
@@ -131,7 +162,7 @@ if __name__ == "__main__":
     fig.set_size_inches(10.5, 10.5)
 
     # title formattin
-    loose_or_tight = "Neither"
+    loose_or_tight = "Tight"
     if ("LOOSE" in in_file.upper()):
       loose_or_tight = "Loose"
     elif ("TIGHT" in in_file.upper()):
