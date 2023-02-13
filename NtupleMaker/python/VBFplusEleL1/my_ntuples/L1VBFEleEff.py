@@ -15,7 +15,7 @@ ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
 # rate mode
 # python3 L1VBFEleEff.py -i ../../../../../samples/EZBs/EZB_2018/EZB1_EGOR.root -r 2018O -s tight -L 0
 # multifile
-# for line in `cat rate_files.txt`; do echo $line; python3 L1VBFEleEff.py -i $line -r 2018O -s tight -L 0 >> rate_total_output.txt; done
+# for line in `cat rate_files.txt`; do echo $line; python3 L1VBFEleEff.py -i $line -r 2022G_PU6O -s tight -L 0 -DJ 35 >> rate_total_output.txt; done
 
 if __name__ == "__main__":
 
@@ -26,8 +26,10 @@ if __name__ == "__main__":
                     help='the L1 being tested')
   parser.add_argument('-s', '--L1LooseOrTightIso', dest='L1LooseOrTightIso', action='store',
                     help='the iso you would like to use (loose or tight)')
-  parser.add_argument('-r', '--rateStudy', dest='rateStudy', action='store',
-                    help='is this a rate study (yes or no)')
+  parser.add_argument('-r', '--rateStudy', dest='rateStudy', default="NOTRATE", action='store',
+                    help='specify rate study tag (see rateDictionary.py)')
+  parser.add_argument('-DJ', '--L1DiJetORCut', dest='L1DiJetOR_35or45', default="35", action='store',
+                    help='the cut to use for the jets in the L1DiJetOR, 35 or 45')
   args = parser.parse_args()
 
   inFile = ROOT.TFile.Open(args.inFilename,"READ")
@@ -38,30 +40,20 @@ if __name__ == "__main__":
   # L1 and Offline cuts are just integers so we define them outside the event loop
               # pt  mjj  ele pt    
   L1sToTest = [[30, 300, 10], #0, for rate studies
-               [38, 460, 12], #1
-               [40, 460, 12], #2
-               [42, 460, 12], #3
-               [32, 440, 14], #4
-               [34, 440, 14], #5
-               [36, 440, 14], #6
-               # Iso
-               [30, 320, 10], #7
-               [30, 380, 10], #8
-               [30, 440, 10], #9
-               # to be tested
-               [45, 500, 12], #10
-               [30, 500, 14], #11
-               [35, 500, 14], #12
-               [40, 500, 14], #13
-               [45, 500, 14], #14
-               [50, 500, 14], #15
+               [30, 500, 10],
+               [30, 500, 12],
+               [35, 500, 12],
+               [40, 500, 12],
+               [45, 500, 12],
+               [50, 500, 12],
                ]
 
   match_right_way = True # used for a matching study, left hardcoded assuming the study won't need to be repeated
   L1LooseOrTightIso = (args.L1LooseOrTightIso).lower()
 
   rateStudyString = args.rateStudy.upper()
-  isValidString = (rateStudyString == "2018O" or rateStudyString == "2022E" or rateStudyString == "2022F")
+  isValidString = (rateStudyString == "2018O" or rateStudyString == "2022E" or rateStudyString == "2022F"\
+                or rateStudyString == "2022G_PU70" or rateStudyString == "2022G_PU60")
   notRateStudy = 'NOTRATE' in rateStudyString
   rateStudy = not notRateStudy and isValidString # "not not" is the same as "is"
   if (rateStudy):
@@ -86,10 +78,11 @@ if __name__ == "__main__":
   split_inFilename = str(args.inFilename).split('/')
   dataset_inFilename = split_inFilename[-2]
   file_inFilename = split_inFilename[-1].replace('.root','')
+  L1DiJetORCut_inFilename = "L1DiJetOR"+str(args.L1DiJetOR_35or45)+"_"
 
   output_name_part_1 = dataset_inFilename + "_" + file_inFilename + "L1_VBF_DoubleJets" + str(L1JetPtToPass) 
   output_name_part_2 = "_Mass_Min" + str(L1JetMjjToPass) + text_L1_EG + ".root"
-  output_name = output_name_part_1 + output_name_part_2
+  output_name = L1DiJetORCut_inFilename + output_name_part_1 + output_name_part_2
   print(f"Total counts for {output_name}")
 
   # declare outtree name and branches
@@ -105,6 +98,24 @@ if __name__ == "__main__":
   outtree.Branch("L1Jet2Pt", outL1Jet2Pt, 'pt/F')
   outtree.Branch("L1Mjj", outL1Mjj, 'mjj/F')
 
+  outL1DiJetORJet1 = array('f', [0.])
+  outL1DiJetORJet2 = array('f', [0.])
+  outL1DiJetORJet3 = array('f', [0.])
+  outL1DiJetORMjj = array('f', [0.])
+  outtree.Branch("L1DiJetORJet1", outL1DiJetORJet1, 'pt/F')
+  outtree.Branch("L1DiJetORJet2", outL1DiJetORJet2, 'pt/F')
+  outtree.Branch("L1DiJetORJet3", outL1DiJetORJet3, 'pt/F')
+  outtree.Branch("L1DiJetORMjj", outL1DiJetORMjj, 'mjj/F')
+
+  outL1VBFIsoTau_TauPt = array('f', [0.])
+  outL1VBFIsoTau_Jet1Pt = array('f', [0.])
+  outL1VBFIsoTau_Jet2Pt = array('f', [0.])
+  outL1VBFIsoTau_Mjj = array('f', [0.])
+  outtree.Branch("L1IsoTau_TauPt", outL1VBFIsoTau_TauPt, 'pt/F')
+  outtree.Branch("L1IsoTau_Jet1Pt", outL1VBFIsoTau_Jet1Pt, 'pt/F')
+  outtree.Branch("L1IsoTau_Jet2Pt", outL1VBFIsoTau_Jet2Pt, 'pt/F')
+  outtree.Branch("L1IsoTau_Mjj", outL1VBFIsoTau_Mjj, 'mjj/F')
+
   outPassL1VBFDiJetEG = array('i', [0])
   outPassL1VBFDiJetOR = array('i', [0])
   outPassL1VBFDiJetIsoTau = array('i', [0])
@@ -113,6 +124,13 @@ if __name__ == "__main__":
   outtree.Branch("passL1VBFDiJetOR", outPassL1VBFDiJetOR, 'pass/I')
   outtree.Branch("passL1VBFDiJetIsoTau", outPassL1VBFDiJetIsoTau, 'pass/I')
   outtree.Branch("passDummyEGORL1", outPassDummyEGORL1, 'pass/I')
+
+  outPassVBFEleTauOff = array('i', [0])
+  outPassEleTauOff = array('i', [0])
+  outPassSingleEleOff = array('i', [0])
+  outtree.Branch("passVBFEleTauOff", outPassVBFEleTauOff, 'pass/I')
+  outtree.Branch("passEleTauOff", outPassEleTauOff, 'pass/I')
+  outtree.Branch("passSingleEleOff", outPassSingleEleOff, 'pass/I')
 
   outOffElePt = array('f', [0.])
   outOffTauPt = array('f', [0.])
@@ -149,7 +167,8 @@ if __name__ == "__main__":
   goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
   minLS = rateDictionary[rateStudyString]["minLS"]
   maxLS = rateDictionary[rateStudyString]["maxLS"]
-  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}]")
+  badLS = rateDictionary[rateStudyString]["badLS"]
+  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}], Bad LS = {badLS}")
 
   # L1
   if (L1LooseOrTightIso == "tight"):
@@ -194,10 +213,48 @@ if __name__ == "__main__":
 
   # L1 overlaps
   passL1VBFDiJetOR = array('i', [0])
+  tree.SetBranchAddress("passhltL1VBFDiJetOR", passL1VBFDiJetOR)
+  L1VBFDiJetOR_pt = ROOT.std.vector('float')()
+  L1VBFDiJetOR_eta = ROOT.std.vector('float')()
+  L1VBFDiJetOR_phi = ROOT.std.vector('float')()
+  L1VBFDiJetOR_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("hltL1VBFDiJetOR_pt", L1VBFDiJetOR_pt)
+  tree.SetBranchAddress("hltL1VBFDiJetOR_eta", L1VBFDiJetOR_eta)
+  tree.SetBranchAddress("hltL1VBFDiJetOR_phi", L1VBFDiJetOR_phi)
+  tree.SetBranchAddress("hltL1VBFDiJetOR_energy", L1VBFDiJetOR_energy)
+
+  DiJetOR_35or45 = args.L1DiJetOR_35or45
+  if ("35" in DiJetOR_35or45):
+    DoubleJetCut = 35
+    LeadingL1JetCut = 110
+  elif ("45" in DiJetOR_35or45):
+    DoubleJetCut = 45
+    LeadingL1JetCut = 120 
+  else:
+    print("Please input 35 or 45 for the DiJetOR cut. Exiting...")
+    sys.exit()
+
   passL1VBFDiJetIsoTau = array('i', [0])
+  tree.SetBranchAddress("passhltL1VBFDiJetIsoTau", passL1VBFDiJetIsoTau)
+  L1VBFIsoTau_jetPt = ROOT.std.vector('float')()
+  L1VBFIsoTau_jetEta = ROOT.std.vector('float')()
+  L1VBFIsoTau_jetPhi = ROOT.std.vector('float')()
+  L1VBFIsoTau_jetEnergy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("hltL1VBFDiJetIsoTau_jetPt", L1VBFIsoTau_jetPt)
+  tree.SetBranchAddress("hltL1VBFDiJetIsoTau_jetEta", L1VBFIsoTau_jetEta)
+  tree.SetBranchAddress("hltL1VBFDiJetIsoTau_jetPhi", L1VBFIsoTau_jetPhi)
+  tree.SetBranchAddress("hltL1VBFDiJetIsoTau_jetEnergy", L1VBFIsoTau_jetEnergy)
+  L1VBFIsoTau_tauPt = ROOT.std.vector('float')()
+  L1VBFIsoTau_tauEta = ROOT.std.vector('float')()
+  L1VBFIsoTau_tauPhi = ROOT.std.vector('float')()
+  L1VBFIsoTau_tauEnergy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("hltL1VBFDiJetIsoTau_tauPt", L1VBFIsoTau_tauPt)
+  tree.SetBranchAddress("hltL1VBFDiJetIsoTau_tauEta", L1VBFIsoTau_tauEta)
+  tree.SetBranchAddress("hltL1VBFDiJetIsoTau_tauPhi", L1VBFIsoTau_tauPhi)
+  tree.SetBranchAddress("hltL1VBFDiJetIsoTau_tauEnergy", L1VBFIsoTau_tauEnergy)
+
   passDummyEGORL1 = array('i', [0])
   tree.SetBranchAddress("passhltL1VBFDiJetOR", passL1VBFDiJetOR)
-  tree.SetBranchAddress("passhltL1VBFDiJetIsoTau", passL1VBFDiJetIsoTau)
   tree.SetBranchAddress("passHLTDummyEGORL1", passDummyEGORL1)
 
   TallyL1VBFDiJetEG = 0
@@ -205,12 +262,14 @@ if __name__ == "__main__":
   TallyL1VBFDiJetIsoTau = 0
   TallyDummyEGORL1 = 0
 
-  TallyL1VBFDiJetIncORIsoTau = 0
+  TallyTripleVBFOR = 0
+
+  TallyL1VBFDiJetORVBFDiTau = 0
   TallyNotL1VBFEG = 0 # any L1 not VBFDiJet
   TallyQuadOR = 0 # all four
 
-  is2022 = False
-  if (is2022): 
+  is2022 = True # can use False and 2018 EZB samples for HLT rate
+  if (is2022 and notRateStudy): 
     # HLT Filter Matching
     # EleTau
     PassEleTauFinalFilterTau = array('i', [0])
@@ -253,7 +312,8 @@ if __name__ == "__main__":
     tree.SetBranchAddress("passSingleEleHLT", passSingleEleHLT)
 
   # Offline kinems
-  if (not rateStudy):
+  #if (not rateStudy):
+  if (notRateStudy):
     ##Taus
     OffnTaus = array('i', [0])
     OffTauCh = ROOT.std.vector('float')()
@@ -330,12 +390,15 @@ if __name__ == "__main__":
   OffCuts = [OffJetPtToPass, OffJetMjjToPass, OffElePtToPass, OffTauPtToPass]
   print("Off Cuts: [jets, mjj, elePt, tauPt] ", OffCuts)
 
-  TallyVBFEle = 0
-  TallyEleTau = 0
-  TallySingleEle = 0
-  TallyEleTauAndSingleEle = 0
-  TallyEleTauOrSingleEle = 0
-  TallyTripleOr = 0
+  TallyVBFEleOff = 0
+  TallyEleTauOff = 0
+  TallySingleEleOff = 0
+  TallyVBFEleOREleTauOff = 0
+  TallyVBFEleORSingleEleOff = 0
+  TallyEleTauORSingleEleOff = 0
+  TallyTripleOROff = 0
+  L1_Tallies = ["","","","","","","","",""]
+  Off_Tallies = ["","","","","","","","",""]
 
   TotalEntries = tree.GetEntries()
   for entry in range(TotalEntries):
@@ -343,70 +406,130 @@ if __name__ == "__main__":
     tree.GetEntry(entry)
 
     # for rate study
-    runNumberValue = runNumber[0]
-    if runNumberValue != goodRunNumber: continue
+    if (rateStudy):
+      runNumberValue = runNumber[0]
+      if runNumberValue != goodRunNumber: continue
 
-    lumiSectionValue = lumiSection[0]
-    goodLumi = lumiSectionValue >= minLS and lumiSectionValue <= maxLS
-    if not goodLumi: continue
+      lumiSectionValue = lumiSection[0]
+      withinLumiRange = lumiSectionValue >= minLS and lumiSectionValue <= maxLS
+      notBadLS = lumiSectionValue not in badLS
+      goodLumi = withinLumiRange and notBadLS
 
-    if (runNumberValue == goodRunNumber and goodLumi):
-      viableEventCounter += 1
+      if not goodLumi: continue
 
-      # get L1 objects 
-      L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
-      sizeL1Jets = len(L1Jets)
-      L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
-      sizeL1Eles = len(L1Eles)
+      if (runNumberValue == goodRunNumber and goodLumi):
+        viableEventCounter += 1
+  
+        # get L1 objects 
+        L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
+        sizeL1Jets = len(L1Jets)
+        L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
+        sizeL1Eles = len(L1Eles)
+  
+        BoolPassL1VBFDiJetEG = passL1[0]
+        BoolPassL1VBFDiJetIsoTau = passL1VBFDiJetIsoTau[0]
+        if (BoolPassL1VBFDiJetIsoTau):
+          L1VBFIsoTauTaus = fillWithTVecs(L1VBFIsoTau_tauPt, L1VBFIsoTau_tauEta,\
+                                          L1VBFIsoTau_tauPhi, L1VBFIsoTau_tauEnergy)
+          L1VBFIsoTauJets = fillWithTVecs(L1VBFIsoTau_jetPt, L1VBFIsoTau_jetEta,\
+                                               L1VBFIsoTau_jetPhi, L1VBFIsoTau_jetEnergy)
+          L1VBFIsoTauJet1Index, L1VBFIsoTauJet2Index, L1VBFIsoTauMjj = highestMjjPair(L1VBFIsoTauJets)
+          L1VBFIsoTauTauPt = L1VBFIsoTauTaus[0].Pt()
+          L1VBFIsoTauJet1Pt = L1VBFIsoTauJets[L1VBFIsoTauJet1Index].Pt()
+          L1VBFIsoTauJet2Pt = L1VBFIsoTauJets[L1VBFIsoTauJet2Index].Pt()
+          
+          outL1VBFIsoTau_TauPt[0] = L1VBFIsoTauTauPt
+          outL1VBFIsoTau_Jet1Pt[0] = L1VBFIsoTauJet1Pt
+          outL1VBFIsoTau_Jet2Pt[0] = L1VBFIsoTauJet2Pt
+          outL1VBFIsoTau_Mjj[0] = L1VBFIsoTauMjj
 
-      BoolPassL1VBFDiJetEG = passL1[0]
-      BoolPassL1VBFDiJetOR = passL1VBFDiJetOR[0]
-      BoolPassL1VBFDiJetIsoTau = passL1VBFDiJetIsoTau[0]
-      BoolPassDummyEGORL1 = passDummyEGORL1[0]
+          BoolPassL1VBFDiJetIsoTau = (L1VBFIsoTauTauPt >= 45 and L1VBFIsoTauMjj >= 450 \
+                                 and L1VBFIsoTauJet1Pt >= 35 and L1VBFIsoTauJet2Pt >= 35)
 
-      outPassL1VBFDiJetEG[0] = BoolPassL1VBFDiJetEG
-      outPassL1VBFDiJetOR[0] = BoolPassL1VBFDiJetOR
-      outPassL1VBFDiJetIsoTau[0] = BoolPassL1VBFDiJetIsoTau
-      outPassDummyEGORL1[0] = BoolPassDummyEGORL1
 
-      if (BoolPassL1VBFDiJetEG): TallyL1VBFDiJetEG += 1
-      if (BoolPassL1VBFDiJetOR): TallyL1VBFDiJetOR += 1
-      if (BoolPassL1VBFDiJetIsoTau): TallyL1VBFDiJetIsoTau += 1
-      if (BoolPassDummyEGORL1): TallyDummyEGORL1 += 1
+        BoolPassDummyEGORL1 = passDummyEGORL1[0]
 
-      BoolExistingVBFOR = BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau
-      if (BoolExistingVBFOR): TallyL1VBFDiJetIncORIsoTau += 1
-      if (BoolExistingVBFOR or BoolPassDummyEGORL1): TallyNotL1VBFEG += 1 
-      if (BoolExistingVBFOR or BoolPassDummyEGORL1 or BoolPassL1VBFDiJetEG): TallyQuadOR += 1
+        # emulated L1 DiJet OR
+        BoolPassL1VBFDiJetOR = passL1VBFDiJetOR[0]
+        if (BoolPassL1VBFDiJetOR):
+          L1VBFDiJetORJets = fillWithTVecs(L1VBFDiJetOR_pt, L1VBFDiJetOR_eta,\
+                                           L1VBFDiJetOR_phi, L1VBFDiJetOR_energy)
+          L1DiJetORJet1Index, L1DiJetORJet2Index, L1DiJetORMjj = highestMjjPair(L1VBFDiJetORJets)
+          outL1DiJetORJet3[0] = -999.
+          L1DiJetORJet3PT = -999.
+          if (L1DiJetORJet1Index != 0 and L1DiJetORJet2Index != 0):
+            L1DiJetORJet3 = L1VBFDiJetORJets[0]
+            L1DiJetORJet3PT = L1DiJetORJet3.Pt()
+            outL1DiJetORJet3[0] = L1DiJetORJet3PT
+            if (L1DiJetORJet3PT < LeadingL1JetCut):
+              BoolPassL1VBFDiJetOR = 0
+          L1DiJetORJet1 = L1VBFDiJetORJets[L1DiJetORJet1Index]
+          L1DiJetORJet2 = L1VBFDiJetORJets[L1DiJetORJet2Index]
 
-      # if objects available, set and fill branches
-      if (sizeL1Jets >= 2 and sizeL1Eles >= 1 and passL1[0]):
-        L1Ele = L1Eles[0]
-        L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
-        L1Jet1 = L1Jets[L1Jet1Index]
-        L1Jet2 = L1Jets[L1Jet2Index]
+          L1DiJetORJet1PT = L1DiJetORJet1.Pt()
+          L1DiJetORJet2PT = L1DiJetORJet2.Pt()
+          outL1DiJetORJet1[0] = L1DiJetORJet1PT
+          outL1DiJetORJet2[0] = L1DiJetORJet2PT
+          outL1DiJetORMjj[0] = L1DiJetORMjj
 
-        outL1ElePt[0] = L1Ele.Pt()
-        outL1Jet1Pt[0] = L1Jet1.Pt()
-        outL1Jet2Pt[0] = L1Jet2.Pt()
-        outL1Mjj[0] = L1Mjj
+          passing_ = L1DiJetORMjj >= 620 \
+                 and ((L1DiJetORJet1PT >= DoubleJetCut and L1DiJetORJet2PT >= DoubleJetCut and L1DiJetORJet3PT >= LeadingL1JetCut)\
+                 or (L1DiJetORJet1PT >= LeadingL1JetCut and L1DiJetORJet2PT >= DoubleJetCut and L1DiJetORJet3PT == -999.) )
 
-        #print(sizeL1Jets, sizeL1Eles, L1Ele.Pt(), L1Jet1.Pt(), L1Jet2.Pt(), L1Mjj)
-      else:
-        outL1ElePt[0] = -999
-        outL1Jet1Pt[0] = -999
-        outL1Jet2Pt[0] = -999
-        outL1Mjj[0] = -999
-      
-      outtree.Fill()
+          BoolPassL1VBFDiJetOR = passing_
 
-    continue
+  
+        outPassL1VBFDiJetEG[0] = BoolPassL1VBFDiJetEG
+        outPassL1VBFDiJetOR[0] = BoolPassL1VBFDiJetOR
+        outPassL1VBFDiJetIsoTau[0] = BoolPassL1VBFDiJetIsoTau
+        outPassDummyEGORL1[0] = BoolPassDummyEGORL1
+  
+        if (BoolPassL1VBFDiJetEG): TallyL1VBFDiJetEG += 1
+        if (BoolPassL1VBFDiJetOR): TallyL1VBFDiJetOR += 1
+        if (BoolPassL1VBFDiJetIsoTau): TallyL1VBFDiJetIsoTau += 1
+        if (BoolPassDummyEGORL1): TallyDummyEGORL1 += 1
+  
+        BoolExistingVBFOR = BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau
+        if (BoolExistingVBFOR): TallyL1VBFDiJetORVBFDiTau += 1
+        if (BoolExistingVBFOR or BoolPassDummyEGORL1): TallyNotL1VBFEG += 1 
+        if (BoolExistingVBFOR or BoolPassL1VBFDiJetEG): TallyTripleVBFOR += 1 
+        if (BoolExistingVBFOR or BoolPassDummyEGORL1 or BoolPassL1VBFDiJetEG): TallyQuadOR += 1
 
+        L1_Tallies = [TallyL1VBFDiJetEG, TallyL1VBFDiJetOR, TallyL1VBFDiJetIsoTau, TallyDummyEGORL1,\
+                      TallyL1VBFDiJetORVBFDiTau, TallyNotL1VBFEG, TallyTripleVBFOR, TallyQuadOR, \
+                      TallyQuadOR - TallyNotL1VBFEG]
+
+  
+        # if objects available, set and fill branches
+        if (sizeL1Jets >= 2 and sizeL1Eles >= 1 and passL1[0]):
+          L1Ele = L1Eles[0]
+          L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+          L1Jet1 = L1Jets[L1Jet1Index]
+          L1Jet2 = L1Jets[L1Jet2Index]
+  
+          outL1ElePt[0] = L1Ele.Pt()
+          outL1Jet1Pt[0] = L1Jet1.Pt()
+          outL1Jet2Pt[0] = L1Jet2.Pt()
+          outL1Mjj[0] = L1Mjj
+  
+          #print(sizeL1Jets, sizeL1Eles, L1Ele.Pt(), L1Jet1.Pt(), L1Jet2.Pt(), L1Mjj)
+        else:
+          outL1ElePt[0] = -999
+          outL1Jet1Pt[0] = -999
+          outL1Jet2Pt[0] = -999
+          outL1Mjj[0] = -999
+        
+        outtree.Fill()
+  
+        continue
+
+  
     # requiring events to pass your L1 biases your selection, fine for gain study, not fine for eff study
     #basicReqs = ((passL1[0]) and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
-    basicReqs = ( not rateStudy and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
+    basicReqs = ( notRateStudy and (OffnJets[0] >= 2) and (OffnEles[0] >= 1) and (OffnTaus[0] >= 1))
 
     if basicReqs:
+      viableEventCounter += 1
       # make and fill containers with TLorentzVectors
       # we will match the offline to the L1s, so it is redudant to cut on both
       # subsequently, we make cuts on the tighter (offline) set to begin with
@@ -422,7 +545,6 @@ if __name__ == "__main__":
       OffJets = fillWithTVecs(OffJetPt, OffJetEta, OffJetPhi, OffJetEnergy, OffJetsPassFilter)
       sizeOffJets = len(OffJets)
       if (sizeOffJets < 2): continue
-      
 
       # Tau ID for Ele-Tau using 2017 DeepTau version 2p1, Med vs Jet, Tight vs Ele, VLoose vs Muon
       TauEtaToPass = 2.3
@@ -539,7 +661,6 @@ if __name__ == "__main__":
       outOffJet2Pt[0] = OffJet2.Pt()
       outOffMjj[0] = OffMjj
 
-      outtree.Fill()
 
       # EleTau HLT Matching
       EleTauHLTTaus = fillWithTVecs(EleTauFinalFilterTau_pt, EleTauFinalFilterTau_eta, \
@@ -592,33 +713,46 @@ if __name__ == "__main__":
 
       # now tally it up
       GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
-      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts and passEleTauHLT
-      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts and passSingleEleHLT
+      GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts and passEleTauHLT[0]
+      GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts and passSingleEleHLT[0]
+
+      outPassVBFEleTauOff[0] = GoodVBFEle
+      outPassEleTauOff[0] = GoodEleTau
+      outPassSingleEleOff[0] = GoodSingleEle
+
+      outtree.Fill()
 
       # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
       if (GoodVBFEle): TallyVBFEle += 1
       if (GoodEleTau): TallyEleTau += 1
       if (GoodSingleEle): TallySingleEle += 1
 
-      if (GoodEleTau or GoodSingleEle): TallyEleTauOrSingleEle += 1
-      if (GoodEleTau and GoodSingleEle): TallyEleTauAndSingleEle += 1
+      if (GoodVBFEle or GoodEleTau): TallyVBFEleOREleTau += 1
+      if (GoodVBFEle or GoodSingleEle): TallyVBFEleORSingleEle += 1
+      if (GoodEleTau or GoodSingleEle): TallyEleTauORSingleEle += 1
 
-      if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOr += 1
+      if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOR += 1
+
+      Off_Tallies = [TallyVBFEle, TallyEleTau, TallySingleEle, \
+                     TallyVBFEleOREleTau, TallyVBFEleORSingleEle, TallyEleTauORSingleEle, \
+                     TallyTripleOR, TallyTripleOR - TallyEleTauORSingleEle]
 
   # print output
   print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
 
+  print("-"*40)
+  if (notRateStudy):
+    labels = ["VBF+Ele", "EleTau", "SingleEle", "VBFEleOREleTau", "VBFEleOrSingleEle", "TripleOR", "UniqueVBFEle"]
+    for index, label in enumerate(labels):
+      print(f"{label:19}, {Off_Tallies[index]:7}")
 
   if (rateStudy):
-    labels = ["VBF+Ele","VBF+IsoTau", "VBF Inc", "L1 EGs"] 
-    values = [TallyL1VBFDiJetEG, TallyL1VBFDiJetOR, TallyL1VBFDiJetIsoTau, TallyDummyEGORL1]
-    print_formatted_labels_and_values(labels, values)
+    labels = ["VBF+Ele", "VBFDiJetOR", "VBFIsoTau", "DummyEGL1", \
+              "VBFDiJetORVBFDiTau", "NotVBFEG", "VBFTripleOR", "QuadOR", "UniqueVBFEle"]
+    for index, label in enumerate(labels):
+      print(f"{label:19}, {L1_Tallies[index]:7}")
 
-    labels = ["VBF Inc OR IsoTau", "Any Except L1VBFEG", "Any L1", "Unique L1VBFEG"]
-    uniqueL1VBFEG = TallyQuadOR - TallyNotL1VBFEG
-    values = [TallyL1VBFDiJetIncORIsoTau, TallyNotL1VBFEG, TallyQuadOR, uniqueL1VBFEG]
-    print_formatted_labels_and_values(labels, values, double_space=True)
-
+    uniqueL1VBFEG = L1_Tallies[-1]
     # print rate info and unpure/pure rate
     lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
     rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
@@ -630,24 +764,6 @@ if __name__ == "__main__":
       print("Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed")
       print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
       print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
-
-
-  if (not rateStudy):
-    print(f"match right way (Offline to L1): {match_right_way}")
-
-    # formatting a table to print instead of free-form printing
-    labels = ["SingleEle", "EleTau", "OR", "AND"]
-    values = [TallySingleEle, TallyEleTau, TallyEleTauOrSingleEle, TallyEleTauAndSingleEle]
-    print_formatted_labels_and_values(labels, values)
-
-    UniqueVBF = TallyTripleOr - TallyEleTauOrSingleEle
-    if (TallyEleTauOrSingleEle != 0):
-      Gain = ( (TallyTripleOr / TallyEleTauOrSingleEle) - 1)*100
-    else:
-      Gain = -999
-    labels = ["VBF+Ele", "TripleOR", "Unique", "Gain"]
-    values = [TallyVBFEle, TallyTripleOr, UniqueVBF, Gain]
-    print_formatted_labels_and_values(labels, values)
 
   outtree.Write()
   outFile.Close()

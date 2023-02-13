@@ -18,8 +18,10 @@ def rebin_hist_to_int_range(hist):
   return int_rebin_hist
 
 
-def make_comparison_plot(in_file_one: 'str', in_file_two: 'str', in_file_three: 'str', in_file_four: 'str',
-    var: 'str', label_one: 'str', label_two: 'str', label_three: 'str', label_four: 'str') -> 'None':
+def make_comparison_plot(in_file_one: 'str', in_file_two: 'str', in_file_three: 'str', in_file_four: 'str',\
+                         in_file_five: 'str',\
+    var: 'str', label_one: 'str', label_two: 'str', label_three: 'str', label_four: 'str',\
+                         label_five: 'str') -> 'None':
     """Create and save comparison of loose/tight efficiency plot"""
 
     # make two drawing pads on one canvas
@@ -53,6 +55,11 @@ def make_comparison_plot(in_file_one: 'str', in_file_two: 'str', in_file_three: 
     h_four.SetDirectory(0)
     root_file_four.Close()
 
+    root_file_five = ROOT.TFile.Open(in_file_five, "READ")
+    h_five = root_file_five.Get(hist_var)
+    h_five.SetDirectory(0)
+    root_file_five.Close()
+
     # set styles and labels
     set_style(h_one, 4, 4)
     h_one.GetYaxis().SetRangeUser(0, 1.5)
@@ -68,6 +75,9 @@ def make_comparison_plot(in_file_one: 'str', in_file_two: 'str', in_file_three: 
     set_style(h_four, 1, 1)
     h_four.Draw("SAME, PE")
 
+    set_style(h_five, 1, 3)
+    h_five.Draw("SAME, PE")
+
     # add legend to left plot
     leg_left = ROOT.TLegend(0.55, 0.67, 0.9, 0.9)
     leg_left.SetTextSize(0.025)
@@ -75,6 +85,7 @@ def make_comparison_plot(in_file_one: 'str', in_file_two: 'str', in_file_three: 
     leg_left.AddEntry(h_two, label_two)
     leg_left.AddEntry(h_three, label_three)
     leg_left.AddEntry(h_four, label_four)
+    leg_left.AddEntry(h_five, label_five)
     leg_left.Draw()
 
     #can.cd(2)
@@ -122,6 +133,7 @@ if __name__ == "__main__":
     parser.add_argument('--in_file_two', '-i2', required=True, action='store', help='input file two')
     parser.add_argument('--in_file_three', '-i3', required=True, action='store', help='input file three')
     parser.add_argument('--in_file_four', '-i4', required=True, action='store', help='input file four')
+    parser.add_argument('--in_file_five', '-i5', required=True, action='store', help='input file five')
 
     args = parser.parse_args()
 
@@ -131,22 +143,27 @@ if __name__ == "__main__":
     # i will write better code that avoids the use of this type of construction
     # i will also strive to avoid tasks where this type of coding is required
 
-    label_regex = re.compile(r'(Loose|Tight)_\d\d_\d\d\d_\d\d')
+    # old format
+    #label_regex = re.compile(r'(Loose|Tight)_\d\d_\d\d\d_\d\d')
+    # VBF_DoubleJets30_Mass_Min500_LooseIsoEG10
+    label_regex = re.compile(r'\d\d_Mass_Min\d\d\d_(Loose|Tight|'')IsoEG\d\d')
     # above, compile is just the keyword the re module uses to indicate a regex expression in raw text format
     # r'' is the python raw text format
     # \d is regex for 'digit', val1|val2 is regex for 'match either of these' 
     # below, you 'search' the desired string as a method of the regex you 'compile'd above
     # 'group' concatenates the groups of your regex (we have two groups above, one in () and one not)
+    #
     label_one   = label_regex.search(args.in_file_one).group()
     label_two   = label_regex.search(args.in_file_two).group()
     label_three = label_regex.search(args.in_file_three).group()
     label_four  = label_regex.search(args.in_file_four).group()
+    label_five  = label_regex.search(args.in_file_five).group()
 
     variables = ["TauPt", "ElePt", "Jet1Pt", "Jet2Pt", "Mjj"]
 
     DEBUG = False
     if DEBUG == True: variables = ["ElePt"]
     for var in variables:
-      make_comparison_plot(args.in_file_one, args.in_file_two, args.in_file_three, args.in_file_four, var, \
-                           label_one, label_two, label_three, label_four)
+      make_comparison_plot(args.in_file_one, args.in_file_two, args.in_file_three, args.in_file_four, args.in_file_five, var, \
+                           label_one, label_two, label_three, label_four, label_five)
 

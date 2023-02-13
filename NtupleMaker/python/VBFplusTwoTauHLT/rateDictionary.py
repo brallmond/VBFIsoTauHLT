@@ -8,6 +8,7 @@ rateDictionary = {
 
       "2022E"   : {"nBunches" : 2448, "runNumber" : 359871, "minLS" : 35,  "maxLS" : 59, "approxLumi" : 1.84,
                    "badLS" : []},
+
       #"2022E"   : {"nBunches" : 2448, "runNumber" : 359661, "minLS" : 56,  "maxLS" : 196, "approxLumi" : 0.565},
 
       "2022F"   : {"nBunches" : 2450, "runNumber" : 361468, "minLS" : 148,  "maxLS" : 292, "approxLumi" : 1.84,

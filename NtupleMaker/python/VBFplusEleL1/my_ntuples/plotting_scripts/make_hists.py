@@ -1,4 +1,6 @@
 import ROOT
+import re
+import sys
 
 from var_configs_dictionary import var_configs
 #ROOT.gROOT.SetBatch(True) # sets visual display off (i.e. no graphs/TCanvas)
@@ -17,8 +19,7 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
     parser.add_argument('--aux_label', '-a', default="", help='prepending label for out filename')
-    parser.add_argument('--L1_seed', '-s', required=True, action='store', help='select one of three predefined L1 seeds')
-    parser.add_argument('--out_file', '-o', required=True, action='store', help='output file name')
+    parser.add_argument('--L1_seed', '-s', required=False, default=0, action='store', help='select a predefined L1 seed')
 
     args = parser.parse_args()
     in_file = args.in_file
@@ -70,22 +71,31 @@ if __name__ == "__main__":
     h_mOffMjj    = ROOT.TH1F("mMjj",       "", mjj_dict["nBins"], 0, mjj_dict["xhigh"])
 
     # make cut criteria
-    possible_L1Cuts = [ [30, 320, 10],
-                        [38, 460, 12],
-                        [32, 440, 14]]
+    # read from file name!
+    # credit to 
+    # https://stackoverflow.com/questions/4289331/how-to-extract-numbers-from-a-string-in-python
+    L1_cuts_from_in_file = re.findall(r'\d+', in_file) 
+    if ("L1" in in_file):
+      L1_cuts_from_in_file = L1_cuts_from_in_file[1::]
+    possible_L1Cuts = [L1_cuts_from_in_file]
+    # kept for backwards compatibility with old files
+    #possible_L1Cuts = [ [30, 320, 10],
+    #                    [38, 460, 12],
+    #                    [32, 440, 14]]
+    
 
     L1_seed_index = int(args.L1_seed)
-    L1Cut_Jet1Pt = L1Cut_Jet2Pt = possible_L1Cuts[L1_seed_index][0]
-    L1Cut_Mjj                   = possible_L1Cuts[L1_seed_index][1]
-    L1Cut_ElePt                 = possible_L1Cuts[L1_seed_index][2]
+    L1Cut_Jet1Pt = L1Cut_Jet2Pt = int(possible_L1Cuts[L1_seed_index][0])
+    L1Cut_Mjj                   = int(possible_L1Cuts[L1_seed_index][1])
+    L1Cut_ElePt                 = int(possible_L1Cuts[L1_seed_index][2])
     L1Cuts = [L1Cut_ElePt, L1Cut_Jet1Pt, L1Cut_Jet2Pt, L1Cut_Mjj]
     print(f"L1Cuts: {L1Cuts}")
     file_label_L1Cut = "_".join(["",str(L1Cut_Jet1Pt), str(L1Cut_Mjj), str(L1Cut_ElePt)])
 
-    OffCut_ElePt = L1Cut_ElePt + 1 + 1 + 3
-    OffCut_TauPt = 30 + 15
-    OffCut_Jet1Pt = OffCut_Jet2Pt = L1Cut_Jet1Pt + 10 + 10
-    OffCut_Mjj = L1Cut_Mjj + 50 + 150
+    OffCut_ElePt = L1Cut_ElePt + 3 #1 + 1 + 3
+    OffCut_TauPt = 30 #+ 15
+    OffCut_Jet1Pt = OffCut_Jet2Pt = L1Cut_Jet1Pt + 15 #10 + 10
+    OffCut_Mjj = L1Cut_Mjj + 100 #50 + 150
     OffCuts = [OffCut_ElePt, OffCut_TauPt, OffCut_Jet1Pt, OffCut_Jet2Pt, OffCut_Mjj]
     print(f"OffCuts: {OffCuts}")
 
@@ -173,7 +183,8 @@ if __name__ == "__main__":
         
 
     # end for-loop, write hists to new file
-    out_file = ROOT.TFile.Open(args.out_file, "RECREATE")
+    out_file_name = "hists_" + in_file.replace("eff_samples/", "")
+    out_file = ROOT.TFile.Open(out_file_name, "RECREATE")
     h_L1ElePt.Write()
     h_L1Jet1Pt.Write()
     h_L1Jet2Pt.Write()

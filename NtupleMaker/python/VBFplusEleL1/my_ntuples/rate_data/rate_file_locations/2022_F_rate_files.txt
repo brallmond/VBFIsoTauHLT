@@ -1,0 +1,9 @@
+../../../../../samples/EZBs/EZB_F_2022_updated_conf/EZB0_2022F.root
+../../../../../samples/EZBs/EZB_F_2022_updated_conf/EZB2_2022F.root
+../../../../../samples/EZBs/EZB_F_2022_updated_conf/EZB4_2022F.root
+../../../../../samples/EZBs/EZB_F_2022_updated_conf/EZB6_2022F.root
+../../../../../samples/EZBs/EZB_F_2022_updated_conf/EZB8_2022F.root
+../../../../../samples/EZBs/EZB_F_2022_updated_conf/EZB1_2022F.root
+../../../../../samples/EZBs/EZB_F_2022_updated_conf/EZB3_2022F.root
+../../../../../samples/EZBs/EZB_F_2022_updated_conf/EZB5_2022F.root
+../../../../../samples/EZBs/EZB_F_2022_updated_conf/EZB7_2022F.root

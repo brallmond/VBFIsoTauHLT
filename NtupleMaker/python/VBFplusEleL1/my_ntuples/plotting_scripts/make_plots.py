@@ -165,7 +165,7 @@ if __name__ == "__main__":
     from argparse import ArgumentParser
     parser = ArgumentParser()
     parser.add_argument('--in_file', '-i', required=True, action='store', help='input file')
-    parser.add_argument('--L1', '-L', required=True, action='store', help='L1 True / False')
+    parser.add_argument('--L1', '-L', required=False, default="False", action='store', help='L1 True / False')
 
     args = parser.parse_args()
 

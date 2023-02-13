@@ -1,23 +1,35 @@
 #!/bin/bash
 
-FILE1=new_matching_Tight_30_320_10.root
-FILE2=new_matching_Loose_30_320_10.root
-FILE3=new_matching_Loose_38_460_12.root
-FILE4=new_matching_Loose_32_440_14.root
+FILE1=L1DiJetOR35_samples_VBFE_wMuTauFiltersL1_VBF_DoubleJets30_Mass_Min500_IsoEG12.root
+FILE2=L1DiJetOR35_samples_VBFE_wMuTauFiltersL1_VBF_DoubleJets35_Mass_Min500_IsoEG12.root
+FILE3=L1DiJetOR35_samples_VBFE_wMuTauFiltersL1_VBF_DoubleJets40_Mass_Min500_IsoEG12.root
+FILE4=L1DiJetOR35_samples_VBFE_wMuTauFiltersL1_VBF_DoubleJets45_Mass_Min500_IsoEG12.root
+FILE5=L1DiJetOR35_samples_VBFE_wMuTauFiltersL1_VBF_DoubleJets50_Mass_Min500_IsoEG12.root
 
+DIR=eff_samples/
+INPUT1="$DIR$FILE1"
+INPUT2="$DIR$FILE2"
+INPUT3="$DIR$FILE3"
+INPUT4="$DIR$FILE4"
+INPUT5="$DIR$FILE5"
 
-pyroot make_hists.py -i ../../../../data/$FILE1 -s 0 -o hists_$FILE1;
-pyroot make_hists.py -i ../../../../data/$FILE2 -s 0 -o hists_$FILE2;
-pyroot make_hists.py -i ../../../../data/$FILE2 -s 1 -o hists_$FILE3;
-pyroot make_hists.py -i ../../../../data/$FILE2 -s 2 -o hists_$FILE4;
+python3 make_hists.py -i $INPUT1;
+python3 make_hists.py -i $INPUT2;
+python3 make_hists.py -i $INPUT3;
+python3 make_hists.py -i $INPUT4;
+python3 make_hists.py -i $INPUT5;
 
-pyroot make_plots.py -i hists_$FILE1 -L False;
-pyroot make_plots.py -i hists_$FILE2 -L False;
-pyroot make_plots.py -i hists_$FILE3 -L False;
-pyroot make_plots.py -i hists_$FILE4 -L False;
+HISTS=hists_
+python3 make_plots.py -i $HISTS$FILE1;
+python3 make_plots.py -i $HISTS$FILE2;
+python3 make_plots.py -i $HISTS$FILE3;
+python3 make_plots.py -i $HISTS$FILE4;
+python3 make_plots.py -i $HISTS$FILE5;
 
-pyroot make_comparison_plot.py \
--i1 ratios_hists_$FILE1 \
--i2 ratios_hists_$FILE2 \
--i3 ratios_hists_$FILE3 \
--i4 ratios_hists_$FILE4; 
+RATIOS=ratios_
+python3 make_comparison_plot.py \
+-i1 "$RATIOS$HISTS$FILE1" \
+-i2 "$RATIOS$HISTS$FILE2" \
+-i3 "$RATIOS$HISTS$FILE3" \
+-i4 "$RATIOS$HISTS$FILE4" \
+-i5 "$RATIOS$HISTS$FILE5"; 
