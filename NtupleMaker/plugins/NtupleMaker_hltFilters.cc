@@ -67,6 +67,54 @@ vector<float> VBF2DTDoubleJetFinalFilter_eta;
 vector<float> VBF2DTDoubleJetFinalFilter_phi;
 vector<float> VBF2DTDoubleJetFinalFilter_energy;
 
+// Inclusive VBF
+// hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20
+int passInclusiveVBFBothJetsFinalFilter;
+vector<float> InclusiveVBFBothJetsFinalFilter_pt;
+vector<float> InclusiveVBFBothJetsFinalFilter_eta;
+vector<float> InclusiveVBFBothJetsFinalFilter_phi;
+vector<float> InclusiveVBFBothJetsFinalFilter_energy;
+// hltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20
+int passInclusiveVBFLeadingJetFinalFilter;
+vector<float> InclusiveVBFLeadingJetFinalFilter_pt;
+vector<float> InclusiveVBFLeadingJetFinalFilter_eta;
+vector<float> InclusiveVBFLeadingJetFinalFilter_phi;
+vector<float> InclusiveVBFLeadingJetFinalFilter_energy;
+// hltHpsDoublePFTau20TrackDeepTauDitauWPAgainstMuon
+int passInclusiveVBFBothTausFinalFilter;
+vector<float> InclusiveVBFBothTausFinalFilter_pt;
+vector<float> InclusiveVBFBothTausFinalFilter_eta;
+vector<float> InclusiveVBFBothTausFinalFilter_phi;
+vector<float> InclusiveVBFBothTausFinalFilter_energy;
+
+// VBF Electron
+// hltMatchedVBFTwoPFJets2CrossCleanedFromEle12WPLoose1GsfTrackIsoFilter
+int passVBFElectronBothJetsFinalFilter;
+vector<float> VBFElectronBothJetsFinalFilter_pt;
+vector<float> VBFElectronBothJetsFinalFilter_eta;
+vector<float> VBFElectronBothJetsFinalFilter_phi;
+vector<float> VBFElectronBothJetsFinalFilter_energy;
+// hltEle12WPLoose1GsfTrackIsoFilter
+int passVBFElectronEleFinalFilter;
+vector<float> VBFElectronEleFinalFilter_pt;
+vector<float> VBFElectronEleFinalFilter_eta;
+vector<float> VBFElectronEleFinalFilter_phi;
+vector<float> VBFElectronEleFinalFilter_energy;
+
+// VBF Photon
+// hltVBFTwoPFJetsForVBFPhotonTrigger
+int passVBFPhotonBothJetsFinalFilter;
+vector<float> VBFPhotonBothJetsFinalFilter_pt;
+vector<float> VBFPhotonBothJetsFinalFilter_eta;
+vector<float> VBFPhotonBothJetsFinalFilter_phi;
+vector<float> VBFPhotonBothJetsFinalFilter_energy;
+// hltEG12L1VBFIsoEGOR15HEFilter
+int passVBFPhotonPhoFinalFilter;
+vector<float> VBFPhotonPhoFinalFilter_pt;
+vector<float> VBFPhotonPhoFinalFilter_eta;
+vector<float> VBFPhotonPhoFinalFilter_phi;
+vector<float> VBFPhotonPhoFinalFilter_energy;
+
 // Monitoring
 // SingleMu
 int passSingleMuAndLowerMuTauFinalFilter;
@@ -195,6 +243,53 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("VBF2DTDoubleJetFinalFilter_eta", &VBF2DTDoubleJetFinalFilter_eta);
     tree->Branch("VBF2DTDoubleJetFinalFilter_phi", &VBF2DTDoubleJetFinalFilter_phi);
     tree->Branch("VBF2DTDoubleJetFinalFilter_energy", &VBF2DTDoubleJetFinalFilter_energy);
+
+    // Inclusive VBF
+    tree->Branch("passInclusiveVBFBothJetsFinalFilter", &passInclusiveVBFBothJetsFinalFilter);
+    tree->Branch("InclusiveVBFBothJetsFinalFilter_pt", &InclusiveVBFBothJetsFinalFilter_pt);
+    tree->Branch("InclusiveVBFBothJetsFinalFilter_eta", &InclusiveVBFBothJetsFinalFilter_eta);
+    tree->Branch("InclusiveVBFBothJetsFinalFilter_phi", &InclusiveVBFBothJetsFinalFilter_phi);
+    tree->Branch("InclusiveVBFBothJetsFinalFilter_energy", &InclusiveVBFBothJetsFinalFilter_energy);
+
+    tree->Branch("passInclusiveVBFLeadingJetFinalFilter", &passInclusiveVBFLeadingJetFinalFilter);
+    tree->Branch("InclusiveVBFLeadingJetFinalFilter_pt", &InclusiveVBFLeadingJetFinalFilter_pt);
+    tree->Branch("InclusiveVBFLeadingJetFinalFilter_eta", &InclusiveVBFLeadingJetFinalFilter_eta);
+    tree->Branch("InclusiveVBFLeadingJetFinalFilter_phi", &InclusiveVBFLeadingJetFinalFilter_phi);
+    tree->Branch("InclusiveVBFLeadingJetFinalFilter_energy", &InclusiveVBFLeadingJetFinalFilter_energy);
+
+    tree->Branch("passInclusiveVBFBothTausFinalFilter", &passInclusiveVBFBothTausFinalFilter);
+    tree->Branch("InclusiveVBFBothTausFinalFilter_pt", &InclusiveVBFBothTausFinalFilter_pt);
+    tree->Branch("InclusiveVBFBothTausFinalFilter_eta", &InclusiveVBFBothTausFinalFilter_eta);
+    tree->Branch("InclusiveVBFBothTausFinalFilter_phi", &InclusiveVBFBothTausFinalFilter_phi);
+    tree->Branch("InclusiveVBFBothTausFinalFilter_energy", &InclusiveVBFBothTausFinalFilter_energy);
+
+    // VBF + Electron
+    tree->Branch("passVBFElectronBothJetsFinalFilter", &passVBFElectronBothJetsFinalFilter);
+    tree->Branch("VBFElectronBothJetsFinalFilter_pt", &VBFElectronBothJetsFinalFilter_pt);
+    tree->Branch("VBFElectronBothJetsFinalFilter_eta", &VBFElectronBothJetsFinalFilter_eta);
+    tree->Branch("VBFElectronBothJetsFinalFilter_phi", &VBFElectronBothJetsFinalFilter_phi);
+    tree->Branch("VBFElectronBothJetsFinalFilter_energy", &VBFElectronBothJetsFinalFilter_energy);
+
+    tree->Branch("passVBFElectronEleFinalFilter", &passVBFElectronEleFinalFilter);
+    tree->Branch("VBFElectronEleFinalFilter_pt", &VBFElectronEleFinalFilter_pt);
+    tree->Branch("VBFElectronEleFinalFilter_eta", &VBFElectronEleFinalFilter_eta);
+    tree->Branch("VBFElectronEleFinalFilter_phi", &VBFElectronEleFinalFilter_phi);
+    tree->Branch("VBFElectronEleFinalFilter_energy", &VBFElectronEleFinalFilter_energy);
+
+    // VBF + Photon
+    tree->Branch("passVBFPhotonBothJetsFinalFilter", &passVBFPhotonBothJetsFinalFilter);
+    tree->Branch("VBFPhotonBothJetsFinalFilter_pt", &VBFPhotonBothJetsFinalFilter_pt);
+    tree->Branch("VBFPhotonBothJetsFinalFilter_eta", &VBFPhotonBothJetsFinalFilter_eta);
+    tree->Branch("VBFPhotonBothJetsFinalFilter_phi", &VBFPhotonBothJetsFinalFilter_phi);
+    tree->Branch("VBFPhotonBothJetsFinalFilter_energy", &VBFPhotonBothJetsFinalFilter_energy);
+
+    tree->Branch("passVBFPhotonPhoFinalFilter", &passVBFPhotonPhoFinalFilter);
+    tree->Branch("VBFPhotonPhoFinalFilter_pt", &VBFPhotonPhoFinalFilter_pt);
+    tree->Branch("VBFPhotonPhoFinalFilter_eta", &VBFPhotonPhoFinalFilter_eta);
+    tree->Branch("VBFPhotonPhoFinalFilter_phi", &VBFPhotonPhoFinalFilter_phi);
+    tree->Branch("VBFPhotonPhoFinalFilter_energy", &VBFPhotonPhoFinalFilter_energy);
+
+
 
     // Monitoring
     // Single Mu
@@ -353,6 +448,51 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     VBF2DTDoubleJetFinalFilter_eta.clear();
     VBF2DTDoubleJetFinalFilter_phi.clear();
     VBF2DTDoubleJetFinalFilter_energy.clear();
+
+    // Inclusive VBF
+    passInclusiveVBFBothJetsFinalFilter = 0;
+    InclusiveVBFBothJetsFinalFilter_pt.clear();
+    InclusiveVBFBothJetsFinalFilter_eta.clear();
+    InclusiveVBFBothJetsFinalFilter_phi.clear();
+    InclusiveVBFBothJetsFinalFilter_energy.clear();
+
+    passInclusiveVBFLeadingJetFinalFilter = 0;
+    InclusiveVBFLeadingJetFinalFilter_pt.clear();
+    InclusiveVBFLeadingJetFinalFilter_eta.clear();
+    InclusiveVBFLeadingJetFinalFilter_phi.clear();
+    InclusiveVBFLeadingJetFinalFilter_energy.clear();
+
+    passInclusiveVBFBothTausFinalFilter = 0;
+    InclusiveVBFBothTausFinalFilter_pt.clear();
+    InclusiveVBFBothTausFinalFilter_eta.clear();
+    InclusiveVBFBothTausFinalFilter_phi.clear();
+    InclusiveVBFBothTausFinalFilter_energy.clear();
+
+    // VBF Electron
+    passVBFElectronBothJetsFinalFilter = 0;
+    VBFElectronBothJetsFinalFilter_pt.clear();
+    VBFElectronBothJetsFinalFilter_eta.clear();
+    VBFElectronBothJetsFinalFilter_phi.clear();
+    VBFElectronBothJetsFinalFilter_energy.clear();
+
+    passVBFElectronEleFinalFilter = 0;
+    VBFElectronEleFinalFilter_pt.clear();
+    VBFElectronEleFinalFilter_eta.clear();
+    VBFElectronEleFinalFilter_phi.clear();
+    VBFElectronEleFinalFilter_energy.clear();
+    
+    // VBF Photon
+    passVBFPhotonBothJetsFinalFilter = 0;
+    VBFPhotonBothJetsFinalFilter_pt.clear();
+    VBFPhotonBothJetsFinalFilter_eta.clear();
+    VBFPhotonBothJetsFinalFilter_phi.clear();
+    VBFPhotonBothJetsFinalFilter_energy.clear();
+
+    passVBFPhotonPhoFinalFilter = 0;
+    VBFPhotonPhoFinalFilter_pt.clear();
+    VBFPhotonPhoFinalFilter_eta.clear();
+    VBFPhotonPhoFinalFilter_phi.clear();
+    VBFPhotonPhoFinalFilter_energy.clear();
 
     // Monitoring
     // SingleMu
@@ -552,6 +692,86 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                                VBF2DTDoubleJetFinalFilter_eta,
                                VBF2DTDoubleJetFinalFilter_phi,
                                VBF2DTDoubleJetFinalFilter_energy);
+          continue;
+        }
+
+        // Inclusive VBF
+        if (filterTag == "hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20::MYOTHERHLT"
+                      && nObjKeys >= 2) {
+          passInclusiveVBFBothJetsFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               InclusiveVBFBothJetsFinalFilter_pt,
+                               InclusiveVBFBothJetsFinalFilter_eta,
+                               InclusiveVBFBothJetsFinalFilter_phi,
+                               InclusiveVBFBothJetsFinalFilter_energy);
+          continue;
+        }        
+
+        if (filterTag == "hltMatchedVBFOnePFJet2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passInclusiveVBFLeadingJetFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               InclusiveVBFLeadingJetFinalFilter_pt,
+                               InclusiveVBFLeadingJetFinalFilter_eta,
+                               InclusiveVBFLeadingJetFinalFilter_phi,
+                               InclusiveVBFLeadingJetFinalFilter_energy);
+          continue;
+        }        
+
+        if (filterTag == "hltHpsDoublePFTau20TrackDeepTauDitauWPAgainstMuon::MYOTHERHLT"
+                      && nObjKeys >= 2) {
+          passInclusiveVBFBothTausFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               InclusiveVBFBothTausFinalFilter_pt,
+                               InclusiveVBFBothTausFinalFilter_eta,
+                               InclusiveVBFBothTausFinalFilter_phi,
+                               InclusiveVBFBothTausFinalFilter_energy);
+          continue;
+        }        
+
+        // VBF Electron
+        if (filterTag == "hltEle12WPLoose1GsfTrackIsoFilter::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passVBFElectronEleFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               VBFElectronEleFinalFilter_pt,
+                               VBFElectronEleFinalFilter_eta,
+                               VBFElectronEleFinalFilter_phi,
+                               VBFElectronEleFinalFilter_energy);
+          continue;
+        }        
+
+        if (filterTag == "hltMatchedVBFTwoPFJets2CrossCleanedFromEle12WPLoose1GsfTrackIsoFilter::MYOTHERHLT"
+                      && nObjKeys >= 2) {
+          passVBFElectronBothJetsFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               VBFElectronBothJetsFinalFilter_pt,
+                               VBFElectronBothJetsFinalFilter_eta,
+                               VBFElectronBothJetsFinalFilter_phi,
+                               VBFElectronBothJetsFinalFilter_energy);
+          continue;
+        }
+
+        // VBF Photon
+        if (filterTag == "hltVBFTwoPFJetsForVBFPhotonTrigger::MYOTHERHLT"
+                      && nObjKeys >= 2) {
+          passVBFPhotonBothJetsFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               VBFPhotonBothJetsFinalFilter_pt,
+                               VBFPhotonBothJetsFinalFilter_eta,
+                               VBFPhotonBothJetsFinalFilter_phi,
+                               VBFPhotonBothJetsFinalFilter_energy);
+          continue;
+        }
+
+        if (filterTag == "hltEG12L1VBFIsoEGOR15HEFilter::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passVBFPhotonPhoFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               VBFPhotonPhoFinalFilter_pt,
+                               VBFPhotonPhoFinalFilter_eta,
+                               VBFPhotonPhoFinalFilter_phi,
+                               VBFPhotonPhoFinalFilter_energy);
           continue;
         }
 

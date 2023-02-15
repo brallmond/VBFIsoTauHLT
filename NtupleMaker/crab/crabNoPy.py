@@ -12,7 +12,7 @@ config = config()
 config.General.workArea = 'test'
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'hlt2022Data_EZB_G.py'
+config.JobType.psetName = 'hlt2022DataUpdated.py'
 
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
@@ -23,15 +23,14 @@ config.Data.ignoreLocality = True
 config.Site.whitelist = ['T2_CH_CSCS','T1_US_FNAL', 'T2_FR_GRIF_LLR', 'T2_HU_Budapest', 'T3_US_FNALLPC', 'T2_CH_CERN', 'T2_BE_UCL', 'T2_DE_RWTH', 'T2_FR_IPHC', 'T2_IN_TIFR', 'T2_IT_Pisa', 'T2_UK_London_IC', 'T2_US_Wisconsin', 'T2_IT_Rome', 'T2_EE_Estonia', 'T2_UK_SGrid_RALPP']
 config.JobType.maxJobRuntimeMin = 2000
 config.JobType.maxMemoryMB = 4000
-#config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_2_0_edited.xml']
-config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_3_0_edited.xml']
+config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_3_0_edited_corrected.xml']
 
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
-i=3
-config.General.requestName = f'EraG2022_EZB{i}'
-config.Data.inputDataset   = f'/EphemeralZeroBias{i}/Run2022G-v1/RAW'
+i=19
+config.General.requestName = f'EraE2022_EZB{i}_newHLTs_retry'
+config.Data.inputDataset   = f'/EphemeralZeroBias{i}/Run2022E-v1/RAW'
 
 # lines particular to user submission
 # a good coder would make a separate conf or a simple if statement.

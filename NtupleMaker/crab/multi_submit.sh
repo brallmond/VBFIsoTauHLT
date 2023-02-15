@@ -1,7 +1,7 @@
 #!/bin/bash
 
-START=0
-STOP=9
+START=1
+STOP=19
 ONEAHEAD=$START
 
 

@@ -1,4 +1,4 @@
-hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTs/V2 \
+hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTsV4_unlocked/V2 \
 --data --globaltag 124X_dataRun3_HLT_v7 \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v*,\
@@ -14,15 +14,20 @@ HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS20_eta2p1_SingleL1_v*,\
 HLT_DummyL1_v*,\
 HLT_DummyL1Loose_v*,\
 HLT_DummyEGORL1_v*,\
+HLT_DummyL1NoIso_v*,\
+HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v*,\
+HLT_VBF_DoublePFJets35_MassMin350_Photon12_L1VBFIsoEG_v*,\
 HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v*,\
 HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v*,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output none \
---process MYOTHERHLT --max-events 100 \
---l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_3_0_edited.xml \
+--process MYOTHERHLT --max-events -1 \
+--l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_3_0_edited_corrected.xml \
 --input root://cms-xrd-global.cern.ch//store/data/Run2022G/EphemeralZeroBias0/RAW/v1/000/362/437/00000/084e3abe-2c7b-4bb4-ace9-5328f9f47707.root \
-> hlt2022Data_EZB_G.py
+> hlt2022DataUpdated.py
 
 --l1-emulator Full
 --data --globaltag 124X_dataRun3_HLT_forTSG_newJECs_v1 \
+
+hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTs/V3 \

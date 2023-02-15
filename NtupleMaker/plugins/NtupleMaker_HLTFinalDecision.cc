@@ -11,6 +11,8 @@ int passSingleEleHLT;
 int passVBF2DTHLT;
 int passInclusiveVBFHLT;
 int passDeepInclusiveVBFHLT;
+int passVBFEleHLT;
+int passVBFPhotonHLT;
 
 // Monitoring/Control HLTs
 int passIsoMu24eta2p1HLT;
@@ -21,6 +23,7 @@ int passDiTauControlHLT;
 // adhoc HLTs
 int passHLTDummyL1;
 int passHLTDummyL1Loose;
+int passHLTDummyL1NoIso;
 int passHLTDummyEGORL1;
 
 // Jaime's HLTs
@@ -36,6 +39,8 @@ void NtupleMaker::branchesHLTFinalDecision(TTree* tree){
     tree->Branch("passVBF2DTHLT", &passVBF2DTHLT);
     tree->Branch("passInclusiveVBFHLT", &passInclusiveVBFHLT);    
     tree->Branch("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);    
+    tree->Branch("passVBFEleHLT", &passVBFEleHLT);
+    tree->Branch("passVBFPhotonHLT", &passVBFPhotonHLT);
 
     // Monitoring/Control HLTs
     tree->Branch("passIsoMu24eta2p1HLT", &passIsoMu24eta2p1HLT);
@@ -46,6 +51,7 @@ void NtupleMaker::branchesHLTFinalDecision(TTree* tree){
     // adhoc HLTs
     tree->Branch("passHLTDummyL1", &passHLTDummyL1);
     tree->Branch("passHLTDummyL1Loose", &passHLTDummyL1Loose);
+    tree->Branch("passHLTDummyL1NoIso", &passHLTDummyL1NoIso);
     tree->Branch("passHLTDummyEGORL1", &passHLTDummyEGORL1);
  
     // Jaime's HLTs
@@ -80,6 +86,12 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
 
     if (DEBUG) std::cout << "filled signal HLTs" << std::endl;
 
+    passVBFEleHLT = triggerResults->accept(triggerNames_.triggerIndex(
+                  "HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v1"));
+    passVBFPhotonHLT = triggerResults->accept(triggerNames_.triggerIndex(
+                  "HLT_VBF_DoublePFJets35_MassMin350_Photon12_L1VBFIsoEG_v1"));
+    if (DEBUG) std:: cout << "filled VBF+EG HLTs" << std::endl;
+
     // Monitoring/Control HLTs
     passIsoMu24eta2p1HLT = triggerResults->accept(triggerNames_.triggerIndex(
                          "HLT_IsoMu24_eta2p1_v17"));
@@ -95,6 +107,7 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
     // adhoc HLTs
     passHLTDummyL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1_v1"));
     passHLTDummyL1Loose = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1Loose_v1"));
+    passHLTDummyL1Loose = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1NoIso_v1"));
     passHLTDummyEGORL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyEGORL1_v1"));
 
     if (DEBUG) std::cout << "filled dummy HLTs" << std::endl;
