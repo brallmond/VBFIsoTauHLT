@@ -709,7 +709,9 @@ if __name__ == "__main__":
        and OffTau.Pt() >= 30
        and OffEle.Pt() >= 25): passEleTauOffCuts = True
 
-      passSingleEleOffCuts = (passEleTauOffCuts and OffEle.Pt() >= 33)
+      # require a high pt iso ele to emulate the lowest L1 with PS != 0 for this HLT path
+      passL1IsoElePresent = L1Ele.Pt() >= 30
+      passSingleEleOffCuts = (passL1IsoElePresent and passEleTauOffCuts and OffEle.Pt() >= 33)
 
       # now tally it up
       GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
@@ -723,26 +725,28 @@ if __name__ == "__main__":
       outtree.Fill()
 
       # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
-      if (GoodVBFEle): TallyVBFEle += 1
-      if (GoodEleTau): TallyEleTau += 1
-      if (GoodSingleEle): TallySingleEle += 1
+      if (GoodVBFEle): TallyVBFEleOff += 1
+      if (GoodEleTau): TallyEleTauOff += 1
+      if (GoodSingleEle): TallySingleEleOff += 1
 
-      if (GoodVBFEle or GoodEleTau): TallyVBFEleOREleTau += 1
-      if (GoodVBFEle or GoodSingleEle): TallyVBFEleORSingleEle += 1
-      if (GoodEleTau or GoodSingleEle): TallyEleTauORSingleEle += 1
+      if (GoodVBFEle or GoodEleTau): TallyVBFEleOREleTauOff += 1
+      if (GoodVBFEle or GoodSingleEle): TallyVBFEleORSingleEleOff += 1
+      if (GoodEleTau or GoodSingleEle): TallyEleTauORSingleEleOff += 1
 
-      if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOR += 1
+      if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOROff += 1
 
-      Off_Tallies = [TallyVBFEle, TallyEleTau, TallySingleEle, \
-                     TallyVBFEleOREleTau, TallyVBFEleORSingleEle, TallyEleTauORSingleEle, \
-                     TallyTripleOR, TallyTripleOR - TallyEleTauORSingleEle]
+      Off_Tallies = [TallyVBFEleOff, TallyEleTauOff, TallySingleEleOff, \
+                     TallyVBFEleOREleTauOff, TallyVBFEleORSingleEleOff, TallyEleTauORSingleEleOff, \
+                     TallyTripleOROff, TallyTripleOROff - TallyEleTauORSingleEleOff]
 
   # print output
   print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
 
   print("-"*40)
   if (notRateStudy):
-    labels = ["VBF+Ele", "EleTau", "SingleEle", "VBFEleOREleTau", "VBFEleOrSingleEle", "TripleOR", "UniqueVBFEle"]
+    labels = ["VBF+Ele", "EleTau", "SingleEle", \
+              "VBFEleOREleTau", "VBFEleORSingleEle", "EleTauORSingleEle", \
+              "TripleOR", "UniqueVBFEle"]
     for index, label in enumerate(labels):
       print(f"{label:19}, {Off_Tallies[index]:7}")
 
