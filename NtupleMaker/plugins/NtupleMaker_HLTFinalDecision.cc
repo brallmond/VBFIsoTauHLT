@@ -107,7 +107,7 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
     // adhoc HLTs
     passHLTDummyL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1_v1"));
     passHLTDummyL1Loose = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1Loose_v1"));
-    passHLTDummyL1Loose = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1NoIso_v1"));
+    passHLTDummyL1NoIso = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1NoIso_v1"));
     passHLTDummyEGORL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyEGORL1_v1"));
 
     if (DEBUG) std::cout << "filled dummy HLTs" << std::endl;

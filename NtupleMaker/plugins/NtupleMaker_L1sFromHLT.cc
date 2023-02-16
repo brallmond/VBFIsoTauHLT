@@ -389,6 +389,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
 
     passhltL1VBFElectron = 0;
     passhltL1VBFElectronLoose = 0;
+    passhltL1VBFElectronNoIso = 0;
 
     passhltL1sDoubleTauBigOR = 0;
     hltL1sDoubleTauBigOR_pt.clear();
