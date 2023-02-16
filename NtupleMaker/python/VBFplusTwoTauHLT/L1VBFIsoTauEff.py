@@ -167,8 +167,10 @@ if __name__ == "__main__":
   # Rate
   runNumber = array('i', [0])
   lumiSection = array('i', [0])
+  eventID = array('i', [0])
   tree.SetBranchAddress("runNumber", runNumber)
   tree.SetBranchAddress("lumiBlock", lumiSection)
+  tree.SetBranchAddress("eventNumberID", eventID)
   viableEventCounter = 0
 
   goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
@@ -525,6 +527,10 @@ if __name__ == "__main__":
 
         if (BoolPassL1VBFDiJetIsoTau and BoolPassDummyEGORL1): TallyL1VBFDiJetIsoTauANDDummyEGOR += 1
         if (BoolPassL1VBFDiJetOR or BoolPassL1VBFDiJetIsoTau or BoolPassL1DiTau): TallyTripleOR += 1
+
+
+        if (BoolPassL1VBFDiJetIsoTau and not BoolPassL1VBFDiJetOR and not BoolPassL1DiTau): 
+          print(f"{runNumberValue}:{lumiSectionValue}:{eventID[0]}")
   
         # if objects available, set and fill branches
         if (sizeL1Jets >= 2 and sizeL1IsoTaus >= 1 and BoolPassL1VBFDiJetIsoTau):
