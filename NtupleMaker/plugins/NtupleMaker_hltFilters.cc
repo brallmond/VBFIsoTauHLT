@@ -67,6 +67,18 @@ vector<float> VBF2DTDoubleJetFinalFilter_eta;
 vector<float> VBF2DTDoubleJetFinalFilter_phi;
 vector<float> VBF2DTDoubleJetFinalFilter_energy;
 
+// VBF1DTHLT
+int passVBF1DTSingleTauFinalFilter;
+vector<float> VBF1DTSingleTauFinalFilter_pt;
+vector<float> VBF1DTSingleTauFinalFilter_eta;
+vector<float> VBF1DTSingleTauFinalFilter_phi;
+vector<float> VBF1DTSingleTauFinalFilter_energy;
+int passVBF1DTDoubleJetFinalFilter;
+vector<float> VBF1DTDoubleJetFinalFilter_pt;
+vector<float> VBF1DTDoubleJetFinalFilter_eta;
+vector<float> VBF1DTDoubleJetFinalFilter_phi;
+vector<float> VBF1DTDoubleJetFinalFilter_energy;
+
 // Inclusive VBF
 // hltMatchedVBFTwoPFJets2CrossCleanedFromDoubleMediumDeepTauDitauWPPFTauHPS20
 int passInclusiveVBFBothJetsFinalFilter;
@@ -175,6 +187,13 @@ vector<float> MuTauForDiTauFinalFilterOverlap_eta;
 vector<float> MuTauForDiTauFinalFilterOverlap_phi;
 vector<float> MuTauForDiTauFinalFilterOverlap_energy;
 
+// Single Photon final filter
+int passSinglePhotonFinalFilter = 0;
+vector<float> SinglePhotonFinalFilter_pt; 
+vector<float> SinglePhotonFinalFilter_eta; 
+vector<float> SinglePhotonFinalFilter_phi; 
+vector<float> SinglePhotonFinalFilter_energy; 
+
 // TODO add Jaime HLT final filters
 //      add Inclusive DiJet HLT final filters
 
@@ -243,6 +262,19 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("VBF2DTDoubleJetFinalFilter_eta", &VBF2DTDoubleJetFinalFilter_eta);
     tree->Branch("VBF2DTDoubleJetFinalFilter_phi", &VBF2DTDoubleJetFinalFilter_phi);
     tree->Branch("VBF2DTDoubleJetFinalFilter_energy", &VBF2DTDoubleJetFinalFilter_energy);
+
+    // VBF1DT
+    tree->Branch("passVBF1DTSingleTauFinalFilter", &passVBF1DTSingleTauFinalFilter);
+    tree->Branch("VBF1DTSingleTauFinalFilter_pt", &VBF1DTSingleTauFinalFilter_pt);
+    tree->Branch("VBF1DTSingleTauFinalFilter_eta", &VBF1DTSingleTauFinalFilter_eta);
+    tree->Branch("VBF1DTSingleTauFinalFilter_phi", &VBF1DTSingleTauFinalFilter_phi);
+    tree->Branch("VBF1DTSingleTauFinalFilter_energy", &VBF1DTSingleTauFinalFilter_energy);
+
+    tree->Branch("passVBF1DTDoubleJetFinalFilter", &passVBF1DTDoubleJetFinalFilter);
+    tree->Branch("VBF1DTDoubleJetFinalFilter_pt", &VBF1DTDoubleJetFinalFilter_pt);
+    tree->Branch("VBF1DTDoubleJetFinalFilter_eta", &VBF1DTDoubleJetFinalFilter_eta);
+    tree->Branch("VBF1DTDoubleJetFinalFilter_phi", &VBF1DTDoubleJetFinalFilter_phi);
+    tree->Branch("VBF1DTDoubleJetFinalFilter_energy", &VBF1DTDoubleJetFinalFilter_energy);
 
     // Inclusive VBF
     tree->Branch("passInclusiveVBFBothJetsFinalFilter", &passInclusiveVBFBothJetsFinalFilter);
@@ -356,6 +388,12 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("MuTauForDiTauFinalFilterOverlap_phi", &MuTauForDiTauFinalFilterOverlap_phi);
     tree->Branch("MuTauForDiTauFinalFilterOverlap_energy", &MuTauForDiTauFinalFilterOverlap_energy);
 
+    tree->Branch("passSinglePhotonFinalFilter", &passSinglePhotonFinalFilter);
+    tree->Branch("SinglePhotonFinalFilter_pt", &SinglePhotonFinalFilter_pt);
+    tree->Branch("SinglePhotonFinalFilter_eta", &SinglePhotonFinalFilter_eta);
+    tree->Branch("SinglePhotonFinalFilter_phi", &SinglePhotonFinalFilter_phi);
+    tree->Branch("SinglePhotonFinalFilter_energy", &SinglePhotonFinalFilter_energy);
+
 }
 
 // small function to fill kinematics to object branches
@@ -448,6 +486,19 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     VBF2DTDoubleJetFinalFilter_eta.clear();
     VBF2DTDoubleJetFinalFilter_phi.clear();
     VBF2DTDoubleJetFinalFilter_energy.clear();
+
+    // VBF1DT
+    passVBF1DTSingleTauFinalFilter = 0;
+    VBF1DTSingleTauFinalFilter_pt.clear();
+    VBF1DTSingleTauFinalFilter_eta.clear();
+    VBF1DTSingleTauFinalFilter_phi.clear();
+    VBF1DTSingleTauFinalFilter_energy.clear();
+
+    passVBF1DTDoubleJetFinalFilter = 0;
+    VBF1DTDoubleJetFinalFilter_pt.clear();
+    VBF1DTDoubleJetFinalFilter_eta.clear();
+    VBF1DTDoubleJetFinalFilter_phi.clear();
+    VBF1DTDoubleJetFinalFilter_energy.clear();
 
     // Inclusive VBF
     passInclusiveVBFBothJetsFinalFilter = 0;
@@ -558,6 +609,13 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     MuTauForDiTauFinalFilterOverlap_eta.clear();
     MuTauForDiTauFinalFilterOverlap_phi.clear();
     MuTauForDiTauFinalFilterOverlap_energy.clear();
+
+    // Single Photon 
+    passSinglePhotonFinalFilter = 0;
+    SinglePhotonFinalFilter_pt.clear();
+    SinglePhotonFinalFilter_eta.clear();
+    SinglePhotonFinalFilter_phi.clear();
+    SinglePhotonFinalFilter_energy.clear();
 
     // getting trigger event per this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
@@ -692,6 +750,29 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                                VBF2DTDoubleJetFinalFilter_eta,
                                VBF2DTDoubleJetFinalFilter_phi,
                                VBF2DTDoubleJetFinalFilter_energy);
+          continue;
+        }
+
+        // VBF1DT
+        if (filterTag == "hltHpsSinglePFTau45MediumDitauWPDeepTauL1HLTMatchedSingleTauHLT::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passVBF1DTSingleTauFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               VBF1DTSingleTauFinalFilter_pt,
+                               VBF1DTSingleTauFinalFilter_eta,
+                               VBF1DTSingleTauFinalFilter_phi,
+                               VBF1DTSingleTauFinalFilter_energy);
+          continue;
+        }
+
+        if (filterTag == "hltMatchedVBFIsoTauTwoPFJets2CrossCleanedUsingDiJetCorrCheckerWithMediumDiTauSingleTauHLT::MYOTHERHLT"
+                      && nObjKeys >= 2) {
+          passVBF1DTDoubleJetFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               VBF1DTDoubleJetFinalFilter_pt,
+                               VBF1DTDoubleJetFinalFilter_eta,
+                               VBF1DTDoubleJetFinalFilter_phi,
+                               VBF1DTDoubleJetFinalFilter_energy);
           continue;
         }
 
@@ -887,6 +968,17 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                                MuTauForDiTauFinalFilterOverlap_eta,
                                MuTauForDiTauFinalFilterOverlap_phi,
                                MuTauForDiTauFinalFilterOverlap_energy);
+          continue;
+        }
+
+        if (filterTag == "hltEG33L1EG26HEFilter::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passSinglePhotonFinalFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               SinglePhotonFinalFilter_pt,
+                               SinglePhotonFinalFilter_eta,
+                               SinglePhotonFinalFilter_phi,
+                               SinglePhotonFinalFilter_energy);
           continue;
         }
 

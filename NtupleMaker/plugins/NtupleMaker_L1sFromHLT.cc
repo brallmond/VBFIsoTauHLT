@@ -89,6 +89,11 @@ vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEta;
 vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauPhi;
 vector<float> hltL1sMu22er2p1IsoTau28er2p1_tauEnergy;
 
+int passhltL1sSingleEG26;
+vector<float> hltL1sSingleEG26_pt;
+vector<float> hltL1sSingleEG26_eta;
+vector<float> hltL1sSingleEG26_phi;
+vector<float> hltL1sSingleEG26_energy;
 
 void NtupleMaker::branchesL1sFromHLT(TTree* tree){
 
@@ -164,6 +169,12 @@ void NtupleMaker::branchesL1sFromHLT(TTree* tree){
     tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauEta", &hltL1sMu22er2p1IsoTau28er2p1_tauEta);
     tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauPhi", &hltL1sMu22er2p1IsoTau28er2p1_tauPhi);
     tree->Branch("hltL1sMu22er2p1IsoTau28er2p1_tauEnergy", &hltL1sMu22er2p1IsoTau28er2p1_tauEnergy);
+
+    tree->Branch("passhltL1sSingleEG26", &passhltL1sSingleEG26);
+    tree->Branch("hltL1sSingleEG26_pt", &hltL1sSingleEG26_pt);
+    tree->Branch("hltL1sSingleEG26_eta", &hltL1sSingleEG26_eta);
+    tree->Branch("hltL1sSingleEG26_phi", &hltL1sSingleEG26_phi);
+    tree->Branch("hltL1sSingleEG26_energy", &hltL1sSingleEG26_energy);
 
 }
 
@@ -358,10 +369,10 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     const unsigned int nNoIsoElectrons(nieVids.size());
     if (nNoIsoElectrons > 0) {
       for (unsigned int i = 0; i != nNoIsoElectrons; ++i) {
-        hltL1VBFElectronNoIso_ePt.push_back(looseElectronCandRefVec[i]->pt());
-        hltL1VBFElectronNoIso_eEta.push_back(looseElectronCandRefVec[i]->eta());
-        hltL1VBFElectronNoIso_ePhi.push_back(looseElectronCandRefVec[i]->phi());
-        hltL1VBFElectronNoIso_eEnergy.push_back(looseElectronCandRefVec[i]->energy());
+        hltL1VBFElectronNoIso_ePt.push_back(noisoElectronCandRefVec[i]->pt());
+        hltL1VBFElectronNoIso_eEta.push_back(noisoElectronCandRefVec[i]->eta());
+        hltL1VBFElectronNoIso_ePhi.push_back(noisoElectronCandRefVec[i]->phi());
+        hltL1VBFElectronNoIso_eEnergy.push_back(noisoElectronCandRefVec[i]->energy());
       }
     }
 
@@ -413,6 +424,12 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
 
     passhltL1sMu22er2p1IsoTau28er2p1 = 0;
 
+    passhltL1sSingleEG26 = 0;
+    hltL1sSingleEG26_pt.clear();
+    hltL1sSingleEG26_eta.clear();
+    hltL1sSingleEG26_phi.clear();
+    hltL1sSingleEG26_energy.clear();
+
     // getting trigger event per this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
     edm::Handle<trigger::TriggerEvent> triggerEventL1; // this code should be with the filters
@@ -429,6 +446,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     std::string hltL1VBFDiJetOR_Tag = "hltL1VBFDiJetOR::MYOTHERHLT";
     std::string hltL1VBFDiJetIsoTau_Tag = "hltL1VBFDiJetIsoTau::MYOTHERHLT";	  
     std::string hltL1sSingleMu22_Tag = "hltL1sSingleMu22::MYOTHERHLT";
+    std::string hltL1sSingleEG26_Tag = "hltL1sSingleEG26::MYOTHERHLT";
 
 
     // accepted filters per event
@@ -466,6 +484,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
 	if (filterTag == hltL1sDoubleTauBigOR_Tag && nObjKeys >= 2) passhltL1sDoubleTauBigOR = 1;
 	if (filterTag == hltL1VBFDiJetOR_Tag && nObjKeys >= 2) passhltL1VBFDiJetOR = 1;
         if (filterTag == hltL1sSingleMu22_Tag && nObjKeys >= 1) passhltL1sSingleMu22 = 1;
+        if (filterTag == hltL1sSingleEG26_Tag && nObjKeys >= 1) passhltL1sSingleEG26 = 1;
 
 	//loop over trigger objects and store their kinematics to the proper filter branches
 	for(trigger::size_type iKey=0; iKey < nObjKeys; ++iKey){
@@ -497,6 +516,13 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
                 hltL1sSingleMu22_eta.push_back(etaL1_);
                 hltL1sSingleMu22_phi.push_back(phiL1_);
                 hltL1sSingleMu22_energy.push_back(energyL1_);
+            }
+            if (filterTag == hltL1sSingleEG26_Tag
+                  && passhltL1sSingleEG26 && ptL1_>0) {
+                hltL1sSingleEG26_pt.push_back(ptL1_);
+                hltL1sSingleEG26_eta.push_back(etaL1_);
+                hltL1sSingleEG26_phi.push_back(phiL1_);
+                hltL1sSingleEG26_energy.push_back(energyL1_);
             }
 
 	} // end loop over trigger object keys

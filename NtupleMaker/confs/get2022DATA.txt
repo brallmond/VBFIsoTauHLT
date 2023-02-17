@@ -1,4 +1,4 @@
-hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTsV4_unlocked/V2 \
+hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTsV4_unlocked/V4 \
 --data --globaltag 124X_dataRun3_HLT_v7 \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v*,\
@@ -7,6 +7,7 @@ HLT_Ele32_WPTight_Gsf_v*,\
 HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v*,\
 HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v*,\
 HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v*,\
+HLT_Photon33_v*,\
 HLT_IsoMu24_eta2p1_v*,\
 HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v*,\
 HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v*,\
@@ -15,19 +16,35 @@ HLT_DummyL1_v*,\
 HLT_DummyL1Loose_v*,\
 HLT_DummyEGORL1_v*,\
 HLT_DummyL1NoIso_v*,\
-HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v*,\
 HLT_VBF_DoublePFJets35_MassMin350_Photon12_L1VBFIsoEG_v*,\
+HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v*,\
+HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_v*,\
 HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v*,\
 HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v*,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output none \
---process MYOTHERHLT --max-events -1 \
+--process MYOTHERHLT --max-events 100 \
 --l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_3_0_edited_corrected.xml \
---input root://cms-xrd-global.cern.ch//store/data/Run2022G/EphemeralZeroBias0/RAW/v1/000/362/437/00000/084e3abe-2c7b-4bb4-ace9-5328f9f47707.root \
-> hlt2022DataUpdated.py
+--input root://cms-xrd-global.cern.ch//store/data/Run2022G/EphemeralZeroBias0/RAW/v1/000/362/616/00000/a09fe896-50a3-4d8f-822d-24d6056267ac.root \ 
+> hlt_AddSinglePho.py
+
+good iso tau
+root://cms-xrd-global.cern.ch//store/data/Run2022G/EphemeralZeroBias0/RAW/v1/000/362/616/00000/a09fe896-50a3-4d8f-822d-24d6056267ac.root
+
+3 iso EGs
+root://cms-xrd-global.cern.ch//store/data/Run2022G/EphemeralZeroBias2/RAW/v1/000/362/616/00000/0fac6cce-491d-4fba-9e44-e1a3c4b9ac37.root
+
+low energy Iso EGs
+root://cms-xrd-global.cern.ch//store/data/Run2022G/EphemeralZeroBias0/RAW/v1/000/362/616/00000/a09fe896-50a3-4d8f-822d-24d6056267ac.root
 
 --l1-emulator Full
 --data --globaltag 124X_dataRun3_HLT_forTSG_newJECs_v1 \
 
+
+
+# menu location of paths pre VBF Ele and VBF Pho HLT
 hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTs/V3 \
+# crash with NtupleMaker
+--input root://cms-xrd-global.cern.ch//store/data/Run2022E/EphemeralZeroBias2/RAW/v1/000/359/661/00000/15fd90f7-5c36-472a-8432-e6d8a39abc59.root \
+
