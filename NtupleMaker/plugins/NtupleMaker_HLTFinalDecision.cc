@@ -107,9 +107,10 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
     if (DEBUG) std::cout << "filled signal HLTs" << std::endl;
 
     passVBFEleHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                  "HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v1"));
+                  //"HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v1"));
+                  "HLT_VBF_DoublePFJets45_MassMin500_Ele12_eta2p1_WPTight_Gsf_v1"));
     passVBFPhotonHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                  "HLT_VBF_DoublePFJets35_MassMin350_Photon12_L1VBFIsoEG_v1"));
+                  "HLT_VBF_DoublePFJets45_MassMin500_Photon12_v1"));
     if (DEBUG) std:: cout << "filled VBF+EG HLTs" << std::endl;
 
     // Monitoring/Control HLTs

@@ -12,7 +12,7 @@ config = config()
 config.General.workArea = 'test'
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'hltWorkingMC.py'
+config.JobType.psetName = 'hltUpdatedVBFEGsMC.py'
 
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased'
@@ -28,8 +28,8 @@ config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_3_0_edited_corrected.xml'
 
 config.Site.storageSite = 'T3_US_FNALLPC'
 
-i=8
-#config.General.requestName = f'EraG2022_EZB{i}_Feb27th'
+#i=0
+#config.General.requestName = f'EraG2022_EZB{i}_Mar6th_FullyWorkingHLTs_retry'
 #config.Data.inputDataset   = f'/EphemeralZeroBias{i}/Run2022G-v1/RAW'
 
 # lines particular to user submission
@@ -42,7 +42,7 @@ i=8
 
     #VBF
 #the AOD with the premix is the MiniAOD's parent dataset, so this should be fine
-config.General.requestName = 'MC_02282023'
+config.General.requestName = 'MC_03062023'
 config.Data.inputDataset = '/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/Run3Summer21MiniAOD-120X_mcRun3_2021_realistic_v5-v2/MINIAODSIM'
 config.Data.secondaryInputDataset = '/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/Run3Summer21DRPremix-120X_mcRun3_2021_realistic_v6-v2/GEN-SIM-DIGI-RAW'   
 

@@ -118,11 +118,12 @@ vector<float> InclusiveVBFBothTausFinalFilter_energy;
 // VBF Electron
 // old // hltMatchedVBFTwoPFJets2CrossCleanedFromEle12WPLoose1GsfTrackIsoFilter
 //hltEle12DoublePFJet40Cleaned
-int passVBFElectronBothJetsFinalFilter_EleCrossClean;
-vector<float> VBFElectronBothJetsFinalFilter_EleCrossClean_pt;
-vector<float> VBFElectronBothJetsFinalFilter_EleCrossClean_eta;
-vector<float> VBFElectronBothJetsFinalFilter_EleCrossClean_phi;
-vector<float> VBFElectronBothJetsFinalFilter_EleCrossClean_energy;
+//hltOverlapFilterDoublePFJet40Ele12
+int passVBFElectronFinalFilter_EleCrossClean;
+vector<float> VBFElectronFinalFilter_EleCrossClean_pt;
+vector<float> VBFElectronFinalFilter_EleCrossClean_eta;
+vector<float> VBFElectronFinalFilter_EleCrossClean_phi;
+vector<float> VBFElectronFinalFilter_EleCrossClean_energy;
 
 //hltMatchedVBFIsoEGTwoPFJets
 int passVBFElectronBothJetsFinalFilter_MatchAndMjjCut;
@@ -133,11 +134,11 @@ vector<float> VBFElectronBothJetsFinalFilter_MatchAndMjjCut_energy;
 
 // old // hltEle12WPLoose1GsfTrackIsoFilter
 //hltEle12erWPTightGsfTrackIsoFilterNoRhoCorrectionForVBF
-int passVBFElectronEleFinalFilter;
-vector<float> VBFElectronEleFinalFilter_pt;
-vector<float> VBFElectronEleFinalFilter_eta;
-vector<float> VBFElectronEleFinalFilter_phi;
-vector<float> VBFElectronEleFinalFilter_energy;
+int passVBFElectronEleFinalSequenceFilter;
+vector<float> VBFElectronEleFinalSequenceFilter_pt;
+vector<float> VBFElectronEleFinalSequenceFilter_eta;
+vector<float> VBFElectronEleFinalSequenceFilter_phi;
+vector<float> VBFElectronEleFinalSequenceFilter_energy;
 // cutflow
 int passhltL1VBFIsoEG;
 int passhltVBFIsoEGL1erFilter;
@@ -161,12 +162,19 @@ vector<float> VBFPhotonBothJetsFinalFilter_pt;
 vector<float> VBFPhotonBothJetsFinalFilter_eta;
 vector<float> VBFPhotonBothJetsFinalFilter_phi;
 vector<float> VBFPhotonBothJetsFinalFilter_energy;
-// hltEG12L1VBFIsoEGOR15HEFilter
-int passVBFPhotonPhoFinalFilter;
-vector<float> VBFPhotonPhoFinalFilter_pt;
-vector<float> VBFPhotonPhoFinalFilter_eta;
-vector<float> VBFPhotonPhoFinalFilter_phi;
-vector<float> VBFPhotonPhoFinalFilter_energy;
+// hltEG12L1VBFIsoEGHEFilter
+int passVBFPhotonPhoFinalSequenceFilter;
+vector<float> VBFPhotonPhoFinalSequenceFilter_pt;
+vector<float> VBFPhotonPhoFinalSequenceFilter_eta;
+vector<float> VBFPhotonPhoFinalSequenceFilter_phi;
+vector<float> VBFPhotonPhoFinalSequenceFilter_energy;
+
+// hltOverlapFilterDoublePFJet40Photon12 
+int passVBFPhotonFinalFilter;
+vector<float> VBFPhotonFinalFilter_pt;
+vector<float> VBFPhotonFinalFilter_eta;
+vector<float> VBFPhotonFinalFilter_phi;
+vector<float> VBFPhotonFinalFilter_energy;
 
 // Monitoring
 // SingleMu
@@ -348,11 +356,11 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("InclusiveVBFBothTausFinalFilter_energy", &InclusiveVBFBothTausFinalFilter_energy);
 
     // VBF + Electron
-    tree->Branch("passVBFElectronBothJetsFinalFilter_EleCrossClean", &passVBFElectronBothJetsFinalFilter_EleCrossClean);
-    tree->Branch("VBFElectronBothJetsFinalFilter_EleCrossClean_pt", &VBFElectronBothJetsFinalFilter_EleCrossClean_pt);
-    tree->Branch("VBFElectronBothJetsFinalFilter_EleCrossClean_eta", &VBFElectronBothJetsFinalFilter_EleCrossClean_eta);
-    tree->Branch("VBFElectronBothJetsFinalFilter_EleCrossClean_phi", &VBFElectronBothJetsFinalFilter_EleCrossClean_phi);
-    tree->Branch("VBFElectronBothJetsFinalFilter_EleCrossClean_energy", &VBFElectronBothJetsFinalFilter_EleCrossClean_energy);
+    tree->Branch("passVBFElectronFinalFilter_EleCrossClean", &passVBFElectronFinalFilter_EleCrossClean);
+    tree->Branch("VBFElectronFinalFilter_EleCrossClean_pt", &VBFElectronFinalFilter_EleCrossClean_pt);
+    tree->Branch("VBFElectronFinalFilter_EleCrossClean_eta", &VBFElectronFinalFilter_EleCrossClean_eta);
+    tree->Branch("VBFElectronFinalFilter_EleCrossClean_phi", &VBFElectronFinalFilter_EleCrossClean_phi);
+    tree->Branch("VBFElectronFinalFilter_EleCrossClean_energy", &VBFElectronFinalFilter_EleCrossClean_energy);
 
     tree->Branch("passVBFElectronBothJetsFinalFilter_MatchAndMjjCut", &passVBFElectronBothJetsFinalFilter_MatchAndMjjCut);
     tree->Branch("VBFElectronBothJetsFinalFilter_MatchAndMjjCut_pt", &VBFElectronBothJetsFinalFilter_MatchAndMjjCut_pt);
@@ -360,11 +368,11 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("VBFElectronBothJetsFinalFilter_MatchAndMjjCut_phi", &VBFElectronBothJetsFinalFilter_MatchAndMjjCut_phi);
     tree->Branch("VBFElectronBothJetsFinalFilter_MatchAndMjjCut_energy", &VBFElectronBothJetsFinalFilter_MatchAndMjjCut_energy);
 
-    tree->Branch("passVBFElectronEleFinalFilter", &passVBFElectronEleFinalFilter);
-    tree->Branch("VBFElectronEleFinalFilter_pt", &VBFElectronEleFinalFilter_pt);
-    tree->Branch("VBFElectronEleFinalFilter_eta", &VBFElectronEleFinalFilter_eta);
-    tree->Branch("VBFElectronEleFinalFilter_phi", &VBFElectronEleFinalFilter_phi);
-    tree->Branch("VBFElectronEleFinalFilter_energy", &VBFElectronEleFinalFilter_energy);
+    tree->Branch("passVBFElectronEleFinalSequenceFilter", &passVBFElectronEleFinalSequenceFilter);
+    tree->Branch("VBFElectronEleFinalSequenceFilter_pt", &VBFElectronEleFinalSequenceFilter_pt);
+    tree->Branch("VBFElectronEleFinalSequenceFilter_eta", &VBFElectronEleFinalSequenceFilter_eta);
+    tree->Branch("VBFElectronEleFinalSequenceFilter_phi", &VBFElectronEleFinalSequenceFilter_phi);
+    tree->Branch("VBFElectronEleFinalSequenceFilter_energy", &VBFElectronEleFinalSequenceFilter_energy);
 
     //cutflow
     tree->Branch("passhltL1VBFIsoEG", &passhltL1VBFIsoEG);
@@ -388,12 +396,17 @@ void NtupleMaker::branchesTriggers(TTree* tree){
     tree->Branch("VBFPhotonBothJetsFinalFilter_phi", &VBFPhotonBothJetsFinalFilter_phi);
     tree->Branch("VBFPhotonBothJetsFinalFilter_energy", &VBFPhotonBothJetsFinalFilter_energy);
 
-    tree->Branch("passVBFPhotonPhoFinalFilter", &passVBFPhotonPhoFinalFilter);
-    tree->Branch("VBFPhotonPhoFinalFilter_pt", &VBFPhotonPhoFinalFilter_pt);
-    tree->Branch("VBFPhotonPhoFinalFilter_eta", &VBFPhotonPhoFinalFilter_eta);
-    tree->Branch("VBFPhotonPhoFinalFilter_phi", &VBFPhotonPhoFinalFilter_phi);
-    tree->Branch("VBFPhotonPhoFinalFilter_energy", &VBFPhotonPhoFinalFilter_energy);
+    tree->Branch("passVBFPhotonPhoFinalSequenceFilter", &passVBFPhotonPhoFinalSequenceFilter);
+    tree->Branch("VBFPhotonPhoFinalSequenceFilter_pt", &VBFPhotonPhoFinalSequenceFilter_pt);
+    tree->Branch("VBFPhotonPhoFinalSequenceFilter_eta", &VBFPhotonPhoFinalSequenceFilter_eta);
+    tree->Branch("VBFPhotonPhoFinalSequenceFilter_phi", &VBFPhotonPhoFinalSequenceFilter_phi);
+    tree->Branch("VBFPhotonPhoFinalSequenceFilter_energy", &VBFPhotonPhoFinalSequenceFilter_energy);
 
+    tree->Branch("passVBFPhotonFinalFilter", &passVBFPhotonFinalFilter);
+    tree->Branch("VBFPhotonFinalFilter_pt", &VBFPhotonFinalFilter_pt);
+    tree->Branch("VBFPhotonFinalFilter_eta", &VBFPhotonFinalFilter_eta);
+    tree->Branch("VBFPhotonFinalFilter_phi", &VBFPhotonFinalFilter_phi);
+    tree->Branch("VBFPhotonFinalFilter_energy", &VBFPhotonFinalFilter_energy);
 
 
     // Monitoring
@@ -604,11 +617,11 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     InclusiveVBFBothTausFinalFilter_energy.clear();
 
     // VBF Electron
-    passVBFElectronBothJetsFinalFilter_EleCrossClean = 0;
-    VBFElectronBothJetsFinalFilter_EleCrossClean_pt.clear();
-    VBFElectronBothJetsFinalFilter_EleCrossClean_eta.clear();
-    VBFElectronBothJetsFinalFilter_EleCrossClean_phi.clear();
-    VBFElectronBothJetsFinalFilter_EleCrossClean_energy.clear();
+    passVBFElectronFinalFilter_EleCrossClean = 0;
+    VBFElectronFinalFilter_EleCrossClean_pt.clear();
+    VBFElectronFinalFilter_EleCrossClean_eta.clear();
+    VBFElectronFinalFilter_EleCrossClean_phi.clear();
+    VBFElectronFinalFilter_EleCrossClean_energy.clear();
 
     passVBFElectronBothJetsFinalFilter_MatchAndMjjCut = 0;
     VBFElectronBothJetsFinalFilter_MatchAndMjjCut_pt.clear();
@@ -616,11 +629,11 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     VBFElectronBothJetsFinalFilter_MatchAndMjjCut_phi.clear();
     VBFElectronBothJetsFinalFilter_MatchAndMjjCut_energy.clear();
 
-    passVBFElectronEleFinalFilter = 0;
-    VBFElectronEleFinalFilter_pt.clear();
-    VBFElectronEleFinalFilter_eta.clear();
-    VBFElectronEleFinalFilter_phi.clear();
-    VBFElectronEleFinalFilter_energy.clear();
+    passVBFElectronEleFinalSequenceFilter = 0;
+    VBFElectronEleFinalSequenceFilter_pt.clear();
+    VBFElectronEleFinalSequenceFilter_eta.clear();
+    VBFElectronEleFinalSequenceFilter_phi.clear();
+    VBFElectronEleFinalSequenceFilter_energy.clear();
 
     passhltL1VBFIsoEG  = 0;
     passhltVBFIsoEGL1erFilter  = 0;
@@ -637,17 +650,23 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
     passhltEle12erWPTightGsfDphiFilterForVBF = 0;
     
     // VBF Photon
+    passVBFPhotonPhoFinalSequenceFilter = 0;
+    VBFPhotonPhoFinalSequenceFilter_pt.clear();
+    VBFPhotonPhoFinalSequenceFilter_eta.clear();
+    VBFPhotonPhoFinalSequenceFilter_phi.clear();
+    VBFPhotonPhoFinalSequenceFilter_energy.clear();
+
     passVBFPhotonBothJetsFinalFilter = 0;
     VBFPhotonBothJetsFinalFilter_pt.clear();
     VBFPhotonBothJetsFinalFilter_eta.clear();
     VBFPhotonBothJetsFinalFilter_phi.clear();
     VBFPhotonBothJetsFinalFilter_energy.clear();
 
-    passVBFPhotonPhoFinalFilter = 0;
-    VBFPhotonPhoFinalFilter_pt.clear();
-    VBFPhotonPhoFinalFilter_eta.clear();
-    VBFPhotonPhoFinalFilter_phi.clear();
-    VBFPhotonPhoFinalFilter_energy.clear();
+    passVBFPhotonFinalFilter = 0;
+    VBFPhotonFinalFilter_pt.clear();
+    VBFPhotonFinalFilter_eta.clear();
+    VBFPhotonFinalFilter_phi.clear();
+    VBFPhotonFinalFilter_energy.clear();
 
     // Monitoring
     // SingleMu
@@ -964,23 +983,24 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
         if (filterTag == "hltEle12erWPTightGsfTrackIsoFilterNoRhoCorrectionForVBF::MYOTHERHLT"
                       && nObjKeys >= 1) {
-          passVBFElectronEleFinalFilter = 1;
+          passVBFElectronEleFinalSequenceFilter = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
-                               VBFElectronEleFinalFilter_pt,
-                               VBFElectronEleFinalFilter_eta,
-                               VBFElectronEleFinalFilter_phi,
-                               VBFElectronEleFinalFilter_energy);
+                               VBFElectronEleFinalSequenceFilter_pt,
+                               VBFElectronEleFinalSequenceFilter_eta,
+                               VBFElectronEleFinalSequenceFilter_phi,
+                               VBFElectronEleFinalSequenceFilter_energy);
           continue;
         }        
 
-        if (filterTag == "hltEle12DoublePFJet40Cleaned::MYOTHERHLT"
-                      && nObjKeys >= 2) {
-          passVBFElectronBothJetsFinalFilter_EleCrossClean = 1;
+        //if (filterTag == "hltEle12DoublePFJet40Cleaned::MYOTHERHLT"
+        if (filterTag == "hltOverlapFilterDoublePFJet40Ele12::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passVBFElectronFinalFilter_EleCrossClean = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
-                               VBFElectronBothJetsFinalFilter_EleCrossClean_pt,
-                               VBFElectronBothJetsFinalFilter_EleCrossClean_eta,
-                               VBFElectronBothJetsFinalFilter_EleCrossClean_phi,
-                               VBFElectronBothJetsFinalFilter_EleCrossClean_energy);
+                               VBFElectronFinalFilter_EleCrossClean_pt,
+                               VBFElectronFinalFilter_EleCrossClean_eta,
+                               VBFElectronFinalFilter_EleCrossClean_phi,
+                               VBFElectronFinalFilter_EleCrossClean_energy);
           continue;
         }
 
@@ -994,8 +1014,20 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
                                VBFElectronBothJetsFinalFilter_MatchAndMjjCut_energy);
           continue;
         }
+       
 
         // VBF Photon
+        if (filterTag == "hltEG12L1VBFIsoEGHEFilter::MYOTHERHLT"
+                      && nObjKeys >= 1) {
+          passVBFPhotonPhoFinalSequenceFilter = 1;
+          fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
+                               VBFPhotonPhoFinalSequenceFilter_pt,
+                               VBFPhotonPhoFinalSequenceFilter_eta,
+                               VBFPhotonPhoFinalSequenceFilter_phi,
+                               VBFPhotonPhoFinalSequenceFilter_energy);
+          continue;
+        }
+
         if (filterTag == "hltVBFTwoPFJetsForVBFPhotonTrigger::MYOTHERHLT"
                       && nObjKeys >= 2) {
           passVBFPhotonBothJetsFinalFilter = 1;
@@ -1007,14 +1039,15 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
           continue;
         }
 
-        if (filterTag == "hltEG12L1VBFIsoEGOR15HEFilter::MYOTHERHLT"
+
+        if (filterTag == "hltOverlapFilterDoublePFJet40Photon12::MYOTHERHLT"
                       && nObjKeys >= 1) {
-          passVBFPhotonPhoFinalFilter = 1;
+          passVBFPhotonFinalFilter = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
-                               VBFPhotonPhoFinalFilter_pt,
-                               VBFPhotonPhoFinalFilter_eta,
-                               VBFPhotonPhoFinalFilter_phi,
-                               VBFPhotonPhoFinalFilter_energy);
+                               VBFPhotonFinalFilter_pt,
+                               VBFPhotonFinalFilter_eta,
+                               VBFPhotonFinalFilter_phi,
+                               VBFPhotonFinalFilter_energy);
           continue;
         }
 

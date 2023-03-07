@@ -1,4 +1,4 @@
-hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTsV4_unlocked/V23 \
+hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_newVBFHLTsAdded/V8 \
 --data --globaltag 124X_dataRun3_HLT_v7 \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v*,\
@@ -17,8 +17,8 @@ HLT_DummyL1_v*,\
 HLT_DummyL1Loose_v*,\
 HLT_DummyEGORL1_v*,\
 HLT_DummyL1NoIso_v*,\
-HLT_VBF_DoublePFJets35_MassMin350_Photon12_L1VBFIsoEG_v*,\
-HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v*,\
+HLT_VBF_DoublePFJets45_MassMin500_Photon12_v*,\
+HLT_VBF_DoublePFJets45_MassMin500_Ele12_eta2p1_WPTight_Gsf_v*,\
 HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CorrChecker_v*,\
 HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_OverlapRemoval_v*,\
 HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v*,\
@@ -29,7 +29,7 @@ HLTAnalyzerEndpath \
 --process MYOTHERHLT --max-events -1 \
 --l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_3_0_edited_corrected.xml \
 --input root://cms-xrd-global.cern.ch//store/data/Run2022G/EphemeralZeroBias0/RAW/v1/000/362/616/00000/7a877476-e45b-4f26-9034-e26914b19f4d.root \
-> hltWorkingData.py
+> hltUpdatedVBFEGsData.py
 
 # Prev Single tau
 HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_v*,\
@@ -58,3 +58,4 @@ hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTs/V
 # crash with NtupleMaker
 --input root://cms-xrd-global.cern.ch//store/data/Run2022E/EphemeralZeroBias2/RAW/v1/000/359/661/00000/15fd90f7-5c36-472a-8432-e6d8a39abc59.root \
 
+hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTsV4_unlocked/V23 \
