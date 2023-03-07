@@ -501,9 +501,7 @@ if __name__ == "__main__":
                       TallyL1VBFDiJetORVBFDiTau, TallyNotL1VBFEG, TallyTripleVBFOR, TallyQuadOR, \
                       TallyQuadOR - TallyNotL1VBFEG]
 
-        if (BoolPassL1VBFDiJetEG and not BoolExistingVBFOR and not BoolPassDummyEGORL1): 
-          print(f"{runNumberValue}:{lumiSectionValue}:{eventID[0]}")
-  
+ 
         # if objects available, set and fill branches
         if (sizeL1Jets >= 2 and sizeL1Eles >= 1 and passL1[0]):
           L1Ele = L1Eles[0]
@@ -515,6 +513,12 @@ if __name__ == "__main__":
           outL1Jet1Pt[0] = L1Jet1.Pt()
           outL1Jet2Pt[0] = L1Jet2.Pt()
           outL1Mjj[0] = L1Mjj
+
+
+          goodKinematics = L1Ele.Pt() > 20 and L1Jet1.Pt() > 50 and L1Jet2.Pt() > 50 and L1Mjj > 500
+          if (BoolPassL1VBFDiJetEG and not BoolExistingVBFOR and not BoolPassDummyEGORL1 and goodKinematics): 
+            print(f"{runNumberValue}:{lumiSectionValue}:{eventID[0]}")
+            print(f"        {L1Ele.Pt()},  {L1Jet1.Pt()},  {L1Jet2.Pt()},  {L1Mjj}")
   
           #print(sizeL1Jets, sizeL1Eles, L1Ele.Pt(), L1Jet1.Pt(), L1Jet2.Pt(), L1Mjj)
         else:

@@ -296,51 +296,108 @@ if __name__ == "__main__":
 
   passVBFDiTauHLT = array('i', [0])
   tree.SetBranchAddress("passVBF2DTHLT", passVBFDiTauHLT)
-  if (is2022 and notRateStudy):
-    # DiJetIsoTau HLT
-    VBFDiTauFinalJetFilter_pt = ROOT.std.vector('float')()
-    VBFDiTauFinalJetFilter_eta = ROOT.std.vector('float')()
-    VBFDiTauFinalJetFilter_phi = ROOT.std.vector('float')()
-    VBFDiTauFinalJetFilter_energy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_pt", VBFDiTauFinalJetFilter_pt)
-    tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_eta", VBFDiTauFinalJetFilter_eta)
-    tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_phi", VBFDiTauFinalJetFilter_phi) 
-    tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_energy", VBFDiTauFinalJetFilter_energy)
-    # ERROR these branches are not filled in the sample
-    VBFDiTauFinalTauFilter_pt = ROOT.std.vector('float')()
-    VBFDiTauFinalTauFilter_eta = ROOT.std.vector('float')()
-    VBFDiTauFinalTauFilter_phi = ROOT.std.vector('float')()
-    VBFDiTauFinalTauFilter_energy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_pt", VBFDiTauFinalTauFilter_pt)
-    tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_eta", VBFDiTauFinalTauFilter_eta)
-    tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_phi", VBFDiTauFinalTauFilter_phi)
-    tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_energy", VBFDiTauFinalTauFilter_energy)
-    #
-    VBFDiTauL1MatchedTauFinalFilter_pt = ROOT.std.vector('float')()
-    VBFDiTauL1MatchedTauFinalFilter_eta = ROOT.std.vector('float')()
-    VBFDiTauL1MatchedTauFinalFilter_phi = ROOT.std.vector('float')()
-    VBFDiTauL1MatchedTauFinalFilter_energy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("VBF2DTL1MatchedTauFinalFilter_pt", VBFDiTauL1MatchedTauFinalFilter_pt)
-    tree.SetBranchAddress("VBF2DTL1MatchedTauFinalFilter_eta", VBFDiTauL1MatchedTauFinalFilter_eta)
-    tree.SetBranchAddress("VBF2DTL1MatchedTauFinalFilter_phi", VBFDiTauL1MatchedTauFinalFilter_phi)
-    tree.SetBranchAddress("VBF2DTL1MatchedTauFinalFilter_energy", VBFDiTauL1MatchedTauFinalFilter_energy)
+  passVBFSingleTauHLT_CorrChecker = array('i', [0])
+  tree.SetBranchAddress("passVBF1DTHLT_CorrChecker", passVBFSingleTauHLT_CorrChecker)
+  passVBFSingleTauHLT_OverlapRemoval = array('i', [0])
+  tree.SetBranchAddress("passVBF1DTHLT_OverlapRemoval", passVBFSingleTauHLT_OverlapRemoval)
+  # DiJetIsoTau HLT
+  VBFDiTauFinalJetFilter_pt = ROOT.std.vector('float')()
+  VBFDiTauFinalJetFilter_eta = ROOT.std.vector('float')()
+  VBFDiTauFinalJetFilter_phi = ROOT.std.vector('float')()
+  VBFDiTauFinalJetFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_pt", VBFDiTauFinalJetFilter_pt)
+  tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_eta", VBFDiTauFinalJetFilter_eta)
+  tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_phi", VBFDiTauFinalJetFilter_phi) 
+  tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_energy", VBFDiTauFinalJetFilter_energy)
+  # ERROR these branches are not filled in the sample
+  VBFDiTauFinalTauFilter_pt = ROOT.std.vector('float')()
+  VBFDiTauFinalTauFilter_eta = ROOT.std.vector('float')()
+  VBFDiTauFinalTauFilter_phi = ROOT.std.vector('float')()
+  VBFDiTauFinalTauFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_pt", VBFDiTauFinalTauFilter_pt)
+  tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_eta", VBFDiTauFinalTauFilter_eta)
+  tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_phi", VBFDiTauFinalTauFilter_phi)
+  tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_energy", VBFDiTauFinalTauFilter_energy)
+  #
+  VBFDiTauL1MatchedTauFinalFilter_pt = ROOT.std.vector('float')()
+  VBFDiTauL1MatchedTauFinalFilter_eta = ROOT.std.vector('float')()
+  VBFDiTauL1MatchedTauFinalFilter_phi = ROOT.std.vector('float')()
+  VBFDiTauL1MatchedTauFinalFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBF2DTL1MatchedTauFinalFilter_pt", VBFDiTauL1MatchedTauFinalFilter_pt)
+  tree.SetBranchAddress("VBF2DTL1MatchedTauFinalFilter_eta", VBFDiTauL1MatchedTauFinalFilter_eta)
+  tree.SetBranchAddress("VBF2DTL1MatchedTauFinalFilter_phi", VBFDiTauL1MatchedTauFinalFilter_phi)
+  tree.SetBranchAddress("VBF2DTL1MatchedTauFinalFilter_energy", VBFDiTauL1MatchedTauFinalFilter_energy)
+  #
+  VBFSingleTauFinalTauFilter_pt = ROOT.std.vector('float')()
+  VBFSingleTauFinalTauFilter_eta = ROOT.std.vector('float')()
+  VBFSingleTauFinalTauFilter_phi = ROOT.std.vector('float')()
+  VBFSingleTauFinalTauFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBF1DTSingleTauFinalFilter_pt", VBFSingleTauFinalTauFilter_pt)
+  tree.SetBranchAddress("VBF1DTSingleTauFinalFilter_eta", VBFSingleTauFinalTauFilter_eta)
+  tree.SetBranchAddress("VBF1DTSingleTauFinalFilter_phi", VBFSingleTauFinalTauFilter_phi)
+  tree.SetBranchAddress("VBF1DTSingleTauFinalFilter_energy", VBFSingleTauFinalTauFilter_energy)
+
+  VBFSingleTauFinalJetFilter_CorrChecker_pt = ROOT.std.vector('float')()
+  VBFSingleTauFinalJetFilter_CorrChecker_eta = ROOT.std.vector('float')()
+  VBFSingleTauFinalJetFilter_CorrChecker_phi = ROOT.std.vector('float')()
+  VBFSingleTauFinalJetFilter_CorrChecker_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_pt", VBFSingleTauFinalJetFilter_CorrChecker_pt)
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_eta", VBFSingleTauFinalJetFilter_CorrChecker_eta)
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_phi", VBFSingleTauFinalJetFilter_CorrChecker_phi)
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_energy", VBFSingleTauFinalJetFilter_CorrChecker_energy)
+
+  VBFSingleTauFinalJetFilter_OverlapRemoval_pt = ROOT.std.vector('float')()
+  VBFSingleTauFinalJetFilter_OverlapRemoval_eta = ROOT.std.vector('float')()
+  VBFSingleTauFinalJetFilter_OverlapRemoval_phi = ROOT.std.vector('float')()
+  VBFSingleTauFinalJetFilter_OverlapRemoval_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_pt", VBFSingleTauFinalJetFilter_OverlapRemoval_pt)
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_eta", VBFSingleTauFinalJetFilter_OverlapRemoval_eta)
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_phi", VBFSingleTauFinalJetFilter_OverlapRemoval_phi)
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_energy", VBFSingleTauFinalJetFilter_OverlapRemoval_energy)
+ 
   
   # DiJetInc HLT
   passInclusiveVBFHLT = array('i', [0])
   tree.SetBranchAddress("passDeepInclusiveVBFHLT", passInclusiveVBFHLT)
+  InclusiveVBFBothTausFinalFilter_pt = ROOT.std.vector('float')()
+  InclusiveVBFBothTausFinalFilter_eta = ROOT.std.vector('float')()
+  InclusiveVBFBothTausFinalFilter_phi = ROOT.std.vector('float')()
+  InclusiveVBFBothTausFinalFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("InclusiveVBFBothTausFinalFilter_pt", InclusiveVBFBothTausFinalFilter_pt)
+  tree.SetBranchAddress("InclusiveVBFBothTausFinalFilter_eta", InclusiveVBFBothTausFinalFilter_eta)
+  tree.SetBranchAddress("InclusiveVBFBothTausFinalFilter_phi", InclusiveVBFBothTausFinalFilter_phi)
+  tree.SetBranchAddress("InclusiveVBFBothTausFinalFilter_energy", InclusiveVBFBothTausFinalFilter_energy)
 
+  InclusiveVBFBothJetsFinalFilter_pt = ROOT.std.vector('float')()
+  InclusiveVBFBothJetsFinalFilter_eta = ROOT.std.vector('float')()
+  InclusiveVBFBothJetsFinalFilter_phi = ROOT.std.vector('float')()
+  InclusiveVBFBothJetsFinalFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("InclusiveVBFBothJetsFinalFilter_pt", InclusiveVBFBothJetsFinalFilter_pt)
+  tree.SetBranchAddress("InclusiveVBFBothJetsFinalFilter_eta", InclusiveVBFBothJetsFinalFilter_eta)
+  tree.SetBranchAddress("InclusiveVBFBothJetsFinalFilter_phi", InclusiveVBFBothJetsFinalFilter_phi)
+  tree.SetBranchAddress("InclusiveVBFBothJetsFinalFilter_energy", InclusiveVBFBothJetsFinalFilter_energy)
+
+  InclusiveVBFLeadingJetFinalFilter_pt = ROOT.std.vector('float')()
+  InclusiveVBFLeadingJetFinalFilter_eta = ROOT.std.vector('float')()
+  InclusiveVBFLeadingJetFinalFilter_phi = ROOT.std.vector('float')()
+  InclusiveVBFLeadingJetFinalFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("InclusiveVBFLeadingJetFinalFilter_pt", InclusiveVBFLeadingJetFinalFilter_pt)
+  tree.SetBranchAddress("InclusiveVBFLeadingJetFinalFilter_eta", InclusiveVBFLeadingJetFinalFilter_eta)
+  tree.SetBranchAddress("InclusiveVBFLeadingJetFinalFilter_phi", InclusiveVBFLeadingJetFinalFilter_phi)
+  tree.SetBranchAddress("InclusiveVBFLeadingJetFinalFilter_energy", InclusiveVBFLeadingJetFinalFilter_energy)
+
+
+  # DiTau HLT
   passDiTauHLT = array('i', [0])
   tree.SetBranchAddress("passDeepDiTau35HLT", passDiTauHLT)
-  # DiTau HLT
-  if (is2022 and notRateStudy):
-    DiTauFinalFilter_pt = ROOT.std.vector('float')()
-    DiTauFinalFilter_eta = ROOT.std.vector('float')()
-    DiTauFinalFilter_phi = ROOT.std.vector('float')()
-    DiTauFinalFilter_energy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("DiTauFinalFilter_pt", DiTauFinalFilter_pt)
-    tree.SetBranchAddress("DiTauFinalFilter_eta", DiTauFinalFilter_eta)
-    tree.SetBranchAddress("DiTauFinalFilter_phi", DiTauFinalFilter_phi)
-    tree.SetBranchAddress("DiTauFinalFilter_energy", DiTauFinalFilter_energy)
+  DiTauFinalFilter_pt = ROOT.std.vector('float')()
+  DiTauFinalFilter_eta = ROOT.std.vector('float')()
+  DiTauFinalFilter_phi = ROOT.std.vector('float')()
+  DiTauFinalFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("DiTauFinalFilter_pt", DiTauFinalFilter_pt)
+  tree.SetBranchAddress("DiTauFinalFilter_eta", DiTauFinalFilter_eta)
+  tree.SetBranchAddress("DiTauFinalFilter_phi", DiTauFinalFilter_phi)
+  tree.SetBranchAddress("DiTauFinalFilter_energy", DiTauFinalFilter_energy)
 
 
   # Offline kinems
@@ -723,6 +780,51 @@ if __name__ == "__main__":
       passDiTauHLTOffMatching = False
       if (len(matchDiTauHLTTau1) > 0 and len(matchDiTauHLTTau2) > 0): passDiTauHLTOffMatching = True
 
+      # Inclusive VBF HLT Matching
+      InclusiveVBFHLTTaus = fillWithTVecs(InclusiveVBFBothTausFinalFilter_pt, InclusiveVBFBothTausFinalFilter_eta, \
+                                          InclusiveVBFBothTausFinalFilter_phi, InclusiveVBFBothTausFinalFilter_energy)
+      sizeInclusiveVBFHLTTaus = len(InclusiveVBFHLTTaus)
+      matchInclusiveVBFHLTTau1 = [i for i in range(sizeInclusiveVBFHLTTaus)
+                               if ROOT.TLorentzVector.DeltaR(OffTau1, InclusiveVBFHLTTaus[i]) < 0.5]
+      matchInclusiveVBFHLTTau2 = [i for i in range(sizeInclusiveVBFHLTTaus)
+                               if ROOT.TLorentzVector.DeltaR(OffTau2, InclusiveVBFHLTTaus[i]) < 0.5]
+      passInclusiveVBFHLTOffTauMatching = False
+      if (len(matchInclusiveVBFHLTTau1) > 0 and len(matchInclusiveVBFHLTTau2) > 0): passInclusiveVBFHLTOffTauMatching = True
+
+      InclusiveVBFHLTJets = fillWithTVecs(InclusiveVBFBothJetsFinalFilter_pt, InclusiveVBFBothJetsFinalFilter_eta, \
+                                          InclusiveVBFBothJetsFinalFilter_phi, InclusiveVBFBothJetsFinalFilter_energy)
+      sizeInclusiveVBFHLTJets = len(InclusiveVBFHLTJets)
+      matchInclusiveVBFHLTJet1 = [i for i in range(sizeInclusiveVBFHLTJets)
+                               if ROOT.TLorentzVector.DeltaR(OffJet1, InclusiveVBFHLTJets[i]) < 0.5]
+      matchInclusiveVBFHLTJet2 = [i for i in range(sizeInclusiveVBFHLTJets)
+                               if ROOT.TLorentzVector.DeltaR(OffJet2, InclusiveVBFHLTJets[i]) < 0.5]
+      passInclusiveVBFHLTOffJetMatching = False
+      if (len(matchInclusiveVBFHLTJet1) > 0 and len(matchInclusiveVBFHLTJet2) > 0): passInclusiveVBFHLTOffJetMatching = True
+
+      passInclusiveVBFHLTOffMatching = passInclusiveVBFHLTOffTauMatching and passInclusiveVBFHLTOffJetMatching
+
+      # VBF Single Tau Matching
+      VBFSingleTauHLTIsoTau = fillWithTVecs(VBFSingleTauFinalTauFilter_pt, VBFSingleTauFinalTauFilter_eta, \
+                                            VBFSingleTauFinalTauFilter_phi, VBFSingleTauFinalTauFilter_energy)
+      sizeVBFSingleTauHLTIsoTau = len(VBFSingleTauHLTIsoTau)
+      matchVBFSingleTauHLTIsoTau = [i for i in range(sizeVBFSingleTauHLTIsoTau)
+                                 if ROOT.TLorentzVector.DeltaR(OffTau1, VBFSingleTauHLTIsoTau[i]) < 0.5]
+      passVBFSingleTauHLTOffTauMatching = False
+      if (len(matchVBFSingleTauHLTIsoTau) > 0): passVBFSingleTauHLTOffTauMatching = True 
+
+      VBFSingleTauHLTJets = fillWithTVecs(VBFSingleTauFinalJetFilter_CorrChecker_pt, VBFSingleTauFinalJetFilter_CorrChecker_eta, \
+                                   VBFSingleTauFinalJetFilter_CorrChecker_phi, VBFSingleTauFinalJetFilter_CorrChecker_energy)
+      #VBFSingleTauHLTJets = fillWithTVecs(VBFSingleTauFinalJetFilter_OverlapRemoval_pt, VBFSingleTauFinalJetFilter_OverlapRemoval_eta, \
+      #                             VBFSingleTauFinalJetFilter_OverlapRemoval_phi, VBFSingleTauFinalJetFilter_OverlapRemoval_energy)
+      sizeVBFSingleTauHLTJets = len(VBFSingleTauHLTJets)
+      matchVBFSingleTauHLTJet1 = [i for i in range(sizeVBFSingleTauHLTJets)
+                               if ROOT.TLorentzVector.DeltaR(OffJet1, VBFSingleTauHLTJets[i]) < 0.5]
+      matchVBFSingleTauHLTJet2 = [i for i in range(sizeVBFSingleTauHLTJets)
+                               if ROOT.TLorentzVector.DeltaR(OffJet2, VBFSingleTauHLTJets[i]) < 0.5]
+      passVBFSingleTauHLTOffJetMatching = False
+      if (len(matchVBFSingleTauHLTJet1) > 0 and len(matchVBFSingleTauHLTJet2)): passVBFSingleTauHLTOffJetMatching = True
+      passVBFSingleTauHLTOffMatching = passVBFSingleTauHLTOffTauMatching and passVBFSingleTauHLTOffJetMatching
+
       # end matching
       
       # emulate L1 restrictions and place Offline cuts
@@ -831,7 +933,9 @@ if __name__ == "__main__":
 
       # HLT
       # TODO: check impact of emulation by using the L1 branch directly and comparing
-      BoolPassVBFDiTauHLT = passVBFDiTauHLT[0] and BoolPassL1VBFDiJetIsoTau
+      #BoolPassVBFDiTauHLT = passVBFDiTauHLT[0] and BoolPassL1VBFDiJetIsoTau
+      BoolPassVBFDiTauHLT = passVBFSingleTauHLT_CorrChecker[0] and BoolPassL1VBFDiJetIsoTau
+      #BoolPassVBFDiTauHLT = passVBFSingleTauHLT_OverlapRemoval[0] and BoolPassL1VBFDiJetIsoTau
       BoolPassInclusiveVBFHLT = passInclusiveVBFHLT[0] and BoolPassL1VBFDiJetOR
       BoolPassDiTauHLT = passDiTauHLT[0] and BoolPassL1DiTau
 
@@ -854,8 +958,9 @@ if __name__ == "__main__":
                      TallyTripleORHLT - TallyVBFDiTauORDiTauHLT]
  
       # Offline
-      GoodVBFDiTau = BoolPassVBFDiTauHLT and passVBFDiTauOffCuts and passVBFDiTauHLTOffMatching
-      GoodInclusiveVBF = BoolPassInclusiveVBFHLT and passInclusiveVBFOffCuts
+      #GoodVBFDiTau = BoolPassVBFDiTauHLT and passVBFDiTauOffCuts and passVBFDiTauHLTOffMatching
+      GoodVBFDiTau = BoolPassVBFDiTauHLT and passVBFDiTauOffCuts and passVBFSingleTauHLTOffMatching
+      GoodInclusiveVBF = BoolPassInclusiveVBFHLT and passInclusiveVBFOffCuts and passInclusiveVBFHLTOffMatching
       GoodDiTau = BoolPassDiTauHLT and passDiTauOffCuts and passDiTauHLTOffMatching
 
       outPassVBFDiTauOff[0] = passVBFDiTauOffCuts
