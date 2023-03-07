@@ -1,12 +1,14 @@
-hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTsV4_unlocked/V3 \
+hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_newVBFHLTsAdded/V8 \
 --mc --globaltag auto:phase1_2022_realistic \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v*,\
 HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v*,\
+HLT_Ele23_CaloIdL_TrackIdL_IsoVL_PFJet30_v*,\
 HLT_Ele32_WPTight_Gsf_v*,\
 HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v*,\
 HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v*,\
 HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v*,\
+HLT_Photon33_v*,\
 HLT_IsoMu24_eta2p1_v*,\
 HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS35_L2NN_eta2p1_CrossL1_v*,\
 HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v*,\
@@ -15,21 +17,20 @@ HLT_DummyL1_v*,\
 HLT_DummyL1Loose_v*,\
 HLT_DummyEGORL1_v*,\
 HLT_DummyL1NoIso_v*,\
-HLT_VBF_DoublePFJets35_MassMin350_Photon12_L1VBFIsoEG_v*,\
-HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v*,\
-HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_v*,\
+HLT_VBF_DoublePFJets45_MassMin500_Photon12_v*,\
+HLT_VBF_DoublePFJets45_MassMin500_Ele12_eta2p1_WPTight_Gsf_v*,\
+HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CorrChecker_v*,\
+HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_OverlapRemoval_v*,\
 HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v*,\
 HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v*,\
+HLT_Ele23_CaloIdL_TrackIdL_IsoVL_PFJet30_v*,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output none \
---process MYOTHERHLT --max-events 50 \
+--process MYOTHERHLT --max-events -1 \
 --l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_3_0_edited_corrected.xml \
---input root://cms-xrd-global.cern.ch//store/mc/Run3Summer21DRPremix/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/120X_mcRun3_2021_realistic_v6-v2/30000/00dbda61-e142-4d8a-aa8e-886c3c79fdc4.root \
-> hlt_NewHLTs.py
+--input root://cms-xrd-global.cern.ch///store/mc/Run3Summer21DRPremix/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/120X_mcRun3_2021_realistic_v6-v2/30000/0eb45ee6-034e-457d-90fb-0a8d38b7ff6e.root \
+> hltTestTriplet.py
 
+hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTsV4_unlocked/V23 \
 hltGetConfiguration /users/ballmond/12_4_0_X/DevGRunV67/V2 \
-
---input root://cmsxrootd.fnal.gov//store/mc/Run3Summer21DRPremix/VBFHToTauTau_M125_TuneCP5_14TeV-powheg-pythia8/GEN-SIM-DIGI-RAW/120X_mcRun3_2021_realistic_v6-v2/30000/00dbda61-e142-4d8a-aa8e-886c3c79fdc4.root \
-
-HLT_Ele30_WPTight_Gsf_v1,\

@@ -7,10 +7,13 @@ using namespace std;
 // Signal HLTs
 int passDeepDiTau35HLT;
 int passEleTauHLT;
+int passEleJetHLT;
 int passSingleEleHLT;
 int passSinglePhotonHLT;
 int passVBF2DTHLT;
 int passVBF1DTHLT;
+int passVBF1DTHLT_CorrChecker;
+int passVBF1DTHLT_OverlapRemoval;
 int passInclusiveVBFHLT;
 int passDeepInclusiveVBFHLT;
 int passVBFEleHLT;
@@ -37,10 +40,13 @@ void NtupleMaker::branchesHLTFinalDecision(TTree* tree){
     // Signal HLTs
     tree->Branch("passDeepDiTau35HLT", &passDeepDiTau35HLT);
     tree->Branch("passEleTauHLT", &passEleTauHLT);
+    tree->Branch("passEleJetHLT", &passEleJetHLT);
     tree->Branch("passSingleEleHLT", &passSingleEleHLT);
     tree->Branch("passSinglePhotonHLT", &passSinglePhotonHLT);
     tree->Branch("passVBF2DTHLT", &passVBF2DTHLT);
     tree->Branch("passVBF1DTHLT", &passVBF1DTHLT);
+    tree->Branch("passVBF1DTHLT_CorrChecker", &passVBF1DTHLT_CorrChecker);
+    tree->Branch("passVBF1DTHLT_OverlapRemoval", &passVBF1DTHLT_OverlapRemoval);
     tree->Branch("passInclusiveVBFHLT", &passInclusiveVBFHLT);    
     tree->Branch("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);    
     tree->Branch("passVBFEleHLT", &passVBFEleHLT);
@@ -79,14 +85,20 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
                        "HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v2"));
     passEleTauHLT = triggerResults->accept(triggerNames_.triggerIndex(
                  "HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v3"));
+    passEleJetHLT = triggerResults->accept(triggerNames_.triggerIndex(
+                 "HLT_Ele23_CaloIdL_TrackIdL_IsoVL_PFJet30_v20"));
     passSingleEleHLT = triggerResults->accept(triggerNames_.triggerIndex(
                      "HLT_Ele32_WPTight_Gsf_v17"));
     passSinglePhotonHLT = triggerResults->accept(triggerNames_.triggerIndex(
                      "HLT_Photon33_v7"));
     passVBF2DTHLT = triggerResults->accept(triggerNames_.triggerIndex(
                   "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_MediumDeepTauPFTauHPS20_eta2p1_v2"));
-    passVBF1DTHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                  "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_v2"));
+    //passVBF1DTHLT = triggerResults->accept(triggerNames_.triggerIndex(
+    //              "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_v2"));
+    passVBF1DTHLT_CorrChecker = triggerResults->accept(triggerNames_.triggerIndex(
+                  "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CorrChecker_v2"));
+    passVBF1DTHLT_OverlapRemoval = triggerResults->accept(triggerNames_.triggerIndex(
+                  "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_OverlapRemoval_v2"));
     passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
                         "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v3"));
     passDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
@@ -95,9 +107,10 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
     if (DEBUG) std::cout << "filled signal HLTs" << std::endl;
 
     passVBFEleHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                  "HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v1"));
+                  //"HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v1"));
+                  "HLT_VBF_DoublePFJets45_MassMin500_Ele12_eta2p1_WPTight_Gsf_v1"));
     passVBFPhotonHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                  "HLT_VBF_DoublePFJets35_MassMin350_Photon12_L1VBFIsoEG_v1"));
+                  "HLT_VBF_DoublePFJets45_MassMin500_Photon12_v1"));
     if (DEBUG) std:: cout << "filled VBF+EG HLTs" << std::endl;
 
     // Monitoring/Control HLTs

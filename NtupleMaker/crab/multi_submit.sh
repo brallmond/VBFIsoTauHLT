@@ -1,6 +1,6 @@
 #!/bin/bash
 
-START=1
+START=0
 STOP=8
 ONEAHEAD=$START
 
