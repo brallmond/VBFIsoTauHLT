@@ -71,7 +71,6 @@ void HLTPFDiJetCorrCheckerWithDiTau::produce(edm::StreamID iSId, edm::Event& iEv
 
   std::set<unsigned int> indices;
 
-  //if (pfJets.size() > 1 && taus.size() > 1) {
   if (pfJets.size() > 1 && taus.size() > 0) {
     for (unsigned int iJet1 = 0; iJet1 < pfJets.size(); iJet1++) {
       for (unsigned int iJet2 = iJet1 + 1; iJet2 < pfJets.size(); iJet2++) {
@@ -88,7 +87,7 @@ void HLTPFDiJetCorrCheckerWithDiTau::produce(edm::StreamID iSId, edm::Event& iEv
           if (reco::deltaR2(taus[iTau1]->p4(), myPFJet2.p4()) < dRmin2_)
             continue;
 
-          if (taus.size() == 1){ correctComb = true; }
+          if (taus.size() == 1) { correctComb = true; }
 
           if (taus.size() > 1) {
             for (unsigned int iTau2 = iTau1 + 1; iTau2 < taus.size(); iTau2++) {
