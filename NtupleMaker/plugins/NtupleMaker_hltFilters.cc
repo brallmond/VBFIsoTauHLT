@@ -992,8 +992,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
           continue;
         }        
 
-        //if (filterTag == "hltEle12DoublePFJet40Cleaned::MYOTHERHLT"
-        if (filterTag == "hltOverlapFilterDoublePFJet40Ele12::MYOTHERHLT"
+        if (filterTag == "hltOverlapFilterDoublePFJet45Ele12::MYOTHERHLT"
                       && nObjKeys >= 1) {
           passVBFElectronFinalFilter_EleCrossClean = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
@@ -1040,7 +1039,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
         }
 
 
-        if (filterTag == "hltOverlapFilterDoublePFJet40Photon12::MYOTHERHLT"
+        if (filterTag == "hltOverlapFilterDoublePFJet45Photon12::MYOTHERHLT"
                       && nObjKeys >= 1) {
           passVBFPhotonFinalFilter = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,

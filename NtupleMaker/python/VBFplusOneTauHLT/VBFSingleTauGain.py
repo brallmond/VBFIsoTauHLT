@@ -346,14 +346,14 @@ if __name__ == "__main__":
   tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_phi", VBFSingleTauFinalJetFilter_CorrChecker_phi)
   tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_energy", VBFSingleTauFinalJetFilter_CorrChecker_energy)
 
-  VBFSingleTauFinalJetFilter_OverlapRemoval_pt = ROOT.std.vector('float')()
-  VBFSingleTauFinalJetFilter_OverlapRemoval_eta = ROOT.std.vector('float')()
-  VBFSingleTauFinalJetFilter_OverlapRemoval_phi = ROOT.std.vector('float')()
-  VBFSingleTauFinalJetFilter_OverlapRemoval_energy = ROOT.std.vector('float')()
-  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_pt", VBFSingleTauFinalJetFilter_OverlapRemoval_pt)
-  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_eta", VBFSingleTauFinalJetFilter_OverlapRemoval_eta)
-  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_phi", VBFSingleTauFinalJetFilter_OverlapRemoval_phi)
-  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_energy", VBFSingleTauFinalJetFilter_OverlapRemoval_energy)
+#  VBFSingleTauFinalJetFilter_OverlapRemoval_pt = ROOT.std.vector('float')()
+#  VBFSingleTauFinalJetFilter_OverlapRemoval_eta = ROOT.std.vector('float')()
+#  VBFSingleTauFinalJetFilter_OverlapRemoval_phi = ROOT.std.vector('float')()
+#  VBFSingleTauFinalJetFilter_OverlapRemoval_energy = ROOT.std.vector('float')()
+#  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_pt", VBFSingleTauFinalJetFilter_OverlapRemoval_pt)
+#  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_eta", VBFSingleTauFinalJetFilter_OverlapRemoval_eta)
+#  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_phi", VBFSingleTauFinalJetFilter_OverlapRemoval_phi)
+#  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_OverlapRemoval_energy", VBFSingleTauFinalJetFilter_OverlapRemoval_energy)
  
   
   # DiJetInc HLT
@@ -403,18 +403,20 @@ if __name__ == "__main__":
   # Offline kinems
   if (notRateStudy):
     ##Taus
-    OffnTaus = array('i', [0])
-    OffTauCh = ROOT.std.vector('float')()
-    OffTauPt = ROOT.std.vector('float')()
-    OffTauEta = ROOT.std.vector('float')()
-    OffTauPhi = ROOT.std.vector('float')()
-    OffTauEnergy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("nTau", OffnTaus)
-    tree.SetBranchAddress("tauCharge", OffTauCh)
-    tree.SetBranchAddress("tauPt", OffTauPt)
-    tree.SetBranchAddress("tauEta", OffTauEta)
-    tree.SetBranchAddress("tauPhi", OffTauPhi)
-    tree.SetBranchAddress("tauEnergy", OffTauEnergy)
+    from extendo_treeo import extend_tree
+    tree = extend_tree(tree, "Offline_Taus")
+#    OffnTaus = array('i', [0])
+#    OffTauCh = ROOT.std.vector('float')()
+#    OffTauPt = ROOT.std.vector('float')()
+#    OffTauEta = ROOT.std.vector('float')()
+#    OffTauPhi = ROOT.std.vector('float')()
+#    OffTauEnergy = ROOT.std.vector('float')()
+#    tree.SetBranchAddress("nTau", OffnTaus)
+#    tree.SetBranchAddress("tauCharge", OffTauCh)
+#    tree.SetBranchAddress("tauPt", OffTauPt)
+#    tree.SetBranchAddress("tauEta", OffTauEta)
+#    tree.SetBranchAddress("tauPhi", OffTauPhi)
+#    tree.SetBranchAddress("tauEnergy", OffTauEnergy)
     ##Jets
     OffnJets = array('i', [0])
     OffJetPt = ROOT.std.vector('float')()
@@ -933,8 +935,8 @@ if __name__ == "__main__":
 
       # HLT
       # TODO: check impact of emulation by using the L1 branch directly and comparing
-      #BoolPassVBFDiTauHLT = passVBFDiTauHLT[0] and BoolPassL1VBFDiJetIsoTau
-      BoolPassVBFDiTauHLT = passVBFSingleTauHLT_CorrChecker[0] and BoolPassL1VBFDiJetIsoTau
+      BoolPassVBFDiTauHLT = passVBFDiTauHLT[0] and BoolPassL1VBFDiJetIsoTau
+      #BoolPassVBFDiTauHLT = passVBFSingleTauHLT_CorrChecker[0] and BoolPassL1VBFDiJetIsoTau
       #BoolPassVBFDiTauHLT = passVBFSingleTauHLT_OverlapRemoval[0] and BoolPassL1VBFDiJetIsoTau
       BoolPassInclusiveVBFHLT = passInclusiveVBFHLT[0] and BoolPassL1VBFDiJetOR
       BoolPassDiTauHLT = passDiTauHLT[0] and BoolPassL1DiTau
@@ -958,8 +960,8 @@ if __name__ == "__main__":
                      TallyTripleORHLT - TallyVBFDiTauORDiTauHLT]
  
       # Offline
-      #GoodVBFDiTau = BoolPassVBFDiTauHLT and passVBFDiTauOffCuts and passVBFDiTauHLTOffMatching
-      GoodVBFDiTau = BoolPassVBFDiTauHLT and passVBFDiTauOffCuts and passVBFSingleTauHLTOffMatching
+      GoodVBFDiTau = BoolPassVBFDiTauHLT and passVBFDiTauOffCuts and passVBFDiTauHLTOffMatching
+      #GoodVBFDiTau = BoolPassVBFDiTauHLT and passVBFDiTauOffCuts and passVBFSingleTauHLTOffMatching
       GoodInclusiveVBF = BoolPassInclusiveVBFHLT and passInclusiveVBFOffCuts and passInclusiveVBFHLTOffMatching
       GoodDiTau = BoolPassDiTauHLT and passDiTauOffCuts and passDiTauHLTOffMatching
 
