@@ -95,6 +95,12 @@ vector<float> hltL1sSingleEG26_eta;
 vector<float> hltL1sSingleEG26_phi;
 vector<float> hltL1sSingleEG26_energy;
 
+int passhltL1sSingleEGor;
+vector<float> hltL1sSingleEGor_pt;
+vector<float> hltL1sSingleEGor_eta;
+vector<float> hltL1sSingleEGor_phi;
+vector<float> hltL1sSingleEGor_energy;
+
 void NtupleMaker::branchesL1sFromHLT(TTree* tree){
 
     tree->Branch("nEvents", &nEvents);
@@ -175,6 +181,12 @@ void NtupleMaker::branchesL1sFromHLT(TTree* tree){
     tree->Branch("hltL1sSingleEG26_eta", &hltL1sSingleEG26_eta);
     tree->Branch("hltL1sSingleEG26_phi", &hltL1sSingleEG26_phi);
     tree->Branch("hltL1sSingleEG26_energy", &hltL1sSingleEG26_energy);
+
+    tree->Branch("passhltL1sSingleEGor", &passhltL1sSingleEGor);
+    tree->Branch("hltL1sSingleEGor_pt", &hltL1sSingleEGor_pt);
+    tree->Branch("hltL1sSingleEGor_eta", &hltL1sSingleEGor_eta);
+    tree->Branch("hltL1sSingleEGor_phi", &hltL1sSingleEGor_phi);
+    tree->Branch("hltL1sSingleEGor_energy", &hltL1sSingleEGor_energy);
 
 }
 
@@ -277,7 +289,8 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
 
 
     // Also for VBF + Electron
-    const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectron", "", "MYOTHERHLT")));
+    //const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectron", "", "MYOTHERHLT")));
+    const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFIsoEG", "", "MYOTHERHLT")));
 
     l1t::EGammaVectorRef electronCandRefVec;
     trigger::Vids eVids;
@@ -315,7 +328,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
       }
     }
 
-  
+ /* 
     // again for VBF + Loose Electron
     const unsigned int VBFElectronL1LooseFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronLoose", "", "MYOTHERHLT")));
 
@@ -394,7 +407,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
       }
     }
 
-
+*/
 
     nEvents = 0;
 
@@ -429,6 +442,12 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     hltL1sSingleEG26_eta.clear();
     hltL1sSingleEG26_phi.clear();
     hltL1sSingleEG26_energy.clear();
+ 
+    passhltL1sSingleEGor = 0;
+    hltL1sSingleEGor_pt.clear();
+    hltL1sSingleEGor_eta.clear();
+    hltL1sSingleEGor_phi.clear();
+    hltL1sSingleEGor_energy.clear();
 
     // getting trigger event per this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
@@ -447,6 +466,7 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     std::string hltL1VBFDiJetIsoTau_Tag = "hltL1VBFDiJetIsoTau::MYOTHERHLT";	  
     std::string hltL1sSingleMu22_Tag = "hltL1sSingleMu22::MYOTHERHLT";
     std::string hltL1sSingleEG26_Tag = "hltL1sSingleEG26::MYOTHERHLT";
+    std::string hltL1sSingleEGor_Tag = "hltL1sSingleEGor::MYOTHERHLT";
 
 
     // accepted filters per event
@@ -472,19 +492,21 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
         if (filterTag == hltL1VBFElectron_Tag
             && hltL1VBFElectron_ePt.size() >= 1
             && hltL1VBFElectron_jPt.size() >= 2) passhltL1VBFElectron = 1; 
+/*
         if (filterTag == hltL1VBFElectronLoose_Tag
             && hltL1VBFElectronLoose_ePt.size() >= 1
             && hltL1VBFElectronLoose_jPt.size() >= 2) passhltL1VBFElectronLoose = 1;
         if (filterTag == hltL1VBFElectronNoIso_Tag
             && hltL1VBFElectronNoIso_ePt.size() >= 1
             && hltL1VBFElectronNoIso_jPt.size() >= 2) passhltL1VBFElectronNoIso = 1;
-
+*/
 
         // Single Object Type L1s
 	if (filterTag == hltL1sDoubleTauBigOR_Tag && nObjKeys >= 2) passhltL1sDoubleTauBigOR = 1;
 	if (filterTag == hltL1VBFDiJetOR_Tag && nObjKeys >= 2) passhltL1VBFDiJetOR = 1;
         if (filterTag == hltL1sSingleMu22_Tag && nObjKeys >= 1) passhltL1sSingleMu22 = 1;
         if (filterTag == hltL1sSingleEG26_Tag && nObjKeys >= 1) passhltL1sSingleEG26 = 1;
+        if (filterTag == hltL1sSingleEGor_Tag && nObjKeys >= 1) passhltL1sSingleEGor = 1;
 
 	//loop over trigger objects and store their kinematics to the proper filter branches
 	for(trigger::size_type iKey=0; iKey < nObjKeys; ++iKey){
@@ -523,6 +545,13 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
                 hltL1sSingleEG26_eta.push_back(etaL1_);
                 hltL1sSingleEG26_phi.push_back(phiL1_);
                 hltL1sSingleEG26_energy.push_back(energyL1_);
+            }
+            if (filterTag == hltL1sSingleEGor_Tag
+                  && passhltL1sSingleEGor && ptL1_>0) {
+                hltL1sSingleEGor_pt.push_back(ptL1_);
+                hltL1sSingleEGor_pt.push_back(etaL1_);
+                hltL1sSingleEGor_pt.push_back(phiL1_);
+                hltL1sSingleEGor_pt.push_back(energyL1_);
             }
 
 	} // end loop over trigger object keys

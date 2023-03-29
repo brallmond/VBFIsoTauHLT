@@ -18,9 +18,12 @@ int passInclusiveVBFHLT;
 int passDeepInclusiveVBFHLT;
 int passVBFEleHLT;
 int passVBFPhotonHLT;
+int passVBFMuonHLT;
+int passVBFMuonHLT_TripleJet;
+int passIsoMu24eta2p1HLT;
+int passMuTauHLT;
 
 // Monitoring/Control HLTs
-int passIsoMu24eta2p1HLT;
 int passUpperControlHLT;
 int passLowerControlHLT;
 int passDiTauControlHLT;
@@ -51,9 +54,12 @@ void NtupleMaker::branchesHLTFinalDecision(TTree* tree){
     tree->Branch("passDeepInclusiveVBFHLT", &passDeepInclusiveVBFHLT);    
     tree->Branch("passVBFEleHLT", &passVBFEleHLT);
     tree->Branch("passVBFPhotonHLT", &passVBFPhotonHLT);
+    tree->Branch("passVBFMuonHLT", &passVBFMuonHLT);
+    tree->Branch("passVBFMuonHLT_TripleJet", &passVBFMuonHLT_TripleJet);
+    tree->Branch("passIsoMu24eta2p1HLT", &passIsoMu24eta2p1HLT);
+    tree->Branch("passMuTauHLT", &passMuTauHLT);
 
     // Monitoring/Control HLTs
-    tree->Branch("passIsoMu24eta2p1HLT", &passIsoMu24eta2p1HLT);
     tree->Branch("passUpperControlHLT", &passUpperControlHLT);
     tree->Branch("passLowerControlHLT", &passLowerControlHLT);
     tree->Branch("passDiTauControlHLT", &passDiTauControlHLT);
@@ -83,12 +89,19 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
     // Signal HLTs
     passDeepDiTau35HLT = triggerResults->accept(triggerNames_.triggerIndex(
                        "HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v2"));
+
     passEleTauHLT = triggerResults->accept(triggerNames_.triggerIndex(
                  "HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v3"));
     passEleJetHLT = triggerResults->accept(triggerNames_.triggerIndex(
                  "HLT_Ele23_CaloIdL_TrackIdL_IsoVL_PFJet30_v20"));
     passSingleEleHLT = triggerResults->accept(triggerNames_.triggerIndex(
                      "HLT_Ele32_WPTight_Gsf_v17"));
+
+    passIsoMu24eta2p1HLT = triggerResults->accept(triggerNames_.triggerIndex(
+                         "HLT_IsoMu24_eta2p1_v17"));
+    passMuTauHLT = triggerResults->accept(triggerNames_.triggerIndex(
+                 "HLT_IsoMu20_eta2p1_LooseDeepTauPFTauHPS27_eta2p1_CrossL1_v3"));
+
     passSinglePhotonHLT = triggerResults->accept(triggerNames_.triggerIndex(
                      "HLT_Photon33_v7"));
     passVBF2DTHLT = triggerResults->accept(triggerNames_.triggerIndex(
@@ -96,11 +109,13 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
     //passVBF1DTHLT = triggerResults->accept(triggerNames_.triggerIndex(
     //              "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_v2"));
     passVBF1DTHLT_CorrChecker = triggerResults->accept(triggerNames_.triggerIndex(
-                  "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CorrChecker_v2"));
-    passVBF1DTHLT_OverlapRemoval = triggerResults->accept(triggerNames_.triggerIndex(
-                  "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_OverlapRemoval_v2"));
-    passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                        "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v3"));
+                    "HLT_VBFParking_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_v1"));
+                  //"HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CorrChecker_v2"));
+    //passVBF1DTHLT_OverlapRemoval = triggerResults->accept(triggerNames_.triggerIndex(
+    //              "HLT_DoublePFJets40_Mass500_MediumDeepTauPFTauHPS45_L2NN_eta2p1_OverlapRemoval_v2"));
+    //
+    //passInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
+    //                    "HLT_VBF_DoubleTightChargedIsoPFTauHPS20_Trk1_eta2p1_v3"));
     passDeepInclusiveVBFHLT = triggerResults->accept(triggerNames_.triggerIndex(
                             "HLT_VBF_DoubleMediumDeepTauPFTauHPS20_eta2p1_v2"));
 
@@ -108,14 +123,25 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
 
     passVBFEleHLT = triggerResults->accept(triggerNames_.triggerIndex(
                   //"HLT_VBF_DoublePFJets35_MassMin350_Ele12_WPLoose_Gsf_L1VBFIsoEG_v1"));
-                  "HLT_VBF_DoublePFJets45_MassMin500_Ele12_eta2p1_WPTight_Gsf_v1"));
+                  //"HLT_VBF_DoublePFJets45_MassMin500_Ele12_eta2p1_WPTight_Gsf_v1"));
+                  "HLT_VBFParking_DoublePFJets45_MassMin500_Ele12_eta2p1_WPTight_Gsf_v1"));
+
     passVBFPhotonHLT = triggerResults->accept(triggerNames_.triggerIndex(
-                  "HLT_VBF_DoublePFJets45_MassMin500_Photon12_v1"));
-    if (DEBUG) std:: cout << "filled VBF+EG HLTs" << std::endl;
+                  //"HLT_VBF_DoublePFJets45_MassMin500_Photon12_v1"));
+                  "HLT_VBFParking_DoublePFJets45_MassMin500_Photon12_v1"));
+
+    if (DEBUG) std::cout << "filled VBF+EG HLTs" << std::endl;
+
+    passVBFMuonHLT = triggerResults->accept(triggerNames_.triggerIndex(
+                   "HLT_VBFparking_Mu3_TrkIsoVVL_DiPFJet80_30_Mjj500_v1"));
+
+    passVBFMuonHLT_TripleJet = triggerResults->accept(triggerNames_.triggerIndex(
+                   "HLT_VBFparking_Mu3_TrkIsoVVL_DiPFJet80_30_Mjj500_TriplePFJet_v1"));
+
+    if (DEBUG) std::cout << "filled VBF Muon HLTs" << std::endl;
+
 
     // Monitoring/Control HLTs
-    passIsoMu24eta2p1HLT = triggerResults->accept(triggerNames_.triggerIndex(
-                         "HLT_IsoMu24_eta2p1_v17"));
     passUpperControlHLT = triggerResults->accept(triggerNames_.triggerIndex(
                         "HLT_IsoMu24_eta2p1_MediumDeepTauPFTauHPS45_L2NN_eta2p1_CrossL1_v2"));
     passLowerControlHLT = triggerResults->accept(triggerNames_.triggerIndex(
@@ -126,12 +152,12 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
     if (DEBUG) std::cout << "filled monitoring HLTs" << std::endl;
 
     // adhoc HLTs
-    passHLTDummyL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1_v1"));
-    passHLTDummyL1Loose = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1Loose_v1"));
-    passHLTDummyL1NoIso = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1NoIso_v1"));
-    passHLTDummyEGORL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyEGORL1_v1"));
+    //passHLTDummyL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1_v1"));
+    //passHLTDummyL1Loose = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1Loose_v1"));
+    //passHLTDummyL1NoIso = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1NoIso_v1"));
+    //passHLTDummyEGORL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyEGORL1_v1"));
 
-    if (DEBUG) std::cout << "filled dummy HLTs" << std::endl;
+    //if (DEBUG) std::cout << "filled dummy HLTs" << std::endl;
 
     // Jaime's HLTs
     pass2Tau1JetHLT = triggerResults->accept(triggerNames_.triggerIndex(
