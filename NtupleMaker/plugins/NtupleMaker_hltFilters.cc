@@ -1072,7 +1072,6 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
           continue;
         }        
 
-        //if (filterTag == "hltEle12DoublePFJet40Cleaned::MYOTHERHLT"
         if (filterTag == "hltOverlapFilterDoublePFJet45Ele12::MYOTHERHLT"
                       && nObjKeys >= 1) {
           passVBFElectronFinalFilter_EleCrossClean = 1;
