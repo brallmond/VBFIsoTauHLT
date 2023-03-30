@@ -923,7 +923,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
           continue;
         }
 
-        if (filterTag == "passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch::MYOTHERHLT"
+        if (filterTag == "hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch::MYOTHERHLT"
                       && nObjKeys >= 2) {
           passVBF2DTDoubleTauFinalFilter = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
@@ -1155,7 +1155,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
 
         // Monitoring
         // SingleMu
-        if (filterTag == "hltL3crIsoL1sSingleMu22erL1f0L2f10QL3f24QL3trkIsoFiltered0p08::MYOTHERHLT"
+        if (filterTag == "hltL3crIsoL1sSingleMu22erL1f0L2f10QL3f24QL3trkIsoFiltered::MYOTHERHLT"
                       && nObjKeys >= 1) {
           passSingleMuAndLowerMuTauFinalFilter = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,
