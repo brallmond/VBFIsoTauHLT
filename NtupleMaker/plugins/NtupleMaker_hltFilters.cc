@@ -923,7 +923,7 @@ void NtupleMaker::fillTriggers(const edm::Event& iEvent){
           continue;
         }
 
-        if (filterTag == "passhltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch::MYOTHERHLT"
+        if (filterTag == "hltHpsDoublePFTau20MediumDitauWPDeepTauNoMatch::MYOTHERHLT"
                       && nObjKeys >= 2) {
           passVBF2DTDoubleTauFinalFilter = 1;
           fillFilterKinematics(objectKeys, triggerObjects, nObjKeys,

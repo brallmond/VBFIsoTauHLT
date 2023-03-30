@@ -435,7 +435,9 @@ if __name__ == "__main__":
 
       # now tally it up
       GoodMuTau = passMuTauHLTOffMatching and passMuTauOffCuts and passMuTauHLT[0]
-      GoodSingleMu = passSingleMuHLTOffMatching and passSingleMuOffCuts and passSingleMuHLT[0]
+      #GoodSingleMu = passSingleMuHLTOffMatching and passSingleMuOffCuts and passIsoMu24eta2p1HLT[0]
+      GoodSingleMu = passSingleMuOffCuts and passIsoMu24eta2p1HLT[0]
+      #print(passSingleMuHLTOffMatching, passSingleMuOffCuts, passIsoMu24eta2p1HLT[0])
       GoodVBFMu = passVBFMuHLTOffMatching and passVBFMuOffCuts and passVBFMuonHLT[0]
 
       #outPassMuTauOff[0] = GoodMuTau

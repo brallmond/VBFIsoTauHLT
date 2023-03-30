@@ -425,7 +425,7 @@ if __name__ == "__main__":
                            if ROOT.TLorentzVector.DeltaR(OffEle, VBFEleHLTEles[i]) < 0.5]
       passVBFEleHLTOffEleMatching = False
       if (len(matchVBFEleHLTOffEle) > 0): passVBFEleHLTOffMatching = True
-      print(sizeVBFEleHLTEles, len(matchVBFEleHLTOffEle), passVBFEleHLTOffEleMatching)
+      #print(sizeVBFEleHLTEles, len(matchVBFEleHLTOffEle), passVBFEleHLTOffEleMatching)
 
       VBFEleHLTJets = fillWithTVecs(VBFEleFinalJetFilter_pt, VBFEleFinalJetFilter_eta,
                                     VBFEleFinalJetFilter_phi, VBFEleFinalJetFilter_energy)
