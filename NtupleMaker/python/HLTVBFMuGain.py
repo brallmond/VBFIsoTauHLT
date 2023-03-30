@@ -1,7 +1,7 @@
 # Braden Allmond, August 10th 2022, KSU
 
 from array import array
-from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair, print_formatted_labels_and_values
+from helper_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair, print_formatted_labels_and_values, matchHLTOff
 from rateDictionary import rateDictionary
 import ROOT
 import argparse
@@ -41,72 +41,6 @@ if __name__ == "__main__":
   rateStudy = not notRateStudy and isValidString # "not not" is the same as "is"
 
 
-  # read input file name and prepend to output name
-
-  output_name = "temp_outname.root"
-  print(f"Total counts for {output_name}")
-
-  # declare outtree name and branches
-  outFile = ROOT.TFile.Open(output_name, "RECREATE")
-  outtree = ROOT.TTree("outtree", "skimmed event data")
-
-  outL1ElePt = array('f', [0.])
-  outL1Jet1Pt = array('f', [0.])
-  outL1Jet2Pt = array('f', [0.])
-  outL1Mjj = array('f', [0.])
-  outtree.Branch("L1ElePt", outL1ElePt, 'pt/F')
-  outtree.Branch("L1Jet1Pt", outL1Jet1Pt, 'pt/F')
-  outtree.Branch("L1Jet2Pt", outL1Jet2Pt, 'pt/F')
-  outtree.Branch("L1Mjj", outL1Mjj, 'mjj/F')
-
-  outL1DiJetORJet1 = array('f', [0.])
-  outL1DiJetORJet2 = array('f', [0.])
-  outL1DiJetORJet3 = array('f', [0.])
-  outL1DiJetORMjj = array('f', [0.])
-  outtree.Branch("L1DiJetORJet1", outL1DiJetORJet1, 'pt/F')
-  outtree.Branch("L1DiJetORJet2", outL1DiJetORJet2, 'pt/F')
-  outtree.Branch("L1DiJetORJet3", outL1DiJetORJet3, 'pt/F')
-  outtree.Branch("L1DiJetORMjj", outL1DiJetORMjj, 'mjj/F')
-
-  outL1VBFIsoTau_TauPt = array('f', [0.])
-  outL1VBFIsoTau_Jet1Pt = array('f', [0.])
-  outL1VBFIsoTau_Jet2Pt = array('f', [0.])
-  outL1VBFIsoTau_Mjj = array('f', [0.])
-  outtree.Branch("L1IsoTau_TauPt", outL1VBFIsoTau_TauPt, 'pt/F')
-  outtree.Branch("L1IsoTau_Jet1Pt", outL1VBFIsoTau_Jet1Pt, 'pt/F')
-  outtree.Branch("L1IsoTau_Jet2Pt", outL1VBFIsoTau_Jet2Pt, 'pt/F')
-  outtree.Branch("L1IsoTau_Mjj", outL1VBFIsoTau_Mjj, 'mjj/F')
-
-  outPassL1VBFDiJetEG = array('i', [0])
-  outPassL1VBFDiJetOR = array('i', [0])
-  outPassL1VBFDiJetIsoTau = array('i', [0])
-  outPassDummyEGORL1 = array('i', [0])
-  outtree.Branch("passL1VBFDiJetEG", outPassL1VBFDiJetEG, 'pass/I')
-  outtree.Branch("passL1VBFDiJetOR", outPassL1VBFDiJetOR, 'pass/I')
-  outtree.Branch("passL1VBFDiJetIsoTau", outPassL1VBFDiJetIsoTau, 'pass/I')
-  outtree.Branch("passDummyEGORL1", outPassDummyEGORL1, 'pass/I')
-
-  outPassVBFEleTauOff = array('i', [0])
-  outPassEleTauOff = array('i', [0])
-  outPassSingleEleOff = array('i', [0])
-  outtree.Branch("passVBFEleTauOff", outPassVBFEleTauOff, 'pass/I')
-  outtree.Branch("passEleTauOff", outPassEleTauOff, 'pass/I')
-  outtree.Branch("passSingleEleOff", outPassSingleEleOff, 'pass/I')
-
-  outOffElePt = array('f', [0.])
-  outOffTauPt = array('f', [0.])
-  outOffJet1Pt = array('f', [0.])
-  outOffJet2Pt = array('f', [0.])
-  outOffMjj = array('f', [0.])
-  outtree.Branch("OffElePt", outOffElePt, 'pt/F')
-  outtree.Branch("OffTauPt", outOffTauPt, 'pt/F')
-  outtree.Branch("OffJet1Pt", outOffJet1Pt, 'pt/F')
-  outtree.Branch("OffJet2Pt", outOffJet2Pt, 'pt/F')
-  outtree.Branch("OffMjj", outOffMjj, 'mjj/F')
-
-  outMatchL1Off = array('i', [0])
-  outtree.Branch("MatchL1Off", outMatchL1Off, 'matched/I')
-
   # hell to read but
   # defining a variable/object handle 
   #   objName = type('typename')(initialization*) *initialization changes by type
@@ -126,67 +60,86 @@ if __name__ == "__main__":
   minLS = rateDictionary[rateStudyString]["minLS"]
   maxLS = rateDictionary[rateStudyString]["maxLS"]
   badLS = rateDictionary[rateStudyString]["badLS"]
-  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}], Bad LS = {badLS}")
 
-  is2022 = True # can use False and 2018 EZB samples for HLT rate
-  if (is2022 and notRateStudy): 
-    # HLT Filter Matching
-    # MuTau
-    MuTauFinalMuonFilter_pt = ROOT.std.vector('float')()
-    MuTauFinalMuonFilter_eta = ROOT.std.vector('float')()
-    MuTauFinalMuonFilter_phi = ROOT.std.vector('float')()
-    MuTauFinalMuonFilter_energy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("MuTauFinalMuonFilter_pt", MuTauFinalMuonFilter_pt)
-    tree.SetBranchAddress("MuTauFinalMuonFilter_eta", MuTauFinalMuonFilter_eta)
-    tree.SetBranchAddress("MuTauFinalMuonFilter_phi", MuTauFinalMuonFilter_phi)
-    tree.SetBranchAddress("MuTauFinalMuonFilter_energy", MuTauFinalMuonFilter_energy)
-    MuTauFinalTauFilter_pt = ROOT.std.vector('float')()
-    MuTauFinalTauFilter_eta = ROOT.std.vector('float')()
-    MuTauFinalTauFilter_phi = ROOT.std.vector('float')()
-    MuTauFinalTauFilter_energy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("MuTauFinalTauFilter_pt", MuTauFinalTauFilter_pt)
-    tree.SetBranchAddress("MuTauFinalTauFilter_eta", MuTauFinalTauFilter_eta)
-    tree.SetBranchAddress("MuTauFinalTauFilter_phi", MuTauFinalTauFilter_phi)
-    tree.SetBranchAddress("MuTauFinalTauFilter_energy", MuTauFinalTauFilter_energy)
+  # HLT Filter Matching
+  # MuTau
+  MuTauFinalMuonFilter_pt = ROOT.std.vector('float')()
+  MuTauFinalMuonFilter_eta = ROOT.std.vector('float')()
+  MuTauFinalMuonFilter_phi = ROOT.std.vector('float')()
+  MuTauFinalMuonFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("MuTauFinalMuonFilter_pt", MuTauFinalMuonFilter_pt)
+  tree.SetBranchAddress("MuTauFinalMuonFilter_eta", MuTauFinalMuonFilter_eta)
+  tree.SetBranchAddress("MuTauFinalMuonFilter_phi", MuTauFinalMuonFilter_phi)
+  tree.SetBranchAddress("MuTauFinalMuonFilter_energy", MuTauFinalMuonFilter_energy)
+  MuTauFinalTauFilter_pt = ROOT.std.vector('float')()
+  MuTauFinalTauFilter_eta = ROOT.std.vector('float')()
+  MuTauFinalTauFilter_phi = ROOT.std.vector('float')()
+  MuTauFinalTauFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("MuTauFinalTauFilter_pt", MuTauFinalTauFilter_pt)
+  tree.SetBranchAddress("MuTauFinalTauFilter_eta", MuTauFinalTauFilter_eta)
+  tree.SetBranchAddress("MuTauFinalTauFilter_phi", MuTauFinalTauFilter_phi)
+  tree.SetBranchAddress("MuTauFinalTauFilter_energy", MuTauFinalTauFilter_energy)
 
-    # Single Mu
-    SingleMuAndLowerMuTauFinalFilter_pt = ROOT.std.vector('float')()
-    SingleMuAndLowerMuTauFinalFilter_eta = ROOT.std.vector('float')()
-    SingleMuAndLowerMuTauFinalFilter_phi = ROOT.std.vector('float')()
-    SingleMuAndLowerMuTauFinalFilter_energy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("SingleMuAndLowerMuTauFinalFilter_pt", SingleMuAndLowerMuTauFinalFilter_pt)
-    tree.SetBranchAddress("SingleMuAndLowerMuTauFinalFilter_eta", SingleMuAndLowerMuTauFinalFilter_eta)
-    tree.SetBranchAddress("SingleMuAndLowerMuTauFinalFilter_phi", SingleMuAndLowerMuTauFinalFilter_phi)
-    tree.SetBranchAddress("SingleMuAndLowerMuTauFinalFilter_energy", SingleMuAndLowerMuTauFinalFilter_energy)
+  # Single Mu
+  SingleMuAndLowerMuTauFinalFilter_pt = ROOT.std.vector('float')()
+  SingleMuAndLowerMuTauFinalFilter_eta = ROOT.std.vector('float')()
+  SingleMuAndLowerMuTauFinalFilter_phi = ROOT.std.vector('float')()
+  SingleMuAndLowerMuTauFinalFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("SingleMuAndLowerMuTauFinalFilter_pt", SingleMuAndLowerMuTauFinalFilter_pt)
+  tree.SetBranchAddress("SingleMuAndLowerMuTauFinalFilter_eta", SingleMuAndLowerMuTauFinalFilter_eta)
+  tree.SetBranchAddress("SingleMuAndLowerMuTauFinalFilter_phi", SingleMuAndLowerMuTauFinalFilter_phi)
+  tree.SetBranchAddress("SingleMuAndLowerMuTauFinalFilter_energy", SingleMuAndLowerMuTauFinalFilter_energy)
 
-    # VBF Mu
-    VBFMuonFinalMuonFilter_pt = ROOT.std.vector('float')()
-    VBFMuonFinalMuonFilter_eta = ROOT.std.vector('float')()
-    VBFMuonFinalMuonFilter_phi = ROOT.std.vector('float')()
-    VBFMuonFinalMuonFilter_energy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("VBFMuonFinalMuonFilter_pt", VBFMuonFinalMuonFilter_pt)
-    tree.SetBranchAddress("VBFMuonFinalMuonFilter_eta", VBFMuonFinalMuonFilter_eta)
-    tree.SetBranchAddress("VBFMuonFinalMuonFilter_phi", VBFMuonFinalMuonFilter_phi)
-    tree.SetBranchAddress("VBFMuonFinalMuonFilter_energy", VBFMuonFinalMuonFilter_energy)
+  # VBF Mu
+  VBFMuonFinalMuonFilter_pt = ROOT.std.vector('float')()
+  VBFMuonFinalMuonFilter_eta = ROOT.std.vector('float')()
+  VBFMuonFinalMuonFilter_phi = ROOT.std.vector('float')()
+  VBFMuonFinalMuonFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBFMuonFinalMuonFilter_pt", VBFMuonFinalMuonFilter_pt)
+  tree.SetBranchAddress("VBFMuonFinalMuonFilter_eta", VBFMuonFinalMuonFilter_eta)
+  tree.SetBranchAddress("VBFMuonFinalMuonFilter_phi", VBFMuonFinalMuonFilter_phi)
+  tree.SetBranchAddress("VBFMuonFinalMuonFilter_energy", VBFMuonFinalMuonFilter_energy)
 
-    VBFMuonFinalJetFilter_pt = ROOT.std.vector('float')()
-    VBFMuonFinalJetFilter_eta = ROOT.std.vector('float')()
-    VBFMuonFinalJetFilter_phi = ROOT.std.vector('float')()
-    VBFMuonFinalJetFilter_energy = ROOT.std.vector('float')()
-    tree.SetBranchAddress("VBFMuonFinalJetFilter_pt", VBFMuonFinalJetFilter_pt)
-    tree.SetBranchAddress("VBFMuonFinalJetFilter_eta", VBFMuonFinalJetFilter_eta)
-    tree.SetBranchAddress("VBFMuonFinalJetFilter_phi", VBFMuonFinalJetFilter_phi)
-    tree.SetBranchAddress("VBFMuonFinalJetFilter_energy", VBFMuonFinalJetFilter_energy)
+  VBFMuonFinalJetFilter_pt = ROOT.std.vector('float')()
+  VBFMuonFinalJetFilter_eta = ROOT.std.vector('float')()
+  VBFMuonFinalJetFilter_phi = ROOT.std.vector('float')()
+  VBFMuonFinalJetFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBFMuonFinalJetFilter_pt", VBFMuonFinalJetFilter_pt)
+  tree.SetBranchAddress("VBFMuonFinalJetFilter_eta", VBFMuonFinalJetFilter_eta)
+  tree.SetBranchAddress("VBFMuonFinalJetFilter_phi", VBFMuonFinalJetFilter_phi)
+  tree.SetBranchAddress("VBFMuonFinalJetFilter_energy", VBFMuonFinalJetFilter_energy)
+
+  # VBF Single Tau
+  VBFSingleTauFinalTauFilter_pt = ROOT.std.vector('float')()
+  VBFSingleTauFinalTauFilter_eta = ROOT.std.vector('float')()
+  VBFSingleTauFinalTauFilter_phi = ROOT.std.vector('float')()
+  VBFSingleTauFinalTauFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBF1DTSingleTauFinalFilter_pt", VBFSingleTauFinalTauFilter_pt)
+  tree.SetBranchAddress("VBF1DTSingleTauFinalFilter_eta", VBFSingleTauFinalTauFilter_eta)
+  tree.SetBranchAddress("VBF1DTSingleTauFinalFilter_phi", VBFSingleTauFinalTauFilter_phi)
+  tree.SetBranchAddress("VBF1DTSingleTauFinalFilter_energy", VBFSingleTauFinalTauFilter_energy)
   
-    # HLT Final Decisions
-    passMuTauHLT = array('i', [0])
-    tree.SetBranchAddress("passMuTauHLT", passMuTauHLT)
+  VBFSingleTauFinalJetFilter_pt = ROOT.std.vector('float')()
+  VBFSingleTauFinalJetFilter_eta = ROOT.std.vector('float')()
+  VBFSingleTauFinalJetFilter_phi = ROOT.std.vector('float')()
+  VBFSingleTauFinalJetFilter_energy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_pt", VBFSingleTauFinalJetFilter_pt)
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_eta", VBFSingleTauFinalJetFilter_eta)
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_phi", VBFSingleTauFinalJetFilter_phi)
+  tree.SetBranchAddress("VBF1DTDoubleJetFinalFilter_CorrChecker_energy", VBFSingleTauFinalJetFilter_energy)
+  
+  # HLT Final Decisions
+  passMuTauHLT = array('i', [0])
+  tree.SetBranchAddress("passMuTauHLT", passMuTauHLT)
 
-    passIsoMu24eta2p1HLT = array('i', [0])
-    tree.SetBranchAddress("passIsoMu24eta2p1HLT", passIsoMu24eta2p1HLT)
+  passIsoMu24eta2p1HLT = array('i', [0])
+  tree.SetBranchAddress("passIsoMu24eta2p1HLT", passIsoMu24eta2p1HLT)
 
-    passVBFMuonHLT = array('i', [0])
-    tree.SetBranchAddress("passVBFMuonHLT", passVBFMuonHLT)
+  passVBFMuonHLT = array('i', [0])
+  tree.SetBranchAddress("passVBFMuonHLT", passVBFMuonHLT)
+
+  passVBFSingleTauHLT = array('i', [0])
+  tree.SetBranchAddress("passVBF1DTHLT_CorrChecker", passVBFSingleTauHLT)
 
   # Offline kinems
   if (notRateStudy):
@@ -259,12 +212,14 @@ if __name__ == "__main__":
 
 
   TallyVBFMuOff = 0
+  TallyVBFSingleTauOff = 0
   TallyMuTauOff = 0
   TallySingleMuOff = 0
   TallyVBFMuORMuTauOff = 0
   TallyVBFMuORSingleMuOff = 0
   TallyMuTauORSingleMuOff = 0
   TallyTripleOROff = 0
+  TallyQuadOROff = 0
 
   Off_Tallies = ["","","","","","","","",""]
 
@@ -294,10 +249,6 @@ if __name__ == "__main__":
 
     if basicReqs:
       viableEventCounter += 1
-      # make and fill containers with TLorentzVectors
-      # we will match the offline to the L1s, so it is redudant to cut on both
-      # subsequently, we make cuts on the tighter (offline) set to begin with
-      # we wait until after objects are matched to cut on pt/mjj
 
       JetEtaToPass = 4.7
       PassJetID =  [i for i in range(len(OffJetID)) if OffJetID[i] >= 2]
@@ -357,12 +308,10 @@ if __name__ == "__main__":
       if (sizeOffJets < 2): continue
 
       # skip the event if the tau and electron are overlapped
-      if (ROOT.TLorentzVector.DeltaR(OffMus[0], OffTaus[0]) < 0.5): 
-        continue
+      if (ROOT.TLorentzVector.DeltaR(OffMus[0], OffTaus[0]) < 0.5): continue
 
       # skip the event if the tau and electron have the same charge
-      if (OffMuCh[OffMusPassFilter[0]] == OffTauCh[OffTausPassFilter[0]]):
-        continue
+      if (OffMuCh[OffMusPassFilter[0]] == OffTauCh[OffTausPassFilter[0]]): continue
 
       # assign Offline objects
       OffTau = OffTaus[0] # consider selecting tau based on isolation, not pt
@@ -372,47 +321,47 @@ if __name__ == "__main__":
       OffJet2 = OffJets[OffJet2Index]
       if (ROOT.TLorentzVector.DeltaR(OffJet1, OffJet2) < 0.5): continue
 
-
+      # Matching
       # MuTau HLT Matching
       MuTauHLTMuons = fillWithTVecs(MuTauFinalMuonFilter_pt, MuTauFinalMuonFilter_eta,
                                     MuTauFinalMuonFilter_phi, MuTauFinalMuonFilter_energy)
-      sizeMuTauHLTMuons = len(MuTauHLTMuons)
-      matchMuTauHLTOffMuons = [i for i in range(sizeMuTauHLTMuons)
-                            if ROOT.TLorentzVector.DeltaR(OffMu, MuTauHLTMuons[i]) < 0.5]
+      matchMuTauHLTMuon = matchHLTOff(MuTauHLTMuons, OffMu)
 
       MuTauHLTTaus = fillWithTVecs(MuTauFinalTauFilter_pt, MuTauFinalTauFilter_eta,
                                     MuTauFinalTauFilter_phi, MuTauFinalTauFilter_energy)
-      sizeMuTauHLTTaus = len(MuTauHLTTaus)
-      matchMuTauHLTOffTaus = [i for i in range(sizeMuTauHLTTaus)
-                            if ROOT.TLorentzVector.DeltaR(OffMu, MuTauHLTTaus[i]) < 0.5]
-      passMuTauHLTOffMatching = False
-      if ( (len(matchMuTauHLTOffMuons) > 0) and (len(matchMuTauHLTOffTaus) > 0) ): passMuTauHLTOffMatching = True 
+      matchMuTauHLTTau = matchHLTOff(MuTauHLTTaus, OffTau)
+
+      passMuTauHLTOffMatching = matchMuTauHLTMuon and matchMuTauHLTTau
 
       # Single Mu HLT Matching
       SingleMuHLTMuons = fillWithTVecs(SingleMuAndLowerMuTauFinalFilter_pt, SingleMuAndLowerMuTauFinalFilter_eta,
                         SingleMuAndLowerMuTauFinalFilter_phi, SingleMuAndLowerMuTauFinalFilter_energy)
-      sizeSingleMuHLTMuons = len(SingleMuHLTMuons)
-      matchSingleMuHLTMuons = [i for i in range(sizeSingleMuHLTMuons)
-                            if ROOT.TLorentzVector.DeltaR(OffMu, SingleMuHLTMuons[i]) < 0.5]
-      passSingleMuHLTOffMatching = False
-      if ( len(matchSingleMuHLTMuons) > 0): passSingleMuHLTOffMatching = True
+      passSingleMuHLTOffMatching = matchHLTOff(SingleMuHLTMuons, OffMu)
 
       # VBF Mu HLT Matching 
       VBFMuHLTMuons = fillWithTVecs(VBFMuonFinalMuonFilter_pt, VBFMuonFinalMuonFilter_eta,
                                     VBFMuonFinalMuonFilter_phi, VBFMuonFinalMuonFilter_energy)
-      sizeVBFMuHLTMuons = len(VBFMuHLTMuons)
-      matchVBFMuHLTMuons = [i for i in range(sizeVBFMuHLTMuons)
-                         if ROOT.TLorentzVector.DeltaR(OffMu, VBFMuHLTMuons[i]) < 0.5]
+      matchVBFMuHLTMuon = matchHLTOff(VBFMuHLTMuons, OffMu)
 
       VBFMuHLTJets = fillWithTVecs(VBFMuonFinalJetFilter_pt, VBFMuonFinalJetFilter_eta,
                                    VBFMuonFinalJetFilter_phi, VBFMuonFinalJetFilter_energy)
-      sizeVBFMuHLTJets = len(VBFMuHLTJets)
-      matchVBFMuHLTJet1 = [i for i in range(sizeVBFMuHLTJets)
-                        if ROOT.TLorentzVector.DeltaR(OffJet1, VBFMuHLTJets[i]) < 0.5]
-      matchVBFMuHLTJet2 = [i for i in range(sizeVBFMuHLTJets)
-                        if ROOT.TLorentzVector.DeltaR(OffJet2, VBFMuHLTJets[i]) < 0.5]
-      passVBFMuHLTOffMatching = False
-      if ( (len(matchVBFMuHLTMuons) > 0) and (len(matchVBFMuHLTJet1) > 0) and (len(matchVBFMuHLTJet2) > 0)): passVBFMuHLTOffMatching = True
+      matchVBFMuHLTJet1 = matchHLTOff(VBFMuHLTJets, OffJet1)
+      matchVBFMuHLTJet2 = matchHLTOff(VBFMuHLTJets, OffJet2)
+
+      passVBFMuHLTOffMatching = matchVBFMuHLTMuon and matchVBFMuHLTJet1 and matchVBFMuHLTJet2
+
+      # VBF Single Tau HLT Matching
+      VBFSingleTauHLTIsoTau = fillWithTVecs(VBFSingleTauFinalTauFilter_pt, VBFSingleTauFinalTauFilter_eta,
+                                            VBFSingleTauFinalTauFilter_phi, VBFSingleTauFinalTauFilter_energy)
+      matchVBFSingleTauHLTIsoTau = matchHLTOff(VBFSingleTauHLTIsoTau, OffTau)
+
+      VBFSingleTauHLTJets = fillWithTVecs(VBFSingleTauFinalJetFilter_pt, VBFSingleTauFinalJetFilter_eta,
+                                   VBFSingleTauFinalJetFilter_phi, VBFSingleTauFinalJetFilter_energy)
+      matchVBFSingleTauHLTJet1 = matchHLTOff(VBFSingleTauHLTJets, OffJet1)
+      matchVBFSingleTauHLTJet2 = matchHLTOff(VBFSingleTauHLTJets, OffJet2)
+
+      passVBFSingleTauHLTOffMatching = (matchVBFSingleTauHLTIsoTau and matchVBFSingleTauHLTJet1 and matchVBFSingleTauHLTJet2)
+
       # end matching
 
       passMuTauOffCuts = False
@@ -424,7 +373,6 @@ if __name__ == "__main__":
 
       passSingleMuOffCuts = (passMuTauOffCuts and OffMu.Pt() >= 25)
 
-      # TODO: open and look at VBFMuon path (need screenshot and module level cuts)
       passVBFMuOffCuts = False
       if (OffJet1.Pt()  >= 85 
        and OffJet2.Pt() >= 35
@@ -432,22 +380,25 @@ if __name__ == "__main__":
        and OffTau.Pt()  >= 30
        and OffMu.Pt()  >= 4): passVBFMuOffCuts = True
 
+      passVBFSingleTauOffCuts = False
+      if (OffJet1.Pt()  >= 45
+       and OffJet2.Pt() >= 45
+       and OffMjj       >= 600
+       and OffTau.Pt()  >= 50
+       and OffMu.Pt()   >= 5): passVBFSingleTauOffCuts = True
+
 
       # now tally it up
       GoodMuTau = passMuTauHLTOffMatching and passMuTauOffCuts and passMuTauHLT[0]
       #GoodSingleMu = passSingleMuHLTOffMatching and passSingleMuOffCuts and passIsoMu24eta2p1HLT[0]
       GoodSingleMu = passSingleMuOffCuts and passIsoMu24eta2p1HLT[0]
-      #print(passSingleMuHLTOffMatching, passSingleMuOffCuts, passIsoMu24eta2p1HLT[0])
       GoodVBFMu = passVBFMuHLTOffMatching and passVBFMuOffCuts and passVBFMuonHLT[0]
+      GoodVBFSingleTau = passVBFSingleTauHLTOffMatching and passVBFSingleTauOffCuts and passVBFSingleTauHLT[0]
 
-      #outPassMuTauOff[0] = GoodMuTau
-      #outPassSingleMuOff[0] = GoodSingleMu
-      #outPassVBFMuTauOff[0] = GoodVBFMu
-
-      outtree.Fill()
 
       # enough to calculate impact of VBF Mu, MuTau and SingleMu will be main overlap at analysis
       if (GoodVBFMu): TallyVBFMuOff += 1
+      if (GoodVBFSingleTau): TallyVBFSingleTauOff += 1
       if (GoodMuTau): TallyMuTauOff += 1
       if (GoodSingleMu): TallySingleMuOff += 1
 
@@ -456,30 +407,30 @@ if __name__ == "__main__":
       if (GoodMuTau or GoodSingleMu): TallyMuTauORSingleMuOff += 1
 
       if (GoodVBFMu or GoodMuTau or GoodSingleMu): TallyTripleOROff += 1
+      if (GoodVBFMu or GoodVBFSingleTau or GoodMuTau or GoodSingleMu): TallyQuadOROff += 1
 
-      Off_Tallies = [TallyVBFMuOff, TallyMuTauOff, TallySingleMuOff, \
-                     TallyVBFMuORMuTauOff, TallyVBFMuORSingleMuOff, TallyMuTauORSingleMuOff, \
-                     TallyTripleOROff, TallyTripleOROff - TallyMuTauORSingleMuOff]
+      Off_Tallies = [TallyVBFMuOff, TallyMuTauOff, TallySingleMuOff, TallyVBFSingleTauOff,
+                     TallyVBFMuORMuTauOff, TallyVBFMuORSingleMuOff, TallyMuTauORSingleMuOff, 
+                     TallyTripleOROff, TallyQuadOROff]
 
   # print output
-  print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
-
   print("-"*40)
+  print(f"nViableEvents: {viableEventCounter}")
+
   if (notRateStudy):
-    labels = ["VBF+Mu", "MuTau", "SingleMu", \
-              "VBFMuORMuTau", "VBFMuORSingleMu", "MuTauORSingleMu", \
-              "TripleOR", "UniqueVBFMu"]
+    labels = ["VBF+Mu (1)", "MuTau (2)", "SingleMu(3)", "VBF1Tau(*)",
+              "1OR2", "1OR3", "2OR3", 
+              "TripleOR", "QuadOR"]
     for index, label in enumerate(labels):
-      print(f"{label:19}, {Off_Tallies[index]:7}")
+      print(f"{label:17}, {Off_Tallies[index]:7}")
 
   if (rateStudy):
-    labels = ["VBF+Mu", "VBFDiJetOR", "VBFIsoTau", "DummyEGL1", \
+    labels = ["VBF+Mu", "VBFDiJetOR", "VBFIsoTau", "DummyEGL1", 
               "VBFDiJetORVBFDiTau", "NotVBFEG", "VBFTripleOR", "QuadOR", "UniqueVBFMu"]
     for index, label in enumerate(labels):
       print(f"{label:19}, {L1_Tallies[index]:7}")
 
     uniqueL1VBFEG = L1_Tallies[-1]
-    # print rate info and unpure/pure rate
     lumiScaling = 2. / rateDictionary[rateStudyString]["approxLumi"]
     rate_factor = rateDictionary[rateStudyString]["nBunches"] * 11245.6 * lumiScaling
     if (viableEventCounter <= 0):
@@ -491,6 +442,4 @@ if __name__ == "__main__":
       print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
       print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
 
-  outtree.Write()
-  outFile.Close()
 

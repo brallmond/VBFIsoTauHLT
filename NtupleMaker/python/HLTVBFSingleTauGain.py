@@ -1,7 +1,7 @@
 # Braden Allmond, August 10th 2022, KSU
 
 from array import array
-from L1VBFEle_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair, print_formatted_labels_and_values, matchHLTOff
+from helper_functions import match_L1_to_Offline, match_Offline_to_L1, fillWithTVecs, fillWithTVecsNoEnergyBranch, highestMjjPair, print_formatted_labels_and_values, matchHLTOff
 from rateDictionary import rateDictionary
 import ROOT
 import argparse
@@ -58,7 +58,6 @@ if __name__ == "__main__":
   minLS = rateDictionary[rateStudyString]["minLS"]
   maxLS = rateDictionary[rateStudyString]["maxLS"]
   badLS = rateDictionary[rateStudyString]["badLS"]
-  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}], Bad LS = {badLS}")
 
   # L1
   passL1VBFDiJetIsoTau = array('i', [0])
@@ -97,17 +96,6 @@ if __name__ == "__main__":
   tree.SetBranchAddress("passhltL1sDoubleTauBigOR", passL1DiTau)
   L1DiTau_pt = ROOT.std.vector('float')()
   tree.SetBranchAddress("hltL1sDoubleTauBigOR_pt", L1DiTau_pt)
-
-  # HLT final decisions
-  passVBFDiTauHLT = array('i', [0])
-  tree.SetBranchAddress("passVBF2DTHLT", passVBFDiTauHLT)
-  passVBFSingleTauHLT = array('i', [0])
-  tree.SetBranchAddress("passVBF1DTHLT_CorrChecker", passVBFSingleTauHLT)
-  passInclusiveVBFHLT = array('i', [0])
-  tree.SetBranchAddress("passDeepInclusiveVBFHLT", passInclusiveVBFHLT)
-  passDiTauHLT = array('i', [0])
-  tree.SetBranchAddress("passDeepDiTau35HLT", passDiTauHLT)
-
 
   # VBFDiTau HLT
   VBFDiTauFinalJetFilter_pt = ROOT.std.vector('float')()
@@ -193,6 +181,19 @@ if __name__ == "__main__":
   tree.SetBranchAddress("DiTauFinalFilter_eta", DiTauFinalFilter_eta)
   tree.SetBranchAddress("DiTauFinalFilter_phi", DiTauFinalFilter_phi)
   tree.SetBranchAddress("DiTauFinalFilter_energy", DiTauFinalFilter_energy)
+
+  # HLT final decisions
+  passVBFDiTauHLT = array('i', [0])
+  tree.SetBranchAddress("passVBF2DTHLT", passVBFDiTauHLT)
+
+  passVBFSingleTauHLT = array('i', [0])
+  tree.SetBranchAddress("passVBF1DTHLT_CorrChecker", passVBFSingleTauHLT)
+
+  passInclusiveVBFHLT = array('i', [0])
+  tree.SetBranchAddress("passDeepInclusiveVBFHLT", passInclusiveVBFHLT)
+
+  passDiTauHLT = array('i', [0])
+  tree.SetBranchAddress("passDeepDiTau35HLT", passDiTauHLT)
 
 
   # Offline kinems
@@ -472,7 +473,8 @@ if __name__ == "__main__":
 
 
   # print output
-  print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
+  print("-"*40)
+  print(f"nViableEvents: {viableEventCounter}")
 
   if (rateStudy):
     # HLT Single Counts
@@ -492,7 +494,6 @@ if __name__ == "__main__":
               "TripleOR", "QuadOR"]
     header = ["Label", "HLT", "Offline"]
     print(f"{header[0]:17}, {header[1]:7}, {header[2]:7}")
-    print("-"*40)
     for index, label in enumerate(labels):
       print(f"{label:17}, {HLT_Tallies[index]:7}, {Off_Tallies[index]:7}")
 
