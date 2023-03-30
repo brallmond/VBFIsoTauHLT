@@ -58,7 +58,6 @@ if __name__ == "__main__":
   minLS = rateDictionary[rateStudyString]["minLS"]
   maxLS = rateDictionary[rateStudyString]["maxLS"]
   badLS = rateDictionary[rateStudyString]["badLS"]
-  print(f"Looking at run = {goodRunNumber}, LS Range [{minLS}, {maxLS}], Bad LS = {badLS}")
 
   # L1
   passL1VBFDiJetIsoTau = array('i', [0])
