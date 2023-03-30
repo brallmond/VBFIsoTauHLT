@@ -98,17 +98,6 @@ if __name__ == "__main__":
   L1DiTau_pt = ROOT.std.vector('float')()
   tree.SetBranchAddress("hltL1sDoubleTauBigOR_pt", L1DiTau_pt)
 
-  # HLT final decisions
-  passVBFDiTauHLT = array('i', [0])
-  tree.SetBranchAddress("passVBF2DTHLT", passVBFDiTauHLT)
-  passVBFSingleTauHLT = array('i', [0])
-  tree.SetBranchAddress("passVBF1DTHLT_CorrChecker", passVBFSingleTauHLT)
-  passInclusiveVBFHLT = array('i', [0])
-  tree.SetBranchAddress("passDeepInclusiveVBFHLT", passInclusiveVBFHLT)
-  passDiTauHLT = array('i', [0])
-  tree.SetBranchAddress("passDeepDiTau35HLT", passDiTauHLT)
-
-
   # VBFDiTau HLT
   VBFDiTauFinalJetFilter_pt = ROOT.std.vector('float')()
   VBFDiTauFinalJetFilter_eta = ROOT.std.vector('float')()
@@ -193,6 +182,19 @@ if __name__ == "__main__":
   tree.SetBranchAddress("DiTauFinalFilter_eta", DiTauFinalFilter_eta)
   tree.SetBranchAddress("DiTauFinalFilter_phi", DiTauFinalFilter_phi)
   tree.SetBranchAddress("DiTauFinalFilter_energy", DiTauFinalFilter_energy)
+
+  # HLT final decisions
+  passVBFDiTauHLT = array('i', [0])
+  tree.SetBranchAddress("passVBF2DTHLT", passVBFDiTauHLT)
+
+  passVBFSingleTauHLT = array('i', [0])
+  tree.SetBranchAddress("passVBF1DTHLT_CorrChecker", passVBFSingleTauHLT)
+
+  passInclusiveVBFHLT = array('i', [0])
+  tree.SetBranchAddress("passDeepInclusiveVBFHLT", passInclusiveVBFHLT)
+
+  passDiTauHLT = array('i', [0])
+  tree.SetBranchAddress("passDeepDiTau35HLT", passDiTauHLT)
 
 
   # Offline kinems
