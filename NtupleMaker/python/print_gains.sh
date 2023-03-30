@@ -1,0 +1,6 @@
+SAMPLE=$1
+OUTFILE=$2
+
+python3 HLTVBFSingleTauGain.py -i $SAMPLE -r NOTRATE >> $OUTFILE
+python3 HLTVBFMuGain.py -i $SAMPLE -r NOTRATE >> $OUTFILE
+python3 HLTVBFEleGain.py -i $SAMPLE -r NOTRATE >> $OUTFILE

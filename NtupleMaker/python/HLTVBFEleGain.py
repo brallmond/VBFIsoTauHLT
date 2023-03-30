@@ -434,9 +434,9 @@ if __name__ == "__main__":
                      TallyTripleOROff, TallyQuadOROff]
 
   # print output
-  print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
-
   print("-"*40)
+  print(f"nViableEvents: {viableEventCounter}")
+
   if (notRateStudy):
     labels = ["VBF+Ele (1)", "EleTau (2)", "SingleEle (3)", "VBF1Tau (*)",
               "1OR2", "1OR3", "2OR3",

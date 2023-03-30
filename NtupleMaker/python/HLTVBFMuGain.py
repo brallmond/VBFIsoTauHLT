@@ -414,15 +414,15 @@ if __name__ == "__main__":
                      TallyTripleOROff, TallyQuadOROff]
 
   # print output
-  print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
-
   print("-"*40)
+  print(f"nViableEvents: {viableEventCounter}")
+
   if (notRateStudy):
     labels = ["VBF+Mu (1)", "MuTau (2)", "SingleMu(3)", "VBF1Tau(*)",
               "1OR2", "1OR3", "2OR3", 
               "TripleOR", "QuadOR"]
     for index, label in enumerate(labels):
-      print(f"{label:19}, {Off_Tallies[index]:7}")
+      print(f"{label:17}, {Off_Tallies[index]:7}")
 
   if (rateStudy):
     labels = ["VBF+Mu", "VBFDiJetOR", "VBFIsoTau", "DummyEGL1", 

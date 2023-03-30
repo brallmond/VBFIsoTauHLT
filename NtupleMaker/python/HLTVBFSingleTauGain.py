@@ -473,7 +473,8 @@ if __name__ == "__main__":
 
 
   # print output
-  print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
+  print("-"*40)
+  print(f"nViableEvents: {viableEventCounter}")
 
   if (rateStudy):
     # HLT Single Counts
@@ -493,7 +494,6 @@ if __name__ == "__main__":
               "TripleOR", "QuadOR"]
     header = ["Label", "HLT", "Offline"]
     print(f"{header[0]:17}, {header[1]:7}, {header[2]:7}")
-    print("-"*40)
     for index, label in enumerate(labels):
       print(f"{label:17}, {HLT_Tallies[index]:7}, {Off_Tallies[index]:7}")
 
