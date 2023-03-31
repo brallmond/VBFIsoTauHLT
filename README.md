@@ -2,14 +2,7 @@ To download this repo
 `git clone https://github.com/brallmond/VBFIsoTauHLT.git`
 
 
-If you need a newer CMSSW release than 12_4_0, use [this twiki](https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideGlobalHLT)
-
-
-These three repos were used in the past for various activities (see `NtupleMaker/notes/CorrectionFiles` directory)
-
-`git cms-addpkg HLTrigger/Configuration`
-
-`git cms-addpkg RecoTauTag/HLTProducers`
+For any questions about HLT confs in CMSSW use [this twiki](https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideGlobalHLT)
 
 ## use an edited L1 menu with conf file
 In /src/ do the following
@@ -20,13 +13,15 @@ In /src/ do the following
 
 `cp <L1 Menu> L1Trigger/L1TGlobal/data/Luminosity/startup`
 
+## modify HLT module behavio locally and in crab jobs
+Sometimes packages need to be added so HLT modules can be modified. These are the most common that I've needed to add.
 
+`git cms-addpkg HLTrigger/Configuration`
 
-Build everything by running the following command in src.
-`scram b -j 8`
+`git cms-addpkg RecoTauTag/HLTProducers`
+
 
 # Timing #
-
 If you need to run timing and customize it, download this repo
 
 `git clone --recursive https://gitlab.cern.ch/cms-tsg/steam/timing.git`

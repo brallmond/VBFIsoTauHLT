@@ -1,0 +1,144 @@
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_F_2022_updated_conf_EZB0_2022FL1_VBF_DoubleJets30_Mass_Min300_LooseIsoEG10.root
+Looking at run = 361468, LS Range [148, 292]
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 650884[0m
+########################################
+VBF+Ele    : VBF+IsoTau : VBF Inc    : L1 EGs    
+160        : 62         : 28         : 9946      
+########################################
+VBF Inc OR IsoTau    : Any Except L1VBFEG   : Any L1               : Unique L1VBFEG      
+75                   : 10003                : 10076                : 73                  
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 46.0105360388801 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 7361.685766220816,  PURE rate = 3358.7691308382473
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_F_2022_updated_conf_EZB2_2022FL1_VBF_DoubleJets30_Mass_Min300_LooseIsoEG10.root
+Looking at run = 361468, LS Range [148, 292]
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 679341[0m
+########################################
+VBF+Ele    : VBF+IsoTau : VBF Inc    : L1 EGs    
+186        : 76         : 34         : 10500     
+########################################
+VBF Inc OR IsoTau    : Any Except L1VBFEG   : Any L1               : Unique L1VBFEG      
+92                   : 10563                : 10646                : 83                  
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 44.083194947942836 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 8199.474260317367,  PURE rate = 3658.9051806792554
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_F_2022_updated_conf_EZB4_2022FL1_VBF_DoubleJets30_Mass_Min300_LooseIsoEG10.root
+Looking at run = 361468, LS Range [148, 292]
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 664419[0m
+########################################
+VBF+Ele    : VBF+IsoTau : VBF Inc    : L1 EGs    
+180        : 73         : 37         : 10133     
+########################################
+VBF Inc OR IsoTau    : Any Except L1VBFEG   : Any L1               : Unique L1VBFEG      
+92                   : 10196                : 10275                : 79                  
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 45.07324706116236 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 8113.1844710092255,  PURE rate = 3560.7865178318266
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_F_2022_updated_conf_EZB6_2022FL1_VBF_DoubleJets30_Mass_Min300_LooseIsoEG10.root
+Looking at run = 361468, LS Range [148, 292]
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 674594[0m
+########################################
+VBF+Ele    : VBF+IsoTau : VBF Inc    : L1 EGs    
+178        : 76         : 29         : 10271     
+########################################
+VBF Inc OR IsoTau    : Any Except L1VBFEG   : Any L1               : Unique L1VBFEG      
+89                   : 10331                : 10414                : 83                  
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 44.39340068119555 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 7902.025321252808,  PURE rate = 3684.6522565392306
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_F_2022_updated_conf_EZB8_2022FL1_VBF_DoubleJets30_Mass_Min300_LooseIsoEG10.root
+Looking at run = 361468, LS Range [148, 292]
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 646709[0m
+########################################
+VBF+Ele    : VBF+IsoTau : VBF Inc    : L1 EGs    
+183        : 74         : 35         : 10017     
+########################################
+VBF Inc OR IsoTau    : Any Except L1VBFEG   : Any L1               : Unique L1VBFEG      
+89                   : 10087                : 10179                : 92                  
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 46.30756915263346 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 8474.285154931924,  PURE rate = 4260.296362042279
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_F_2022_updated_conf_EZB1_2022FL1_VBF_DoubleJets30_Mass_Min300_LooseIsoEG10.root
+Looking at run = 361468, LS Range [148, 292]
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 655040[0m
+########################################
+VBF+Ele    : VBF+IsoTau : VBF Inc    : L1 EGs    
+179        : 79         : 32         : 9990      
+########################################
+VBF Inc OR IsoTau    : Any Except L1VBFEG   : Any L1               : Unique L1VBFEG      
+98                   : 10069                : 10161                : 92                  
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 45.71861525880929 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 8183.632131326863,  PURE rate = 4206.112603810454
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_F_2022_updated_conf_EZB3_2022FL1_VBF_DoubleJets30_Mass_Min300_LooseIsoEG10.root
+Looking at run = 361468, LS Range [148, 292]
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 674261[0m
+########################################
+VBF+Ele    : VBF+IsoTau : VBF Inc    : L1 EGs    
+206        : 68         : 34         : 10261     
+########################################
+VBF Inc OR IsoTau    : Any Except L1VBFEG   : Any L1               : Unique L1VBFEG      
+90                   : 10319                : 10412                : 93                  
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 44.41532542907039 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 9149.5570383885,  PURE rate = 4130.625264903547
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_F_2022_updated_conf_EZB5_2022FL1_VBF_DoubleJets30_Mass_Min300_LooseIsoEG10.root
+Looking at run = 361468, LS Range [148, 292]
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 584547[0m
+########################################
+VBF+Ele    : VBF+IsoTau : VBF Inc    : L1 EGs    
+149        : 74         : 34         : 8995      
+########################################
+VBF Inc OR IsoTau    : Any Except L1VBFEG   : Any L1               : Unique L1VBFEG      
+91                   : 9062                 : 9136                 : 74                  
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 51.232016825217535 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 7633.570506957412,  PURE rate = 3791.1692450660976
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_F_2022_updated_conf_EZB7_2022FL1_VBF_DoubleJets30_Mass_Min300_LooseIsoEG10.root
+Looking at run = 361468, LS Range [148, 292]
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 649884[0m
+########################################
+VBF+Ele    : VBF+IsoTau : VBF Inc    : L1 EGs    
+194        : 71         : 27         : 10077     
+########################################
+VBF Inc OR IsoTau    : Any Except L1VBFEG   : Any L1               : Unique L1VBFEG      
+84                   : 10132                : 10225                : 93                  
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 46.081334113673265 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 8939.778818052613,  PURE rate = 4285.564072571614

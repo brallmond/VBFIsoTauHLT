@@ -1,0 +1,20 @@
+[31mThis IS a rate study. L1IndexToTest has been set to zero ![0m
+L1 Cuts: [jets, mjj, elePt]  [30, 300, 10]
+Total counts for L1DiJetOR35_EZB_E_2022_EZB7_2022EL1_VBF_DoubleJets30_Mass_Min300_IsoEG10.root
+Looking at run = 359871, LS Range [35, 59], Bad LS = []
+Off Cuts: [jets, mjj, elePt, tauPt]  [45, 400, 13, 30]
+[42mnViableEvents: 36866[0m
+----------------------------------------
+VBF+Ele            ,      15
+VBFDiJetOR         ,       5
+VBFIsoTau          ,       1
+DummyEGL1          ,     617
+VBFDiJetORVBFDiTau ,       6
+NotVBFEG           ,     623
+VBFTripleOR        ,      19
+QuadOR             ,     629
+UniqueVBFEle       ,       6
+########################################
+Rate Factor = nBunches * 11245.6 Hz * (Target Lumi / Avg. LS Lumi) / nEventsProcessed
+Rate Factor = 811.6713172736042 Hz / Event : Rate = rate_factor * nEventsPassingCriteria
+UNpure rate = 12175.069759104064,  PURE rate = 4870.027903641625
