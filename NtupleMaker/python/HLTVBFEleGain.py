@@ -365,7 +365,7 @@ if __name__ == "__main__":
       matchVBFEleHLTJet1 = matchHLTOff(VBFEleHLTJets, OffJet1)
       matchVBFEleHLTJet2 = matchHLTOff(VBFEleHLTJets, OffJet2)
 
-      passVBFEleHLTOffMatch = matchVBFEleHLTEle and matchVBFEleHLTJet1 and matchVBFEleHLTJet2
+      passVBFEleHLTOffMatching = matchVBFEleHLTEle and matchVBFEleHLTJet1 and matchVBFEleHLTJet2
 
       # VBF Single Tau HLT Matching
       VBFSingleTauHLTIsoTau = fillWithTVecs(VBFSingleTauFinalTauFilter_pt, VBFSingleTauFinalTauFilter_eta,
@@ -407,13 +407,12 @@ if __name__ == "__main__":
        and OffJet2.Pt() >= 45
        and OffMjj       >= 600
        and OffTau.Pt()  >= 50
-       and OffEle.Pt()   >= 5): passVBFSingleTauOffCuts = True
+       and OffEle.Pt()   >= 13): passVBFSingleTauOffCuts = True
 
       # now tally it up
       GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts and passEleTauHLT[0]
       GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts and passSingleEleHLT[0]
-      #GoodVBFEle = passVBFEleHLTOffMatching and passVBFEleOffCuts and passVBFEleHLT[0]
-      GoodVBFEle = passVBFEleOffCuts and passVBFEleHLT[0]
+      GoodVBFEle = passVBFEleHLTOffMatching and passVBFEleOffCuts and passVBFEleHLT[0]
       GoodVBFSingleTau = passVBFSingleTauHLTOffMatching and passVBFSingleTauOffCuts and passVBFSingleTauHLT[0]
 
       # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis

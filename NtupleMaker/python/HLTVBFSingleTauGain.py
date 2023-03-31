@@ -106,7 +106,10 @@ if __name__ == "__main__":
   tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_eta", VBFDiTauFinalJetFilter_eta)
   tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_phi", VBFDiTauFinalJetFilter_phi) 
   tree.SetBranchAddress("VBF2DTDoubleJetFinalFilter_energy", VBFDiTauFinalJetFilter_energy)
-  # ERROR these branches are not filled in the sample
+
+  # FIXME these branches are not filled in the sample
+  # it's possible i fixed this, but after i submitted the jobs
+  # in any case, this is very minor since it's matching for the softer tau
   VBFDiTauFinalTauFilter_pt = ROOT.std.vector('float')()
   VBFDiTauFinalTauFilter_eta = ROOT.std.vector('float')()
   VBFDiTauFinalTauFilter_phi = ROOT.std.vector('float')()
@@ -115,7 +118,7 @@ if __name__ == "__main__":
   tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_eta", VBFDiTauFinalTauFilter_eta)
   tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_phi", VBFDiTauFinalTauFilter_phi)
   tree.SetBranchAddress("VBF2DTDoubleTauFinalFilter_energy", VBFDiTauFinalTauFilter_energy)
-  #
+
   VBFDiTauL1MatchedTauFinalFilter_pt = ROOT.std.vector('float')()
   VBFDiTauL1MatchedTauFinalFilter_eta = ROOT.std.vector('float')()
   VBFDiTauL1MatchedTauFinalFilter_phi = ROOT.std.vector('float')()
@@ -347,9 +350,10 @@ if __name__ == "__main__":
       VBFDiTauHLTIsoTau = fillWithTVecs(VBFDiTauL1MatchedTauFinalFilter_pt, VBFDiTauL1MatchedTauFinalFilter_eta, \
                                         VBFDiTauL1MatchedTauFinalFilter_phi, VBFDiTauL1MatchedTauFinalFilter_energy)
       matchVBFDiTauHLTTau1 = matchHLTOff(VBFDiTauHLTIsoTau, OffTau1)
-      #VBFDiTauHLTTaus = fillWithTVecs(VBFDiTauFinalTauFilter_pt, VBFDiTauFinalTauFilter_eta, \
-      #                                VBFDiTauFinalTauFilter_phi, VBFDiTauFinalTauFilter_energy)
-      #matchVBFDiTauHLTTau2 = matchHLTOff(VBFDiTauHLTTaus, OffTau2)
+
+      VBFDiTauHLTTaus = fillWithTVecs(VBFDiTauFinalTauFilter_pt, VBFDiTauFinalTauFilter_eta, \
+                                      VBFDiTauFinalTauFilter_phi, VBFDiTauFinalTauFilter_energy)
+      matchVBFDiTauHLTTau2 = matchHLTOff(VBFDiTauHLTTaus, OffTau2)
 
       VBFDiTauHLTJets = fillWithTVecs(VBFDiTauFinalJetFilter_pt, VBFDiTauFinalJetFilter_eta, \
                                       VBFDiTauFinalJetFilter_phi, VBFDiTauFinalJetFilter_energy)
