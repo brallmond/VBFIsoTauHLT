@@ -40,6 +40,8 @@ if __name__ == "__main__":
   # L1 and Offline cuts are just integers so we define them outside the event loop
               # pt  mjj  ele pt    
   L1sToTest = [[30, 300, 10], #0, for rate studies
+               [30, 320, 10],
+               [40, 450, 10],
                [30, 500, 10],
                [30, 500, 12],
                [35, 500, 12],

@@ -103,6 +103,15 @@ if __name__ == "__main__":
   tree.SetBranchAddress("hltL1VBFElectron_eEta", L1EleEta)
   tree.SetBranchAddress("hltL1VBFElectron_ePhi", L1ElePhi)
   tree.SetBranchAddress("hltL1VBFElectron_eEnergy", L1EleEnergy)
+  
+  L1JetPt = ROOT.std.vector('float')()
+  L1JetEta = ROOT.std.vector('float')()
+  L1JetPhi = ROOT.std.vector('float')()
+  L1JetEnergy = ROOT.std.vector('float')()
+  tree.SetBranchAddress("hltL1VBFElectron_jPt", L1JetPt)
+  tree.SetBranchAddress("hltL1VBFElectron_jEta", L1JetEta)
+  tree.SetBranchAddress("hltL1VBFElectron_jPhi", L1JetPhi)
+  tree.SetBranchAddress("hltL1VBFElectron_jEnergy", L1JetEnergy)
 
   # VBF Ele
   VBFEleFinalEleFilter_pt = ROOT.std.vector('float')()
@@ -223,6 +232,15 @@ if __name__ == "__main__":
     OffEleID = ROOT.std.vector('int')()
     tree.SetBranchAddress("eleIDMVANoIsowp90", OffEleID)
 
+  TallyVBFEleHLT = 0
+  TallyVBFSingleTauHLT = 0
+  TallyEleTauHLT = 0
+  TallySingleEleHLT = 0
+  TallyVBFEleOREleTauHLT = 0
+  TallyVBFEleORSingleEleHLT = 0
+  TallyEleTauORSingleEleHLT = 0
+  TallyTripleORHLT = 0
+  TallyQuadORHLT = 0
 
   TallyVBFEleOff = 0
   TallyVBFSingleTauOff = 0
@@ -234,11 +252,9 @@ if __name__ == "__main__":
   TallyTripleOROff = 0
   TallyQuadOROff = 0
 
-  Off_Tallies = ["","","","","","","","",""]
-
   TotalEntries = tree.GetEntries()
   for entry in range(TotalEntries):
-  #for entry in range(100):
+  #for entry in range(100000):
     tree.GetEntry(entry)
 
     # for rate study
@@ -335,8 +351,14 @@ if __name__ == "__main__":
       # get L1 objects 
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
-      if (sizeL1Eles >= 1 and PassVBFIsoEGL1[0]):
+      L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
+      sizeL1Jets = len(L1Jets)
+
+      if (sizeL1Jets >= 2 and sizeL1Eles >= 1 and PassVBFIsoEGL1[0]):
         L1Ele = L1Eles[0]
+        L1Jet1Index, L1Jet2Index, L1Mjj = highestMjjPair(L1Jets)
+        L1Jet1 = L1Jets[L1Jet1Index]
+        L1Jet2 = L1Jets[L1Jet2Index]
 
       # Matching
       # EleTau HLT Matching
@@ -382,9 +404,9 @@ if __name__ == "__main__":
       # end matching
 
       passEleTauOffCuts = False
-      if (OffJet1.Pt() >= 30
-       and OffJet2.Pt() >= 30
-       and OffMjj >= 300
+      if (OffJet1.Pt() >= 50#30
+       and OffJet2.Pt() >= 50#30
+       and OffMjj >= 600#300
        and OffTau.Pt() >= 30
        and OffEle.Pt() >= 25): passEleTauOffCuts = True
 
@@ -393,6 +415,13 @@ if __name__ == "__main__":
       if (PassVBFIsoEGL1[0]):
         passL1IsoElePresent = L1Ele.Pt() >= 30
       passSingleEleOffCuts = (passL1IsoElePresent and passEleTauOffCuts and OffEle.Pt() >= 33)
+
+      # including this or not has no impact
+      #passVBFEleL1Restrictions = False
+      #if (L1Jet1.Pt()  >= 40
+      # and L1Jet2.Pt() >= 40
+      # and L1Mjj       >= 450
+      # and L1Ele.Pt()  >= 10): passVBFEleL1Restrictions = True
 
       passVBFEleOffCuts = False
       if (OffJet1.Pt()  >= 50
@@ -409,10 +438,34 @@ if __name__ == "__main__":
        and OffTau.Pt()  >= 50
        and OffEle.Pt()   >= 13): passVBFSingleTauOffCuts = True
 
+      BoolPassEleTauHLT = BoolPassSingleEleHLT = BoolPassVBFEleHLT = BoolPassVBFSingleTauHLT = 0
+
+      BoolPassEleTauHLT = passEleTauHLT[0]
+      BoolPassSingleEleHLT = passSingleEleHLT[0]
+      BoolPassVBFEleHLT = passVBFEleHLT[0]
+      BoolPassVBFSingleTauHLT = passVBFSingleTauHLT[0]
+
+      if (BoolPassEleTauHLT): TallyEleTauHLT += 1
+      if (BoolPassSingleEleHLT): TallySingleEleHLT += 1
+      if (BoolPassVBFEleHLT): TallyVBFEleHLT += 1
+      if (BoolPassVBFSingleTauHLT): TallyVBFSingleTauHLT += 1
+
+      if (BoolPassVBFEleHLT or BoolPassEleTauHLT): TallyVBFEleOREleTauHLT += 1
+      if (BoolPassVBFEleHLT or BoolPassSingleEleHLT): TallyVBFEleORSingleEleHLT += 1
+      if (BoolPassEleTauHLT or BoolPassSingleEleHLT): TallyEleTauORSingleEleHLT += 1
+      BoolTripleOR = BoolPassVBFEleHLT or BoolPassEleTauHLT or BoolPassSingleEleHLT
+      if (BoolTripleOR): TallyTripleORHLT += 1 
+      if (BoolTripleOR or BoolPassVBFSingleTauHLT): TallyQuadORHLT += 1 
+
+      HLT_Tallies = [TallyVBFEleHLT, TallyEleTauHLT, TallySingleEleHLT, TallyVBFSingleTauHLT,
+                     TallyVBFEleOREleTauHLT, TallyVBFEleORSingleEleHLT, TallyEleTauORSingleEleHLT, 
+                     TallyTripleORHLT, TallyQuadORHLT]
+
       # now tally it up
       GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts and passEleTauHLT[0]
       GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts and passSingleEleHLT[0]
       GoodVBFEle = passVBFEleHLTOffMatching and passVBFEleOffCuts and passVBFEleHLT[0]
+      #GoodVBFEle = passVBFEleL1Restrictions and passVBFEleHLTOffMatching and passVBFEleOffCuts and passVBFEleHLT[0]
       GoodVBFSingleTau = passVBFSingleTauHLTOffMatching and passVBFSingleTauOffCuts and passVBFSingleTauHLT[0]
 
       # enough to calculate impact of VBF Ele, EleTau and SingleEle will be main overlap at analysis
@@ -439,9 +492,12 @@ if __name__ == "__main__":
   if (notRateStudy):
     labels = ["VBF+Ele (1)", "EleTau (2)", "SingleEle (3)", "VBF1Tau (*)",
               "1OR2", "1OR3", "2OR3",
-              "TripleOR", "TallyQuadOR"]
+              "TripleOR", "QuadOR"]
+    header = ["Label", "HLT", "Offline"]
+    print(f"{header[0]:17}, {header[1]:7}, {header[2]:7}")
     for index, label in enumerate(labels):
-      print(f"{label:17}, {Off_Tallies[index]:7}")
+      print(f"{label:17}, {HLT_Tallies[index]:7}, {Off_Tallies[index]:7}")
+
 
   if (rateStudy):
     labels = ["VBF+Ele", "VBFDiJetOR", "VBFIsoTau", "DummyEGL1", \

@@ -367,7 +367,7 @@ if __name__ == "__main__":
       passMuTauOffCuts = False
       if (OffJet1.Pt() >= 30
        and OffJet2.Pt() >= 30
-       and OffMjj >= 300 # crazy loose, no? can't find source for this
+       and OffMjj >= 600 # crazy loose, no? can't find source for this
        and OffTau.Pt() >= 30
        and OffMu.Pt() >= 21): passMuTauOffCuts = True
 
