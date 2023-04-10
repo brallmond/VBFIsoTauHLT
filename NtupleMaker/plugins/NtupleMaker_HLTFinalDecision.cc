@@ -34,6 +34,13 @@ int passHLTDummyL1Loose;
 int passHLTDummyL1NoIso;
 int passHLTDummyEGORL1;
 
+int passHLT_Dummy_L1VBFEG_TightIso;
+int passHLT_Dummy_L1VBFEG_LooseIso;
+int passHLT_Dummy_L1VBFEG_NoIso;
+int passHLT_Dummy_L1EG_TightIso;
+int passHLT_Dummy_L1EG_LooseIso;
+int passHLT_Dummy_L1EG_NoIso;
+
 // Jaime's HLTs
 int pass2Tau1JetHLT;
 int pass2Tau1JetHigherHLT;
@@ -65,9 +72,18 @@ void NtupleMaker::branchesHLTFinalDecision(TTree* tree){
     tree->Branch("passDiTauControlHLT", &passDiTauControlHLT);
 
     // adhoc HLTs
-    tree->Branch("passHLTDummyL1", &passHLTDummyL1);
-    tree->Branch("passHLTDummyL1Loose", &passHLTDummyL1Loose);
-    tree->Branch("passHLTDummyL1NoIso", &passHLTDummyL1NoIso);
+    // delete dead code
+    //tree->Branch("passHLTDummyL1", &passHLTDummyL1);
+    //tree->Branch("passHLTDummyL1Loose", &passHLTDummyL1Loose);
+    //tree->Branch("passHLTDummyL1NoIso", &passHLTDummyL1NoIso);
+
+    tree->Branch("passHLT_Dummy_L1VBFEG_TightIso", &passHLT_Dummy_L1VBFEG_TightIso);
+    tree->Branch("passHLT_Dummy_L1VBFEG_LooseIso", &passHLT_Dummy_L1VBFEG_LooseIso);
+    tree->Branch("passHLT_Dummy_L1VBFEG_NoIso", &passHLT_Dummy_L1VBFEG_NoIso);
+    tree->Branch("passHLT_Dummy_L1EG_TightIso", &passHLT_Dummy_L1EG_TightIso);
+    tree->Branch("passHLT_Dummy_L1EG_LooseIso", &passHLT_Dummy_L1EG_LooseIso);
+    tree->Branch("passHLT_Dummy_L1EG_NoIso", &passHLT_Dummy_L1EG_NoIso);
+
     tree->Branch("passHLTDummyEGORL1", &passHLTDummyEGORL1);
  
     // Jaime's HLTs
@@ -156,8 +172,20 @@ void NtupleMaker::fillHLTFinalDecision(const edm::Event& iEvent, bool DEBUG){
     //passHLTDummyL1Loose = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1Loose_v1"));
     //passHLTDummyL1NoIso = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyL1NoIso_v1"));
     //passHLTDummyEGORL1 = triggerResults->accept(triggerNames_.triggerIndex("HLT_DummyEGORL1_v1"));
+    passHLT_Dummy_L1VBFEG_TightIso = triggerResults->accept(triggerNames_.triggerIndex(
+                                   "HLT_Dummy_L1VBFEG_TightIso_v1"));
+    passHLT_Dummy_L1VBFEG_LooseIso = triggerResults->accept(triggerNames_.triggerIndex(
+                                   "HLT_Dummy_L1VBFEG_LooseIso_v1"));
+    passHLT_Dummy_L1VBFEG_NoIso = triggerResults->accept(triggerNames_.triggerIndex(
+                                   "HLT_Dummy_L1VBFEG_NoIso_v1"));
+    passHLT_Dummy_L1EG_TightIso = triggerResults->accept(triggerNames_.triggerIndex(
+                                   "HLT_Dummy_L1EG_TightIso_v1"));
+    passHLT_Dummy_L1EG_LooseIso = triggerResults->accept(triggerNames_.triggerIndex(
+                                   "HLT_Dummy_L1EG_LooseIso_v1"));
+    passHLT_Dummy_L1EG_NoIso = triggerResults->accept(triggerNames_.triggerIndex(
+                                   "HLT_Dummy_L1EG_NoIso_v1"));
 
-    //if (DEBUG) std::cout << "filled dummy HLTs" << std::endl;
+    if (DEBUG) std::cout << "filled dummy HLTs" << std::endl;
 
     // Jaime's HLTs
     pass2Tau1JetHLT = triggerResults->accept(triggerNames_.triggerIndex(
