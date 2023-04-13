@@ -13,25 +13,35 @@ float 	energyL1_;
 
 int	nEvents;
 
-int passhltL1VBFElectron;
-vector<float> hltL1VBFElectron_ePt;
-vector<float> hltL1VBFElectron_eEta;
-vector<float> hltL1VBFElectron_ePhi;
-vector<float> hltL1VBFElectron_eEnergy;
-vector<float> hltL1VBFElectron_jPt;
-vector<float> hltL1VBFElectron_jEta;
-vector<float> hltL1VBFElectron_jPhi;
-vector<float> hltL1VBFElectron_jEnergy;
+int passhltL1VBFElectronTightIso_RealHLT;
+vector<float> hltL1VBFElectronTightIso_RealHLT_ePt;
+vector<float> hltL1VBFElectronTightIso_RealHLT_eEta;
+vector<float> hltL1VBFElectronTightIso_RealHLT_ePhi;
+vector<float> hltL1VBFElectronTightIso_RealHLT_eEnergy;
+vector<float> hltL1VBFElectronTightIso_RealHLT_jPt;
+vector<float> hltL1VBFElectronTightIso_RealHLT_jEta;
+vector<float> hltL1VBFElectronTightIso_RealHLT_jPhi;
+vector<float> hltL1VBFElectronTightIso_RealHLT_jEnergy;
 
-int passhltL1VBFElectronLoose;
-vector<float> hltL1VBFElectronLoose_ePt;
-vector<float> hltL1VBFElectronLoose_eEta;
-vector<float> hltL1VBFElectronLoose_ePhi;
-vector<float> hltL1VBFElectronLoose_eEnergy;
-vector<float> hltL1VBFElectronLoose_jPt;
-vector<float> hltL1VBFElectronLoose_jEta;
-vector<float> hltL1VBFElectronLoose_jPhi;
-vector<float> hltL1VBFElectronLoose_jEnergy;
+int passhltL1VBFElectronTightIso;
+vector<float> hltL1VBFElectronTightIso_ePt;
+vector<float> hltL1VBFElectronTightIso_eEta;
+vector<float> hltL1VBFElectronTightIso_ePhi;
+vector<float> hltL1VBFElectronTightIso_eEnergy;
+vector<float> hltL1VBFElectronTightIso_jPt;
+vector<float> hltL1VBFElectronTightIso_jEta;
+vector<float> hltL1VBFElectronTightIso_jPhi;
+vector<float> hltL1VBFElectronTightIso_jEnergy;
+
+int passhltL1VBFElectronLooseIso;
+vector<float> hltL1VBFElectronLooseIso_ePt;
+vector<float> hltL1VBFElectronLooseIso_eEta;
+vector<float> hltL1VBFElectronLooseIso_ePhi;
+vector<float> hltL1VBFElectronLooseIso_eEnergy;
+vector<float> hltL1VBFElectronLooseIso_jPt;
+vector<float> hltL1VBFElectronLooseIso_jEta;
+vector<float> hltL1VBFElectronLooseIso_jPhi;
+vector<float> hltL1VBFElectronLooseIso_jEnergy;
 
 int passhltL1VBFElectronNoIso;
 vector<float> hltL1VBFElectronNoIso_ePt;
@@ -101,31 +111,58 @@ vector<float> hltL1sSingleEGor_eta;
 vector<float> hltL1sSingleEGor_phi;
 vector<float> hltL1sSingleEGor_energy;
 
+int passhltPassthroughL1EGTightIso;
+vector<float> hltPassthroughL1EGTightIso_pt;
+vector<float> hltPassthroughL1EGTightIso_eta;
+vector<float> hltPassthroughL1EGTightIso_phi;
+vector<float> hltPassthroughL1EGTightIso_energy;
+
+int passhltPassthroughL1EGLooseIso;
+vector<float> hltPassthroughL1EGLooseIso_pt;
+vector<float> hltPassthroughL1EGLooseIso_eta;
+vector<float> hltPassthroughL1EGLooseIso_phi;
+vector<float> hltPassthroughL1EGLooseIso_energy;
+
+int passhltPassthroughL1EGNoIso;
+vector<float> hltPassthroughL1EGNoIso_pt;
+vector<float> hltPassthroughL1EGNoIso_eta;
+vector<float> hltPassthroughL1EGNoIso_phi;
+vector<float> hltPassthroughL1EGNoIso_energy
+
 void NtupleMaker::branchesL1sFromHLT(TTree* tree){
 
     tree->Branch("nEvents", &nEvents);
 
-    tree->Branch("passhltL1VBFElectron", &passhltL1VBFElectron);
-    tree->Branch("hltL1VBFElectron_ePt", &hltL1VBFElectron_ePt);
-    tree->Branch("hltL1VBFElectron_eEta", &hltL1VBFElectron_eEta);
-    tree->Branch("hltL1VBFElectron_ePhi", &hltL1VBFElectron_ePhi);
-    tree->Branch("hltL1VBFElectron_eEnergy", &hltL1VBFElectron_eEnergy);
-    tree->Branch("hltL1VBFElectron_jPt", &hltL1VBFElectron_jPt);
-    tree->Branch("hltL1VBFElectron_jEta", &hltL1VBFElectron_jEta);
-    tree->Branch("hltL1VBFElectron_jPhi", &hltL1VBFElectron_jPhi);
-    tree->Branch("hltL1VBFElectron_jEnergy", &hltL1VBFElectron_jEnergy);
+    tree->Branch("passhltL1VBFElectronTightIso_RealHLT", &passhltL1VBFElectronTightIso_RealHLT);
+    tree->Branch("hltL1VBFElectronTightIso_RealHLT_ePt", &hltL1VBFElectronTightIso_RealHLT_ePt);
+    tree->Branch("hltL1VBFElectronTightIso_RealHLT_eEta", &hltL1VBFElectronTightIso_RealHLT_eEta);
+    tree->Branch("hltL1VBFElectronTightIso_RealHLT_ePhi", &hltL1VBFElectronTightIso_RealHLT_ePhi);
+    tree->Branch("hltL1VBFElectronTightIso_RealHLT_eEnergy", &hltL1VBFElectronTightIso_RealHLT_eEnergy);
+    tree->Branch("hltL1VBFElectronTightIso_RealHLT_jPt", &hltL1VBFElectronTightIso_RealHLT_jPt);
+    tree->Branch("hltL1VBFElectronTightIso_RealHLT_jEta", &hltL1VBFElectronTightIso_RealHLT_jEta);
+    tree->Branch("hltL1VBFElectronTightIso_RealHLT_jPhi", &hltL1VBFElectronTightIso_RealHLT_jPhi);
+    tree->Branch("hltL1VBFElectronTightIso_RealHLT_jEnergy", &hltL1VBFElectronTightIso_RealHLT_jEnergy);
 
-    tree->Branch("passhltL1VBFElectronLoose", &passhltL1VBFElectronLoose);
-    tree->Branch("hltL1VBFElectronLoose_ePt", &hltL1VBFElectronLoose_ePt);
-    tree->Branch("hltL1VBFElectronLoose_eEta", &hltL1VBFElectronLoose_eEta);
-    tree->Branch("hltL1VBFElectronLoose_ePhi", &hltL1VBFElectronLoose_ePhi);
-    tree->Branch("hltL1VBFElectronLoose_eEnergy", &hltL1VBFElectronLoose_eEnergy);
-    tree->Branch("hltL1VBFElectronLoose_jPt", &hltL1VBFElectronLoose_jPt);
-    tree->Branch("hltL1VBFElectronLoose_jEta", &hltL1VBFElectronLoose_jEta);
-    tree->Branch("hltL1VBFElectronLoose_jPhi", &hltL1VBFElectronLoose_jPhi);
-    tree->Branch("hltL1VBFElectronLoose_jEnergy", &hltL1VBFElectronLoose_jEnergy);
+    tree->Branch("passhltL1VBFElectronTightIso", &passhltL1VBFElectronTightIso);
+    tree->Branch("hltL1VBFElectronTightIso_ePt", &hltL1VBFElectronTightIso_ePt);
+    tree->Branch("hltL1VBFElectronTightIso_eEta", &hltL1VBFElectronTightIso_eEta);
+    tree->Branch("hltL1VBFElectronTightIso_ePhi", &hltL1VBFElectronTightIso_ePhi);
+    tree->Branch("hltL1VBFElectronTightIso_eEnergy", &hltL1VBFElectronTightIso_eEnergy);
+    tree->Branch("hltL1VBFElectronTightIso_jPt", &hltL1VBFElectronTightIso_jPt);
+    tree->Branch("hltL1VBFElectronTightIso_jEta", &hltL1VBFElectronTightIso_jEta);
+    tree->Branch("hltL1VBFElectronTightIso_jPhi", &hltL1VBFElectronTightIso_jPhi);
+    tree->Branch("hltL1VBFElectronTightIso_jEnergy", &hltL1VBFElectronTightIso_jEnergy);
 
- 
+    tree->Branch("passhltL1VBFElectronLooseIso", &passhltL1VBFElectronLooseIso);
+    tree->Branch("hltL1VBFElectronLooseIso_ePt", &hltL1VBFElectronLooseIso_ePt);
+    tree->Branch("hltL1VBFElectronLooseIso_eEta", &hltL1VBFElectronLooseIso_eEta);
+    tree->Branch("hltL1VBFElectronLooseIso_ePhi", &hltL1VBFElectronLooseIso_ePhi);
+    tree->Branch("hltL1VBFElectronLooseIso_eEnergy", &hltL1VBFElectronLooseIso_eEnergy);
+    tree->Branch("hltL1VBFElectronLooseIso_jPt", &hltL1VBFElectronLooseIso_jPt);
+    tree->Branch("hltL1VBFElectronLooseIso_jEta", &hltL1VBFElectronLooseIso_jEta);
+    tree->Branch("hltL1VBFElectronLooseIso_jPhi", &hltL1VBFElectronLooseIso_jPhi);
+    tree->Branch("hltL1VBFElectronLooseIso_jEnergy", &hltL1VBFElectronLooseIso_jEnergy);
+
     tree->Branch("passhltL1VBFElectronNoIso", &passhltL1VBFElectronNoIso);
     tree->Branch("hltL1VBFElectronNoIso_ePt", &hltL1VBFElectronNoIso_ePt);
     tree->Branch("hltL1VBFElectronNoIso_eEta", &hltL1VBFElectronNoIso_eEta);
@@ -187,6 +224,24 @@ void NtupleMaker::branchesL1sFromHLT(TTree* tree){
     tree->Branch("hltL1sSingleEGor_eta", &hltL1sSingleEGor_eta);
     tree->Branch("hltL1sSingleEGor_phi", &hltL1sSingleEGor_phi);
     tree->Branch("hltL1sSingleEGor_energy", &hltL1sSingleEGor_energy);
+
+    tree->Branch("passhltPassthroughL1EGTightIso", &passhltPassthroughL1EGTightIso);
+    tree->Branch("hltPassthroughL1EGTightIso_pt", &hltPassthroughL1EGTightIso_pt);
+    tree->Branch("hltPassthroughL1EGTightIso_eta", &hltPassthroughL1EGTightIso_eta);
+    tree->Branch("hltPassthroughL1EGTightIso_phi", &hltPassthroughL1EGTightIso_phi);
+    tree->Branch("hltPassthroughL1EGTightIso_energy", &hltPassthroughL1EGTightIso_energy);
+
+    tree->Branch("passhltPassthroughL1EGLooseIso", &passhltPassthroughL1EGLooseIso);
+    tree->Branch("hltPassthroughL1EGLooseIso_pt", &hltPassthroughL1EGLooseIso_pt);
+    tree->Branch("hltPassthroughL1EGLooseIso_eta", &hltPassthroughL1EGLooseIso_eta);
+    tree->Branch("hltPassthroughL1EGLooseIso_phi", &hltPassthroughL1EGLooseIso_phi);
+    tree->Branch("hltPassthroughL1EGLooseIso_energy", &hltPassthroughL1EGLooseIso_energy);
+
+    tree->Branch("passhltPassthroughL1EGNoIso", &passhltPassthroughL1EGNoIso);
+    tree->Branch("hltPassthroughL1EGNoIso_pt", &hltPassthroughL1EGNoIso_pt);
+    tree->Branch("hltPassthroughL1EGNoIso_eta", &hltPassthroughL1EGNoIso_eta);
+    tree->Branch("hltPassthroughL1EGNoIso_phi", &hltPassthroughL1EGNoIso_phi);
+    tree->Branch("hltPassthroughL1EGNoIso_energy", &hltPassthroughL1EGNoIso_energy);
 
 }
 
@@ -287,26 +342,24 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
       }
     }
 
-
-    // Also for VBF + Electron
-    //const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectron", "", "MYOTHERHLT")));
+    //////
     const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFIsoEG", "", "MYOTHERHLT")));
 
     l1t::EGammaVectorRef electronCandRefVec;
     trigger::Vids eVids;
     triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, eVids, electronCandRefVec);
 
-    hltL1VBFElectron_ePt.clear();
-    hltL1VBFElectron_eEta.clear();
-    hltL1VBFElectron_ePhi.clear();
-    hltL1VBFElectron_eEnergy.clear();
+    hltL1VBFElectronTightIso_RealHLT_ePt.clear();
+    hltL1VBFElectronTightIso_RealHLT_eEta.clear();
+    hltL1VBFElectronTightIso_RealHLT_ePhi.clear();
+    hltL1VBFElectronTightIso_RealHLT_eEnergy.clear();
     const unsigned int nElectrons(eVids.size());
     if (nElectrons > 0) {
       for (unsigned int i = 0; i != nElectrons; ++i) {
-        hltL1VBFElectron_ePt.push_back(electronCandRefVec[i]->pt());
-        hltL1VBFElectron_eEta.push_back(electronCandRefVec[i]->eta());
-        hltL1VBFElectron_ePhi.push_back(electronCandRefVec[i]->phi());
-        hltL1VBFElectron_eEnergy.push_back(electronCandRefVec[i]->energy());
+        hltL1VBFElectronTightIso_RealHLT_ePt.push_back(electronCandRefVec[i]->pt());
+        hltL1VBFElectronTightIso_RealHLT_eEta.push_back(electronCandRefVec[i]->eta());
+        hltL1VBFElectronTightIso_RealHLT_ePhi.push_back(electronCandRefVec[i]->phi());
+        hltL1VBFElectronTightIso_RealHLT_eEnergy.push_back(electronCandRefVec[i]->energy());
       }
     }
 
@@ -314,39 +367,79 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     trigger::Vids ejVids;
     triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, ejVids, VBFElectronJetRefVec);
 
-    hltL1VBFElectron_jPt.clear();
-    hltL1VBFElectron_jEta.clear();
-    hltL1VBFElectron_jPhi.clear();
-    hltL1VBFElectron_jEnergy.clear();
+    hltL1VBFElectronTightIso_RealHLT_jPt.clear();
+    hltL1VBFElectronTightIso_RealHLT_jEta.clear();
+    hltL1VBFElectronTightIso_RealHLT_jPhi.clear();
+    hltL1VBFElectronTightIso_RealHLT_jEnergy.clear();
     const unsigned int nVBFElectronJets(ejVids.size());
     if (nVBFElectronJets > 0) {
       for (unsigned int i = 0; i != nVBFElectronJets; ++ i) {
-        hltL1VBFElectron_jPt.push_back(VBFElectronJetRefVec[i]->pt());
-        hltL1VBFElectron_jEta.push_back(VBFElectronJetRefVec[i]->eta());
-        hltL1VBFElectron_jPhi.push_back(VBFElectronJetRefVec[i]->phi());
-        hltL1VBFElectron_jEnergy.push_back(VBFElectronJetRefVec[i]->energy());
+        hltL1VBFElectronTightIso_RealHLT_jPt.push_back(VBFElectronJetRefVec[i]->pt());
+        hltL1VBFElectronTightIso_RealHLT_jEta.push_back(VBFElectronJetRefVec[i]->eta());
+        hltL1VBFElectronTightIso_RealHLT_jPhi.push_back(VBFElectronJetRefVec[i]->phi());
+        hltL1VBFElectronTightIso_RealHLT_jEnergy.push_back(VBFElectronJetRefVec[i]->energy());
       }
     }
 
- /* 
+    // Also for VBF + Electron
+    //const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronTightIso", "", "MYOTHERHLT")));
+    const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltPassthroughL1VBFEGTightIso", "", "MYOTHERHLT")));
+
+    l1t::EGammaVectorRef electronCandRefVec;
+    trigger::Vids eVids;
+    triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, eVids, electronCandRefVec);
+
+    hltL1VBFElectronTightIso_ePt.clear();
+    hltL1VBFElectronTightIso_eEta.clear();
+    hltL1VBFElectronTightIso_ePhi.clear();
+    hltL1VBFElectronTightIso_eEnergy.clear();
+    const unsigned int nElectrons(eVids.size());
+    if (nElectrons > 0) {
+      for (unsigned int i = 0; i != nElectrons; ++i) {
+        hltL1VBFElectronTightIso_ePt.push_back(electronCandRefVec[i]->pt());
+        hltL1VBFElectronTightIso_eEta.push_back(electronCandRefVec[i]->eta());
+        hltL1VBFElectronTightIso_ePhi.push_back(electronCandRefVec[i]->phi());
+        hltL1VBFElectronTightIso_eEnergy.push_back(electronCandRefVec[i]->energy());
+      }
+    }
+
+    l1t::JetVectorRef VBFElectronJetRefVec;
+    trigger::Vids ejVids;
+    triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, ejVids, VBFElectronJetRefVec);
+
+    hltL1VBFElectronTightIso_jPt.clear();
+    hltL1VBFElectronTightIso_jEta.clear();
+    hltL1VBFElectronTightIso_jPhi.clear();
+    hltL1VBFElectronTightIso_jEnergy.clear();
+    const unsigned int nVBFElectronJets(ejVids.size());
+    if (nVBFElectronJets > 0) {
+      for (unsigned int i = 0; i != nVBFElectronJets; ++ i) {
+        hltL1VBFElectronTightIso_jPt.push_back(VBFElectronJetRefVec[i]->pt());
+        hltL1VBFElectronTightIso_jEta.push_back(VBFElectronJetRefVec[i]->eta());
+        hltL1VBFElectronTightIso_jPhi.push_back(VBFElectronJetRefVec[i]->phi());
+        hltL1VBFElectronTightIso_jEnergy.push_back(VBFElectronJetRefVec[i]->energy());
+      }
+    }
+
     // again for VBF + Loose Electron
-    const unsigned int VBFElectronL1LooseFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronLoose", "", "MYOTHERHLT")));
+    //const unsigned int VBFElectronL1LooseFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronLooseIso", "", "MYOTHERHLT")));
+    const unsigned int VBFElectronL1LooseFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltPassthroughL1VBFEGLooseIso", "", "MYOTHERHLT")));
 
     l1t::EGammaVectorRef looseElectronCandRefVec;
     trigger::Vids leVids;
     triggerEventWithRefsHandle_->getObjects(VBFElectronL1LooseFilter, leVids, looseElectronCandRefVec);
 
-    hltL1VBFElectronLoose_ePt.clear();
-    hltL1VBFElectronLoose_eEta.clear();
-    hltL1VBFElectronLoose_ePhi.clear();
-    hltL1VBFElectronLoose_eEnergy.clear();
+    hltL1VBFElectronLooseIso_ePt.clear();
+    hltL1VBFElectronLooseIso_eEta.clear();
+    hltL1VBFElectronLooseIso_ePhi.clear();
+    hltL1VBFElectronLooseIso_eEnergy.clear();
     const unsigned int nLooseElectrons(leVids.size());
     if (nLooseElectrons > 0) {
       for (unsigned int i = 0; i != nLooseElectrons; ++i) {
-        hltL1VBFElectronLoose_ePt.push_back(looseElectronCandRefVec[i]->pt());
-        hltL1VBFElectronLoose_eEta.push_back(looseElectronCandRefVec[i]->eta());
-        hltL1VBFElectronLoose_ePhi.push_back(looseElectronCandRefVec[i]->phi());
-        hltL1VBFElectronLoose_eEnergy.push_back(looseElectronCandRefVec[i]->energy());
+        hltL1VBFElectronLooseIso_ePt.push_back(looseElectronCandRefVec[i]->pt());
+        hltL1VBFElectronLooseIso_eEta.push_back(looseElectronCandRefVec[i]->eta());
+        hltL1VBFElectronLooseIso_ePhi.push_back(looseElectronCandRefVec[i]->phi());
+        hltL1VBFElectronLooseIso_eEnergy.push_back(looseElectronCandRefVec[i]->energy());
       }
     }
 
@@ -354,22 +447,23 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     trigger::Vids lejVids;
     triggerEventWithRefsHandle_->getObjects(VBFElectronL1LooseFilter, lejVids, VBFLooseElectronJetRefVec);
 
-    hltL1VBFElectronLoose_jPt.clear();
-    hltL1VBFElectronLoose_jEta.clear();
-    hltL1VBFElectronLoose_jPhi.clear();
-    hltL1VBFElectronLoose_jEnergy.clear();
+    hltL1VBFElectronLooseIso_jPt.clear();
+    hltL1VBFElectronLooseIso_jEta.clear();
+    hltL1VBFElectronLooseIso_jPhi.clear();
+    hltL1VBFElectronLooseIso_jEnergy.clear();
     const unsigned int nVBFLooseElectronJets(lejVids.size());
     if (nVBFLooseElectronJets > 0) {
       for (unsigned int i = 0; i != nVBFLooseElectronJets; ++ i) {
-        hltL1VBFElectronLoose_jPt.push_back(VBFLooseElectronJetRefVec[i]->pt());
-        hltL1VBFElectronLoose_jEta.push_back(VBFLooseElectronJetRefVec[i]->eta());
-        hltL1VBFElectronLoose_jPhi.push_back(VBFLooseElectronJetRefVec[i]->phi());
-        hltL1VBFElectronLoose_jEnergy.push_back(VBFLooseElectronJetRefVec[i]->energy());
+        hltL1VBFElectronLooseIso_jPt.push_back(VBFLooseElectronJetRefVec[i]->pt());
+        hltL1VBFElectronLooseIso_jEta.push_back(VBFLooseElectronJetRefVec[i]->eta());
+        hltL1VBFElectronLooseIso_jPhi.push_back(VBFLooseElectronJetRefVec[i]->phi());
+        hltL1VBFElectronLooseIso_jEnergy.push_back(VBFLooseElectronJetRefVec[i]->energy());
       }
     }
 
     // again for VBF + NoIso Electron
-    const unsigned int VBFElectronL1NoIsoFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronNoIso", "", "MYOTHERHLT")));
+    //const unsigned int VBFElectronL1NoIsoFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronNoIso", "", "MYOTHERHLT")));
+    const unsigned int VBFElectronL1NoIsoFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltPassthroughL1VBFEGNoIso", "", "MYOTHERHLT")));
 
     l1t::EGammaVectorRef noisoElectronCandRefVec;
     trigger::Vids nieVids;
@@ -407,12 +501,12 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
       }
     }
 
-*/
 
     nEvents = 0;
 
-    passhltL1VBFElectron = 0;
-    passhltL1VBFElectronLoose = 0;
+    passhltL1VBFElectronTightIso_RealHLT = 0;
+    passhltL1VBFElectronTightIso = 0;
+    passhltL1VBFElectronLooseIso = 0;
     passhltL1VBFElectronNoIso = 0;
 
     passhltL1sDoubleTauBigOR = 0;
@@ -449,6 +543,24 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     hltL1sSingleEGor_phi.clear();
     hltL1sSingleEGor_energy.clear();
 
+    passhltPassthroughL1EGTightIso = 0;
+    hltPassthroughL1EGTightIso_pt.clear();
+    hltPassthroughL1EGTightIso_eta.clear();
+    hltPassthroughL1EGTightIso_phi.clear();
+    hltPassthroughL1EGTightIso_energy.clear();
+
+    passhltPassthroughL1EGLooseIso = 0;
+    hltPassthroughL1EGLooseIso_pt.clear();
+    hltPassthroughL1EGLooseIso_eta.clear();
+    hltPassthroughL1EGLooseIso_phi.clear();
+    hltPassthroughL1EGLooseIso_energy.clear();
+
+    passhltPassthroughL1EGNoIso = 0;
+    hltPassthroughL1EGNoIso_pt.clear();
+    hltPassthroughL1EGNoIso_eta.clear();
+    hltPassthroughL1EGNoIso_phi.clear();
+    hltPassthroughL1EGNoIso_energy.clear();
+
     // getting trigger event per this page
     // https://twiki.cern.ch/twiki/bin/view/CMSPublic/SWGuideHLTAnalysis
     edm::Handle<trigger::TriggerEvent> triggerEventL1; // this code should be with the filters
@@ -458,15 +570,24 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     const trigger::size_type nFilters(triggerEventL1->sizeFilters());
     std::string hltL1sDoubleTauBigOR_Tag = "hltL1sDoubleTauBigOR::MYOTHERHLT";
     std::string hltL1sMu22er2p1IsoTau28er2p1_Tag = "hltL1sMu22er2p1IsoTau28er2p1::MYOTHERHLT";
-    std::string hltL1VBFElectron_Tag = "hltL1VBFElectron::MYOTHERHLT";
-    std::string hltL1VBFElectronLoose_Tag = "hltL1VBFElectronLoose::MYOTHERHLT";
-    std::string hltL1VBFElectronNoIso_Tag = "hltL1VBFElectronNoIso::MYOTHERHLT";
+    //std::string hltL1VBFElectronTightIso_Tag = "hltL1VBFElectronTightIso::MYOTHERHLT";
+    //std::string hltL1VBFElectronLooseIso_Tag = "hltL1VBFElectronLooseIso::MYOTHERHLT";
+    //std::string hltL1VBFElectronNoIso_Tag = "hltL1VBFElectronNoIso::MYOTHERHLT";
+    std::string hltL1VBFElectronTightIso_RealHLT_Tag = "hltL1VBFIsoEG::MYOTHERHLT";
+
+    std::string hltL1VBFElectronTightIso_Tag = "hltPassthroughL1VBFEGTightIso::MYOTHERHLT";
+    std::string hltL1VBFElectronLooseIso_Tag = "hltPassthroughL1VBFEGLooseIso::MYOTHERHLT";
+    std::string hltL1VBFElectronNoIso_Tag = "hltPassthroughL1VBFEGNoIso::MYOTHERHLT";
 
     std::string hltL1VBFDiJetOR_Tag = "hltL1VBFDiJetOR::MYOTHERHLT";
     std::string hltL1VBFDiJetIsoTau_Tag = "hltL1VBFDiJetIsoTau::MYOTHERHLT";	  
     std::string hltL1sSingleMu22_Tag = "hltL1sSingleMu22::MYOTHERHLT";
     std::string hltL1sSingleEG26_Tag = "hltL1sSingleEG26::MYOTHERHLT";
     std::string hltL1sSingleEGor_Tag = "hltL1sSingleEGor::MYOTHERHLT";
+
+    std::string hltPassthroughL1EGTightIso_Tag = "hltPassthroughL1EGTightIso::MYOTHERHLT"
+    std::string hltPassthroughL1EGLooseIso_Tag = "hltPassthroughL1EGLooseIso::MYOTHERHLT"
+    std::string hltPassthroughL1EGNoIso_Tag = "hltPassthroughL1EGNoIso::MYOTHERHLT"
 
 
     // accepted filters per event
@@ -486,20 +607,26 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
 	if (filterTag == hltL1VBFDiJetIsoTau_Tag 
             && hltL1VBFDiJetIsoTau_tauPt.size() >= 1
             && hltL1VBFDiJetIsoTau_jetPt.size() >= 2) passhltL1VBFDiJetIsoTau = 1;
+
         if (filterTag == hltL1sMu22er2p1IsoTau28er2p1_Tag 
             && hltL1sMu22er2p1IsoTau28er2p1_muPt.size() >= 1
             && hltL1sMu22er2p1IsoTau28er2p1_tauPt.size() >= 1) passhltL1sMu22er2p1IsoTau28er2p1 = 1;
-        if (filterTag == hltL1VBFElectron_Tag
-            && hltL1VBFElectron_ePt.size() >= 1
-            && hltL1VBFElectron_jPt.size() >= 2) passhltL1VBFElectron = 1; 
-/*
-        if (filterTag == hltL1VBFElectronLoose_Tag
-            && hltL1VBFElectronLoose_ePt.size() >= 1
-            && hltL1VBFElectronLoose_jPt.size() >= 2) passhltL1VBFElectronLoose = 1;
+
+        if (filterTag == hltL1VBFElectronTightIso_RealHLT_Tag
+            && hltL1VBFElectronTightIso_RealHLT_ePt.size() >= 1
+            && hltL1VBFElectronTightIso_RealHLT_jPt.size() >= 2) passhltL1VBFElectronTightIso_RealHLT = 1;
+
+        if (filterTag == hltL1VBFElectronTightIso_Tag
+            && hltL1VBFElectronTightIso_ePt.size() >= 1
+            && hltL1VBFElectronTightIso_jPt.size() >= 2) passhltL1VBFElectronTightIso = 1; 
+
+        if (filterTag == hltL1VBFElectronLooseIso_Tag
+            && hltL1VBFElectronLooseIso_ePt.size() >= 1
+            && hltL1VBFElectronLooseIso_jPt.size() >= 2) passhltL1VBFElectronLooseIso = 1;
+
         if (filterTag == hltL1VBFElectronNoIso_Tag
             && hltL1VBFElectronNoIso_ePt.size() >= 1
             && hltL1VBFElectronNoIso_jPt.size() >= 2) passhltL1VBFElectronNoIso = 1;
-*/
 
         // Single Object Type L1s
 	if (filterTag == hltL1sDoubleTauBigOR_Tag && nObjKeys >= 2) passhltL1sDoubleTauBigOR = 1;
@@ -507,6 +634,10 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
         if (filterTag == hltL1sSingleMu22_Tag && nObjKeys >= 1) passhltL1sSingleMu22 = 1;
         if (filterTag == hltL1sSingleEG26_Tag && nObjKeys >= 1) passhltL1sSingleEG26 = 1;
         if (filterTag == hltL1sSingleEGor_Tag && nObjKeys >= 1) passhltL1sSingleEGor = 1;
+
+        if (filterTag == hltPassthroughL1EGTightIso_Tag && nObjKeys >= 1) passhltPassthroughL1EGTightIso = 1;
+        if (filterTag == hltPassthroughL1EGLooseIso_Tag && nObjKeys >= 1) passhltPassthroughL1EGLooseIso = 1;
+        if (filterTag == hltPassthroughL1EGNoIso_Tag && nObjKeys >= 1) passhltPassthroughL1EGNoIso = 1;
 
 	//loop over trigger objects and store their kinematics to the proper filter branches
 	for(trigger::size_type iKey=0; iKey < nObjKeys; ++iKey){
@@ -552,6 +683,27 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
                 hltL1sSingleEGor_pt.push_back(etaL1_);
                 hltL1sSingleEGor_pt.push_back(phiL1_);
                 hltL1sSingleEGor_pt.push_back(energyL1_);
+            }
+            if (filterTag == hltPassthroughL1EGTightIso_Tag
+                  && passhltPassthroughL1EGTightIso && ptL1_>0) {
+                hltPassthroughL1EGTightIso_pt.push_back(ptL1_);
+                hltPassthroughL1EGTightIso_eta.push_back(etaL1_);
+                hltPassthroughL1EGTightIso_phi.push_back(phiL1_);
+                hltPassthroughL1EGTightIso_energy.push_back(energyL1_);
+            }
+            if (filterTag == hltPassthroughL1EGLooseIso_Tag
+                  && passhltPassthroughL1EGLooseIso && ptL1_>0) {
+                hltPassthroughL1EGLooseIso_pt.push_back(ptL1_);
+                hltPassthroughL1EGLooseIso_eta.push_back(etaL1_);
+                hltPassthroughL1EGLooseIso_phi.push_back(phiL1_);
+                hltPassthroughL1EGLooseIso_energy.push_back(energyL1_);
+            }
+            if (filterTag == hltPassthroughL1EGNoIso_Tag
+                  && passhltPassthroughL1EGNoIso && ptL1_>0) {
+                hltPassthroughL1EGNoIso_pt.push_back(ptL1_);
+                hltPassthroughL1EGNoIso_eta.push_back(etaL1_);
+                hltPassthroughL1EGNoIso_phi.push_back(phiL1_);
+                hltPassthroughL1EGNoIso_energy.push_back(energyL1_);
             }
 
 	} // end loop over trigger object keys
