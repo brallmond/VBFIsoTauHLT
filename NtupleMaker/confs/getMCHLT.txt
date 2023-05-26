@@ -1,6 +1,6 @@
-hltGetConfiguration /users/ballmond/VBFParking/CMSSW_13_0_1/GRunV61/V2 \
+hltGetConfiguration /users/ballmond/VBFParking/CMSSW_13_0_1/GRunV61_ballmond_V2_Continuation/V2 \
 --mc \
---globaltag 126X_mcRun3_2023_forPU65_v1 \
+--globaltag 126X_mcRun3_2023_forPU65_v3 \
 --path HLTriggerFirstPath,\
 HLT_DoubleMediumDeepTauPFTauHPS35_L2NN_eta2p1_v*,\
 HLT_Ele24_eta2p1_WPTight_Gsf_LooseDeepTauPFTauHPS30_eta2p1_CrossL1_v*,\
@@ -21,15 +21,22 @@ HLT_VBFparking_Mu3_TrkIsoVVL_DiPFJet80_30_Mjj500_v*,\
 HLT_VBFparking_Mu3_TrkIsoVVL_DiPFJet80_30_Mjj500_TriplePFJet_v*,\
 HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet60_v*,\
 HLT_DoubleMediumDeepTauPFTauHPS30_L2NN_eta2p1_PFJet75_v*,\
+HLT_Dummy_L1VBFEG_TightIso_v*,\
+HLT_Dummy_L1VBFEG_LooseIso_v*,\
+HLT_Dummy_L1VBFEG_NoIso_v*,\
+HLT_Dummy_L1EG_TightIso_v*,\
+HLT_Dummy_L1EG_LooseIso_v*,\
+HLT_Dummy_L1EG_NoIso_v*,\
 HLTriggerFinalPath,\
 HLTAnalyzerEndpath \
 --eras Run3 --unprescale --output none \
 --process MYOTHERHLT --max-events 50 \
---l1-emulator uGT --l1Xml L1Menu_Collisions2022_v1_4_0_splitVBF2jets.xml \
+--l1-emulator FullMC --l1Xml L1Menu_Collisions2022_v1_4_0_splitVBF2jets_edited.xml \
 --input root://cms-xrd-global.cern.ch//store/mc/Run3Winter23Digi/VBFHToTauTau_M125_TuneCP5_13p6TeV_powheg-pythia8/GEN-SIM-RAW/126X_mcRun3_2023_forPU65_v1-v2/2560000/13b6460f-4e84-4e7d-afcc-997ee7112391.root \
-> hltNewMCJEC.py
+> hltNewMC_redo.py
 
+# old GT
+--globaltag auto:phase1_2022_realistic \
 
-hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_newVBFHLTsAdded/V8 \
 hltGetConfiguration /users/ballmond/VBFElectron_12_5_2/DevGRunV16_addDummyHLTsV4_unlocked/V23 \
 hltGetConfiguration /users/ballmond/12_4_0_X/DevGRunV67/V2 \

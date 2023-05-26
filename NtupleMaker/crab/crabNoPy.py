@@ -12,7 +12,7 @@ config = config()
 config.General.workArea = 'test'
 
 config.JobType.pluginName = 'Analysis'
-config.JobType.psetName = 'hltNewMCJEC.py'
+config.JobType.psetName = 'hltNewMC_redo.py'
 
 config.Data.inputDBS = 'global'
 config.Data.splitting = 'FileBased' #Automatic works better for the other MC
@@ -29,7 +29,9 @@ config.JobType.maxMemoryMB = 4000
 config.JobType.inputFiles = ['L1Menu_Collisions2022_v1_4_0_splitVBF2jets.xml',
 'MC_corrections/PFCalibration.db',
 'MC_corrections/Run3Winter23Digi.db',
-'MC_corrections/Run3Winter23Digi_onlyAK4.db']
+'MC_corrections/Run3Winter23Digi_onlyAK4.db',
+'MC_corrections/Run3Winter23Digi_caloJetFixed.db',
+]
 
 
 config.Site.storageSite = 'T3_US_FNALLPC'
@@ -47,7 +49,8 @@ config.Site.storageSite = 'T3_US_FNALLPC'
 
 
     #VBF
-config.General.requestName = 'NewMCSampleExtension_withJECv3'
+config.General.requestName = 'NewMCExt_with_dummyHLTs'
+#config.General.requestName = 'OldMC_GT_auto_run3_mc_GRun'
 #New MC
 #config.Data.inputDataset = '/VBFHToTauTau_M125_TuneCP5_13p6TeV_powheg-pythia8/Run3Winter23MiniAOD-126X_mcRun3_2023_forPU65_v1-v2/MINIAODSIM'
 #config.Data.secondaryInputDataset = '/VBFHToTauTau_M125_TuneCP5_13p6TeV_powheg-pythia8/Run3Winter23Digi-126X_mcRun3_2023_forPU65_v1-v2/GEN-SIM-RAW'

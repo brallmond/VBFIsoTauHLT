@@ -127,7 +127,7 @@ int passhltPassthroughL1EGNoIso;
 vector<float> hltPassthroughL1EGNoIso_pt;
 vector<float> hltPassthroughL1EGNoIso_eta;
 vector<float> hltPassthroughL1EGNoIso_phi;
-vector<float> hltPassthroughL1EGNoIso_energy
+vector<float> hltPassthroughL1EGNoIso_energy;
 
 void NtupleMaker::branchesL1sFromHLT(TTree* tree){
 
@@ -343,19 +343,19 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     }
 
     //////
-    const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFIsoEG", "", "MYOTHERHLT")));
+    const unsigned int VBFElectronRealL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFIsoEG", "", "MYOTHERHLT")));
 
     l1t::EGammaVectorRef electronCandRefVec;
-    trigger::Vids eVids;
-    triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, eVids, electronCandRefVec);
+    trigger::Vids eVids_L1VBFIsoEGRealHLT;
+    triggerEventWithRefsHandle_->getObjects(VBFElectronRealL1Filter, eVids_L1VBFIsoEGRealHLT, electronCandRefVec);
 
     hltL1VBFElectronTightIso_RealHLT_ePt.clear();
     hltL1VBFElectronTightIso_RealHLT_eEta.clear();
     hltL1VBFElectronTightIso_RealHLT_ePhi.clear();
     hltL1VBFElectronTightIso_RealHLT_eEnergy.clear();
-    const unsigned int nElectrons(eVids.size());
-    if (nElectrons > 0) {
-      for (unsigned int i = 0; i != nElectrons; ++i) {
+    const unsigned int nElectrons_RealHLT(eVids_L1VBFIsoEGRealHLT.size());
+    if (nElectrons_RealHLT > 0) {
+      for (unsigned int i = 0; i != nElectrons_RealHLT; ++i) {
         hltL1VBFElectronTightIso_RealHLT_ePt.push_back(electronCandRefVec[i]->pt());
         hltL1VBFElectronTightIso_RealHLT_eEta.push_back(electronCandRefVec[i]->eta());
         hltL1VBFElectronTightIso_RealHLT_ePhi.push_back(electronCandRefVec[i]->phi());
@@ -364,16 +364,16 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     }
 
     l1t::JetVectorRef VBFElectronJetRefVec;
-    trigger::Vids ejVids;
-    triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, ejVids, VBFElectronJetRefVec);
+    trigger::Vids ejVids_L1VBFIsoEGRealHLT;
+    triggerEventWithRefsHandle_->getObjects(VBFElectronRealL1Filter, ejVids_L1VBFIsoEGRealHLT, VBFElectronJetRefVec);
 
     hltL1VBFElectronTightIso_RealHLT_jPt.clear();
     hltL1VBFElectronTightIso_RealHLT_jEta.clear();
     hltL1VBFElectronTightIso_RealHLT_jPhi.clear();
     hltL1VBFElectronTightIso_RealHLT_jEnergy.clear();
-    const unsigned int nVBFElectronJets(ejVids.size());
-    if (nVBFElectronJets > 0) {
-      for (unsigned int i = 0; i != nVBFElectronJets; ++ i) {
+    const unsigned int nVBFElectronJets_RealHLT(ejVids_L1VBFIsoEGRealHLT.size());
+    if (nVBFElectronJets_RealHLT > 0) {
+      for (unsigned int i = 0; i != nVBFElectronJets_RealHLT; ++ i) {
         hltL1VBFElectronTightIso_RealHLT_jPt.push_back(VBFElectronJetRefVec[i]->pt());
         hltL1VBFElectronTightIso_RealHLT_jEta.push_back(VBFElectronJetRefVec[i]->eta());
         hltL1VBFElectronTightIso_RealHLT_jPhi.push_back(VBFElectronJetRefVec[i]->phi());
@@ -383,46 +383,45 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
 
     // Also for VBF + Electron
     //const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronTightIso", "", "MYOTHERHLT")));
-    const unsigned int VBFElectronL1Filter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltPassthroughL1VBFEGTightIso", "", "MYOTHERHLT")));
+    const unsigned int VBFElectronL1TightIsoFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltPassthroughL1VBFEGTightIso", "", "MYOTHERHLT")));
 
-    l1t::EGammaVectorRef electronCandRefVec;
-    trigger::Vids eVids;
-    triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, eVids, electronCandRefVec);
+    l1t::EGammaVectorRef electronCandRefVec_TightIsoDummy;
+    trigger::Vids eVids_TightIsoDummy;
+    triggerEventWithRefsHandle_->getObjects(VBFElectronL1TightIsoFilter, eVids_TightIsoDummy, electronCandRefVec_TightIsoDummy);
 
     hltL1VBFElectronTightIso_ePt.clear();
     hltL1VBFElectronTightIso_eEta.clear();
     hltL1VBFElectronTightIso_ePhi.clear();
     hltL1VBFElectronTightIso_eEnergy.clear();
-    const unsigned int nElectrons(eVids.size());
+    const unsigned int nElectrons(eVids_TightIsoDummy.size());
     if (nElectrons > 0) {
       for (unsigned int i = 0; i != nElectrons; ++i) {
-        hltL1VBFElectronTightIso_ePt.push_back(electronCandRefVec[i]->pt());
-        hltL1VBFElectronTightIso_eEta.push_back(electronCandRefVec[i]->eta());
-        hltL1VBFElectronTightIso_ePhi.push_back(electronCandRefVec[i]->phi());
-        hltL1VBFElectronTightIso_eEnergy.push_back(electronCandRefVec[i]->energy());
+        hltL1VBFElectronTightIso_ePt.push_back(electronCandRefVec_TightIsoDummy[i]->pt());
+        hltL1VBFElectronTightIso_eEta.push_back(electronCandRefVec_TightIsoDummy[i]->eta());
+        hltL1VBFElectronTightIso_ePhi.push_back(electronCandRefVec_TightIsoDummy[i]->phi());
+        hltL1VBFElectronTightIso_eEnergy.push_back(electronCandRefVec_TightIsoDummy[i]->energy());
       }
     }
 
-    l1t::JetVectorRef VBFElectronJetRefVec;
-    trigger::Vids ejVids;
-    triggerEventWithRefsHandle_->getObjects(VBFElectronL1Filter, ejVids, VBFElectronJetRefVec);
+    l1t::JetVectorRef VBFElectronJetRefVec_TightIsoDummy;
+    trigger::Vids ejVids_TightIsoDummy;
+    triggerEventWithRefsHandle_->getObjects(VBFElectronL1TightIsoFilter, ejVids_TightIsoDummy, VBFElectronJetRefVec_TightIsoDummy);
 
     hltL1VBFElectronTightIso_jPt.clear();
     hltL1VBFElectronTightIso_jEta.clear();
     hltL1VBFElectronTightIso_jPhi.clear();
     hltL1VBFElectronTightIso_jEnergy.clear();
-    const unsigned int nVBFElectronJets(ejVids.size());
+    const unsigned int nVBFElectronJets(ejVids_TightIsoDummy.size());
     if (nVBFElectronJets > 0) {
       for (unsigned int i = 0; i != nVBFElectronJets; ++ i) {
-        hltL1VBFElectronTightIso_jPt.push_back(VBFElectronJetRefVec[i]->pt());
-        hltL1VBFElectronTightIso_jEta.push_back(VBFElectronJetRefVec[i]->eta());
-        hltL1VBFElectronTightIso_jPhi.push_back(VBFElectronJetRefVec[i]->phi());
-        hltL1VBFElectronTightIso_jEnergy.push_back(VBFElectronJetRefVec[i]->energy());
+        hltL1VBFElectronTightIso_jPt.push_back(VBFElectronJetRefVec_TightIsoDummy[i]->pt());
+        hltL1VBFElectronTightIso_jEta.push_back(VBFElectronJetRefVec_TightIsoDummy[i]->eta());
+        hltL1VBFElectronTightIso_jPhi.push_back(VBFElectronJetRefVec_TightIsoDummy[i]->phi());
+        hltL1VBFElectronTightIso_jEnergy.push_back(VBFElectronJetRefVec_TightIsoDummy[i]->energy());
       }
     }
 
     // again for VBF + Loose Electron
-    //const unsigned int VBFElectronL1LooseFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronLooseIso", "", "MYOTHERHLT")));
     const unsigned int VBFElectronL1LooseFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltPassthroughL1VBFEGLooseIso", "", "MYOTHERHLT")));
 
     l1t::EGammaVectorRef looseElectronCandRefVec;
@@ -462,7 +461,6 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     }
 
     // again for VBF + NoIso Electron
-    //const unsigned int VBFElectronL1NoIsoFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltL1VBFElectronNoIso", "", "MYOTHERHLT")));
     const unsigned int VBFElectronL1NoIsoFilter(triggerEventWithRefsHandle_->filterIndex(InputTag("hltPassthroughL1VBFEGNoIso", "", "MYOTHERHLT")));
 
     l1t::EGammaVectorRef noisoElectronCandRefVec;
@@ -585,9 +583,9 @@ void NtupleMaker::fillL1sFromHLT(const edm::Event& iEvent){
     std::string hltL1sSingleEG26_Tag = "hltL1sSingleEG26::MYOTHERHLT";
     std::string hltL1sSingleEGor_Tag = "hltL1sSingleEGor::MYOTHERHLT";
 
-    std::string hltPassthroughL1EGTightIso_Tag = "hltPassthroughL1EGTightIso::MYOTHERHLT"
-    std::string hltPassthroughL1EGLooseIso_Tag = "hltPassthroughL1EGLooseIso::MYOTHERHLT"
-    std::string hltPassthroughL1EGNoIso_Tag = "hltPassthroughL1EGNoIso::MYOTHERHLT"
+    std::string hltPassthroughL1EGTightIso_Tag = "hltPassthroughL1EGTightIso::MYOTHERHLT";
+    std::string hltPassthroughL1EGLooseIso_Tag = "hltPassthroughL1EGLooseIso::MYOTHERHLT";
+    std::string hltPassthroughL1EGNoIso_Tag = "hltPassthroughL1EGNoIso::MYOTHERHLT";
 
 
     // accepted filters per event
