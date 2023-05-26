@@ -167,6 +167,7 @@ if __name__ == "__main__":
   tree.SetBranchAddress("lumiBlock", lumiSection)
   tree.SetBranchAddress("eventNumberID", eventID)
   viableEventCounter = 0
+  offlineObjectsViableCounter = 0
 
   goodRunNumber = rateDictionary[rateStudyString]["runNumber"]
   minLS = rateDictionary[rateStudyString]["minLS"]
@@ -178,6 +179,7 @@ if __name__ == "__main__":
   if (L1LooseOrTightIso == "tight"):
     passL1 = array('i', [0])
     tree.SetBranchAddress("passhltL1VBFElectron", passL1)
+    #tree.SetBranchAddress("passhltL1VBFIsoEG", passL1)
     L1JetPt = ROOT.std.vector('float')()
     L1JetEta = ROOT.std.vector('float')()
     L1JetPhi = ROOT.std.vector('float')()
@@ -312,6 +314,7 @@ if __name__ == "__main__":
     # HLT Final Decisions
     passEleTauHLT = array('i', [0])
     tree.SetBranchAddress("passEleTauHLT", passEleTauHLT)
+
     passSingleEleHLT = array('i', [0])
     tree.SetBranchAddress("passSingleEleHLT", passSingleEleHLT)
 
@@ -387,12 +390,21 @@ if __name__ == "__main__":
 
   # the offline cuts are applied to the offline objects
   # they are a flat increase of L1 kinem cuts
-  OffJetPtToPass = L1JetPtToPass + 15
-  OffJetMjjToPass = L1JetMjjToPass + 100
+  OffJetPtToPass = L1JetPtToPass + 10#15
+  OffJetMjjToPass = L1JetMjjToPass + 150#100
   OffTauPtToPass = 30 
   OffElePtToPass = L1ElePtToPass + 3 
   OffCuts = [OffJetPtToPass, OffJetMjjToPass, OffElePtToPass, OffTauPtToPass]
   print("Off Cuts: [jets, mjj, elePt, tauPt] ", OffCuts)
+
+
+  TallyVBFEleHLT = 0
+  TallyEleTauHLT = 0
+  TallySingleEleHLT = 0
+  TallyVBFEleOREleTauHLT = 0
+  TallyVBFEleORSingleEleHLT = 0
+  TallyEleTauORSingleEleHLT = 0
+  TallyTripleORHLT = 0
 
   TallyVBFEleOff = 0
   TallyEleTauOff = 0
@@ -401,13 +413,12 @@ if __name__ == "__main__":
   TallyVBFEleORSingleEleOff = 0
   TallyEleTauORSingleEleOff = 0
   TallyTripleOROff = 0
-  L1_Tallies = ["","","","","","","","",""]
-  Off_Tallies = ["","","","","","","","",""]
 
   TotalEntries = tree.GetEntries()
   for entry in range(TotalEntries):
   #for entry in range(100):
     tree.GetEntry(entry)
+    #if (viableEventCounter >= 150000): break
 
     # for rate study
     if (rateStudy):
@@ -616,16 +627,27 @@ if __name__ == "__main__":
       OffJet2 = OffJets[OffJet2Index]
       if (ROOT.TLorentzVector.DeltaR(OffJet1, OffJet2) < 0.5): continue
 
+      offlineObjectsViableCounter += 1
+
       # get L1 objects 
       L1Jets = fillWithTVecs(L1JetPt, L1JetEta, L1JetPhi, L1JetEnergy)
       sizeL1Jets = len(L1Jets)
       L1Eles = fillWithTVecs(L1ElePt, L1EleEta, L1ElePhi, L1EleEnergy)
       sizeL1Eles = len(L1Eles)
 
+      #overlap removal
+      L1JetsThatOverlapL1Eles = []
+      for i in range(sizeL1Eles):
+        for j in range(sizeL1Jets):
+          if (ROOT.TLorentzVector.DeltaR(L1Eles[i], L1Jets[j]) < 0.2):
+            L1JetsThatOverlapL1Eles.append(j)
+      #L1Jets = [L1Jets[i] for i in range(sizeL1Jets) if i not in L1JetsThatOverlapL1Eles]
+      #sizeL1Jets = len(L1Jets)
+
       # check object sizes before matching
       matchL1Off = False
       tryToMatch = False
-      if (sizeL1Jets >= 2 and sizeL1Eles >= 1): tryToMatch = True 
+      if (sizeL1Jets >= 2 and sizeL1Eles >= 1 and passL1[0]): tryToMatch = True 
 
       if (tryToMatch == True):
         L1Ele = L1Eles[0]
@@ -643,6 +665,7 @@ if __name__ == "__main__":
       ### but right now we just care about the rate so the energy branch will have no effect
 
       # switch to match the right way (from Offline to L1) or wrong way (from L1 to Offline)
+      match_right_way = True
       if (match_right_way == False):
         matchL1Off = match_L1_to_Offline(L1Ele, L1Jet1, L1Jet2, OffEle, OffJet1, OffJet2)
       else:
@@ -699,18 +722,27 @@ if __name__ == "__main__":
       # end matching
 
       passVBFEleL1Restrictions = False
-      if (matchL1Off):
+      #if (matchL1Off):
+      if (passL1[0]):
         if (L1Jet1.Pt()  >= L1JetPtToPass 
          and L1Jet2.Pt() >= L1JetPtToPass 
          and L1Mjj       >= L1JetMjjToPass 
          and L1Ele.Pt()  >= L1ElePtToPass): passVBFEleL1Restrictions = True
 
+      passVBFEleHLTRestrictions = False
+      if (matchL1Off):
+        if (L1Jet1.Pt()   >= L1JetPtToPass + 5
+          and L1Jet2.Pt() >= L1JetPtToPass + 5
+          and L1Mjj       >= L1JetMjjToPass + 50
+          and L1Ele.Pt()  >= L1ElePtToPass + 2): passVBFEleHLTRestrictions = True
+
       passVBFEleOffCuts = False
-      if (OffJet1.Pt()  >= OffJetPtToPass
-       and OffJet2.Pt() >= OffJetPtToPass
-       and OffMjj       >= OffJetMjjToPass
-       and OffTau.Pt()  >= OffTauPtToPass
-       and OffEle.Pt()  >= OffElePtToPass): passVBFEleOffCuts = True
+      if (OffJet1.Pt()  >= 45#OffJetPtToPass
+       and OffJet2.Pt() >= 45#OffJetPtToPass
+       and OffMjj       >= 420#OffJetMjjToPass
+       and OffTau.Pt()  >= 30#OffTauPtToPass
+       #and OffEle.Pt()  >= OffElePtToPass): passVBFEleOffCuts = True
+       and OffEle.Pt()  >= 13): passVBFEleOffCuts = True
 
       passEleTauOffCuts = False
       if (OffJet1.Pt() >= 30
@@ -720,11 +752,35 @@ if __name__ == "__main__":
        and OffEle.Pt() >= 25): passEleTauOffCuts = True
 
       # require a high pt iso ele to emulate the lowest L1 with PS != 0 for this HLT path
-      passL1IsoElePresent = L1Ele.Pt() >= 30
+      #passL1IsoElePresent = L1Ele.Pt() >= 30
+      passL1IsoElePresent = True
       passSingleEleOffCuts = (passL1IsoElePresent and passEleTauOffCuts and OffEle.Pt() >= 33)
 
       # now tally it up
+
+      BoolPassEleTauHLT = BoolPassSingleEleHLT = BoolPassVBFEleHLT = BoolPassVBFSingleTauHLT = 0
+
+      BoolPassEleTauHLT = passEleTauHLT[0]
+      BoolPassSingleEleHLT = passSingleEleHLT[0]
+      BoolPassVBFEleHLT = passVBFEleHLTRestrictions
+
+      if (BoolPassEleTauHLT): TallyEleTauHLT += 1
+      if (BoolPassSingleEleHLT): TallySingleEleHLT += 1
+      if (BoolPassVBFEleHLT): TallyVBFEleHLT += 1
+
+      if (BoolPassVBFEleHLT or BoolPassEleTauHLT): TallyVBFEleOREleTauHLT += 1
+      if (BoolPassVBFEleHLT or BoolPassSingleEleHLT): TallyVBFEleORSingleEleHLT += 1
+      if (BoolPassEleTauHLT or BoolPassSingleEleHLT): TallyEleTauORSingleEleHLT += 1
+      BoolTripleOR = BoolPassVBFEleHLT or BoolPassEleTauHLT or BoolPassSingleEleHLT
+      if (BoolTripleOR): TallyTripleORHLT += 1 
+
+      HLT_Tallies = [TallyVBFEleHLT, TallyEleTauHLT, TallySingleEleHLT,
+                     TallyVBFEleOREleTauHLT, TallyVBFEleORSingleEleHLT, TallyEleTauORSingleEleHLT, 
+                     TallyTripleORHLT]
+
+
       GoodVBFEle = matchL1Off and passVBFEleL1Restrictions and passVBFEleOffCuts
+      #GoodVBFEle = passVBFEleL1Restrictions and passVBFEleOffCuts
       GoodEleTau = passEleTauHLTOffMatching and passEleTauOffCuts and passEleTauHLT[0]
       GoodSingleEle = passSingleEleHLTOffMatching and passSingleEleOffCuts and passSingleEleHLT[0]
 
@@ -745,20 +801,23 @@ if __name__ == "__main__":
 
       if (GoodVBFEle or GoodEleTau or GoodSingleEle): TallyTripleOROff += 1
 
-      Off_Tallies = [TallyVBFEleOff, TallyEleTauOff, TallySingleEleOff, \
-                     TallyVBFEleOREleTauOff, TallyVBFEleORSingleEleOff, TallyEleTauORSingleEleOff, \
-                     TallyTripleOROff, TallyTripleOROff - TallyEleTauORSingleEleOff]
+      Off_Tallies = [TallyVBFEleOff, TallyEleTauOff, TallySingleEleOff, 
+                     TallyVBFEleOREleTauOff, TallyVBFEleORSingleEleOff, TallyEleTauORSingleEleOff, 
+                     TallyTripleOROff]
 
   # print output
-  print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
-
   print("-"*40)
+  print("\033[42m" + f"nViableEvents: {viableEventCounter}" + "\033[0m")
+  print("\033[42m" + f"nEvents with ViableOfflineObjects: {offlineObjectsViableCounter}" + "\033[0m")
+
   if (notRateStudy):
-    labels = ["VBF+Ele", "EleTau", "SingleEle", \
-              "VBFEleOREleTau", "VBFEleORSingleEle", "EleTauORSingleEle", \
-              "TripleOR", "UniqueVBFEle"]
+    labels = ["VBF+Ele (1)", "EleTau (2)", "SingleEle (3)", 
+              "1OR2", "1OR3", "2OR3", 
+              "TripleOR"]
+    header = ["Label", "HLT", "Offline"]
+    print(f"{header[0]:17}, {header[1]:7}, {header[2]:7}")
     for index, label in enumerate(labels):
-      print(f"{label:19}, {Off_Tallies[index]:7}")
+      print(f"{label:17}, {HLT_Tallies[index]:7}, {Off_Tallies[index]:7}")
 
   if (rateStudy):
     labels = ["VBF+Ele", "VBFDiJetOR", "VBFIsoTau", "DummyEGL1", \
@@ -779,6 +838,6 @@ if __name__ == "__main__":
       print(f"Rate Factor = {rate_factor} Hz / Event : Rate = rate_factor * nEventsPassingCriteria")
       print(f"UNpure rate = {rate_factor * TallyL1VBFDiJetEG},  PURE rate = {rate_factor * uniqueL1VBFEG}")
 
-  outtree.Write()
+  #outtree.Write()
   outFile.Close()
 
